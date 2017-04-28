@@ -1,10 +1,34 @@
 package conference_package;
 
+import java.util.ArrayList;
+import java.util.Date;
 
 public class ConferenceMain {
 
 	public static void main(String[] args) {
-			
+		//ConferenceReadWriteTest();
 	}
-
+	
+	//This is a test of reading and writing the list of conferences
+	private static void ConferenceReadWriteTest() {
+		Date d = new Date();
+		Conference c1 = new Conference("firstC", d,d,d,d);
+		c1.addPaper(new Paper("a paper", "stuff", "more stuff"));
+		Conference c2 = new Conference("SecondC", d,d,d,d);
+		Conference c3 = new Conference("ThirdC", d,d,d,d);
+		ConferenceReadWrite crw = new ConferenceReadWrite("./data.ser");
+		ArrayList<Conference> firstC = new ArrayList<Conference>();
+		firstC.add(c1);
+		firstC.add(c2);
+		firstC.add(c3);
+		crw.writeConferences(firstC);
+		
+		ArrayList<Conference> confs = new ArrayList<Conference>();
+		confs = crw.readConferences();
+		System.out.println(confs.size());
+		for(int i = 0; i < confs.size(); i++) {
+			System.out.println(confs.get(i).getConferenceName());
+		}
+		
+	}
 }

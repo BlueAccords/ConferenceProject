@@ -1,9 +1,11 @@
 package conference_package;
 
 import java.awt.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class User {
+
 	private String lastName;
 	private String firstName;
 	private String email;
@@ -12,6 +14,9 @@ public abstract class User {
 	private ArrayList<Paper> assignedPapersRev = new ArrayList<Paper>();
 	private ArrayList<Paper> assignedPapersSPC = new ArrayList<Paper>();
 	
+	public User() {
+		
+	}
 	public String getLastName() {
 		return lastName;
 	}
