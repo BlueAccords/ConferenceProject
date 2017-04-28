@@ -4,7 +4,7 @@ import java.awt.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class User {
+public class User {
 
 	private String lastName;
 	private String firstName;
