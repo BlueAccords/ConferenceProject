@@ -1,6 +1,7 @@
 package conference_package;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.io.Serializable;
 
 /**
@@ -26,7 +27,10 @@ public class Paper implements Serializable{
 	 * The list of authors, index 0 is the primary author.
 	 */
 	private ArrayList<String> myAuthors;
-	
+	/**
+	 * When the paper was submitted.
+	 */
+	private Date mySubmissionDate;
 	/**
 	 * Constructor for The class.
 	 * @param theTitle The paper's title.
@@ -40,9 +44,17 @@ public class Paper implements Serializable{
 		myAuthors = new ArrayList<String>();
 		myAuthors.add(theMainAuthor);
 		myPaper = thePaper;
+		mySubmissionDate = new Date();
 		
 	}
 	
+	/**
+	 * Returns the date the paper was submitted.
+	 * @return the date the paper was submitted.
+	 */
+	public Date getSubmissionDate() {
+		return new Date(mySubmissionDate.getTime());
+	}
 	/**
 	 * Getter for the paper's title.
 	 * @return The title of the paper.

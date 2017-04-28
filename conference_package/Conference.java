@@ -135,7 +135,7 @@ public class Conference implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public boolean addPaper(Paper thePaper) {
-		if(new Date().getTime() <= myPaperDeadline.getTime()) { 
+		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			myPapers.add(thePaper);
 			return true;
 		} else {
