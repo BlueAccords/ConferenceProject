@@ -1,5 +1,5 @@
 package conference_package;
 
-public class View {
-
+public abstract class View {
+  void displayMenu();
 }
