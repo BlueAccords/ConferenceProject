@@ -24,7 +24,7 @@ public class Paper implements Serializable{
 	 */
 	private String myPaper;
 	/**
-	 * The list of authors, index 0 is the primary author.
+	 * The list of authors by username, index 0 is the primary author.
 	 */
 	private ArrayList<String> myAuthors;
 	/**
@@ -35,7 +35,7 @@ public class Paper implements Serializable{
 	 * Constructor for The class.
 	 * @param theTitle The paper's title.
 	 * @param thePaper The paper's body.
-	 * @param theMainAuthor The main author of the paper.
+	 * @param theMainAuthor The main author of the paper's username.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */

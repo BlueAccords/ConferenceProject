@@ -11,16 +11,19 @@ public class ConferenceMain {
 	
 	//This is a test of reading and writing the list of conferences
 	private static void ConferenceReadWriteTest() {
+		//Make ArrayList of 3 conference objects to test 
 		Date d = new Date();
 		Conference c1 = new Conference("firstC", d,d,d,d);
 		c1.addPaper(new Paper("a paper", "stuff", "more stuff"));
 		Conference c2 = new Conference("SecondC", d,d,d,d);
 		Conference c3 = new Conference("ThirdC", d,d,d,d);
-		ConferenceReadWrite crw = new ConferenceReadWrite("./data.ser");
 		ArrayList<Conference> firstC = new ArrayList<Conference>();
 		firstC.add(c1);
 		firstC.add(c2);
 		firstC.add(c3);
+		//Make a ConfereneReadWrite object (parameter is the file path)
+		ConferenceReadWrite crw = new ConferenceReadWrite("./data.ser");
+		
 		crw.writeConferences(firstC);
 		
 		ArrayList<Conference> confs = new ArrayList<Conference>();

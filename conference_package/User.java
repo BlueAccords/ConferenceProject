@@ -4,8 +4,12 @@ import java.awt.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8870025955073752215L;
 	private String lastName;
 	private String firstName;
 	private String email;
@@ -13,7 +17,7 @@ public class User {
 	private ArrayList<Paper> myPapers = new ArrayList<Paper>();
 	private ArrayList<Paper> assignedPapersRev = new ArrayList<Paper>();
 	private ArrayList<Paper> assignedPapersSPC = new ArrayList<Paper>();
-	
+	private ArrayList<User> assignedReviewers = new ArrayList<User>();
 	public User() {
 		
 	}
@@ -68,6 +72,15 @@ public class User {
 	public void addPaperToReviewer(Paper thePaper) {
 		assignedPapersRev.add(thePaper);
 	}
+	
+	//Need to look at all authors of the paper and see if the passed reviewer
+	//matches any of these.
+	//Also need to check the # of manuscripts the reviewer has been assigned.
+	// fail if they already have 8 or more.
+	public void assignPaperToReviewer(User theReviewer, Paper thePaper) {
+		theReviewer.addPaperToReviewer(thePaper);
+	}
+	
 	public void removePaperFromReviwer(Paper thePaper) {
 		for (Paper target: assignedPapersRev) {
 			if (target == thePaper) {

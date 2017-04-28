@@ -135,8 +135,32 @@ public class Conference implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public boolean addPaper(Paper thePaper) {
-		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
+		if (isSubmittedOnTime(thePaper) && isValidNumberOfSubmissions(thePaper)) {
 			myPapers.add(thePaper);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//This will need to get the author's id from the paper, look at each paper
+	//in the conference and check all things in the author's arraylist while keeping track
+	//if > 4 then it should return false
+	public boolean isValidNumberOfSubmissions(Paper thePaper) {
+		return false;
+	}
+	/**
+	 * Adds a paper to the conference and returns true if it is before
+	 * the submission deadline. If past deadline, the paper is not added and
+	 * false is returned.
+	 * @param thePaper The paper being submitted.
+	 * @return t/f if paper was accepted.
+	 * @author James Roberts
+	 * @version 4/27/2017
+	 */
+	private boolean isSubmittedOnTime(Paper thePaper) {
+		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
+			
 			return true;
 		} else {
 			return false;
