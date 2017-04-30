@@ -18,6 +18,10 @@ public class User implements Serializable{
 	private ArrayList<Paper> assignedPapersRev = new ArrayList<Paper>();
 	private ArrayList<Paper> assignedPapersSPC = new ArrayList<Paper>();
 	private ArrayList<User> assignedReviewers = new ArrayList<User>();
+	//private ArrayList<Paper> papersToReview = new ArrayList<Paper>();
+	
+	private Conference myConference;//changes made by Ayub
+	
 	public User() {
 		
 	}
@@ -77,8 +81,32 @@ public class User implements Serializable{
 	//matches any of these.
 	//Also need to check the # of manuscripts the reviewer has been assigned.
 	// fail if they already have 8 or more.
+	/**
+	 * @author James Robert, Ayub Tiba
+	 * @param theReviewer
+	 * @param thePaper
+	 */
 	public void assignPaperToReviewer(User theReviewer, Paper thePaper) {
-		theReviewer.addPaperToReviewer(thePaper);
+		if (!(isAuthor(theReviewer, thePaper))  && assignedPapersRev.size() > 8) {
+			theReviewer.addPaperToReviewer(thePaper);
+		}
+	}
+	
+	/**
+	 * 
+	 * @author Ayub Tiba
+	 * @param theReviewer
+	 * @param thePaper
+	 * @return if a reviewer is an Author
+	 * @version 4/30/2017
+	 */
+	public boolean isAuthor(User theReviewer, Paper thePaper){
+		for (String authors : thePaper.getAuthors()) {
+			if (theReviewer.getEmail().equalsIgnoreCase(authors)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void removePaperFromReviwer(Paper thePaper) {
@@ -88,7 +116,7 @@ public class User implements Serializable{
 			}
 		}
 	}
-	
+		
 	public ArrayList<Paper> getAssignedPapersSPC() {
 		return assignedPapersSPC;
 	}
