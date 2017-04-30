@@ -40,6 +40,19 @@ public class Conference implements Serializable{
 	private ArrayList<Paper> myPapers;
 	
 	/**
+	 * All eligible reviewers in the conference.
+	 */
+	private ArrayList<User> conferenceReviewers;	
+	/**
+	 * All conference SPCs.
+	 */
+	private ArrayList<User> conferenceSubprogramChairs;
+	/**
+	 * The conference Program Chair.
+	 */
+	private User conferenceProgramChair;
+	
+	/**
 	 * Constructor for the object.
 	 * @param theConferenceName The name of the conference.
 	 * @param thePDead The paper deadline.
@@ -56,6 +69,7 @@ public class Conference implements Serializable{
 		myRecDeadline = new Date(theRecDead.getTime());
 		myFinalDeadline = new Date(theFinalDead.getTime());
 		myPapers = new ArrayList<Paper>();
+		conferenceReviewers = new ArrayList<User>();
 	}
 	
 	/**
@@ -164,6 +178,39 @@ public class Conference implements Serializable{
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public ArrayList<User> getConfSPCs () {
+		return conferenceSubprogramChairs;
+	}
+	
+	public User getConfPC () {
+		return conferenceProgramChair;
+	}
+	
+	/**
+	 * Author: Vincent Povio
+	 * Date: 4/28/2017
+	 * This function gets a list of all eligible reviewers.
+	 * It validates that the reviewers meet the following business rules:
+	 * 	1) The reviewer isn't an author on the paper.
+	 * 	2) The reviewer doesn't have >7 papers assigned to them.
+	 */
+	public ArrayList<User> getEligibleReviewers (Paper thePaper) {
+		ArrayList<User> eligibleReviewers = new ArrayList<>();
+		boolean flag = false;
+		for (User possibleReviewer : conferenceReviewers) {
+			for (User paperAuthor: thePaper.getAuthors()) {
+				if (possibleReviewer == paperAuthor) {
+					flag = true;
+				}
+			}
+			if (!flag && possibleReviewer.getAssignedPapersRev().size() < 8) {
+				eligibleReviewers.add(possibleReviewer);
+			} else {
+				flag = false;
+			}
 		}
 	}
 }

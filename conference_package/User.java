@@ -92,12 +92,15 @@ public class User implements Serializable{
 	public ArrayList<Paper> getAssignedPapersSPC() {
 		return assignedPapersSPC;
 	}
+	
 	public void setAssignedPapersSPC(ArrayList<Paper> assignedPapersSPC) {
 		this.assignedPapersSPC = assignedPapersSPC;
 	}
+	
 	public void addPaperToSPC(Paper thePaper) {
 		assignedPapersSPC.add(thePaper);
 	}
+	
 	public void removePaperFromSPC(Paper thePaper) {
 		for (Paper target: assignedPapersSPC) {
 			if (target == thePaper) {
