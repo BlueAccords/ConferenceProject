@@ -87,7 +87,7 @@ public class User implements Serializable{
 	 * @param thePaper
 	 */
 	public void assignPaperToReviewer(User theReviewer, Paper thePaper) {
-		if (!(isAuthor(theReviewer, thePaper))  && assignedPapersRev.size() > 8) {
+		if (!(isAuthor(theReviewer, thePaper))  && !(assignedPapersRev.size() > 8)) {
 			theReviewer.addPaperToReviewer(thePaper);
 		}
 	}
