@@ -52,6 +52,8 @@ public class Conference implements Serializable{
 	 */
 	private User conferenceProgramChair;
 	
+	private ArrayList<User> myAuthors;
+	
 	/**
 	 * Constructor for the object.
 	 * @param theConferenceName The name of the conference.
@@ -62,7 +64,8 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public Conference(String theConferenceName, Date thePDead, Date theRevDead, Date theRecDead, Date theFinalDead) {
+	public Conference(String theConferenceName, Date thePDead, 
+			Date theRevDead, Date theRecDead, Date theFinalDead) {
 		myConferenceName = theConferenceName;
 		myPaperDeadline = new Date(thePDead.getTime());
 		myReviewDeadline = new Date(theRevDead.getTime());
@@ -70,6 +73,7 @@ public class Conference implements Serializable{
 		myFinalDeadline = new Date(theFinalDead.getTime());
 		myPapers = new ArrayList<Paper>();
 		conferenceReviewers = new ArrayList<User>();
+		myAuthors = new ArrayList<User>();
 	}
 	
 	/**
@@ -156,12 +160,31 @@ public class Conference implements Serializable{
 			return false;
 		}
 	}
-	
-	//This will need to get the author's id from the paper, look at each paper
-	//in the conference and check all things in the author's arraylist while keeping track
-	//if > 4 then it should return false
+	/**
+	 * This method will get the author's id from the paper, look at each paper
+	 * in the conference and check all things in the author's array list while keeping track
+	 * if number of submitted papers > 4 then it should return false.
+	 * @param thePaper The Paper being submitted
+	 * @return 
+	 * @author Vinh Le
+	 * @version 4/29/2017
+	 */
 	public boolean isValidNumberOfSubmissions(Paper thePaper) {
-		return false;
+		boolean check = false;	
+		int counter = 0;
+		for(String ID : thePaper.getAuthors()) {
+			for(Paper submiitedPapers : myPapers) {
+				while (ID == submiitedPapers.getAuthors().toString()) {
+					counter++;
+				}
+			}		
+		}
+		if (counter < 5) {
+			check = true;
+		} else {
+			check = false;
+		}		
+		return check;
 	}
 	/**
 	 * Adds a paper to the conference and returns true if it is before
@@ -173,8 +196,7 @@ public class Conference implements Serializable{
 	 * @version 4/27/2017
 	 */
 	private boolean isSubmittedOnTime(Paper thePaper) {
-		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
-			
+		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 			
 			return true;
 		} else {
 			return false;

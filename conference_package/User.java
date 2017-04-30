@@ -62,6 +62,8 @@ public class User implements Serializable{
 		}
 	}
 	
+	
+	
 	public ArrayList<Paper> getAssignedPapersRev() {
 		return assignedPapersRev;
 	}

@@ -81,7 +81,7 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<String>getAuthors() {
+	public ArrayList <String> getAuthors() {
 		ArrayList<String> copy = new ArrayList<String>();
 		copy.addAll(myAuthors);
 		return copy;
