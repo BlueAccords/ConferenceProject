@@ -6,8 +6,8 @@ import java.util.Date;
 
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
- * @author James Roberts
- * @version 4/27/2017
+ * @author James Roberts, Vinh Le, Ian Waak, Vincent Povio
+ * @version 4/30/2017
  */
 public class Conference implements Serializable{
 	/**
@@ -167,7 +167,7 @@ public class Conference implements Serializable{
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
-	private boolean isValidNumberOfSubmissions(Paper thePaper) {
+	public boolean isValidNumberOfSubmissions(Paper thePaper) {
 		boolean check = false;	
 		int counter = 0;
 		
@@ -210,7 +210,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	private boolean isSubmittedOnTime(Paper thePaper) {
+	public boolean isSubmittedOnTime(Paper thePaper) {
 		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			
 			return true;
@@ -219,10 +219,22 @@ public class Conference implements Serializable{
 		}
 	}
 	
+	/**
+	 * Returns all Subprogram Chairs of the conference.
+	 * @return all Subprogram Chairs of the conference.
+	 * @author Ayub Tiba
+	 * @version 4/27/2017
+	 */
 	public ArrayList<User> getConfSPCs () {
 		return conferenceSubprogramChairs;
 	}
 	
+	/**
+	 * Returns the Program Chair of the conference.
+	 * @return the Program Chair of the conference. 
+	 * @author Ayub Tiba
+	 * @version 4/28/2017
+	 */
 	public User getConfPC () {
 		return conferenceProgramChair;
 	}
@@ -237,44 +249,5 @@ public class Conference implements Serializable{
 		conferenceReviewers.add(theReviewer);
 	}
 	
-	/**
-	 * This function gets a list of all eligible reviewers.
-	 * It validates that the reviewers meet the following business rules:
-	 * 	1) The reviewer isn't an author on the paper.
-	 * 	2) The reviewer doesn't have >7 papers assigned to them.
-	 * @author Vincent Povio, Ian Waak
-	 * @version 4/30/2017
-	 */
-	public boolean getEligibleReviewers (Paper thePaper) {
-		//List of eligible reviewers
-		ArrayList<User> eligibleReviewers = new ArrayList<>();
 
-		//List of author names for the paper in need of review
-		ArrayList<String> authors = new ArrayList<String>();
-		authors.addAll(thePaper.getAuthors());
-		
-		boolean flag = false;
-		//Iterate through list of reviewers in conference
-		for (User possibleReviewer : conferenceReviewers) {
-			//Iterate through list of paper's authors
-			for (String paperAuthor: authors) {
-				//If reviewer is author or co-author, set flag to true
-				if (possibleReviewer.getEmail().equals(paperAuthor)) {
-					flag = true;
-				}
-			}
-			
-			//If reviewer has max or more papers already assigned, set flag to true
-			if(possibleReviewer.getAssignedPapersRev().size() >= 8) {
-				flag = true;
-			}
-			
-			//If flag is false, add reviewer to list of eligible reviewers
-			if (!flag) {
-				eligibleReviewers.add(possibleReviewer);
-			}
-		}
-		
-		return flag;
-	}
 }

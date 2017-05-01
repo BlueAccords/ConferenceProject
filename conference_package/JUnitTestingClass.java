@@ -42,7 +42,7 @@ public class JUnitTestingClass {
 		
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
-		assertTrue(conf.addPaper(testPaper));
+		assertTrue(conf.isSubmittedOnTime(testPaper));
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class JUnitTestingClass {
 		
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
-		assertTrue(conf.addPaper(testPaper));
+		assertTrue(conf.isSubmittedOnTime(testPaper));
 	}
 	
 	/**
@@ -103,11 +103,12 @@ public class JUnitTestingClass {
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		
-		assertFalse(conf.addPaper(testPaper));
+		assertFalse(conf.isSubmittedOnTime(testPaper));
 	}
 	
 	/**
 	 * Test for submitting a paper when deadline missed by one minute.
+	 * Test should assert false.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -134,7 +135,7 @@ public class JUnitTestingClass {
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		
-		assertFalse(conf.addPaper(testPaper));
+		assertFalse(conf.isSubmittedOnTime(testPaper));
 	}
 	
 	/**
@@ -163,12 +164,12 @@ public class JUnitTestingClass {
 		testPaper3.addAuthor("simpson@ieee.org");
 		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
+
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
 		
-		//Add all four papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
+		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
 	
 	/**
@@ -199,12 +200,12 @@ public class JUnitTestingClass {
 		testPaper3.addAuthor("simpson@ieee.org");
 		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
+
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
 		
-		//Add all four papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
+		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
 	
 	/**
@@ -232,11 +233,11 @@ public class JUnitTestingClass {
 		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "simpson@ieee.org");
 		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
 		
-		//Add all four papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
+		
+		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
 	
 	/**
@@ -265,17 +266,18 @@ public class JUnitTestingClass {
 		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
 		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "simpson@ieee.org");
 		
-		//Add all five papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
-		assertFalse(conf.addPaper(testPaper5));
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
+		conf.addPaper(testPaper4);
+		
+		//Test for valid submissions for each paper.
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
 	}
 	
 	/**
 	 * Test for valid number of papers submitted by a user.
-	 * Five papers submitted as a co-author.
+	 * Five papers submitted as a co-author. Final submission should fail.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -304,12 +306,13 @@ public class JUnitTestingClass {
 		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
 		
-		//Add all five papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
-		assertFalse(conf.addPaper(testPaper5));
+
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
+		conf.addPaper(testPaper4);
+		
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
 	}
 	
 	/**
@@ -340,13 +343,13 @@ public class JUnitTestingClass {
 		testPaper4.addAuthor("simpson@ieee.org");
 		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
+
+		conf.addPaper(testPaper);
+		conf.addPaper(testPaper2);
+		conf.addPaper(testPaper3);
+		conf.addPaper(testPaper4);
 		
-		//Add all five papers to the conference and test for valid submissions for each paper.
-		assertTrue(conf.addPaper(testPaper));
-		assertTrue(conf.addPaper(testPaper2));
-		assertTrue(conf.addPaper(testPaper3));
-		assertTrue(conf.addPaper(testPaper4));
-		assertFalse(conf.addPaper(testPaper5));
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
 	}
 	
 	/**
@@ -373,9 +376,10 @@ public class JUnitTestingClass {
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("barwood@ieee.org");
-		conf.addReviewers(new User("simpson@ieee.org"));
+		final User testUser = new User("simpson@ieee.org");
+		conf.addReviewers(testUser);
 		
-		assertFalse(conf.getEligibleReviewers(testPaper));
+		assertFalse(testUser.isAuthor(testUser, testPaper));
 	}
 	
 	/**
@@ -401,9 +405,11 @@ public class JUnitTestingClass {
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("barwood@ieee.org");
-		conf.addReviewers(new User("simpson@ieee.org"));
 		
-		assertTrue(conf.getEligibleReviewers(testPaper));
+		final User testUser = new User("simpson@ieee.org");
+		conf.addReviewers(testUser);
+		
+		assertTrue(testUser.isAuthor(testUser, testPaper));
 	}
 	
 	/**
@@ -429,14 +435,16 @@ public class JUnitTestingClass {
 		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("simpson@ieee.org");
-		conf.addReviewers(new User("simpson@ieee.org"));
 		
-		assertTrue(conf.getEligibleReviewers(testPaper));
+		final User testUser = new User("simpson@ieee.org");
+		conf.addReviewers(testUser);
+		
+		assertTrue(testUser.isAuthor(testUser, testPaper));
 	}
 	
 	/**
 	 * Tests whether the reviewer has less than the max number of papers allowed assigned to them.
-	 * Asserts false if reviewer is assigned less than the maximum number of papers.
+	 * Asserts true if reviewer is assigned less than the maximum number of papers.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -459,12 +467,12 @@ public class JUnitTestingClass {
 		conf.addReviewers(testUser);
 		testUser.addPaperToReviewer(testPaper);
 		
-		assertFalse(conf.getEligibleReviewers(testPaper));
+		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
 	}
 
 	/**
 	 * Tests whether the reviewer has one less than the max number of papers allowed assigned to them.
-	 * Asserts false if reviewer is assigned one less than the maximum number of papers.
+	 * Asserts true if reviewer is assigned one less than the maximum number of papers.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -502,12 +510,12 @@ public class JUnitTestingClass {
 		testUser.addPaperToReviewer(testPaper6);
 		testUser.addPaperToReviewer(testPaper7);
 		
-		assertFalse(conf.getEligibleReviewers(testPaper7));
+		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
 	}
 	
 	/**
 	 * Tests whether the reviewer has the max number of papers allowed assigned to them.
-	 * Asserts true if reviewer has been assigned the maximum number of papers.
+	 * Asserts false if reviewer has been assigned the maximum number of papers.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -548,7 +556,7 @@ public class JUnitTestingClass {
 		testUser.addPaperToReviewer(testPaper7);
 		testUser.addPaperToReviewer(testPaper8);
 		
-		assertTrue(conf.getEligibleReviewers(testPaper8));
+		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
 	}
 }
 
