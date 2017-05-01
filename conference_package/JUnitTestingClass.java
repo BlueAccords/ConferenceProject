@@ -40,7 +40,7 @@ public class JUnitTestingClass {
         
 		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		assertTrue(conf.isSubmittedOnTime(testPaper));
 	}
@@ -70,7 +70,7 @@ public class JUnitTestingClass {
         
 		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		assertTrue(conf.isSubmittedOnTime(testPaper));
 	}
@@ -100,7 +100,7 @@ public class JUnitTestingClass {
         
 		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		
 		assertFalse(conf.isSubmittedOnTime(testPaper));
@@ -132,7 +132,7 @@ public class JUnitTestingClass {
         
 		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "Author McAuthorson");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
 		testPaper.setSubmissionDate(testSubmission);
 		
 		assertFalse(conf.isSubmittedOnTime(testPaper));
@@ -158,11 +158,11 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "simpson@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
 		testPaper3.addAuthor("simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
 
 		conf.addPaper(testPaper);
@@ -192,13 +192,13 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "greg@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "greg@ieee.org");
 		testPaper.addAuthor("simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "joey@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "joey@ieee.org");
 		testPaper2.addAuthor("simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
 		testPaper3.addAuthor("simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
 
 		conf.addPaper(testPaper);
@@ -228,10 +228,10 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "simpson@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "simpson@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
 		
 		conf.addPaper(testPaper);
 		conf.addPaper(testPaper2);
@@ -260,11 +260,11 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
-		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "simpson@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "simpson@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "simpson@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
+		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "simpson@ieee.org");
 		
 		conf.addPaper(testPaper);
 		conf.addPaper(testPaper2);
@@ -295,15 +295,15 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "greg@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "greg@ieee.org");
 		testPaper.addAuthor("simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "joey@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "joey@ieee.org");
 		testPaper2.addAuthor("simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
 		testPaper3.addAuthor("simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
-		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
+		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
 		
 
@@ -335,13 +335,13 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "simpson@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "simpson@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
 		testPaper3.addAuthor("simpson@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
-		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
+		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
 
 		conf.addPaper(testPaper);
@@ -373,7 +373,7 @@ public class JUnitTestingClass {
         }
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("barwood@ieee.org");
 		final User testUser = new User("simpson@ieee.org");
@@ -402,7 +402,7 @@ public class JUnitTestingClass {
         }
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "simpson@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("barwood@ieee.org");
 		
@@ -432,7 +432,7 @@ public class JUnitTestingClass {
         }
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("simpson@ieee.org");
 		
@@ -462,7 +462,7 @@ public class JUnitTestingClass {
         }
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
 		final User testUser = new User("simpson@ieee.org");
 		conf.addReviewers(testUser);
 		testUser.addPaperToReviewer(testPaper);
@@ -491,13 +491,13 @@ public class JUnitTestingClass {
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "maxim@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "james@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "vinh@ieee.org");
-		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "ian@ieee.org");
-		final Paper testPaper6 = new Paper("Test Paper 6", "This is another test.", "vincent@ieee.org");
-		final Paper testPaper7 = new Paper("Test Paper 7", "This is a third test.", "ayub@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "maxim@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "james@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "vinh@ieee.org");
+		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "ian@ieee.org");
+		final Manuscript testPaper6 = new Manuscript("Test Paper 6", "This is another test.", "vincent@ieee.org");
+		final Manuscript testPaper7 = new Manuscript("Test Paper 7", "This is a third test.", "ayub@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
 		
@@ -535,14 +535,14 @@ public class JUnitTestingClass {
       
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
 		
-		final Paper testPaper = new Paper("Test Paper", "This is a test.", "hardy@ieee.org");
-		final Paper testPaper2 = new Paper("Test Paper 2", "This is another test.", "maxim@ieee.org");
-		final Paper testPaper3 = new Paper("Test Paper 3", "This is a third test.", "james@ieee.org");
-		final Paper testPaper4 = new Paper("Test Paper 4", "This is a fourth test.", "vinh@ieee.org");
-		final Paper testPaper5 = new Paper("Test Paper 5", "This is a fifth test", "ian@ieee.org");
-		final Paper testPaper6 = new Paper("Test Paper 6", "This is a sixth test.", "vincent@ieee.org");
-		final Paper testPaper7 = new Paper("Test Paper 7", "This is a seventh test.", "ayub@ieee.org");
-		final Paper testPaper8 = new Paper("Test Paper 8", "This is an eigth test.", "ian@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
+		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "maxim@ieee.org");
+		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "james@ieee.org");
+		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "vinh@ieee.org");
+		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "ian@ieee.org");
+		final Manuscript testPaper6 = new Manuscript("Test Paper 6", "This is a sixth test.", "vincent@ieee.org");
+		final Manuscript testPaper7 = new Manuscript("Test Paper 7", "This is a seventh test.", "ayub@ieee.org");
+		final Manuscript testPaper8 = new Manuscript("Test Paper 8", "This is an eigth test.", "ian@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
 		

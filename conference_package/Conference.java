@@ -37,7 +37,7 @@ public class Conference implements Serializable{
 	/**
 	 * All papers submitted to the conference.
 	 */
-	private ArrayList<Paper> myPapers;
+	private ArrayList<Manuscript> myPapers;
 	
 	/**
 	 * All eligible reviewers in the conference.
@@ -68,7 +68,7 @@ public class Conference implements Serializable{
 		myReviewDeadline = new Date(theRevDead.getTime());
 		myRecDeadline = new Date(theRecDead.getTime());
 		myFinalDeadline = new Date(theFinalDead.getTime());
-		myPapers = new ArrayList<Paper>();
+		myPapers = new ArrayList<Manuscript>();
 		conferenceReviewers = new ArrayList<User>();
 	}
 	
@@ -133,8 +133,8 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<Paper> getPapers() {
-		ArrayList<Paper> copy = new ArrayList<Paper>();
+	public ArrayList<Manuscript> getPapers() {
+		ArrayList<Manuscript> copy = new ArrayList<Manuscript>();
 		copy.addAll(myPapers);
 		return copy;
 	}
@@ -143,13 +143,14 @@ public class Conference implements Serializable{
 	 * Adds a paper to the conference and returns true if it is before
 	 * the submission deadline. If past deadline, the paper is not added and
 	 * false is returned.
+	 * Pre: Passed Paper is not null.
 	 * @param thePaper The paper being submitted.
 	 * @author James Roberts
 	 * @version 5/1/2017
 	 * @throws Exception if any Author of thePaper has already submitted max Papers
 	 * or if the Paper is submitted past the submission deadline. 
 	 */
-	public void addPaper(Paper thePaper) throws Exception {
+	public void addPaper(Manuscript thePaper) throws Exception {
 		if (!isSubmittedOnTime(thePaper)) {
 			throw new Exception("Paper submitted past deadline.");
 		}
@@ -171,7 +172,7 @@ public class Conference implements Serializable{
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
-	public boolean isValidNumberOfSubmissions(Paper thePaper) {
+	public boolean isValidNumberOfSubmissions(Manuscript thePaper) {
 		boolean check = false;	
 		int counter = 0;
 		
@@ -181,7 +182,7 @@ public class Conference implements Serializable{
 		
 		//List of authors for existing papers in conference
 		ArrayList<String> existingAuthors = new ArrayList<String>();
-		for(Paper submittedPapers : myPapers) {
+		for(Manuscript submittedPapers : myPapers) {
 			existingAuthors.addAll(submittedPapers.getAuthors());
 		}
 		
@@ -214,7 +215,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public boolean isSubmittedOnTime(Paper thePaper) {
+	public boolean isSubmittedOnTime(Manuscript thePaper) {
 		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			
 			return true;

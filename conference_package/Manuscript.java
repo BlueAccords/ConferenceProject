@@ -9,20 +9,20 @@ import java.io.Serializable;
  * @author James Roberts, Ian Waak, Ayub Tiba
  * @version 4/30/2017
  */
-public class Paper implements Serializable{
+public class Manuscript implements Serializable{
 
 	/**
 	 * The serial Id number
 	 */
 	private static final long serialVersionUID = 96995919879996851L;
 	/**
-	 * The paper's title.
+	 * The manuscripts's title.
 	 */
 	private String myTitle;
 	/**
-	 * The body of the paper.
+	 * The body of the manuscript.
 	 */
-	private String myPaper;
+	private String myManuscript;
 	/**
 	 * The list of authors by username, index 0 is the primary author.
 	 */
@@ -33,30 +33,30 @@ public class Paper implements Serializable{
 	private Date mySubmissionDate;
 	/**
 	 * Constructor for The class.
-	 * @param theTitle The paper's title.
-	 * @param thePaper The paper's body.
-	 * @param theMainAuthor The main author of the paper's username.
+	 * @param theTitle The manuscript's title.
+	 * @param theManuscript The manuscripts's body.
+	 * @param theMainAuthor The main author of the manuscript's username.
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public Paper(String theTitle, String thePaper, String theMainAuthor) {
+	public Manuscript(String theTitle, String theManuscript, String theMainAuthor) {
 		myTitle = theTitle;
 		myAuthors = new ArrayList<String>();
 		myAuthors.add(theMainAuthor);
-		myPaper = thePaper;
+		myManuscript = theManuscript;
 		mySubmissionDate = new Date();
 		
 	}
 	
 	/**
-	 * Returns the date the paper was submitted.
-	 * @return the date the paper was submitted.
+	 * Returns the date the manuscript was submitted.
+	 * @return the date the manuscript was submitted.
 	 */
 	public Date getSubmissionDate() {
 		return new Date(mySubmissionDate.getTime());
 	}
 	/**
-	 * Setter for the date the paper was submitted.
+	 * Setter for the date the manuscript was submitted.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -79,8 +79,8 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public String getPaper() {
-		return myPaper;
+	public String getManuscript() {
+		return myManuscript;
 	}
 	
 	/**
@@ -112,7 +112,7 @@ public class Paper implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public void updatePaper(String thePaper) {
-		myPaper = thePaper;
+		myManuscript = thePaper;
 	}
 	
 }
