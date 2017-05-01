@@ -250,7 +250,7 @@ public class JUnitTestingClass {
 	public void testInvalidNumberOfPapersAuthor() {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -285,7 +285,7 @@ public class JUnitTestingClass {
 	public void testInvalidNumberOfPapersCoAuthor() {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -325,7 +325,7 @@ public class JUnitTestingClass {
 	public void testInvalidNumberOfPapers() {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline

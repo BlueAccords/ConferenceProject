@@ -180,7 +180,7 @@ public class Conference implements Serializable{
 		for(Paper submittedPapers : myPapers) {
 			existingAuthors.addAll(submittedPapers.getAuthors());
 		}
-		
+		System.out.println(existingAuthors);
 		//Iterate through new paper authors
 		for(String ID : newAuthors) {
 			//Iterate through existing paper authors
