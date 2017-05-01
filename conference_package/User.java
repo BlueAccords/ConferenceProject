@@ -249,4 +249,56 @@ public class User implements Serializable{
 		}
 	}
 	
+	
+		/**
+		 * Attempts to add the passed Paper to the passed User's collection of Paper's to review.
+		 * Paper will not be added if the Reviewer has already been assigned 8 papers or if they are the author
+		 * or coauthor of the paper. 
+		 * @author James Robert, Ayub Tiba
+		 * @param theReviewer The Reviewer to assign the Paper to.
+		 * @param thePaper The Paper to assign.
+		 * @return If the Paper was assigned to the Reviewer.
+		 */
+		public boolean assignPaperToReviewer(User theReviewer, Paper thePaper) {
+			if (!(isAuthor(theReviewer, thePaper))  && isUnderAssignedPaperLimit(theReviewer)) {
+				theReviewer.addPaperToReviewer(thePaper);
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		/**
+		 * Checks if the Passed User can be assigned another paper to review. Returns true if the
+		 * User has been assigned 7 or fewer Papers, false otherwise.
+		 * @param theReviewer the Reviewer to test.
+		 * @return T if User assigned < 8 papers, F otherwise.
+		 * @author James Roberts, Ayub Tiba
+		 * @version 4/30/2017
+		 */
+		public boolean isUnderAssignedPaperLimit(User theReviewer) {
+			if (theReviewer.assignedPapersRev.size() > 8) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		/**
+		 * Checks if the Passed User is an Author or CoAuthor of the passed Paper.
+		 * @author Ayub Tiba
+		 * @param theReviewer The Reviewer to check.
+		 * @param thePaper The Paper to check. 
+		 * @return if a reviewer is an Author
+		 * @version 4/30/2017
+		 */
+		public boolean isAuthor(User theReviewer, Paper thePaper){
+			for (String author : thePaper.getAuthors()) {
+				if (theReviewer.getEmail().equalsIgnoreCase(author)) {
+					return true;
+				}
+			}
+			return false;
+	}
+	
 }

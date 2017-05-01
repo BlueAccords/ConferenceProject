@@ -167,7 +167,7 @@ public class Conference implements Serializable{
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
-	private boolean isValidNumberOfSubmissions(Paper thePaper) {
+	public boolean isValidNumberOfSubmissions(Paper thePaper) {
 		boolean check = false;	
 		int counter = 0;
 		
@@ -210,7 +210,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	private boolean isSubmittedOnTime(Paper thePaper) {
+	public boolean isSubmittedOnTime(Paper thePaper) {
 		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			
 			return true;
