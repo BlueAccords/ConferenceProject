@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ConferenceMain {
-
+	//Minor change
 	public static void main(String[] args) {
 		//ConferenceReadWriteTest();
 	}
