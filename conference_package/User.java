@@ -18,8 +18,9 @@ public class User implements Serializable{
 	private ArrayList<Paper> assignedPapersRev = new ArrayList<Paper>();
 	private ArrayList<Paper> assignedPapersSPC = new ArrayList<Paper>();
 	private ArrayList<User> assignedReviewers = new ArrayList<User>();
-	public User() {
-		
+	
+	public User(String theEmail) {
+		email = theEmail;
 	}
 	public String getLastName() {
 		return lastName;

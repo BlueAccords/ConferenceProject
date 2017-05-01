@@ -157,12 +157,50 @@ public class Conference implements Serializable{
 		}
 	}
 	
-	//This will need to get the author's id from the paper, look at each paper
-	//in the conference and check all things in the author's arraylist while keeping track
-	//if > 4 then it should return false
-	public boolean isValidNumberOfSubmissions(Paper thePaper) {
-		return false;
+	/**
+	 * This method will get the author's id from the paper, look at each paper
+	 * in the conference and check all things in the author's array list while keeping track
+	 * if number of submitted papers > 4 then it should return false.
+	 * @param thePaper The Paper being submitted
+	 * @return 
+	 * @author Vinh Le, Ian Waak
+	 * @version 4/29/2017
+	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
+	 */
+	private boolean isValidNumberOfSubmissions(Paper thePaper) {
+		boolean check = false;	
+		int counter = 0;
+		
+		//List of author names for new paper
+		ArrayList<String> newAuthors = new ArrayList<String>();
+		newAuthors.addAll(thePaper.getAuthors());
+		
+		//List of authors for existing papers in conference
+		ArrayList<String> existingAuthors = new ArrayList<String>();
+		for(Paper submittedPapers : myPapers) {
+			existingAuthors.addAll(submittedPapers.getAuthors());
+		}
+		
+		//Iterate through new paper authors
+		for(String ID : newAuthors) {
+			//Iterate through existing paper authors
+			for(String submittedPaperID : existingAuthors) {
+				//If new author equals existing author, add 1 to counter
+				if (ID.equals(submittedPaperID)) {
+					counter++;
+				}
+			}		
+		}
+		//Because counter starts at zero, we need to check for one less than the max allowed papers.
+		if (counter < 4) {
+			check = true;
+		} else {
+			check = false;
+		}
+		
+		return check;
 	}
+	
 	/**
 	 * Adds a paper to the conference and returns true if it is before
 	 * the submission deadline. If past deadline, the paper is not added and
@@ -190,27 +228,53 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Author: Vincent Povio
-	 * Date: 4/28/2017
+	 * Adds reviewers to the conference by their user ID.
+	 * @param theReviewer the ID for the reviewer to be added
+	 * @author: Ian Waak
+	 * @version: 4/30/2017
+	 */
+	public void addReviewers(User theReviewer) {
+		conferenceReviewers.add(theReviewer);
+	}
+	
+	/**
 	 * This function gets a list of all eligible reviewers.
 	 * It validates that the reviewers meet the following business rules:
 	 * 	1) The reviewer isn't an author on the paper.
 	 * 	2) The reviewer doesn't have >7 papers assigned to them.
+	 * @author Vincent Povio, Ian Waak
+	 * @version 4/30/2017
 	 */
-	public ArrayList<User> getEligibleReviewers (Paper thePaper) {
+	public boolean getEligibleReviewers (Paper thePaper) {
+		//List of eligible reviewers
 		ArrayList<User> eligibleReviewers = new ArrayList<>();
+
+		//List of author names for the paper in need of review
+		ArrayList<String> authors = new ArrayList<String>();
+		authors.addAll(thePaper.getAuthors());
+		
 		boolean flag = false;
+		//Iterate through list of reviewers in conference
 		for (User possibleReviewer : conferenceReviewers) {
-			for (User paperAuthor: thePaper.getAuthors()) {
-				if (possibleReviewer == paperAuthor) {
+			//Iterate through list of paper's authors
+			for (String paperAuthor: authors) {
+				//If reviewer is author or co-author, set flag to true
+				if (possibleReviewer.getEmail().equals(paperAuthor)) {
 					flag = true;
 				}
 			}
-			if (!flag && possibleReviewer.getAssignedPapersRev().size() < 8) {
+			
+			//If reviewer has max or more papers already assigned, set flag to true
+			if(possibleReviewer.getAssignedPapersRev().size() >= 8) {
+				flag = true;
+			}
+			
+			//If flag is false, add reviewer to list of eligible reviewers
+			if (!flag) {
 				eligibleReviewers.add(possibleReviewer);
-			} else {
-				flag = false;
 			}
 		}
+		
+		return flag;
 	}
 }

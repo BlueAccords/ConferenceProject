@@ -2,6 +2,9 @@ package conference_package;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import jdk.nashorn.internal.objects.annotations.Setter;
+
 import java.io.Serializable;
 
 /**
@@ -56,6 +59,14 @@ public class Paper implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	/**
+	 * Setter for the date the paper was submitted.
+	 * @author Ian Waak
+	 * @version 4/30/2017
+	 */
+	public void setSubmissionDate(Date theDate) {
+		mySubmissionDate = theDate;
+	}
+	/**
 	 * Getter for the paper's title.
 	 * @return The title of the paper.
 	 * @author James Roberts
@@ -81,7 +92,7 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<String>getAuthors() {
+	public ArrayList<String> getAuthors() {
 		ArrayList<String> copy = new ArrayList<String>();
 		copy.addAll(myAuthors);
 		return copy;
