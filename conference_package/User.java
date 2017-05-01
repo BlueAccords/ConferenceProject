@@ -304,12 +304,19 @@ public class User implements Serializable{
 		 */
 		public boolean isAuthor(User theReviewer, Paper thePaper){
 			for (String author : thePaper.getAuthors()) {
+
+			//List of author names for the paper in need of review
+			ArrayList<String> authorList = new ArrayList<String>();
+			authorList.addAll(thePaper.getAuthors());
+			
+			for (String author : authorList) {
 				if (theReviewer.getEmail().equalsIgnoreCase(author)) {
 					return true;
 				}
 			}
 			return false;
-	}
+			}
+		}
 		
 		/**
 		 * This function gets a list of all eligible reviewers.
