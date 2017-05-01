@@ -144,13 +144,16 @@ public class User implements Serializable{
 	/**
 	 * 
 	 * @return Collection of the Manuscripts a user has submitted to a conference.
-	 * @author Ayub Tiba
+	 * @author Ayub Tiba, Jamesm Roberts
 	 * @version 4/30/2017
 	 */
 	public ArrayList<Paper> getMyPapers() {
-		return myPapers;
+		ArrayList<Paper> myPapersCopy = new ArrayList<Paper>();
+		myPapersCopy.addAll(myPapers);
+		return myPapersCopy;
 	}
 	
+	//Need to check that the paper doesn't already exist in the collection.
 	/**
 	 * Adds a passed paper to the User's collection of papers. 
 	 * @param thePaper
@@ -183,7 +186,9 @@ public class User implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public ArrayList<Paper> getAssignedPapersRev() {
-		return assignedPapersRev;
+		ArrayList<Paper> reviewPapersCopy = new ArrayList<Paper>();
+		reviewPapersCopy.addAll(assignedPapersRev);
+		return reviewPapersCopy;
 	}
 	
 	/**
@@ -219,9 +224,12 @@ public class User implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public ArrayList<Paper> getAssignedPapersSPC() {
-		return assignedPapersSPC;
+		ArrayList<Paper> assignedPapersSPCcopy = new ArrayList<Paper>();
+		assignedPapersSPCcopy.addAll(assignedPapersSPC);
+		return assignedPapersSPCcopy;
 	}
 
+	//need to make sure the paper does not already exist in this collection.
 	/**
 	 * Adds the passed Paper to the collection of Papers the Subprogram chair has been 
 	 * assigned to.
@@ -233,6 +241,7 @@ public class User implements Serializable{
 		assignedPapersSPC.add(thePaper);
 	}
 	
+	//need to make sure the reviewer doesn't already exist in this collection
 	/**
 	 * Adds the passed User to the SPC's collection of assigned Reviewers.
 	 * @param theReviewer the User to assign as a Reviewer.
@@ -267,15 +276,22 @@ public class User implements Serializable{
 	 * @author James Robert, Ayub Tiba
 	 * @param theReviewer The Reviewer to assign the Paper to.
 	 * @param thePaper The Paper to assign.
-	 * @return If the Paper was assigned to the Reviewer.
+	 * @throws Exception 
 	 */
-	public boolean assignPaperToReviewer(User theReviewer, Paper thePaper) {
-		if (!(isAuthor(theReviewer, thePaper))  && isUnderAssignedPaperLimit(theReviewer)) {
+	public void assignPaperToReviewer(User theReviewer, Paper thePaper) throws Exception {
+		if (theReviewer.getAssignedPapersRev().contains(thePaper)) {
+			throw new Exception("Paper already assigned to this Reviewer");
+		}
+		if (isAuthor(theReviewer, thePaper)) {
+			throw new Exception("The Reviewer is an Author of this Paper.");
+		}
+		
+		if (!isUnderAssignedPaperLimit(theReviewer)) {
+			throw new Exception("The Reviewer has already been assigned the max number of papers.");
+		}
+			//no exceptions thrown, ok to add. 
 			theReviewer.addPaperToReviewer(thePaper);
-				return true;
-			} else {
-				return false;
-			}
+			
 		}
 		
 		/**

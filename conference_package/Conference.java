@@ -144,17 +144,21 @@ public class Conference implements Serializable{
 	 * the submission deadline. If past deadline, the paper is not added and
 	 * false is returned.
 	 * @param thePaper The paper being submitted.
-	 * @return t/f if paper was accepted.
 	 * @author James Roberts
-	 * @version 4/27/2017
+	 * @version 5/1/2017
+	 * @throws Exception if any Author of thePaper has already submitted max Papers
+	 * or if the Paper is submitted past the submission deadline. 
 	 */
-	public boolean addPaper(Paper thePaper) {
-		if (isSubmittedOnTime(thePaper) && isValidNumberOfSubmissions(thePaper)) {
-			myPapers.add(thePaper);
-			return true;
-		} else {
-			return false;
+	public void addPaper(Paper thePaper) throws Exception {
+		if (!isSubmittedOnTime(thePaper)) {
+			throw new Exception("Paper submitted past deadline.");
 		}
+		if (!isValidNumberOfSubmissions(thePaper)) {
+			throw new Exception("An Author or Coauthor has already submitted max Papers.");
+		}
+		//No exceptions thrown so it is ok to add the paper.
+		myPapers.add(thePaper);
+			
 	}
 	
 	/**
