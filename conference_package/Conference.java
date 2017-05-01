@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Conference implements Serializable{
 	/**
-	 * The classe's serial Id.
+	 * The class's serial Id.
 	 */
 	private static final long serialVersionUID = -8616952866177111334L;
 	/**
