@@ -6,8 +6,8 @@ import java.util.Date;
 
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
- * @author James Roberts
- * @version 4/27/2017
+ * @author James Roberts, Vinh Le, Ian Waak, Vincent Povio
+ * @version 4/30/2017
  */
 public class Conference implements Serializable{
 	/**
@@ -219,10 +219,22 @@ public class Conference implements Serializable{
 		}
 	}
 	
+	/**
+	 * Returns all Subprogram Chairs of the conference.
+	 * @return all Subprogram Chairs of the conference.
+	 * @author Ayub Tiba
+	 * @version 4/27/2017
+	 */
 	public ArrayList<User> getConfSPCs () {
 		return conferenceSubprogramChairs;
 	}
 	
+	/**
+	 * Returns the Program Chair of the conference.
+	 * @return the Program Chair of the conference. 
+	 * @author Ayub Tiba
+	 * @version 4/28/2017
+	 */
 	public User getConfPC () {
 		return conferenceProgramChair;
 	}

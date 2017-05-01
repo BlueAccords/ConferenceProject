@@ -9,7 +9,8 @@ public class ConferenceMain {
 		//ConferenceReadWriteTest();
 	}
 	
-	//This is a test of reading and writing the list of conferences
+	//This is an example of reading and writing the list of conferences
+	//Will need to be used to store and retrieve our user's and conferences in the next version of the program
 	private static void ConferenceReadWriteTest() {
 		//Make ArrayList of 3 conference objects to test 
 		Date d = new Date();

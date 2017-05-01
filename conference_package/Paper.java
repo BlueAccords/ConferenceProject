@@ -2,15 +2,12 @@ package conference_package;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import jdk.nashorn.internal.objects.annotations.Setter;
-
 import java.io.Serializable;
 
 /**
  * This class represents a manuscript and stores any relevant information.
- * @author James Roberts
- * @version 4/27/2017
+ * @author James Roberts, Ian Waak, Ayub Tiba
+ * @version 4/30/2017
  */
 public class Paper implements Serializable{
 
@@ -39,7 +36,7 @@ public class Paper implements Serializable{
 	 * @param theTitle The paper's title.
 	 * @param thePaper The paper's body.
 	 * @param theMainAuthor The main author of the paper's username.
-	 * @author James Roberts
+	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
 	public Paper(String theTitle, String thePaper, String theMainAuthor) {
