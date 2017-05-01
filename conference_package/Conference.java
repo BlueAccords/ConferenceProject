@@ -249,44 +249,5 @@ public class Conference implements Serializable{
 		conferenceReviewers.add(theReviewer);
 	}
 	
-	/**
-	 * This function gets a list of all eligible reviewers.
-	 * It validates that the reviewers meet the following business rules:
-	 * 	1) The reviewer isn't an author on the paper.
-	 * 	2) The reviewer doesn't have >7 papers assigned to them.
-	 * @author Vincent Povio, Ian Waak
-	 * @version 4/30/2017
-	 */
-	public boolean getEligibleReviewers (Paper thePaper) {
-		//List of eligible reviewers
-		ArrayList<User> eligibleReviewers = new ArrayList<>();
 
-		//List of author names for the paper in need of review
-		ArrayList<String> authors = new ArrayList<String>();
-		authors.addAll(thePaper.getAuthors());
-		
-		boolean flag = false;
-		//Iterate through list of reviewers in conference
-		for (User possibleReviewer : conferenceReviewers) {
-			//Iterate through list of paper's authors
-			for (String paperAuthor: authors) {
-				//If reviewer is author or co-author, set flag to true
-				if (possibleReviewer.getEmail().equals(paperAuthor)) {
-					flag = true;
-				}
-			}
-			
-			//If reviewer has max or more papers already assigned, set flag to true
-			if(possibleReviewer.getAssignedPapersRev().size() >= 8) {
-				flag = true;
-			}
-			
-			//If flag is false, add reviewer to list of eligible reviewers
-			if (!flag) {
-				eligibleReviewers.add(possibleReviewer);
-			}
-		}
-		
-		return flag;
-	}
 }

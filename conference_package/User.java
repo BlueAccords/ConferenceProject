@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Representation of a User in the conference program. 
- * @author Vincent Povio, Ayub Tiba
+ * @author Vincent Povio, Ayub Tiba, James Roberts, Vinh Le
  * @version 4/30/2017
  *
  */
@@ -234,6 +234,16 @@ public class User implements Serializable{
 	}
 	
 	/**
+	 * Adds the passed User to the SPC's collection of assigned Reviewers.
+	 * @param theReviewer the User to assign as a Reviewer.
+	 * @author Vinh Le
+	 * @version 4/30/2017
+	 */
+	public void addReviewerToSPC(User theReviewer) {
+		assignedReviewers.add(theReviewer);
+	}
+	
+	/**
 	 * Removes the passed Paper from the collection of Papers assigned
 	 * to the Subprogram Chair, no change if the Paper
 	 * hasn't already been assigned to the Subprogram Chair.
@@ -250,18 +260,18 @@ public class User implements Serializable{
 	}
 	
 	
-		/**
-		 * Attempts to add the passed Paper to the passed User's collection of Paper's to review.
-		 * Paper will not be added if the Reviewer has already been assigned 8 papers or if they are the author
-		 * or coauthor of the paper. 
-		 * @author James Robert, Ayub Tiba
-		 * @param theReviewer The Reviewer to assign the Paper to.
-		 * @param thePaper The Paper to assign.
-		 * @return If the Paper was assigned to the Reviewer.
-		 */
-		public boolean assignPaperToReviewer(User theReviewer, Paper thePaper) {
-			if (!(isAuthor(theReviewer, thePaper))  && isUnderAssignedPaperLimit(theReviewer)) {
-				theReviewer.addPaperToReviewer(thePaper);
+	/**
+	 * Attempts to add the passed Paper to the passed User's collection of Paper's to review.
+	 * Paper will not be added if the Reviewer has already been assigned 8 papers or if they are the author
+	 * or coauthor of the paper. 
+	 * @author James Robert, Ayub Tiba
+	 * @param theReviewer The Reviewer to assign the Paper to.
+	 * @param thePaper The Paper to assign.
+	 * @return If the Paper was assigned to the Reviewer.
+	 */
+	public boolean assignPaperToReviewer(User theReviewer, Paper thePaper) {
+		if (!(isAuthor(theReviewer, thePaper))  && isUnderAssignedPaperLimit(theReviewer)) {
+			theReviewer.addPaperToReviewer(thePaper);
 				return true;
 			} else {
 				return false;
@@ -300,5 +310,48 @@ public class User implements Serializable{
 			}
 			return false;
 	}
+		
+		/**
+		 * This function gets a list of all eligible reviewers.
+		 * It validates that the reviewers meet the following business rules:
+		 * 	1) The reviewer isn't an author on the paper.
+		 * 	2) The reviewer doesn't have >7 papers assigned to them.
+		 * @param thePaper the Paper to generate a list of eligible Reviewers for.
+		 * @return a collection of eligible reviewers for the Paper.
+		 * @author Vincent Povio, Ian Waak
+		 * @version 4/30/2017
+		 */
+		public ArrayList<User> getEligibleReviewers (Paper thePaper) {
+			//List of eligible reviewers
+			ArrayList<User> eligibleReviewers = new ArrayList<>();
+
+			//List of author names for the paper in need of review
+			ArrayList<String> authors = new ArrayList<String>();
+			authors.addAll(thePaper.getAuthors());
+			
+			boolean flag = false;
+			//Iterate through list of reviewers assigned to the User
+			for (User possibleReviewer : assignedReviewers) {
+				//Iterate through list of paper's authors
+				for (String paperAuthor: authors) {
+					//If reviewer is author or co-author, set flag to true
+					if (possibleReviewer.getEmail().equals(paperAuthor)) {
+						flag = true;
+					}
+				}
+				
+				//If reviewer has max or more papers already assigned, set flag to true
+				if(possibleReviewer.getAssignedPapersRev().size() >= 8) {
+					flag = true;
+				}
+				
+				//If flag is false, add reviewer to list of eligible reviewers
+				if (!flag) {
+					eligibleReviewers.add(possibleReviewer);
+				}
+			}
+			
+			return eligibleReviewers;
+		}
 	
 }
