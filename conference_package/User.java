@@ -303,7 +303,6 @@ public class User implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public boolean isAuthor(User theReviewer, Paper thePaper){
-			for (String author : thePaper.getAuthors()) {
 
 			//List of author names for the paper in need of review
 			ArrayList<String> authorList = new ArrayList<String>();
@@ -315,7 +314,7 @@ public class User implements Serializable{
 				}
 			}
 			return false;
-			}
+			
 		}
 		
 		/**
