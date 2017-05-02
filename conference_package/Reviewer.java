@@ -1,52 +1,77 @@
 package conference_package;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Reviewer {
+public class Reviewer implements Serializable{
 	/**
-	 * Collection of any papers the user has been assigned to review.
+	 * The Serial ID.
 	 */
-	private ArrayList<Manuscript> assignedPapersRev;
-	public Reviewer() {
-		
-		// TODO Auto-generated constructor stub
-		assignedPapersRev = new ArrayList<Manuscript>();
+	private static final long serialVersionUID = 7044360208215202991L;
+
+	/**
+	 * The User associated with this reviewer.
+	 */
+	User myUser;
+	
+	/**
+	 * Collection of any manuscript the user has been assigned to review.
+	 */
+	private ArrayList<Manuscript> assignedManuscriptsRev;
+	
+	/**
+	 * Constructor for the Reviewer.
+	 * @param aUser The User associated with the Reviewer.
+	 */
+	public Reviewer(User aUser) {
+		//no defensive copy made, we want this to act as a pointer.
+		myUser = aUser;
+		assignedManuscriptsRev = new ArrayList<Manuscript>();
 	}
 	
 	/**
 	 * 
-	 * @return the collection of Paper's assigned to the User to review
-	 * @author Vincent Povio
-	 * @version 4/25/2017
+	 * @return the User associated with the Reviewer.
 	 */
-	public ArrayList<Manuscript> getAssignedPapersRev() {
-		ArrayList<Manuscript> reviewPapersCopy = new ArrayList<Manuscript>();
-		reviewPapersCopy.addAll(assignedPapersRev);
-		return reviewPapersCopy;
+	public User getUser() {
+		//maybe need a defensive copy here?
+		return myUser;
 	}
 	
 	/**
-	 * Adds the passed Paper to the User's collection of Papers
+	 * 
+	 * @return the collection of Manuscripts's assigned to the User to review
+	 * @author Vincent Povio
+	 * @version 4/25/2017
+	 */
+	public ArrayList<Manuscript> getAssignedManuscripts() {
+		ArrayList<Manuscript> reviewManuscriptsCopy = new ArrayList<Manuscript>();
+		reviewManuscriptsCopy.addAll(assignedManuscriptsRev);
+		return reviewManuscriptsCopy;
+	}
+	
+	/**
+	 * Adds the passed Manuscript to the User's collection of Manuscripts
 	 * they have been assigned to review
-	 * @param thePaper
+	 * @param theManuscript
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
-	public void addPaperToReviewer(Manuscript thePaper) {
-		assignedPapersRev.add(thePaper);
+	public void addManuscriptToReviewer(Manuscript theManuscript) {
+		assignedManuscriptsRev.add(theManuscript);
 	}
 	
 	/**
-	 * Removes the passed Paper from the User's collection
-	 * of Papers to review if it exists in the collection.
-	 * @param thePaper the Paper to be removed
+	 * Removes the passed Manuscript from the User's collection
+	 * of Manuscripts to review if it exists in the collection.
+	 * @param theManuscript the Paper to be removed
 	 * @author Ayub Tiba
 	 * @version 4/29/2017
 	 */
-	public void removePaperFromReviwer(Manuscript thePaper) {
-		for (Manuscript target: assignedPapersRev) {
-			if (target == thePaper) {
-				assignedPapersRev.remove(target);
+	public void removeManuscriptFromReviwer(Manuscript theManuscript) {
+		for (Manuscript target: assignedManuscriptsRev) {
+			if (target == theManuscript) {
+				assignedManuscriptsRev.remove(target);
 			}
 		}
 	}

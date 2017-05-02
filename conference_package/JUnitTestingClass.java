@@ -465,9 +465,9 @@ public class JUnitTestingClass {
 		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
 		final User testUser = new User("simpson@ieee.org");
 		conf.addReviewers(testUser);
-		testUser.addPaperToReviewer(testPaper);
+		testUser.addManuscriptToReviewer(testPaper);
 		
-		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
+		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
 	}
 
 	/**
@@ -502,15 +502,15 @@ public class JUnitTestingClass {
 		final User testUser = new User("simpson@ieee.org");
 		
 		conf.addReviewers(testUser);
-		testUser.addPaperToReviewer(testPaper);
-		testUser.addPaperToReviewer(testPaper2);
-		testUser.addPaperToReviewer(testPaper3);
-		testUser.addPaperToReviewer(testPaper4);
-		testUser.addPaperToReviewer(testPaper5);
-		testUser.addPaperToReviewer(testPaper6);
-		testUser.addPaperToReviewer(testPaper7);
+		testUser.addManuscriptToReviewer(testPaper);
+		testUser.addManuscriptToReviewer(testPaper2);
+		testUser.addManuscriptToReviewer(testPaper3);
+		testUser.addManuscriptToReviewer(testPaper4);
+		testUser.addManuscriptToReviewer(testPaper5);
+		testUser.addManuscriptToReviewer(testPaper6);
+		testUser.addManuscriptToReviewer(testPaper7);
 		
-		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
+		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
 	}
 	
 	/**
@@ -547,16 +547,16 @@ public class JUnitTestingClass {
 		final User testUser = new User("simpson@ieee.org");
 		
 		conf.addReviewers(testUser);
-		testUser.addPaperToReviewer(testPaper);
-		testUser.addPaperToReviewer(testPaper2);
-		testUser.addPaperToReviewer(testPaper3);
-		testUser.addPaperToReviewer(testPaper4);
-		testUser.addPaperToReviewer(testPaper5);
-		testUser.addPaperToReviewer(testPaper6);
-		testUser.addPaperToReviewer(testPaper7);
-		testUser.addPaperToReviewer(testPaper8);
+		testUser.addManuscriptToReviewer(testPaper);
+		testUser.addManuscriptToReviewer(testPaper2);
+		testUser.addManuscriptToReviewer(testPaper3);
+		testUser.addManuscriptToReviewer(testPaper4);
+		testUser.addManuscriptToReviewer(testPaper5);
+		testUser.addManuscriptToReviewer(testPaper6);
+		testUser.addManuscriptToReviewer(testPaper7);
+		testUser.addManuscriptToReviewer(testPaper8);
 		
-		assertTrue(testUser.isUnderAssignedPaperLimit(testUser));
+		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
 	}
 }
 

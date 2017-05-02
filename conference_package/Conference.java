@@ -10,6 +10,8 @@ import java.util.Date;
  * @version 4/30/2017
  */
 public class Conference implements Serializable{
+	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
+	private static final int MAX_REVIEWER_PAPERS = 8;
 	/**
 	 * The class's serial Id.
 	 */
@@ -21,32 +23,39 @@ public class Conference implements Serializable{
 	/**
 	 * The deadline for manuscript submissions.
 	 */
-	private Date myPaperDeadline;
+	private Date myManuscriptDeadline;
 	/**
 	 * The deadline for reviews.
 	 */
 	private Date myReviewDeadline;
 	/**
-	 * The deadline for reviews.
+	 * The deadline for recommendations.
 	 */
 	private Date myRecDeadline;
 	/**
 	 * The deadline for recommendations.
 	 */
 	private Date myFinalDeadline;
+	
 	/**
 	 * All papers submitted to the conference.
 	 */
-	private ArrayList<Manuscript> myPapers;
+	private ArrayList<Manuscript> myManuscripts;
 	
+	/**
+	 * All Authors with Manuscripts's submitted to the conference.
+	 */
+	private ArrayList<Author> conferenceAuthors;
 	/**
 	 * All eligible reviewers in the conference.
 	 */
-	private ArrayList<User> conferenceReviewers;	
+	private ArrayList<Reviewer> conferenceReviewers;	
+	
 	/**
 	 * All conference SPCs.
 	 */
-	private ArrayList<User> conferenceSubprogramChairs;
+	private ArrayList<SubprogramChair> conferenceSubprogramChairs;
+	
 	/**
 	 * The conference Program Chair.
 	 */
@@ -64,12 +73,14 @@ public class Conference implements Serializable{
 	 */
 	public Conference(String theConferenceName, Date thePDead, Date theRevDead, Date theRecDead, Date theFinalDead) {
 		myConferenceName = theConferenceName;
-		myPaperDeadline = new Date(thePDead.getTime());
+		myManuscriptDeadline = new Date(thePDead.getTime());
 		myReviewDeadline = new Date(theRevDead.getTime());
 		myRecDeadline = new Date(theRecDead.getTime());
 		myFinalDeadline = new Date(theFinalDead.getTime());
-		myPapers = new ArrayList<Manuscript>();
-		conferenceReviewers = new ArrayList<User>();
+		myManuscripts = new ArrayList<Manuscript>();
+		conferenceAuthors = new ArrayList<Author>();
+		conferenceReviewers = new ArrayList<Reviewer>();
+		conferenceSubprogramChairs = new ArrayList<SubprogramChair>();
 	}
 	
 	/**
@@ -90,7 +101,7 @@ public class Conference implements Serializable{
 	 */
 	public Date getPaperDeadline() {
 		// need to make copy to encapsulate.
-		return new Date(myPaperDeadline.getTime());
+		return new Date(myManuscriptDeadline.getTime());
 	}
 	
 	/**
@@ -127,62 +138,60 @@ public class Conference implements Serializable{
 	}
 	
 	/** 
-	 * Returns a collection of all papers submitted to the conference.
+	 * Returns a collection of all Manuscripts submitted to the conference.
 	 * 
-	 * @return All papers currently submitted to the conference.
+	 * @return All Manuscripts currently submitted to the conference.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<Manuscript> getPapers() {
+	public ArrayList<Manuscript> getManuscripts() {
 		ArrayList<Manuscript> copy = new ArrayList<Manuscript>();
-		copy.addAll(myPapers);
+		copy.addAll(myManuscripts);
 		return copy;
 	}
 	
 	/**
-	 * Adds a paper to the conference and returns true if it is before
-	 * the submission deadline. If past deadline, the paper is not added and
-	 * false is returned.
+	 * Adds a Manuscript to the conference if submitted before the deadline
+	 * and if every associated author has not submitted more > max papers.
 	 * Pre: Passed Paper is not null.
-	 * @param thePaper The paper being submitted.
+	 * @param theManuscript The paper being submitted.
 	 * @author James Roberts
 	 * @version 5/1/2017
 	 * @throws Exception if any Author of thePaper has already submitted max Papers
 	 * or if the Paper is submitted past the submission deadline. 
 	 */
-	public void addPaper(Manuscript thePaper) throws Exception {
-		if (!isSubmittedOnTime(thePaper)) {
+	public void addManuscript(Manuscript theManuscript) throws Exception {
+		if (!isSubmittedOnTime(theManuscript)) {
 			throw new Exception("Paper submitted past deadline.");
 		}
-		if (!isValidNumberOfSubmissions(thePaper)) {
+		if (!isValidNumberOfSubmissions(theManuscript)) {
 			throw new Exception("An Author or Coauthor has already submitted max Papers.");
 		}
 		//No exceptions thrown so it is ok to add the paper.
-		myPapers.add(thePaper);
-			
+		myManuscripts.add(theManuscript);
 	}
 	
 	/**
-	 * This method will get the author's id from the paper, look at each paper
+	 * This method will get the author's id's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
 	 * if number of submitted papers > 4 then it should return false.
-	 * @param thePaper The Paper being submitted
+	 * @param theManuscript The Paper being submitted
 	 * @return 
 	 * @author Vinh Le, Ian Waak
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
-	public boolean isValidNumberOfSubmissions(Manuscript thePaper) {
+	public boolean isValidNumberOfSubmissions(Manuscript theManuscript) {
 		boolean check = false;	
 		int counter = 0;
 		
 		//List of author names for new paper
 		ArrayList<String> newAuthors = new ArrayList<String>();
-		newAuthors.addAll(thePaper.getAuthors());
+		newAuthors.addAll(theManuscript.getAuthors());
 		
 		//List of authors for existing papers in conference
 		ArrayList<String> existingAuthors = new ArrayList<String>();
-		for(Manuscript submittedPapers : myPapers) {
+		for(Manuscript submittedPapers : myManuscripts) {
 			existingAuthors.addAll(submittedPapers.getAuthors());
 		}
 		
@@ -197,7 +206,7 @@ public class Conference implements Serializable{
 			}		
 		}
 		//Because counter starts at zero, we need to check for one less than the max allowed papers.
-		if (counter < 4) {
+		if (counter < MAX_AUTHOR_SUBMISSIONS) {
 			check = true;
 		} else {
 			check = false;
@@ -207,16 +216,15 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Adds a paper to the conference and returns true if it is before
-	 * the submission deadline. If past deadline, the paper is not added and
-	 * false is returned.
-	 * @param thePaper The paper being submitted.
+	 * Tests if a manuscript was submitted on time. Returns true if it is before
+	 * the submission deadline. If past deadline, false is returned.
+	 * @param theManuscript The paper being submitted.
 	 * @return t/f if paper was accepted.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public boolean isSubmittedOnTime(Manuscript thePaper) {
-		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
+	public boolean isSubmittedOnTime(Manuscript theManuscript) {
+		if(theManuscript.getSubmissionDate().getTime() <= myManuscriptDeadline.getTime()) { 
 			
 			return true;
 		} else {
@@ -230,7 +238,7 @@ public class Conference implements Serializable{
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public ArrayList<User> getConfSPCs () {
+	public ArrayList<SubprogramChair> getConfSPCs () {
 		return conferenceSubprogramChairs;
 	}
 	
@@ -245,14 +253,25 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Adds reviewers to the conference by their user ID.
+	 * Adds the passed User as a reviewer for the conference.
 	 * @param theReviewer the ID for the reviewer to be added
 	 * @author: Ian Waak
 	 * @version: 4/30/2017
 	 */
-	public void addReviewers(User theReviewer) {
-		conferenceReviewers.add(theReviewer);
+	public void addReviewer(User theUser) {
+		
+		conferenceReviewers.add(new Reviewer(theUser));
 	}
 	
-
+	/**
+	 * Adds the passed User as a Subprogram Chair for the conference
+	 * @param theReviewer the ID for the reviewer to be added
+	 * @author: James Roberts
+	 * @version: 5/1/2017
+	 */
+	public void addSubprogramChair(User theUser) {
+		
+		conferenceSubprogramChairs.add(new SubprogramChair(theUser));
+	}
+	 
 }

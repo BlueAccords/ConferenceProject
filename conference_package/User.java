@@ -1,7 +1,6 @@
 package conference_package;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Representation of a User in the conference program. 
@@ -28,7 +27,9 @@ public class User implements Serializable{
 	 */
 	private String email;
 		
-	
+	//This constructor should maybe take the first name & last name so the
+	//view component or a createAccount class can get the user info and just make a new
+	//User object
 	/**
 	 * Constructor for a User.
 	 * @param theEmail the user's email.
@@ -36,10 +37,7 @@ public class User implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public User(String theEmail) {
-		email = theEmail;
-		
-		
-		
+		email = theEmail;		
 	}
 	
 	/**

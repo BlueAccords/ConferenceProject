@@ -31,11 +31,12 @@ public class Manuscript implements Serializable{
 	 * When the paper was submitted.
 	 */
 	private Date mySubmissionDate;
+	
 	/**
 	 * Constructor for The class.
 	 * @param theTitle The manuscript's title.
 	 * @param theManuscript The manuscripts's body.
-	 * @param theMainAuthor The main author of the manuscript's username.
+	 * @param theMainAuthor The main author of the manuscript's username (email).
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
@@ -55,6 +56,7 @@ public class Manuscript implements Serializable{
 	public Date getSubmissionDate() {
 		return new Date(mySubmissionDate.getTime());
 	}
+	
 	/**
 	 * Setter for the date the manuscript was submitted.
 	 * @author Ian Waak
@@ -63,6 +65,7 @@ public class Manuscript implements Serializable{
 	public void setSubmissionDate(Date theDate) {
 		mySubmissionDate = theDate;
 	}
+	
 	/**
 	 * Getter for the paper's title.
 	 * @return The title of the paper.

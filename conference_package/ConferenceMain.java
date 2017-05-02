@@ -16,7 +16,7 @@ public class ConferenceMain {
 		Date d = new Date();
 		Conference c1 = new Conference("firstC", d,d,d,d);
 		try {
-			c1.addPaper(new Manuscript("a paper", "stuff", "more stuff"));
+			c1.addManuscript(new Manuscript("a paper", "stuff", "more stuff"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
