@@ -143,12 +143,13 @@ public class JUnitTestingClass {
 	 * Two papers submitted as an author and two submitted as a co-author.
 	 * @author Vincent Povio
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testValidNumberOfPapers() {
+	public void testValidNumberOfPapers() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -165,9 +166,9 @@ public class JUnitTestingClass {
 		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
 
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
+		conf.addManuscript(testPaper);
+		conf.addManuscript(testPaper2);
+		conf.addManuscript(testPaper3);
 		
 		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
@@ -177,12 +178,13 @@ public class JUnitTestingClass {
 	 * Four papers submitted as a co-author.
 	 * @author Ian Waak
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testValidNumberOfPapersCoAuthor() {
+	public void testValidNumberOfPapersCoAuthor() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -201,9 +203,9 @@ public class JUnitTestingClass {
 		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "benlee@ieee.org");
 		testPaper4.addAuthor("simpson@ieee.org");
 
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
+		conf.addManuscript(testPaper);
+		//conf.addManuscript(testPaper2);
+		//conf.addManuscript(testPaper3);
 		
 		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
@@ -213,12 +215,13 @@ public class JUnitTestingClass {
 	 * Four papers submitted as a author.
 	 * @author Ian Waak
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testValidNumberOfPapersAuthor() {
+	public void testValidNumberOfPapersAuthor() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -233,9 +236,9 @@ public class JUnitTestingClass {
 		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "simpson@ieee.org");
 		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
 		
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
+		conf.addManuscript(testPaper);
+		conf.addManuscript(testPaper2);
+		conf.addManuscript(testPaper3);
 		
 		assertTrue(conf.isValidNumberOfSubmissions(testPaper4));
 	}
@@ -245,12 +248,13 @@ public class JUnitTestingClass {
 	 * Five papers submitted as a author. Final submission should fail.
 	 * @author Ian Waak
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testInvalidNumberOfPapersAuthor() {
+	public void testInvalidNumberOfPapersAuthor() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -265,14 +269,14 @@ public class JUnitTestingClass {
 		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "simpson@ieee.org");
 		final Manuscript testPaper4 = new Manuscript("Test Paper 4", "This is a fourth test.", "simpson@ieee.org");
 		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "simpson@ieee.org");
-		
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
-		conf.addPaper(testPaper4);
-		
+		final Manuscript testPaper6 = new Manuscript("Test Paper 6", "This is a sixth test", "simpson@ieee.org");
+		conf.addManuscript(testPaper);
+		conf.addManuscript(testPaper2);
+		conf.addManuscript(testPaper3);
+		conf.addManuscript(testPaper4);
+		conf.addManuscript(testPaper5);
 		//Test for valid submissions for each paper.
-		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper6));
 	}
 	
 	/**
@@ -280,12 +284,13 @@ public class JUnitTestingClass {
 	 * Five papers submitted as a co-author. Final submission should fail.
 	 * @author Ian Waak
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testInvalidNumberOfPapersCoAuthor() {
+	public void testInvalidNumberOfPapersCoAuthor() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -305,14 +310,15 @@ public class JUnitTestingClass {
 		testPaper4.addAuthor("simpson@ieee.org");
 		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
-		
+		final Manuscript testPaper6 = new Manuscript("Test Paper 6", "This is a sixth test", "hoover@ieee.org");
+		testPaper6.addAuthor("simpson@ieee.org");
 
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
-		conf.addPaper(testPaper4);
-		
-		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
+		conf.addManuscript(testPaper);
+		conf.addManuscript(testPaper2);
+		conf.addManuscript(testPaper3);
+		conf.addManuscript(testPaper4);
+		conf.addManuscript(testPaper5);
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper6));
 	}
 	
 	/**
@@ -320,12 +326,13 @@ public class JUnitTestingClass {
 	 * Two papers submitted as an author, three papers submitted as a co-author.
 	 * @author Ian Waak
 	 * @version 4/30/2017
+	 * @throws Exception 
 	 */
 	@Test
-	public void testInvalidNumberOfPapers() {
+	public void testInvalidNumberOfPapers() throws Exception {
 		Date testDate = new Date();
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
+        final String paperDeadline = "30-06-2017 11:59:59";
 
         try {
         	//Deadline
@@ -343,13 +350,14 @@ public class JUnitTestingClass {
 		testPaper4.addAuthor("simpson@ieee.org");
 		final Manuscript testPaper5 = new Manuscript("Test Paper 5", "This is a fifth test", "hoover@ieee.org");
 		testPaper5.addAuthor("simpson@ieee.org");
-
-		conf.addPaper(testPaper);
-		conf.addPaper(testPaper2);
-		conf.addPaper(testPaper3);
-		conf.addPaper(testPaper4);
-		
-		assertFalse(conf.isValidNumberOfSubmissions(testPaper5));
+		final Manuscript testPaper6 = new Manuscript("Test Paper 6", "This is a sixth test", "jover@ieee.org");
+		testPaper6.addAuthor("simpson@ieee.org");
+		conf.addManuscript(testPaper);
+		conf.addManuscript(testPaper2);
+		conf.addManuscript(testPaper3);
+		conf.addManuscript(testPaper4);
+		conf.addManuscript(testPaper5);
+		assertFalse(conf.isValidNumberOfSubmissions(testPaper6));
 	}
 	
 	/**
@@ -377,9 +385,11 @@ public class JUnitTestingClass {
 		testPaper.addAuthor("fleegle@ieee.org");
 		testPaper.addAuthor("barwood@ieee.org");
 		final User testUser = new User("simpson@ieee.org");
-		conf.addReviewers(testUser);
-		
-		assertFalse(testUser.isAuthor(testUser, testPaper));
+		final Reviewer testRev = new Reviewer(testUser);
+		//conf.addReviewer(testUser);
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
+		assertFalse(testSPC.isAuthor(testRev, testPaper));
 	}
 	
 	/**
@@ -407,9 +417,12 @@ public class JUnitTestingClass {
 		testPaper.addAuthor("barwood@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
-		conf.addReviewers(testUser);
+		final Reviewer testRev = new Reviewer(testUser);
+		//conf.addReviewer(testUser);
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
 		
-		assertTrue(testUser.isAuthor(testUser, testPaper));
+		assertTrue(testSPC.isAuthor(testRev, testPaper));
 	}
 	
 	/**
@@ -437,9 +450,12 @@ public class JUnitTestingClass {
 		testPaper.addAuthor("simpson@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
-		conf.addReviewers(testUser);
+		final Reviewer testRev = new Reviewer(testUser);
+		//conf.addReviewer(testUser);
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
 		
-		assertTrue(testUser.isAuthor(testUser, testPaper));
+		assertTrue(testSPC.isAuthor(testRev, testPaper));
 	}
 	
 	/**
@@ -464,10 +480,14 @@ public class JUnitTestingClass {
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
 		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "hardy@ieee.org");
 		final User testUser = new User("simpson@ieee.org");
-		conf.addReviewers(testUser);
-		testUser.addManuscriptToReviewer(testPaper);
+		final Reviewer testRev = new Reviewer(testUser);
 		
-		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
+		
+		testRev.addManuscriptToReviewer(testPaper);
+		
+		assertTrue(testSPC.isUnderAssignedManuscriptLimit(testRev));
 	}
 
 	/**
@@ -500,17 +520,22 @@ public class JUnitTestingClass {
 		final Manuscript testPaper7 = new Manuscript("Test Paper 7", "This is a third test.", "ayub@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
+		final Reviewer testRev = new Reviewer(testUser);
 		
-		conf.addReviewers(testUser);
-		testUser.addManuscriptToReviewer(testPaper);
-		testUser.addManuscriptToReviewer(testPaper2);
-		testUser.addManuscriptToReviewer(testPaper3);
-		testUser.addManuscriptToReviewer(testPaper4);
-		testUser.addManuscriptToReviewer(testPaper5);
-		testUser.addManuscriptToReviewer(testPaper6);
-		testUser.addManuscriptToReviewer(testPaper7);
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
 		
-		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
+		
+		
+		testRev.addManuscriptToReviewer(testPaper);
+		testRev.addManuscriptToReviewer(testPaper2);
+		testRev.addManuscriptToReviewer(testPaper3);
+		testRev.addManuscriptToReviewer(testPaper4);
+		testRev.addManuscriptToReviewer(testPaper5);
+		testRev.addManuscriptToReviewer(testPaper6);
+		testRev.addManuscriptToReviewer(testPaper7);
+		
+		assertTrue(testSPC.isUnderAssignedManuscriptLimit(testRev));
 	}
 	
 	/**
@@ -545,18 +570,22 @@ public class JUnitTestingClass {
 		final Manuscript testPaper8 = new Manuscript("Test Paper 8", "This is an eigth test.", "ian@ieee.org");
 		
 		final User testUser = new User("simpson@ieee.org");
+		final Reviewer testRev = new Reviewer(testUser);
 		
-		conf.addReviewers(testUser);
-		testUser.addManuscriptToReviewer(testPaper);
-		testUser.addManuscriptToReviewer(testPaper2);
-		testUser.addManuscriptToReviewer(testPaper3);
-		testUser.addManuscriptToReviewer(testPaper4);
-		testUser.addManuscriptToReviewer(testPaper5);
-		testUser.addManuscriptToReviewer(testPaper6);
-		testUser.addManuscriptToReviewer(testPaper7);
-		testUser.addManuscriptToReviewer(testPaper8);
+		final User testUser2 = new User("bobbarker@ieee.org");
+		final SubprogramChair testSPC = new SubprogramChair(testUser2);
 		
-		assertTrue(testUser.isUnderAssignedManuscriptLimit(testUser));
+		
+		
+		testRev.addManuscriptToReviewer(testPaper);
+		testRev.addManuscriptToReviewer(testPaper2);
+		testRev.addManuscriptToReviewer(testPaper3);
+		testRev.addManuscriptToReviewer(testPaper4);
+		testRev.addManuscriptToReviewer(testPaper5);
+		testRev.addManuscriptToReviewer(testPaper6);
+		testRev.addManuscriptToReviewer(testPaper7);
+		testRev.addManuscriptToReviewer(testPaper8);
+		assertFalse(testSPC.isUnderAssignedManuscriptLimit(testRev));
 	}
 }
 

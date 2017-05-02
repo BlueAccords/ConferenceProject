@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SubprogramChair implements Serializable{
-	
+	private static final int MAX_REVIEWER_PAPERS = 8;
 	/**
 	 * The Serial ID.
 	 */
@@ -133,7 +133,8 @@ public class SubprogramChair implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public boolean isUnderAssignedManuscriptLimit(Reviewer theReviewer) {
-			if (theReviewer.getAssignedManuscripts().size() > 8) {
+			System.out.println(theReviewer.getAssignedManuscripts().size());
+			if (theReviewer.getAssignedManuscripts().size() >= 8) {
 				return false;
 			} else {
 				return true;
@@ -193,7 +194,7 @@ public class SubprogramChair implements Serializable{
 				}
 				
 				//If reviewer has max or more papers already assigned, set flag to true
-				if(possibleReviewer.getAssignedManuscripts().size() >= 8) {
+				if(possibleReviewer.getAssignedManuscripts().size() >= MAX_REVIEWER_PAPERS) {
 					flag = true;
 				}
 				
