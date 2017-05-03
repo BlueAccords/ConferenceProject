@@ -17,7 +17,7 @@ public class Reviewer implements Serializable{
 	/**
 	 * Collection of any manuscript the user has been assigned to review.
 	 */
-	private ArrayList<Manuscript> assignedManuscriptsRev;
+	private ArrayList<Manuscript> assignedManuscripts;
 	
 	/**
 	 * Constructor for the Reviewer.
@@ -26,7 +26,7 @@ public class Reviewer implements Serializable{
 	public Reviewer(User aUser) {
 		//no defensive copy made, we want this to act as a pointer.
 		myUser = aUser;
-		assignedManuscriptsRev = new ArrayList<Manuscript>();
+		assignedManuscripts = new ArrayList<Manuscript>();
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class Reviewer implements Serializable{
 	 */
 	public ArrayList<Manuscript> getAssignedManuscripts() {
 		ArrayList<Manuscript> reviewManuscriptsCopy = new ArrayList<Manuscript>();
-		reviewManuscriptsCopy.addAll(assignedManuscriptsRev);
+		reviewManuscriptsCopy.addAll(assignedManuscripts);
 		return reviewManuscriptsCopy;
 	}
 	
@@ -58,7 +58,7 @@ public class Reviewer implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public void addManuscriptToReviewer(Manuscript theManuscript) {
-		assignedManuscriptsRev.add(theManuscript);
+		assignedManuscripts.add(theManuscript);
 	}
 	
 	/**
@@ -69,11 +69,15 @@ public class Reviewer implements Serializable{
 	 * @version 4/29/2017
 	 */
 	public void removeManuscriptFromReviwer(Manuscript theManuscript) {
-		for (Manuscript target: assignedManuscriptsRev) {
+		for (Manuscript target: assignedManuscripts) {
 			if (target == theManuscript) {
-				assignedManuscriptsRev.remove(target);
+				assignedManuscripts.remove(target);
 			}
 		}
+	}
+	
+	public int getNumAssignedManuscripts() {
+		return assignedManuscripts.size();
 	}
 
 }

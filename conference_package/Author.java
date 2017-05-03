@@ -34,7 +34,7 @@ public class Author implements Serializable{
 	 * @return the User associated with the Author.
 	 */
 	public User getUser() {
-		//maybe need a defensive copy here?
+		//do we need a defensive copy here?
 		return myUser;
 	}
 	
@@ -75,6 +75,10 @@ public class Author implements Serializable{
 				myManuscripts.remove(target);
 			}
 		}
+	}
+	
+	public int getNumSubmittedManuscripts() {
+		return myManuscripts.size();
 	}
 
 }

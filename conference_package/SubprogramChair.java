@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SubprogramChair implements Serializable{
-	private static final int MAX_REVIEWER_PAPERS = 8;
+	
 	/**
 	 * The Serial ID.
 	 */
 	private static final long serialVersionUID = -6999273827761122770L;
 
+	private static final int MAX_REVIEW_PAPERS = 8;
 	/**
 	 * The user ID (email) associated with this SubprogramChair.
 	 */
@@ -134,7 +135,7 @@ public class SubprogramChair implements Serializable{
 		 */
 		public boolean isUnderAssignedManuscriptLimit(Reviewer theReviewer) {
 			System.out.println(theReviewer.getAssignedManuscripts().size());
-			if (theReviewer.getAssignedManuscripts().size() >= 8) {
+			if (theReviewer.getNumAssignedManuscripts() >= MAX_REVIEW_PAPERS) {
 				return false;
 			} else {
 				return true;
@@ -153,7 +154,7 @@ public class SubprogramChair implements Serializable{
 
 			//List of author names for the paper in need of review
 			ArrayList<String> authorList = new ArrayList<String>();
-			authorList.addAll(theManuscript.getAuthors());
+			authorList.addAll(theManuscript.getAuthorEmails());
 			
 			for (String author : authorList) {
 				if (theReviewer.getUser().getEmail().equalsIgnoreCase(author)) {
@@ -180,7 +181,7 @@ public class SubprogramChair implements Serializable{
 
 			//List of author names for the paper in need of review
 			ArrayList<String> authors = new ArrayList<String>();
-			authors.addAll(theManuscript.getAuthors());
+			authors.addAll(theManuscript.getAuthorEmails());
 			
 			boolean flag = false;
 			//Iterate through list of reviewers assigned to the User
@@ -194,7 +195,7 @@ public class SubprogramChair implements Serializable{
 				}
 				
 				//If reviewer has max or more papers already assigned, set flag to true
-				if(possibleReviewer.getAssignedManuscripts().size() >= MAX_REVIEWER_PAPERS) {
+				if(possibleReviewer.getAssignedManuscripts().size() >= MAX_REVIEW_PAPERS) {
 					flag = true;
 				}
 				

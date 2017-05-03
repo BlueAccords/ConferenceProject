@@ -26,7 +26,7 @@ public class Manuscript implements Serializable{
 	/**
 	 * The list of authors by username, index 0 is the primary author.
 	 */
-	private ArrayList<String> myAuthors;
+	private ArrayList<User> myAuthors;
 	/**
 	 * When the paper was submitted.
 	 */
@@ -40,9 +40,9 @@ public class Manuscript implements Serializable{
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public Manuscript(String theTitle, String theManuscript, String theMainAuthor) {
+	public Manuscript(String theTitle, String theManuscript, User theMainAuthor) {
 		myTitle = theTitle;
-		myAuthors = new ArrayList<String>();
+		myAuthors = new ArrayList<User>();
 		myAuthors.add(theMainAuthor);
 		myManuscript = theManuscript;
 		mySubmissionDate = new Date();
@@ -92,19 +92,30 @@ public class Manuscript implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<String> getAuthors() {
-		ArrayList<String> copy = new ArrayList<String>();
+	public ArrayList<User> getAuthors() {
+		ArrayList<User> copy = new ArrayList<User>();
 		copy.addAll(myAuthors);
 		return copy;
 	}
 	
+	/**
+	 * 
+	 */
+	public ArrayList<String> getAuthorEmails() {
+		ArrayList<String> emails = new ArrayList<String>();
+		for (User author : myAuthors) {
+			emails.add(author.getEmail());
+		}
+		return emails;
+	}
 	/**
 	 * Adds a co-author to the paper.
 	 * @param theAuthor The co-author to be added.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public void addAuthor(String theAuthor) {
+	public void addAuthor(User theAuthor) {
+		//need to make sure this doesn't already exist in the collection
 		myAuthors.add(theAuthor);
 	}
 	

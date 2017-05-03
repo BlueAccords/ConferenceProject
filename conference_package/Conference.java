@@ -137,6 +137,41 @@ public class Conference implements Serializable{
 		return new Date(myFinalDeadline.getTime());
 	}
 	
+	// Searches collection of conferenceAuthors to see if the user exists as an author there
+	// returns that Author object if found, otherwise returns null;
+	// maybe better to have it throw an exception?
+	public Author getAuthor(User theUser) {
+		Author matchingAuthor = null;
+		for (Author author : conferenceAuthors) {
+			if (author.getUser().getEmail() == theUser.getEmail()) {
+				matchingAuthor = author;
+			}
+		}
+		return matchingAuthor;
+	}
+	
+	//Same idea as getAuthor, maybe throw nullPointer exception
+	public Reviewer getReviewer(User theUser) {
+		Reviewer matchingReviewer = null;
+		for (Reviewer reviewer : conferenceReviewers) {
+			if (reviewer.getUser().getEmail() == theUser.getEmail()) {
+				matchingReviewer = reviewer;
+			}
+		}
+		return matchingReviewer;
+	}
+	
+	//same as above.
+	public SubprogramChair getSubprogramChair(User theUser) {
+		SubprogramChair matchingSPC = null;
+		for (SubprogramChair subPC : conferenceSubprogramChairs) {
+			if (subPC.getUser().getEmail() == theUser.getEmail()) {
+				matchingSPC = subPC;
+			}
+		}
+		return matchingSPC;
+	}
+	
 	/** 
 	 * Returns a collection of all Manuscripts submitted to the conference.
 	 * 
@@ -169,6 +204,17 @@ public class Conference implements Serializable{
 		}
 		//No exceptions thrown so it is ok to add the paper.
 		myManuscripts.add(theManuscript);
+		//Now add paper to its respective author and create a new author if necessary. 
+		for (User author : theManuscript.getAuthors()) {
+			Author potentialAuthor = getAuthor(author);
+			if (potentialAuthor != null) { //Author already exists, add the manuscript to them.
+				potentialAuthor.addManuscript(theManuscript);
+			} else { //This user is not yet an author, create a new Author in the conference for them.
+				potentialAuthor = new Author(author);
+				potentialAuthor.addManuscript(theManuscript);
+				conferenceAuthors.add(potentialAuthor);
+			}
+		}
 	}
 	
 	/**
@@ -182,36 +228,39 @@ public class Conference implements Serializable{
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
 	public boolean isValidNumberOfSubmissions(Manuscript theManuscript) {
-		boolean check = false;	
-		int counter = 0;
+		boolean check = true;	
 		
 		//List of author names for new paper
-		ArrayList<String> newAuthors = new ArrayList<String>();
-		newAuthors.addAll(theManuscript.getAuthors());
+		//ArrayList<String> newAuthors = new ArrayList<String>();
+		//newAuthors.addAll(theManuscript.getAuthorEmails());
 		
 		//List of authors for existing papers in conference
-		ArrayList<String> existingAuthors = new ArrayList<String>();
-		for(Manuscript submittedPapers : myManuscripts) {
-			existingAuthors.addAll(submittedPapers.getAuthors());
-		}
+		//ArrayList<String> existingAuthors = new ArrayList<String>();
+		//for(Manuscript submittedPapers : myManuscripts) {
+			//existingAuthors.addAll(submittedPapers.getAuthorEmails());
+		//}
 		
 		//Iterate through new paper authors
-		for(String ID : newAuthors) {
+		//for(String ID : newAuthors) {
 			//Iterate through existing paper authors
-			for(String submittedPaperID : existingAuthors) {
+			//for(String submittedPaperID : existingAuthors) {
 				//If new author equals existing author, add 1 to counter
-				if (ID.equals(submittedPaperID)) {
-					counter++;
+				//if (ID.equals(submittedPaperID)) {
+					//counter++;
+				//}
+			//}		
+		//}
+		ArrayList<User> authors = new ArrayList<User>();
+		for (User author : authors) {
+			//look up author that corresponds with this user & make sure they exist.
+			Author potentialA = getAuthor(author);
+			if (potentialA != null) {
+				if (potentialA.getNumSubmittedManuscripts() > MAX_AUTHOR_SUBMISSIONS) {
+					check = false;
 				}
-			}		
+			}
 		}
-		//Because counter starts at zero, we need to check for one less than the max allowed papers.
-		if (counter < MAX_AUTHOR_SUBMISSIONS) {
-			check = true;
-		} else {
-			check = false;
-		}
-		
+				
 		return check;
 	}
 	
