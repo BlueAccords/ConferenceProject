@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 /**
  * This class represents a manuscript and stores any relevant information.
- * @author James Roberts
- * @version 4/27/2017
+ * @author James Roberts, Ian Waak, Ayub Tiba
+ * @version 4/30/2017
  */
 public class Paper implements Serializable{
 
@@ -36,7 +36,7 @@ public class Paper implements Serializable{
 	 * @param theTitle The paper's title.
 	 * @param thePaper The paper's body.
 	 * @param theMainAuthor The main author of the paper's username.
-	 * @author James Roberts
+	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
 	public Paper(String theTitle, String thePaper, String theMainAuthor) {
@@ -54,6 +54,14 @@ public class Paper implements Serializable{
 	 */
 	public Date getSubmissionDate() {
 		return new Date(mySubmissionDate.getTime());
+	}
+	/**
+	 * Setter for the date the paper was submitted.
+	 * @author Ian Waak
+	 * @version 4/30/2017
+	 */
+	public void setSubmissionDate(Date theDate) {
+		mySubmissionDate = theDate;
 	}
 	/**
 	 * Getter for the paper's title.
@@ -81,7 +89,7 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<String>getAuthors() {
+	public ArrayList<String> getAuthors() {
 		ArrayList<String> copy = new ArrayList<String>();
 		copy.addAll(myAuthors);
 		return copy;

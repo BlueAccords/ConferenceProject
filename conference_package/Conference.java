@@ -6,12 +6,12 @@ import java.util.Date;
 
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
- * @author James Roberts
- * @version 4/27/2017
+ * @author James Roberts, Vinh Le, Ian Waak, Vincent Povio
+ * @version 4/30/2017
  */
 public class Conference implements Serializable{
 	/**
-	 * The classes serial Id.
+	 * The classe's serial Id.
 	 */
 	private static final long serialVersionUID = -8616952866177111334L;
 	/**
@@ -40,6 +40,19 @@ public class Conference implements Serializable{
 	private ArrayList<Paper> myPapers;
 	
 	/**
+	 * All eligible reviewers in the conference.
+	 */
+	private ArrayList<User> conferenceReviewers;	
+	/**
+	 * All conference SPCs.
+	 */
+	private ArrayList<User> conferenceSubprogramChairs;
+	/**
+	 * The conference Program Chair.
+	 */
+	private User conferenceProgramChair;
+	
+	/**
 	 * Constructor for the object.
 	 * @param theConferenceName The name of the conference.
 	 * @param thePDead The paper deadline.
@@ -56,6 +69,7 @@ public class Conference implements Serializable{
 		myRecDeadline = new Date(theRecDead.getTime());
 		myFinalDeadline = new Date(theFinalDead.getTime());
 		myPapers = new ArrayList<Paper>();
+		conferenceReviewers = new ArrayList<User>();
 	}
 	
 	/**
@@ -143,12 +157,50 @@ public class Conference implements Serializable{
 		}
 	}
 	
-	//This will need to get the author's id from the paper, look at each paper
-	//in the conference and check all things in the author's arraylist while keeping track
-	//if > 4 then it should return false
+	/**
+	 * This method will get the author's id from the paper, look at each paper
+	 * in the conference and check all things in the author's array list while keeping track
+	 * if number of submitted papers > 4 then it should return false.
+	 * @param thePaper The Paper being submitted
+	 * @return 
+	 * @author Vinh Le, Ian Waak
+	 * @version 4/29/2017
+	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
+	 */
 	public boolean isValidNumberOfSubmissions(Paper thePaper) {
-		return false;
+		boolean check = false;	
+		int counter = 0;
+		
+		//List of author names for new paper
+		ArrayList<String> newAuthors = new ArrayList<String>();
+		newAuthors.addAll(thePaper.getAuthors());
+		
+		//List of authors for existing papers in conference
+		ArrayList<String> existingAuthors = new ArrayList<String>();
+		for(Paper submittedPapers : myPapers) {
+			existingAuthors.addAll(submittedPapers.getAuthors());
+		}
+		System.out.println(existingAuthors);
+		//Iterate through new paper authors
+		for(String ID : newAuthors) {
+			//Iterate through existing paper authors
+			for(String submittedPaperID : existingAuthors) {
+				//If new author equals existing author, add 1 to counter
+				if (ID.equals(submittedPaperID)) {
+					counter++;
+				}
+			}		
+		}
+		//Because counter starts at zero, we need to check for one less than the max allowed papers.
+		if (counter < 4) {
+			check = true;
+		} else {
+			check = false;
+		}
+		
+		return check;
 	}
+	
 	/**
 	 * Adds a paper to the conference and returns true if it is before
 	 * the submission deadline. If past deadline, the paper is not added and
@@ -158,7 +210,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	private boolean isSubmittedOnTime(Paper thePaper) {
+	public boolean isSubmittedOnTime(Paper thePaper) {
 		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			
 			return true;
@@ -166,4 +218,36 @@ public class Conference implements Serializable{
 			return false;
 		}
 	}
+	
+	/**
+	 * Returns all Subprogram Chairs of the conference.
+	 * @return all Subprogram Chairs of the conference.
+	 * @author Ayub Tiba
+	 * @version 4/27/2017
+	 */
+	public ArrayList<User> getConfSPCs () {
+		return conferenceSubprogramChairs;
+	}
+	
+	/**
+	 * Returns the Program Chair of the conference.
+	 * @return the Program Chair of the conference. 
+	 * @author Ayub Tiba
+	 * @version 4/28/2017
+	 */
+	public User getConfPC () {
+		return conferenceProgramChair;
+	}
+	
+	/**
+	 * Adds reviewers to the conference by their user ID.
+	 * @param theReviewer the ID for the reviewer to be added
+	 * @author: Ian Waak
+	 * @version: 4/30/2017
+	 */
+	public void addReviewers(User theReviewer) {
+		conferenceReviewers.add(theReviewer);
+	}
+	
+
 }
