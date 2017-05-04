@@ -140,21 +140,34 @@ public class Conference implements Serializable{
 	// Searches collection of conferenceAuthors to see if the user exists as an author there
 	// returns that Author object if found, otherwise returns null;
 	// maybe better to have it throw an exception?
+	/**
+	 * Returns the Author in the conference that corresponds to the passed User.
+	 * Returns null if theUser is not an Author in this conference.
+	 * @param theUser
+	 * @return The Author object associated with theUser, null if theUser
+	 * is not an Author in this conference. 
+	 */
 	public Author getAuthor(User theUser) {
 		Author matchingAuthor = null;
 		for (Author author : conferenceAuthors) {
-			if (author.getUser().getEmail() == theUser.getEmail()) {
+			if (author.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingAuthor = author;
 			}
 		}
 		return matchingAuthor;
 	}
 	
-	//Same idea as getAuthor, maybe throw nullPointer exception
+	/**
+	 * Returns the Reviewer in the conference that corresponds to the passed User.
+	 * Returns null if theUser is not a Reviewer in this conference.
+	 * @param theUser
+	 * @return The Reviewer object associated with theUser, null if theUser
+	 * is not an Reviewer in this conference. 
+	 */
 	public Reviewer getReviewer(User theUser) {
 		Reviewer matchingReviewer = null;
 		for (Reviewer reviewer : conferenceReviewers) {
-			if (reviewer.getUser().getEmail() == theUser.getEmail()) {
+			if (reviewer.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingReviewer = reviewer;
 			}
 		}
@@ -162,10 +175,17 @@ public class Conference implements Serializable{
 	}
 	
 	//same as above.
+	/**
+	 * Returns the SubprogramChair in the conference that corresponds to the passed User.
+	 * Returns null if theUser is not a SubprogramChair in this conference.
+	 * @param theUser
+	 * @return The SubprogramChair object associated with theUser, null if theUser
+	 * is not a SubprogramChair in this conference. 
+	 */
 	public SubprogramChair getSubprogramChair(User theUser) {
 		SubprogramChair matchingSPC = null;
 		for (SubprogramChair subPC : conferenceSubprogramChairs) {
-			if (subPC.getUser().getEmail() == theUser.getEmail()) {
+			if (subPC.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingSPC = subPC;
 			}
 		}
@@ -251,6 +271,7 @@ public class Conference implements Serializable{
 			//}		
 		//}
 		ArrayList<User> authors = new ArrayList<User>();
+		authors.addAll(theManuscript.getAuthors());
 		for (User author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
@@ -307,9 +328,10 @@ public class Conference implements Serializable{
 	 * @author: Ian Waak
 	 * @version: 4/30/2017
 	 */
-	public void addReviewer(User theUser) {
-		
-		conferenceReviewers.add(new Reviewer(theUser));
+	public Reviewer addReviewer(User theUser) {
+		Reviewer newRev = new Reviewer(theUser);
+		conferenceReviewers.add(newRev);
+		return newRev;
 	}
 	
 	/**
@@ -318,9 +340,10 @@ public class Conference implements Serializable{
 	 * @author: James Roberts
 	 * @version: 5/1/2017
 	 */
-	public void addSubprogramChair(User theUser) {
-		
+	public SubprogramChair addSubprogramChair(User theUser) {
+		SubprogramChair newSPC = new SubprogramChair(theUser);
 		conferenceSubprogramChairs.add(new SubprogramChair(theUser));
+		return newSPC;
 	}
 	 
 }

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,35 +15,59 @@ import org.junit.Test;
  * @version 4/30/2017
  */
 public class JUnitTestingClass {
+	
+	private final static String PAPER_DEADLINE = "30-06-2017 11:59:59";
+	private final static String PAPER_SUBMISSION_ON_TIME = "29-06-2017 11:59:59";
+	private final static String PAPER_SUBMISSION_JUST_IN_TIME = "30-06-2017 11:59:59";
+	private final static String PAPER_SUBMISSION_NOT_ON_TIME = "01-08-2017 12:00:00";
+	private final static String PAPER_SUBMISSION_NOT_ON_TIME_BY_ONE_MINUTE = "01-07-2017 12:00:00";
+	private final static String CONFERENCE_NAME = "Test Conference";
+	
+	private Date myTestDeadline;
+	private Date myTestSubmission;
+	private Conference myConference;
+	private User myTestUser;
+	private Manuscript myTestManuscript;
 
 	/**
-	 * Test for submitting a paper on time.
-	 * @author Ayub Tiba
-	 * @version 4/30/2017
+	 * 
+	 * @param thePaperDeadline
+	 * @param thePaperSubmission
 	 */
-	@Test
-	public void testSubmissionDeadlineOnTime() {
-		Date testDeadline = new Date();
-        Date testSubmission = new Date();
+	private void setupConference(String thePaperSubmission) {
+
+		myTestDeadline = new Date();
+        myTestSubmission = new Date();
+        
 		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "30-06-2017 11:59:59";
-        final String paperSubmission = "29-06-2017 11:59:59";
 
         try {
         	//Deadline
-            testDeadline = dateformat.parse(paperDeadline);
+            myTestDeadline = dateformat.parse(PAPER_DEADLINE);
             
             //Actual submission date
-            testSubmission = dateformat.parse(paperSubmission);
+            myTestSubmission = dateformat.parse(thePaperSubmission);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         
-		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
+		myConference = new Conference(CONFERENCE_NAME, myTestDeadline, myTestDeadline, myTestDeadline, myTestDeadline);
 		
-		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
-		testPaper.setSubmissionDate(testSubmission);
-		assertTrue(conf.isSubmittedOnTime(testPaper));
+		myTestUser = new User("simpson@ieee.org");
+		myTestManuscript = new Manuscript("Test Paper", "This is a test.", myTestUser);
+		myTestManuscript.setSubmissionDate(myTestSubmission);
+	}
+	
+	/**
+	 * Test for submitting a paper on time.
+	 * @author Ayub Tiba
+	 * @version 4/30/2017
+	 * @version 5/03/2017
+	 */
+	@Test
+	public void testSubmissionDeadlineOnTime() {
+		setupConference(PAPER_SUBMISSION_ON_TIME);
+		assertTrue(myConference.isSubmittedOnTime(myTestManuscript));
 	}
 	
 	/**
@@ -52,27 +77,8 @@ public class JUnitTestingClass {
 	 */
 	@Test
 	public void testSubmissionDeadlineJustInTime() {
-        Date testDeadline = new Date();
-        Date testSubmission = new Date();
-		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "30-06-2017 11:59:59";
-        final String paperSubmission = "30-06-2017 11:59:59";
-
-        try {
-        	//Deadline
-            testDeadline = dateformat.parse(paperDeadline);
-            
-            //Actual submission date
-            testSubmission = dateformat.parse(paperSubmission);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
-		
-		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
-		testPaper.setSubmissionDate(testSubmission);
-		assertTrue(conf.isSubmittedOnTime(testPaper));
+        setupConference(PAPER_SUBMISSION_JUST_IN_TIME);
+		assertTrue(myConference.isSubmittedOnTime(myTestManuscript));
 	}
 	
 	/**
@@ -82,28 +88,8 @@ public class JUnitTestingClass {
 	 */
 	@Test
 	public void testSubmissionDeadlineNotOnTime() {
-        Date testDeadline = new Date();
-        Date testSubmission = new Date();
-		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "30-06-2017 11:59:59";
-        final String paperSubmission = "01-07-2017 12:00:00";
-
-        try {
-        	//Deadline
-            testDeadline = dateformat.parse(paperDeadline);
-            
-            //Actual submission date
-            testSubmission = dateformat.parse(paperSubmission);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
-		
-		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
-		testPaper.setSubmissionDate(testSubmission);
-		
-		assertFalse(conf.isSubmittedOnTime(testPaper));
+        setupConference(PAPER_SUBMISSION_NOT_ON_TIME);
+		assertFalse(myConference.isSubmittedOnTime(myTestManuscript));
 	}
 	
 	/**
@@ -114,28 +100,8 @@ public class JUnitTestingClass {
 	 */
 	@Test
 	public void testSubmissionDeadlineJustMissed() {
-        Date testDeadline = new Date();
-        Date testSubmission = new Date();
-		final SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        final String paperDeadline = "01-05-2017 11:59:59";
-        final String paperSubmission = "02-05-2017 12:00:00";
-
-        try {
-        	//Deadline
-            testDeadline = dateformat.parse(paperDeadline);
-            
-            //Actual submission date
-            testSubmission = dateformat.parse(paperSubmission);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-		final Conference conf = new Conference("Test Conference", testDeadline, testDeadline, testDeadline, testDeadline);
-		
-		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "Author McAuthorson");
-		testPaper.setSubmissionDate(testSubmission);
-		
-		assertFalse(conf.isSubmittedOnTime(testPaper));
+        setupConference(PAPER_SUBMISSION_NOT_ON_TIME_BY_ONE_MINUTE);
+		assertFalse(myConference.isSubmittedOnTime(myTestManuscript));
 	}
 	
 	/**
@@ -159,7 +125,9 @@ public class JUnitTestingClass {
         }
         
 		final Conference conf = new Conference("Test Conference", testDate, testDate, testDate, testDate);
-		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", "simpson@ieee.org");
+		
+		final User testUser = new User("simpson@ieee.org");
+		final Manuscript testPaper = new Manuscript("Test Paper", "This is a test.", testUser);
 		final Manuscript testPaper2 = new Manuscript("Test Paper 2", "This is another test.", "simpson@ieee.org");
 		final Manuscript testPaper3 = new Manuscript("Test Paper 3", "This is a third test.", "robberjames@ieee.org");
 		testPaper3.addAuthor("simpson@ieee.org");
@@ -588,4 +556,5 @@ public class JUnitTestingClass {
 		assertFalse(testSPC.isUnderAssignedManuscriptLimit(testRev));
 	}
 }
+
 
