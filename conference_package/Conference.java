@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Conference implements Serializable{
 	/**
-	 * The classes serial Id.
+	 * The class's serial Id.
 	 */
 	private static final long serialVersionUID = -8616952866177111334L;
 	/**
@@ -37,7 +37,7 @@ public class Conference implements Serializable{
 	/**
 	 * All papers submitted to the conference.
 	 */
-	private ArrayList<Paper> myPapers;
+	private ArrayList<Manuscript> myPapers;
 	
 	/**
 	 * All eligible reviewers in the conference.
@@ -68,7 +68,7 @@ public class Conference implements Serializable{
 		myReviewDeadline = new Date(theRevDead.getTime());
 		myRecDeadline = new Date(theRecDead.getTime());
 		myFinalDeadline = new Date(theFinalDead.getTime());
-		myPapers = new ArrayList<Paper>();
+		myPapers = new ArrayList<Manuscript>();
 		conferenceReviewers = new ArrayList<User>();
 	}
 	
@@ -133,8 +133,8 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<Paper> getPapers() {
-		ArrayList<Paper> copy = new ArrayList<Paper>();
+	public ArrayList<Manuscript> getPapers() {
+		ArrayList<Manuscript> copy = new ArrayList<Manuscript>();
 		copy.addAll(myPapers);
 		return copy;
 	}
@@ -143,48 +143,53 @@ public class Conference implements Serializable{
 	 * Adds a paper to the conference and returns true if it is before
 	 * the submission deadline. If past deadline, the paper is not added and
 	 * false is returned.
-	 * @param thePaper The paper being submitted.
-	 * @return t/f if paper was accepted.
+	 * Pre: Passed Paper is not null.
+	 * @param theManuscript The paper being submitted.
 	 * @author James Roberts
-	 * @version 4/27/2017
+	 * @version 5/1/2017
+	 * @throws Exception if any Author of thePaper has already submitted max Papers
+	 * or if the Paper is submitted past the submission deadline. 
 	 */
-	public boolean addPaper(Paper thePaper) {
-		if (isSubmittedOnTime(thePaper) && isValidNumberOfSubmissions(thePaper)) {
-			myPapers.add(thePaper);
-			return true;
-		} else {
-			return false;
+	public void addManuscript(Manuscript theManuscript) throws Exception {
+		if (!isSubmittedOnTime(theManuscript)) {
+			throw new Exception("Paper submitted past deadline.");
 		}
+		if (!isValidNumberOfSubmissions(theManuscript)) {
+			throw new Exception("An Author or Coauthor has already submitted max Papers.");
+		}
+		//No exceptions thrown so it is ok to add the paper.
+		myPapers.add(theManuscript);
+			
 	}
 	
 	/**
 	 * This method will get the author's id from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
 	 * if number of submitted papers > 4 then it should return false.
-	 * @param thePaper The Paper being submitted
+	 * @param theManuscript The Paper being submitted
 	 * @return 
 	 * @author Vinh Le, Ian Waak
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
-	public boolean isValidNumberOfSubmissions(Paper thePaper) {
+	public boolean isValidNumberOfSubmissions(Manuscript theManuscript) {
 		boolean check = false;	
 		int counter = 0;
 		
 		//List of author names for new paper
-		ArrayList<String> newAuthors = new ArrayList<String>();
-		newAuthors.addAll(thePaper.getAuthors());
+		ArrayList<User> newAuthors = new ArrayList<User>();
+		newAuthors.addAll(theManuscript.getAuthors());
 		
 		//List of authors for existing papers in conference
-		ArrayList<String> existingAuthors = new ArrayList<String>();
-		for(Paper submittedPapers : myPapers) {
+		ArrayList<User> existingAuthors = new ArrayList<User>();
+		for(Manuscript submittedPapers : myPapers) {
 			existingAuthors.addAll(submittedPapers.getAuthors());
 		}
 		
 		//Iterate through new paper authors
-		for(String ID : newAuthors) {
+		for(User ID : newAuthors) {
 			//Iterate through existing paper authors
-			for(String submittedPaperID : existingAuthors) {
+			for(User submittedPaperID : existingAuthors) {
 				//If new author equals existing author, add 1 to counter
 				if (ID.equals(submittedPaperID)) {
 					counter++;
@@ -210,7 +215,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public boolean isSubmittedOnTime(Paper thePaper) {
+	public boolean isSubmittedOnTime(Manuscript thePaper) {
 		if(thePaper.getSubmissionDate().getTime() <= myPaperDeadline.getTime()) { 
 			
 			return true;
