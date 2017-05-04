@@ -9,60 +9,63 @@ import java.io.Serializable;
  * @author James Roberts, Ian Waak, Ayub Tiba
  * @version 4/30/2017
  */
-public class Paper implements Serializable{
+public class Manuscript implements Serializable{
 
 	/**
 	 * The serial Id number
 	 */
 	private static final long serialVersionUID = 96995919879996851L;
 	/**
-	 * The paper's title.
+	 * The manuscripts's title.
 	 */
 	private String myTitle;
 	/**
-	 * The body of the paper.
+	 * The body of the manuscript.
 	 */
-	private String myPaper;
+	private String myManuscript;
 	/**
 	 * The list of authors by username, index 0 is the primary author.
 	 */
-	private ArrayList<String> myAuthors;
+	private ArrayList<User> myAuthors;
 	/**
 	 * When the paper was submitted.
 	 */
 	private Date mySubmissionDate;
+	
 	/**
 	 * Constructor for The class.
-	 * @param theTitle The paper's title.
-	 * @param thePaper The paper's body.
-	 * @param theMainAuthor The main author of the paper's username.
+	 * @param theTitle The manuscript's title.
+	 * @param theManuscript The manuscripts's body.
+	 * @param theMainAuthor The main author of the manuscript's username (email).
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public Paper(String theTitle, String thePaper, String theMainAuthor) {
+	public Manuscript(String theTitle, String theManuscript, User theMainAuthor) {
 		myTitle = theTitle;
-		myAuthors = new ArrayList<String>();
+		myAuthors = new ArrayList<User>();
 		myAuthors.add(theMainAuthor);
-		myPaper = thePaper;
+		myManuscript = theManuscript;
 		mySubmissionDate = new Date();
 		
 	}
 	
 	/**
-	 * Returns the date the paper was submitted.
-	 * @return the date the paper was submitted.
+	 * Returns the date the manuscript was submitted.
+	 * @return the date the manuscript was submitted.
 	 */
 	public Date getSubmissionDate() {
 		return new Date(mySubmissionDate.getTime());
 	}
+	
 	/**
-	 * Setter for the date the paper was submitted.
+	 * Setter for the date the manuscript was submitted.
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
 	public void setSubmissionDate(Date theDate) {
 		mySubmissionDate = theDate;
 	}
+	
 	/**
 	 * Getter for the paper's title.
 	 * @return The title of the paper.
@@ -79,8 +82,8 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public String getPaper() {
-		return myPaper;
+	public String getManuscript() {
+		return myManuscript;
 	}
 	
 	/**
@@ -89,19 +92,30 @@ public class Paper implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<String> getAuthors() {
-		ArrayList<String> copy = new ArrayList<String>();
+	public ArrayList<User> getAuthors() {
+		ArrayList<User> copy = new ArrayList<User>();
 		copy.addAll(myAuthors);
 		return copy;
 	}
 	
+	/**
+	 * 
+	 */
+	public ArrayList<String> getAuthorEmails() {
+		ArrayList<String> emails = new ArrayList<String>();
+		for (User author : myAuthors) {
+			emails.add(author.getEmail());
+		}
+		return emails;
+	}
 	/**
 	 * Adds a co-author to the paper.
 	 * @param theAuthor The co-author to be added.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public void addAuthor(String theAuthor) {
+	public void addAuthor(User theAuthor) {
+		//need to make sure this doesn't already exist in the collection
 		myAuthors.add(theAuthor);
 	}
 	
@@ -112,7 +126,7 @@ public class Paper implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public void updatePaper(String thePaper) {
-		myPaper = thePaper;
+		myManuscript = thePaper;
 	}
 	
 }

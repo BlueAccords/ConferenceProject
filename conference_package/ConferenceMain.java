@@ -15,7 +15,13 @@ public class ConferenceMain {
 		//Make ArrayList of 3 conference objects to test 
 		Date d = new Date();
 		Conference c1 = new Conference("firstC", d,d,d,d);
-		c1.addPaper(new Paper("a paper", "stuff", "more stuff"));
+		User testU = new User("joe@hotmail.com");
+		try {
+			c1.addManuscript(new Manuscript("a paper", "stuff", testU));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Conference c2 = new Conference("SecondC", d,d,d,d);
 		Conference c3 = new Conference("ThirdC", d,d,d,d);
 		ArrayList<Conference> firstC = new ArrayList<Conference>();
