@@ -134,7 +134,6 @@ public class SubprogramChair implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public boolean isUnderAssignedManuscriptLimit(Reviewer theReviewer) {
-			System.out.println(theReviewer.getAssignedManuscripts().size());
 			if (theReviewer.getNumAssignedManuscripts() >= MAX_REVIEW_PAPERS) {
 				return false;
 			} else {

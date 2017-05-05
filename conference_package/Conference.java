@@ -222,8 +222,7 @@ public class Conference implements Serializable{
 		if (!isValidNumberOfSubmissions(theManuscript)) {
 			throw new Exception("An Author or Coauthor has already submitted max Papers.");
 		}
-		//No exceptions thrown so it is ok to add the paper.
-		myManuscripts.add(theManuscript);
+		
 		//Now add paper to its respective author and create a new author if necessary. 
 		for (User author : theManuscript.getAuthors()) {
 			Author potentialAuthor = getAuthor(author);
@@ -233,14 +232,18 @@ public class Conference implements Serializable{
 				potentialAuthor = new Author(author);
 				potentialAuthor.addManuscript(theManuscript);
 				conferenceAuthors.add(potentialAuthor);
+				
 			}
 		}
+		
+		//No exceptions thrown so it is ok to add the paper.
+		myManuscripts.add(theManuscript);
 	}
 	
 	/**
 	 * This method will get the author's id's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
-	 * if number of submitted papers > 4 then it should return false.
+	 * if number of submitted papers > max then it should return false.
 	 * @param theManuscript The Paper being submitted
 	 * @return 
 	 * @author Vinh Le, Ian Waak
@@ -268,9 +271,11 @@ public class Conference implements Serializable{
 		//}
 		ArrayList<User> authors = new ArrayList<User>();
 		authors.addAll(theManuscript.getAuthors());
+		//System.out.println(authors.size());
 		for (User author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
+			//System.out.println(potentialA.getNumSubmittedManuscripts());
 			if (potentialA != null) {
 				if (potentialA.getNumSubmittedManuscripts() > MAX_AUTHOR_SUBMISSIONS) {
 					check = false;

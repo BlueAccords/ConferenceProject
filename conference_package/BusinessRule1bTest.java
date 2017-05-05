@@ -169,7 +169,7 @@ public class BusinessRule1bTest {
 	 */
 	@Test
 	public void testInvalidNumberOfPapersAuthor() throws Exception {
-		myTestUser = new User("bob@hotmail.com");
+		//myTestUser = new User("bob@hotmail.com");
 		setupConference();
 		//Four manuscripts as author
 		myTestManuscript = createManuscriptHelper(MANUSCRIPT_TITLE_1, MANUSCRIPT_CONTENTS, myTestUser);
@@ -177,14 +177,17 @@ public class BusinessRule1bTest {
 		myTestManuscript3 = createManuscriptHelper(MANUSCRIPT_TITLE_3, MANUSCRIPT_CONTENTS, myTestUser);
 		myTestManuscript4 = createManuscriptHelper(MANUSCRIPT_TITLE_4, MANUSCRIPT_CONTENTS, myTestUser);
 		myTestManuscript5 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser);
-		//myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_6, MANUSCRIPT_CONTENTS, myTestUser);
+		myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_6, MANUSCRIPT_CONTENTS, myTestUser);
 		//Add manuscripts to conference
+		
 		myConference.addManuscript(myTestManuscript);
 		myConference.addManuscript(myTestManuscript2);
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
 		myConference.addManuscript(myTestManuscript5);
-		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
+		myConference.addManuscript(myTestManuscript6);
+		
+		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript6));
 	}
 	
 	/**
@@ -198,7 +201,7 @@ public class BusinessRule1bTest {
 	public void testInvalidNumberOfPapersCoAuthor() throws Exception {
 
 		setupConference();
-		//Four manuscripts as author
+		//Five manuscripts as author
 		myTestManuscript = createManuscriptHelper(MANUSCRIPT_TITLE_1, MANUSCRIPT_CONTENTS, myTestUser2);
 		myTestManuscript.addAuthor(myTestUser);
 		myTestManuscript2 = createManuscriptHelper(MANUSCRIPT_TITLE_2, MANUSCRIPT_CONTENTS, myTestUser3);
@@ -209,14 +212,14 @@ public class BusinessRule1bTest {
 		myTestManuscript4.addAuthor(myTestUser);
 		myTestManuscript5 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser6);
 		myTestManuscript5.addAuthor(myTestUser);
-		myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_6, MANUSCRIPT_CONTENTS, myTestUser6);
-		myTestManuscript6.addAuthor(myTestUser);
+		
 		//Add manuscripts to conference
 		myConference.addManuscript(myTestManuscript);
 		myConference.addManuscript(myTestManuscript2);
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
-		myConference.addManuscript(myTestManuscript6);
+		myConference.addManuscript(myTestManuscript5);
+		
 		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
 	}
 	
@@ -235,13 +238,13 @@ public class BusinessRule1bTest {
 		myTestManuscript = createManuscriptHelper(MANUSCRIPT_TITLE_1, MANUSCRIPT_CONTENTS, myTestUser);
 		myTestManuscript2 = createManuscriptHelper(MANUSCRIPT_TITLE_2, MANUSCRIPT_CONTENTS, myTestUser);
 		//Three manuscripts as co-author
-		myTestManuscript3 = createManuscriptHelper(MANUSCRIPT_TITLE_3, MANUSCRIPT_CONTENTS, myTestUser4);
+		myTestManuscript3 = createManuscriptHelper(MANUSCRIPT_TITLE_3, MANUSCRIPT_CONTENTS, myTestUser2);
 		myTestManuscript3.addAuthor(myTestUser);
-		myTestManuscript4 = createManuscriptHelper(MANUSCRIPT_TITLE_4, MANUSCRIPT_CONTENTS, myTestUser5);
+		myTestManuscript4 = createManuscriptHelper(MANUSCRIPT_TITLE_4, MANUSCRIPT_CONTENTS, myTestUser3);
 		myTestManuscript4.addAuthor(myTestUser);
-		myTestManuscript5 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser6);
+		myTestManuscript5 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser4);
 		myTestManuscript5.addAuthor(myTestUser);
-		myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser6);
+		myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_6, MANUSCRIPT_CONTENTS, myTestUser5);
 		myTestManuscript6.addAuthor(myTestUser);
 		//Add manuscripts to conference
 		myConference.addManuscript(myTestManuscript);
@@ -249,6 +252,9 @@ public class BusinessRule1bTest {
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
 		myConference.addManuscript(myTestManuscript5);
-		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
+		myConference.addManuscript(myTestManuscript6);
+		
+		//We will never get to this assertion because exception is thrown by add paper
+		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript6));
 	}
 }
