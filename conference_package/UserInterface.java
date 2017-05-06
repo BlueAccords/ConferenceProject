@@ -75,7 +75,11 @@ public class UserInterface {
 
 	private static boolean printViewScreen() throws Exception {
 		int n = 1, selection = 0;
-		String title;
+		String title = null;
+		String manuscript = null;
+		String email = null;
+		Manuscript theManuscript = null;
+		
 		switch (currentView) {
 		case "Author":
 			System.out.println("Current view: Author");
@@ -90,12 +94,11 @@ public class UserInterface {
 			selection = scan.nextInt();
 			switch (selection) {
 			case 1:
-				String manuscript;
 				System.out.println("To add a manuscript, please enter a title: ");
 				title = scan.nextLine();
 				System.out.println("Please enter a file name: ");
 				manuscript = scan.nextLine();
-				Manuscript theManuscript = new Manuscript(title, manuscript, theUser);
+				theManuscript = new Manuscript(title, manuscript, theUser);
 				if (theManuscript != null) {
 					currentConference.addManuscript(theManuscript);
 				}
@@ -123,8 +126,21 @@ public class UserInterface {
 			case 1:
 				System.out.print("Please enter the name of the paper you would like to add a reviewer to: ");
 				title = scan.nextLine();
-				
-				
+				for (Manuscript targetManuscript : currentConference.getManuscripts()) {
+					if (targetManuscript.getTitle().equals(title)) {
+						theManuscript = targetManuscript;
+					}
+				}
+				for (Reviewer targetReviewer : theSPC.getEligibleReviewers(theManuscript)) {
+					System.out.println(targetReviewer.getUser().getEmail());
+				}
+				System.out.println("Please enter the email of the reviewer you would like to add: ");
+				email = scan.nextLine();
+				for (Reviewer targetReviewer : theSPC.getEligibleReviewers(theManuscript)) {
+					if (targetReviewer.getUser().getEmail().equals(email)) {
+						targetReviewer.addManuscriptToReviewer(theManuscript);
+					}
+				}
 				return false;
 			case 9:
 				return true;
