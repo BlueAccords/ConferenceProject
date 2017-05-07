@@ -57,7 +57,7 @@ public class UserInterface {
 			System.out.println("Please login using your email or press 9 to exit: ");
 			userLogin = scan.nextLine();
 			//Checks if user entered 9 to exit.
-			if (userLogin != "9") {
+			if (!userLogin.equals("9")) {
 				//Checks user against registered user list, if they are on the list sets theUser variable.
 				for (User targetUser : userList) {
 					if (targetUser.getEmail().equals(userLogin)) {
@@ -76,9 +76,9 @@ public class UserInterface {
 						conferenceName = scan.nextLine();
 
 						//Checks if user entered 9 to exit.
-						if (conferenceName != "9") {
+						if (!conferenceName.equals("9")) {
 							for (Conference targetConference : conferenceList) {
-								if (targetConference.getConferenceName() == conferenceName) {
+								if (targetConference.getConferenceName().equals(conferenceName)) {
 									currentConference = targetConference;
 								}
 							}
@@ -100,12 +100,12 @@ public class UserInterface {
 								System.out.println("Invalid Conference, please try again.");
 							}
 						}
-					} while (conferenceName != "9");
+					} while (!conferenceName.equals("9"));
 				} else {
 					System.out.println("You entered " + userLogin + ". This is an invalid username, please try again.");
 				}
 			}
-		} while (userLogin != "9");
+		} while (!userLogin.equals("9"));
 		System.out.println("Thank you, and goodbye.");
 		//This has to happen when the program exits. If not any changes made to a conference will not be saved.
 		crw.writeConferences(conferenceList);
