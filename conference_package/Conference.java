@@ -9,7 +9,7 @@ import java.util.Date;
  * @author James Roberts, Vinh Le, Ian Waak, Vincent Povio
  * @version 4/30/2017
  */
-public class Conference implements Serializable{
+public class Conference implements Serializable {
 	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
 	private static final int MAX_REVIEWER_PAPERS = 8;
 	/**
@@ -277,7 +277,7 @@ public class Conference implements Serializable{
 			Author potentialA = getAuthor(author);
 			//System.out.println(potentialA.getNumSubmittedManuscripts());
 			if (potentialA != null) {
-				if (potentialA.getNumSubmittedManuscripts() > MAX_AUTHOR_SUBMISSIONS) {
+				if (potentialA.getNumSubmittedManuscripts() >= MAX_AUTHOR_SUBMISSIONS) {
 					check = false;
 				}
 			}

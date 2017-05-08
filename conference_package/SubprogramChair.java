@@ -41,7 +41,7 @@ public class SubprogramChair implements Serializable{
 	 * @return the User associated with the SPC.
 	 */
 	public User getUser() {
-		//maybe need a defensive copy here?
+		
 		return myUser;
 	}
 	
@@ -71,7 +71,17 @@ public class SubprogramChair implements Serializable{
 		assignedManuscriptsSPC.add(theManuscript);
 	}
 	
-	
+	/**
+	 * Returns a collection of all Reviewers assigned to this SPC.
+	 * @return a collection of all Reviewers assigned to this SPC.
+	 * @author James Roberts
+	 * @version 5/7/2017
+	 */
+	public ArrayList<Reviewer> getAssignedReviewers() {
+		ArrayList<Reviewer> copy = new ArrayList<Reviewer>();
+		copy.addAll(assignedReviewers);
+		return assignedReviewers;
+	}
 	/**
 	 * Adds the passed User to the SPC's collection of assigned Reviewers.
 	 * @param theReviewer the User to assign as a Reviewer.
