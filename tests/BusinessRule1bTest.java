@@ -228,9 +228,9 @@ public class BusinessRule1bTest {
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
 		myConference.addManuscript(myTestManuscript5);
-		myConference.addManuscript(myTestManuscript6);
 		
-		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript6));
+		
+		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class BusinessRule1bTest {
 		myConference.addManuscript(myTestManuscript2);
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
-		myConference.addManuscript(myTestManuscript5);
+		//myConference.addManuscript(myTestManuscript5);
 		
 		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
 	}
@@ -287,17 +287,16 @@ public class BusinessRule1bTest {
 		myTestManuscript4.addAuthor(myTestUser);
 		myTestManuscript5 = createManuscriptHelper(MANUSCRIPT_TITLE_5, MANUSCRIPT_CONTENTS, myTestUser4);
 		myTestManuscript5.addAuthor(myTestUser);
-		myTestManuscript6 = createManuscriptHelper(MANUSCRIPT_TITLE_6, MANUSCRIPT_CONTENTS, myTestUser5);
-		myTestManuscript6.addAuthor(myTestUser);
+		
 		//Add manuscripts to conference
 		myConference.addManuscript(myTestManuscript);
 		myConference.addManuscript(myTestManuscript2);
 		myConference.addManuscript(myTestManuscript3);
 		myConference.addManuscript(myTestManuscript4);
 		myConference.addManuscript(myTestManuscript5);
-		myConference.addManuscript(myTestManuscript6);
+		
 		
 		//We will never get to this assertion because exception is thrown by add paper
-		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript6));
+		assertFalse(myConference.isValidNumberOfSubmissions(myTestManuscript5));
 	}
 }

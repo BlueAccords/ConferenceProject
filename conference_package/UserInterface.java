@@ -200,15 +200,15 @@ public class UserInterface {
 					}
 				}
 					
-				//if (theManuscript != null) {
-					try {
-						currentConference.addManuscript(theManuscript);
-					} catch (Exception e) {
-						System.out.println("Your Submission was not accepted: " + e.getMessage());
-						System.out.println("Press any key to continue: ");
-						scan.nextLine();
-					}
-				//}
+				
+				try {
+					currentConference.addManuscript(theManuscript);
+				} catch (Exception e) {
+					System.out.println("Your Submission was not accepted: " + e.getMessage());
+					System.out.println("Press any key to continue: ");
+					scan.nextLine();
+				}
+				
 			
 				
 				return false;
