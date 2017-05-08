@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package tests;
 
 import static org.junit.Assert.assertFalse;
@@ -13,20 +19,52 @@ import conference_package.Conference;
 import conference_package.Manuscript;
 import conference_package.User;
 
+/**
+ * Tests all business rule 1b.
+ * @author Ian Waak, Ayub Tiba, Vincent Povio, Vinh Le, James Roberts
+ * @version 4/30/2017
+ */
 public class BusinessRule1bTest {
+	
+	/** The paper deadline. */
 	private final static String PAPER_DEADLINE = "30-06-2017 11:59:59";
+	
+	/** The conference name. */
 	private final static String CONFERENCE_NAME = "Test Conference";
+	
+	/** The test manuscript number 1. */
 	private final static String MANUSCRIPT_TITLE_1 = "Manuscript 1";
+	
+	/** The test manuscript number 2. */
 	private final static String MANUSCRIPT_TITLE_2 = "Manuscript 2";
+	
+	/** The test manuscript number 3. */
 	private final static String MANUSCRIPT_TITLE_3 = "Manuscript 3";
+	
+	/** The test manuscript number 4. */
 	private final static String MANUSCRIPT_TITLE_4 = "Manuscript 4";
+	
+	/** The test manuscript number 5. */
 	private final static String MANUSCRIPT_TITLE_5 = "Manuscript 5";
+	
+	/** The test manuscript number 6. */
 	private final static String MANUSCRIPT_TITLE_6 = "Manuscript 6";
+	
+	/** The test manuscript number 7. */
 	private final static String MANUSCRIPT_TITLE_7 = "Manuscript 7";
+	
+	/** The test manuscript number 8. */
 	private final static String MANUSCRIPT_TITLE_8 = "Manuscript 8";
+	
+	/** The test manuscript number 9. */
 	private final static String MANUSCRIPT_TITLE_9 = "Manuscript 9";
+	
+	/** The manuscript content. */
 	private final static String MANUSCRIPT_CONTENTS = "This is my manuscript";
 	
+	/**
+	 * Initializes all fields.
+	 */
 	private Date myTestDeadline;
 	private Date myTestSubmission;
 	private Conference myConference;
@@ -44,7 +82,8 @@ public class BusinessRule1bTest {
 	private Manuscript myTestManuscript6;
 
 	/**
-	 * 
+	 * This method will set up the date, conference's name, 
+	 * test user's names, and manuscript's names.
 	 * @param thePaperDeadline
 	 * @param thePaperSubmission
 	 */

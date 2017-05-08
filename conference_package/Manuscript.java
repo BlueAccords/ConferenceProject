@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
 package conference_package;
 
 import java.util.ArrayList;
@@ -8,34 +13,28 @@ import java.text.SimpleDateFormat;
 
 /**
  * This class represents a manuscript and stores any relevant information.
- * @author James Roberts, Ian Waak, Ayub Tiba
+ * @author James Roberts, Ian Waak, Ayub Tiba, Vincent Polio, Vinh Le
  * @version 4/30/2017
  */
 public class Manuscript implements Serializable{
 
-	/**
-	 * The serial Id number
-	 */
+	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 96995919879996851L;
-	/**
-	 * The manuscripts's title.
-	 */
+	
+	/** The manuscripts's title. */
 	private String myTitle;
-	/**
-	 * The body of the manuscript.
-	 */
+	
+	/** The body of the manuscript. */
 	private String myManuscript;
-	/**
-	 * The list of authors by username, index 0 is the primary author.
-	 */
+	
+	/** The list of authors by username, index 0 is the primary author. */
 	private ArrayList<User> myAuthors;
-	/**
-	 * When the paper was submitted.
-	 */
+	
+	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
 	/**
-	 * Constructor for The class.
+	 * Constructors for The class.
 	 * @param theTitle The manuscript's title.
 	 * @param theManuscript The manuscripts's body.
 	 * @param theMainAuthor The main author of the manuscript's username (email).
@@ -101,7 +100,8 @@ public class Manuscript implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * This method will return the Author emails.
+	 * @return the collection of Author emails
 	 */
 	public ArrayList<String> getAuthorEmails() {
 		ArrayList<String> emails = new ArrayList<String>();
@@ -110,6 +110,7 @@ public class Manuscript implements Serializable{
 		}
 		return emails;
 	}
+	
 	/**
 	 * Adds a co-author to the paper.
 	 * @param theAuthor The co-author to be added.

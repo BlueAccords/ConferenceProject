@@ -1,3 +1,8 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
 package conference_package;
 
 import java.io.FileInputStream;
@@ -7,7 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
- * Allows for the writing of an ArrayList of conferences to a file for storage
+ * This class allows for the writing of an ArrayList of conferences to a file for storage
  * and the reading of a file to retrieve an ArrayList of conferences.
  * @author James Roberts
  * @version 4/27/2017
@@ -15,9 +20,7 @@ import java.util.ArrayList;
  */
 public class ConferenceReadWrite {
 	
-	/**
-	 * The destination of the file to read from or write to.
-	 */
+	/** The destination of the file to read from or write to. */
 	private String myFileLocation;
 	
 	/**

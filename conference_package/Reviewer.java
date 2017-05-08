@@ -1,22 +1,23 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package conference_package;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Reviewer implements Serializable{
-	/**
-	 * The Serial ID.
-	 */
+	
+	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 7044360208215202991L;
 
-	/**
-	 * The User associated with this reviewer.
-	 */
+	/** The User associated with this reviewer. */
 	User myUser;
 	
-	/**
-	 * Collection of any manuscript the user has been assigned to review.
-	 */
+	/** Collection of any manuscript the user has been assigned to review. */
 	private ArrayList<Manuscript> assignedManuscripts;
 	
 	/**
@@ -30,7 +31,7 @@ public class Reviewer implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Getter for User type.
 	 * @return the User associated with the Reviewer.
 	 */
 	public User getUser() {
@@ -39,7 +40,7 @@ public class Reviewer implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * This method will return the assigned manuscripts.
 	 * @return the collection of Manuscripts's assigned to the User to review
 	 * @author Vincent Povio
 	 * @version 4/25/2017
@@ -76,6 +77,10 @@ public class Reviewer implements Serializable{
 		}
 	}
 	
+	/**
+	 * This method will return the number of assigned manuscripts.
+	 * @return the number of assigned manuscripts
+	 */
 	public int getNumAssignedManuscripts() {
 		return assignedManuscripts.size();
 	}

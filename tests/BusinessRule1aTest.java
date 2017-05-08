@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package tests;
 
 import static org.junit.Assert.*;
@@ -13,19 +19,33 @@ import conference_package.Manuscript;
 import conference_package.User;
 
 /**
- * Tests all business rules.
+ * Tests all business rule 1a.
  * @author Ian Waak, Ayub Tiba, Vincent Povio, Vinh Le, James Roberts
  * @version 4/30/2017
  */
 public class BusinessRule1aTest {
 	
+	/** The paper deadline. */
 	private final static String PAPER_DEADLINE = "30-06-2017 11:59:59";
+	
+	/** The paper submission on time. */
 	private final static String PAPER_SUBMISSION_ON_TIME = "29-06-2017 11:59:59";
+	
+	/** The paper submission just in time. */
 	private final static String PAPER_SUBMISSION_JUST_IN_TIME = "30-06-2017 11:59:59";
+	
+	/** The paper submission late. */
 	private final static String PAPER_SUBMISSION_NOT_ON_TIME = "01-08-2017 12:00:00";
+	
+	/** The paper submission late by 1 minute. */
 	private final static String PAPER_SUBMISSION_NOT_ON_TIME_BY_ONE_MINUTE = "01-07-2017 12:00:00";
+	
+	/** The conference name. */
 	private final static String CONFERENCE_NAME = "Test Conference";
 	
+	/**
+	 * Initializes all the fields.
+	 */
 	private Date myTestDeadline;
 	private Date myTestSubmission;
 	private Conference myConference;
@@ -33,7 +53,8 @@ public class BusinessRule1aTest {
 	private Manuscript myTestManuscript;
 
 	/**
-	 * 
+	 * This method will set up the date, conference's name, 
+	 * test user's names, and manuscript's names.
 	 * @param thePaperDeadline
 	 * @param thePaperSubmission
 	 */
