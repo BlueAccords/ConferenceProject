@@ -90,8 +90,10 @@ public class UserInterface {
 								} else if (currentConference.getReviewer(theUser) != null) {
 									currentView = "Reviewer";
 								} else {
+									
 									currentView = "Author";
 								}
+								
 								boolean shouldStop = false;
 								do {
 									shouldStop = printViewScreen();
@@ -112,37 +114,101 @@ public class UserInterface {
 		urw.writeUsers(userList);
 	}
 
-	private static boolean printViewScreen() throws Exception {
+	private static boolean printViewScreen() {
 		int n = 1, selection = 0;
 		String title = null;
 		String manuscript = null;
 		String email = null;
 		Manuscript theManuscript = null;
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 		
 		switch (currentView) {
 		case "Author":
 			System.out.println("Current view: Author");
 			Author theAuthor = currentConference.getAuthor(theUser);
-			for (Manuscript targetManuscript : theAuthor.getMyManuscripts()) {
-				System.out.println(n + ") " + targetManuscript.getTitle());
-				n++;
+
+			System.out.println("Conference Submission Deadline: " 
+					+ dateformat.format(currentConference.getPaperDeadline()));
+			System.out.println();
+			System.out.println("Your Submissions:");
+			if (theAuthor != null) {
+				for (Manuscript targetManuscript : theAuthor.getMyManuscripts()) {
+					System.out.println(n + ") " + targetManuscript.getTitle() + " Submitted: " 
+						+ dateformat.format(targetManuscript.getSubmissionDate()));
+					n++;
+				}
 			}
+			System.out.println();
 			System.out.println("Please select from the following options:");
 			System.out.println("1) Add a manuscript.");
 			System.out.println("9) Exit");
 			selection = scan.nextInt();
 			switch (selection) {
 			case 1:
+				scan.nextLine();
 				System.out.println("To add a manuscript, please enter a title: ");
 				title = scan.nextLine();
 				System.out.println("Please enter a file name: ");
 				manuscript = scan.nextLine();
 				theManuscript = new Manuscript(title, manuscript, theUser);
-				if (theManuscript != null) {
-					currentConference.addManuscript(theManuscript);
+				
+				int secondSel;
+				for (int i = 0; i < 5; i++) {
+					System.out.println("Select 2 to add a CoAuthor or 3 to submit the manuscript:  ");
+					secondSel = scan.nextInt();
+					scan.nextLine(); // clear new line char.
+					String coAuthorID;
+					if (secondSel == 2) {
+						System.out.println("Enter the User ID of the CoAuthor: ");
+						scan.nextLine();
+						coAuthorID = scan.nextLine();
+						//Need to see if CoAuthor exists in the system
+						boolean found = false;
+						int j = 0;
+						User coAuthor = null;
+						while(found) {
+							//found them
+							if(userList.get(j).getEmail().equals(coAuthorID)) {
+								found = true;
+								coAuthor = userList.get(i);
+							} else if (j >= userList.size()){ //reached end of list and didn't find
+								coAuthor = new User(coAuthorID);
+								userList.add(coAuthor);
+							} else {
+								j++;
+							}
+						}
+						if (coAuthor != null) {
+							theManuscript.addAuthor(coAuthor);
+						}
+					} else if (secondSel == 3) {
+						  i = 6;
+					} else {
+						System.out.println("Invalid Input, please select 2 to add a" + 
+											" CoAuthor or 3 to submit the manuscript:  ");
+						secondSel = scan.nextInt();
+						scan.nextLine(); // clear new line char
+					}
 				}
+					
+				if (theManuscript != null) {
+					try {
+						currentConference.addManuscript(theManuscript);
+					} catch (Exception e) {
+						System.out.println("Your Submission was not accepted: " + e.getMessage());
+						System.out.println("Press any key to continue: ");
+						scan.nextLine();
+					}
+				}
+			
+				
 				return false;
 			case 9:
+				//Clear buffer
+				scan.nextLine();
+				currentConference = null;
+				//Write the list of conference in case any changes have been made.
+				crw.writeConferences(conferenceList);
 				return true;
 			default:
 				System.out.println("Invalid entry, please try again.");
@@ -153,10 +219,16 @@ public class UserInterface {
 		case "Subprogram Chair":			
 			System.out.println("Current view: Subprogram Chair");
 			SubprogramChair theSPC = currentConference.getSubprogramChair(theUser);
+			System.out.println();
+			System.out.println("Recommendation Submission Deadline: " 
+					+ dateformat.format(currentConference.getRecDeadline()));
+			System.out.println();
+			System.out.println("Your Assigned Papers:");
 			for (Manuscript targetManuscript : theSPC.getAssignedPapersSPC()) {
 				System.out.println(n + ") " + targetManuscript.getTitle());
 				n++;
 			}
+			System.out.println();
 			System.out.println("Please select from the following options:");
 			System.out.println("1) Assign a reviewer to a paper.");
 			System.out.println("9) Exit");
@@ -203,14 +275,15 @@ public class UserInterface {
 		conferenceList = crw.readConferences();
 		userList = urw.readUsers();
 		//The file doesn't exist, this shouldn't happen since the .ser files should be uploaded to git
-		if (conferenceList == null || userList == null) {
+		//if (conferenceList == null || userList == null) {
 			try {
 				buildTestingFiles();
 			} catch (Exception e) {
 				System.out.println("Creating Files Failed");
 			}
 			userList = urw.readUsers();
-		}
+			conferenceList = crw.readConferences();
+		//}
 		
 	}
 	
@@ -282,27 +355,34 @@ public class UserInterface {
 		//This is a pain but it simulates how the full program would work, a user would NEED to 
 		//be made a reviewer in a conference and then that reviewer that exists in the conference
 		//would need to be assigned to a SPC so they could have manuscripts assigned to them
-		Reviewer rev1 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev1);
-		Reviewer rev2 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev2);
-		Reviewer rev3 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev3);
-		Reviewer rev4 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev4);
-		Reviewer rev5 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev5);
-		Reviewer rev6 = seattleConf.addReviewer(testU1);
-		spc.addReviewerToSPC(rev6);
+		//Reviewer rev1 = seattleConf.addReviewer(testU1);
+		//spc.addReviewerToSPC(rev1);
+		Reviewer rev2 = seattleConf.addReviewer(testU2);
+		seattleConf.getConfSPCs().get(0).addReviewerToSPC(rev2);
+		
+		Reviewer rev3 = seattleConf.addReviewer(testU3);
+		seattleConf.getConfSPCs().get(0).addReviewerToSPC(rev3);
+		Reviewer rev4 = seattleConf.addReviewer(testU4);
+		seattleConf.getConfSPCs().get(0).addReviewerToSPC(rev4);
+		Reviewer rev5 = seattleConf.addReviewer(testU5);
+		seattleConf.getConfSPCs().get(0).addReviewerToSPC(rev5);
+		Reviewer rev6 = seattleConf.addReviewer(testU6);
+		seattleConf.getConfSPCs().get(0).addReviewerToSPC(rev6);
 		
 		//TestU1's Manuscript, it has been added to the conference
 		//It has also been assigned to the SPC so that they have something to assign to a reviewer
-		Manuscript testMan1 = new Manuscript("a paper", "stuff", testU1);
+		Manuscript testMan1 = new Manuscript("Neat Computer Stuff", "stuff", testU1);
 		seattleConf.addManuscript(testMan1);
-		spc.addPaperToSPC(testMan1);
-		conferences.add(seattleConf);
-		crw.writeConferences(conferences);
+		seattleConf.getConfSPCs().get(0).addPaperToSPC(testMan1);
 		
+		
+		
+		// A conference with a submission deadline in the past
+		Date paperDead2 = new Date();
+        Conference detroitConf = new Conference("Detroit Conference", paperDead2, revDead, recDead, finalDead);
+        conferences.add(seattleConf);
+        conferences.add(detroitConf);
+		crw.writeConferences(conferences);
 	}
 
 }

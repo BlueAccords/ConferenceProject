@@ -89,7 +89,7 @@ public class UserReadWrite {
 			allUsers = (ArrayList<User>) ois.readObject();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		} finally {
 			//close both streams

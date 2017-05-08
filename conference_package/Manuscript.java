@@ -3,6 +3,8 @@ package conference_package;
 import java.util.ArrayList;
 import java.util.Date;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * This class represents a manuscript and stores any relevant information.
@@ -128,5 +130,5 @@ public class Manuscript implements Serializable{
 	public void updatePaper(String thePaper) {
 		myManuscript = thePaper;
 	}
-	
+
 }
