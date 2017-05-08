@@ -179,7 +179,6 @@ public class UserInterface {
 							if(userList.get(j).getEmail().equals(coAuthorID)) {
 								coAuthor = userList.get(j);
 								j = userList.size();
-								System.out.println("found");
 							}
 						}
 						
@@ -313,7 +312,7 @@ public class UserInterface {
 		conferenceList = crw.readConferences();
 		userList = urw.readUsers();
 		//The file doesn't exist, this shouldn't happen since the .ser files should be uploaded to git
-		//if (conferenceList == null || userList == null) {
+		if (conferenceList == null || userList == null) {
 			try {
 				buildTestingFiles();
 			} catch (Exception e) {
@@ -321,7 +320,7 @@ public class UserInterface {
 			}
 			userList = urw.readUsers();
 			conferenceList = crw.readConferences();
-		//}
+		}
 		
 	}
 	
