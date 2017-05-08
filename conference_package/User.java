@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package conference_package;
 
 import java.io.Serializable;
@@ -10,26 +16,18 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
 
-	/**
-	 * The serial ID.
-	 */
+	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 8870025955073752215L;
-	/**
-	 * The user's last name.
-	 */
+	
+	/** The user's last name. */
 	private String lastName;
-	/**
-	 * The user's first name. 
-	 */
+	
+	/** The user's first name. */
 	private String firstName;
-	/**
-	 * The user's email, used as a unique identifier for them. 
-	 */
+	
+	/** The user's email, used as a unique identifier for them. */
 	private String email;
 		
-	//This constructor should maybe take the first name & last name so the
-	//view component or a createAccount class can get the user info and just make a new
-	//User object
 	/**
 	 * Constructor for a User.
 	 * @param theEmail the user's email.
@@ -41,7 +39,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Getter for user' last name.
 	 * @return the User's last name.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
@@ -51,7 +49,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * Set's the User's last name. 
+	 * Setter for User's last name. 
 	 * @param lastName
 	 * @author Ayub Tiba
 	 * @version 4/25/2017
@@ -61,7 +59,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Getter for user' first name.
 	 * @return the first name of the User.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
@@ -71,7 +69,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * Sets the User's first name.
+	 * Setter for User's first name.
 	 * @param firstName The User's first name.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
@@ -81,7 +79,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * getter for User's emails.
 	 * @return the User's email address
 	 * @author Ayub Tiba
 	 * @version 4/25/2017 
@@ -91,7 +89,7 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * Sets the user's email address
+	 * Setter for user's email address
 	 * @param email the User's email address
 	 * @version 4/25/2017
 	 */

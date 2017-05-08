@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package conference_package;
 
 import java.io.Serializable;
@@ -5,24 +11,19 @@ import java.util.ArrayList;
 
 public class SubprogramChair implements Serializable{
 	
-	/**
-	 * The Serial ID.
-	 */
+	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -6999273827761122770L;
 
+	/** The maximum number of manuscripts for a reviewer. */
 	private static final int MAX_REVIEW_PAPERS = 8;
-	/**
-	 * The user ID (email) associated with this SubprogramChair.
-	 */
+	
+	/** The user ID (email) associated with this SubprogramChair. */
 	User myUser;
 	
-	/**
-	 * Collection of any manuscripts assigned to the user as a Subprogram Chair.
-	 */
+	/** Collection of any manuscripts assigned to the user as a Subprogram Chair. */
 	private ArrayList<Manuscript> assignedManuscriptsSPC;
-	/**
-	 * Collection of any Users assigned as Reviewers to a Subprogram Chair.
-	 */
+	
+	/** Collection of any Users assigned as Reviewers to a Subprogram Chair. */
 	private ArrayList<Reviewer> assignedReviewers;
 	
 	/**
@@ -37,7 +38,7 @@ public class SubprogramChair implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Getter for a User type.
 	 * @return the User associated with the SPC.
 	 */
 	public User getUser() {

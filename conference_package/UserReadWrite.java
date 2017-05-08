@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package conference_package;
 
 import java.io.FileInputStream;

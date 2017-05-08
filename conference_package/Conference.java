@@ -1,3 +1,9 @@
+/*
+ * TCSS 360 - Spring 2017
+ * Conference Project - Group 2
+ * 
+ */
+
 package conference_package;
 
 import java.io.Serializable;
@@ -6,63 +12,49 @@ import java.util.Date;
 
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
- * @author James Roberts, Vinh Le, Ian Waak, Vincent Povio
- * @version 4/30/2017
+ * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
+ * @version May 7 2017
  */
 public class Conference implements Serializable{
+	
+	/** The maximum manuscript submissions. */
 	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
-	private static final int MAX_REVIEWER_PAPERS = 8;
-	/**
-	 * The class's serial Id.
-	 */
+	
+	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
-	/**
-	 * The name of the conference.
-	 */
+	
+	/** The name of the conference. */
 	private String myConferenceName;
-	/**
-	 * The deadline for manuscript submissions.
-	 */
+	
+	/** The deadline for manuscript submissions. */
 	private Date myManuscriptDeadline;
-	/**
-	 * The deadline for reviews.
-	 */
+	
+	/** The deadline for reviews. */
 	private Date myReviewDeadline;
-	/**
-	 * The deadline for recommendations.
-	 */
+	
+	/** The deadline for recommendations. */
 	private Date myRecDeadline;
-	/**
-	 * The deadline for recommendations.
-	 */
+	
+	/** The deadline for recommendations. */
 	private Date myFinalDeadline;
 	
-	/**
-	 * All papers submitted to the conference.
-	 */
+	/** All papers submitted to the conference. */
 	private ArrayList<Manuscript> myManuscripts;
 	
-	/**
-	 * All Authors with Manuscripts's submitted to the conference.
-	 */
+	/** All Authors with Manuscripts's submitted to the conference. */
 	private ArrayList<Author> conferenceAuthors;
-	/**
-	 * All eligible reviewers in the conference.
-	 */
+	
+	/** All eligible reviewers in the conference. */
 	private ArrayList<Reviewer> conferenceReviewers;	
 	
-	/**
-	 * All conference SPCs.
-	 */
+	/** All conference SPCs. */
 	private ArrayList<SubprogramChair> conferenceSubprogramChairs;
 	
-	/**
-	 * The conference Program Chair.
-	 */
+	/** The conference Program Chair. */
 	private User conferenceProgramChair;
 	
 	/**
-	 * Constructor for the object.
+	 * Constructors for the object.
 	 * @param theConferenceName The name of the conference.
 	 * @param thePDead The paper deadline.
 	 * @param theRevDead The review deadline.
@@ -137,11 +129,8 @@ public class Conference implements Serializable{
 		return new Date(myFinalDeadline.getTime());
 	}
 	
-	// Searches collection of conferenceAuthors to see if the user exists as an author there
-	// returns that Author object if found, otherwise returns null;
-	// maybe better to have it throw an exception?
 	/**
-	 * Returns the Author in the conference that corresponds to the passed User.
+	 * This method will search and return the Author in the conference that corresponds to the passed User.
 	 * Returns null if theUser is not an Author in this conference.
 	 * @param theUser
 	 * @return The Author object associated with theUser, null if theUser
@@ -158,7 +147,8 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Returns the Reviewer in the conference that corresponds to the passed User.
+	 * This method will search and return the Reviewer in the conference 
+	 * that corresponds to the passed User.
 	 * Returns null if theUser is not a Reviewer in this conference.
 	 * @param theUser
 	 * @return The Reviewer object associated with theUser, null if theUser
@@ -174,9 +164,9 @@ public class Conference implements Serializable{
 		return matchingReviewer;
 	}
 	
-	//same as above.
 	/**
-	 * Returns the SubprogramChair in the conference that corresponds to the passed User.
+	 * This method will search and return the SubprogramChair in the conference 
+	 * that corresponds to the passed User.
 	 * Returns null if theUser is not a SubprogramChair in this conference.
 	 * @param theUser
 	 * @return The SubprogramChair object associated with theUser, null if theUser
@@ -194,7 +184,6 @@ public class Conference implements Serializable{
 	
 	/** 
 	 * Returns a collection of all Manuscripts submitted to the conference.
-	 * 
 	 * @return All Manuscripts currently submitted to the conference.
 	 * @author James Roberts
 	 * @version 4/27/2017
@@ -206,8 +195,9 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Adds a Manuscript to the conference if submitted before the deadline
-	 * and if every associated author has not submitted more > max papers.
+	 * This method will add  a Manuscript to the conference 
+	 * If submitted before the deadline and 
+	 * if every associated author has not submitted more > max papers.
 	 * Pre: Passed Paper is not null.
 	 * @param theManuscript The paper being submitted.
 	 * @author James Roberts
@@ -241,34 +231,17 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * This method will get the author's id's from the paper, look at each paper
+	 * This method will get the author's email's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
 	 * if number of submitted papers > max then it should return false.
 	 * @param theManuscript The Paper being submitted
-	 * @return 
+	 * @return boolean that check if the manuscipt satisfies the conditions
 	 * @author Vinh Le, Ian Waak
 	 * @version 4/29/2017
 	 * @version 4/30/2017 - added newAuthors/existingAuthors to fix problem when comparing ID/submittedPaperID
 	 */
 	public boolean isValidNumberOfSubmissions(Manuscript theManuscript) {
 		boolean check = true;	
-		
-		//List of author names for new paper
-		//ArrayList<String> newAuthors = new ArrayList<String>();
-		//newAuthors.addAll(theManuscript.getAuthorEmails());
-		
-		//List of authors for existing papers in conference
-
-		//Iterate through new paper authors
-		//for(String ID : newAuthors) {
-			//Iterate through existing paper authors
-			//for(String submittedPaperID : existingAuthors) {
-				//If new author equals existing author, add 1 to counter
-				//if (ID.equals(submittedPaperID)) {
-					//counter++;
-				//}
-			//}		
-		//}
 		ArrayList<User> authors = new ArrayList<User>();
 		authors.addAll(theManuscript.getAuthors());
 		//System.out.println(authors.size());
@@ -281,22 +254,20 @@ public class Conference implements Serializable{
 					check = false;
 				}
 			}
-		}
-				
+		}				
 		return check;
 	}
 	
 	/**
-	 * Tests if a manuscript was submitted on time. Returns true if it is before
+	 * This method will test if a manuscript was submitted on time. Returns true if it is before
 	 * the submission deadline. If past deadline, false is returned.
 	 * @param theManuscript The paper being submitted.
-	 * @return t/f if paper was accepted.
+	 * @return boolean if paper was accepted.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
 	public boolean isSubmittedOnTime(Manuscript theManuscript) {
-		if(theManuscript.getSubmissionDate().getTime() <= myManuscriptDeadline.getTime()) { 
-			
+		if(theManuscript.getSubmissionDate().getTime() <= myManuscriptDeadline.getTime()) { 			
 			return true;
 		} else {
 			return false;
@@ -304,7 +275,7 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Returns all Subprogram Chairs of the conference.
+	 * This method will return all Subprogram Chairs of the conference.
 	 * @return all Subprogram Chairs of the conference.
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
@@ -314,8 +285,8 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Returns the Program Chair of the conference.
-	 * @return the Program Chair of the conference. 
+	 * This method will return the Program Chair of the conference.
+	 * @return all Program Chair of the conference. 
 	 * @author Ayub Tiba
 	 * @version 4/28/2017
 	 */
@@ -324,7 +295,7 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Adds the passed User as a reviewer for the conference.
+	 * This method will add the passed User as a reviewer for the conference.
 	 * @param theReviewer the ID for the reviewer to be added
 	 * @author: Ian Waak
 	 * @version: 4/30/2017
@@ -336,7 +307,7 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Adds the passed User as a Subprogram Chair for the conference
+	 * This method will add the passed User as a Subprogram Chair for the conference
 	 * @param theReviewer the ID for the reviewer to be added
 	 * @author: James Roberts
 	 * @version: 5/1/2017
