@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
 	   BusinessRule1bTest.class,
 	   BusinessRule2aTest.class,
 	   BusinessRule2bTest.class,
-	   UserTest.class
+	   UserTest.class,
+	   ManuscriptTest.class
 	})
 
 /**

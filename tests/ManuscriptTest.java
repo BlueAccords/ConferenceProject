@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -165,6 +166,38 @@ public class ManuscriptTest {
 			assertTrue("User email not the same as that in list: " + userListToPullEmailsFrom.get(i).getEmail(), 
 					myManuscript.getAuthorEmails().get(i).equals(userListToPullEmailsFrom.get(i).getEmail()));
 		}
+	}
+	
+	
+	/**
+	 * Test that updateFile is updating myManuscript with the correct new File.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/13/2017
+	 */
+	@Test
+	public void updateFile_TestUpdateFileForCorrectNewFilePath() {
+		File newFileToUpdateMyManuscriptWith = new File("C:/Users/Connor/Documents/test2.txt");
+		myManuscript.updatePaper(newFileToUpdateMyManuscriptWith);
+		
+		assertTrue("File not the same as the one used to update: " + myManuscript.getManuscriptFile().getAbsolutePath(), 
+				myManuscript.getManuscriptFile().getAbsolutePath().equals(new File("C:/Users/Connor/Documents/test2.txt").getAbsolutePath()));
+	}
+	
+	
+	/**
+	 * Tests that the submission date set is the same one returned. This is an implicit test of
+	 * getSubmissionDate as well.
+	 * 
+	 * @author Connor Lundberg
+	 * @versio 5/13/2017
+	 */
+	@Test
+	public void setSubmissionDate_TestSetSubmissionDateForCorrectNewDateSubmitted() {
+		Date newSubmissionDate = new Date();
+		myManuscript.setSubmissionDate(newSubmissionDate);
+		
+		assertEquals("Submission date is not the same as the one set: " + myManuscript.getSubmissionDate(), myManuscript.getSubmissionDate(), newSubmissionDate);
 	}
 }
 
