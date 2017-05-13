@@ -7,6 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.File;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ public class Manuscript implements Serializable{
 	private String myTitle;
 	
 	/** The body of the manuscript. */
-	private String myManuscript;
+	private File myManuscript;
 	
 	/** The list of authors by username, index 0 is the primary author. */
 	private ArrayList<User> myAuthors;
@@ -33,15 +34,16 @@ public class Manuscript implements Serializable{
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
+	
 	/**
 	 * Constructors for The class.
 	 * @param theTitle The manuscript's title.
-	 * @param theManuscript The manuscripts's body.
+	 * @param theManuscript The manuscripts's corresponding file.
 	 * @param theMainAuthor The main author of the manuscript's username (email).
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public Manuscript(String theTitle, String theManuscript, User theMainAuthor) {
+	public Manuscript(String theTitle, File theManuscript, User theMainAuthor) {
 		myTitle = theTitle;
 		myAuthors = new ArrayList<User>();
 		myAuthors.add(theMainAuthor);
@@ -49,6 +51,7 @@ public class Manuscript implements Serializable{
 		mySubmissionDate = new Date();
 		
 	}
+	
 	
 	/**
 	 * Returns the date the manuscript was submitted.
@@ -58,6 +61,7 @@ public class Manuscript implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	
+	
 	/**
 	 * Setter for the date the manuscript was submitted.
 	 * @author Ian Waak
@@ -66,6 +70,7 @@ public class Manuscript implements Serializable{
 	public void setSubmissionDate(Date theDate) {
 		mySubmissionDate = theDate;
 	}
+	
 	
 	/**
 	 * Getter for the paper's title.
@@ -77,15 +82,18 @@ public class Manuscript implements Serializable{
 		return myTitle;
 	}
 	
+	
 	/**
-	 * Getter for the paper.
-	 * @return The body of the paper.
+	 * Getter for the paper file.
+	 * 
+	 * @return The file holding the paper.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public String getManuscript() {
+	public File getManuscript() {
 		return myManuscript;
 	}
+	
 	
 	/**
 	 * Getter for the list of author's
@@ -99,6 +107,7 @@ public class Manuscript implements Serializable{
 		return copy;
 	}
 	
+	
 	/**
 	 * This method will return the Author emails.
 	 * @return the collection of Author emails
@@ -111,6 +120,7 @@ public class Manuscript implements Serializable{
 		return emails;
 	}
 	
+	
 	/**
 	 * Adds a co-author to the paper.
 	 * @param theAuthor The co-author to be added.
@@ -122,13 +132,15 @@ public class Manuscript implements Serializable{
 		myAuthors.add(theAuthor);
 	}
 	
+	
 	/**
-	 * Replaces the body of the paper with an updated version.
-	 * @param thePaper The new paper body.
+	 * Replaces the file of the paper with an updated version.
+	 * 
+	 * @param thePaper The new paper file.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public void updatePaper(String thePaper) {
+	public void updatePaper(File thePaper) {
 		myManuscript = thePaper;
 	}
 

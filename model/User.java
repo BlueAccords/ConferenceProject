@@ -20,81 +20,93 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 8870025955073752215L;
 	
 	/** The user's last name. */
-	private String lastName;
+	private String myLastName;
 	
 	/** The user's first name. */
-	private String firstName;
+	private String myFirstName;
 	
 	/** The user's email, used as a unique identifier for them. */
-	private String email;
+	private String myEmail;
 		
 	/**
 	 * Constructor for a User.
-	 * @param theEmail the user's email.
+	 * 
+	 * @param theEmail the User's current email.
 	 * @author Vincent Povio, Ayub Tiba
 	 * @version 4/25/2017
 	 */
 	public User(String theEmail) {
-		email = theEmail;		
+		myEmail = theEmail;		
 	}
 	
 	/**
-	 * Getter for user' last name.
-	 * @return the User's last name.
+	 * Getter for User's last name.
+	 * 
+	 * @return the User's current last name.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
 	public String getLastName() {
-		return lastName;
+		return myLastName;
 	}
+	
 	
 	/**
 	 * Setter for User's last name. 
-	 * @param lastName
+	 * 
+	 * @param theLastName The new last name to set
 	 * @author Ayub Tiba
 	 * @version 4/25/2017
 	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastName(String theLastName) {
+		this.myLastName = theLastName;
 	}
 	
+	
 	/**
-	 * Getter for user' first name.
+	 * Getter for User's first name.
+	 * 
 	 * @return the first name of the User.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
 	public String getFirstName() {
-		return firstName;
+		return myFirstName;
 	}
+	
 	
 	/**
 	 * Setter for User's first name.
-	 * @param firstName The User's first name.
+	 * 
+	 * @param theFirstName The User's first name.
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstName(String theFirstName) {
+		this.myFirstName = theFirstName;
 	}
 	
+	
 	/**
-	 * getter for User's emails.
+	 * Getter for User's email.
+	 * 
 	 * @return the User's email address
 	 * @author Ayub Tiba
 	 * @version 4/25/2017 
 	 */
 	public String getEmail() {
-		return email;
+		return myEmail;
 	}
 	
+	
 	/**
-	 * Setter for user's email address
-	 * @param email the User's email address
+	 * Setter for user's email address.
+	 * 
+	 * @param theEmail the User's new email address
 	 * @version 4/25/2017
 	 */
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String theEmail) {
+		this.myEmail = theEmail;
 	}
 
 	

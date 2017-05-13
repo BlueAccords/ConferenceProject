@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 	   BusinessRule1aTest.class,
 	   BusinessRule1bTest.class,
 	   BusinessRule2aTest.class,
-	   BusinessRule2bTest.class
+	   BusinessRule2bTest.class,
+	   UserTest.class
 	})
 
 /**
