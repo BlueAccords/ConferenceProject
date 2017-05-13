@@ -15,9 +15,9 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import conference_package.Conference;
-import conference_package.Manuscript;
-import conference_package.User;
+import model.Conference;
+import model.Manuscript;
+import model.User;
 
 /**
  * Tests all business rule 1b.
