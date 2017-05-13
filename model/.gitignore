@@ -6,3 +6,5 @@
 /SubprogramChair.class
 /User.class
 /UserReadWrite.class
+/Manuscript$AuthorExistsInListException.class
+/Manuscript$AuthorDoesNotExistInListException.class

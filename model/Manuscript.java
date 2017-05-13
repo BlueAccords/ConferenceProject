@@ -12,8 +12,10 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+
 /**
  * This class represents a manuscript and stores any relevant information.
+ * 
  * @author James Roberts, Ian Waak, Ayub Tiba, Vincent Polio, Vinh Le
  * @version 4/30/2017
  */
@@ -37,9 +39,11 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Constructors for The class.
+	 * 
 	 * @param theTitle The manuscript's title.
 	 * @param theManuscript The manuscripts's corresponding file.
 	 * @param theMainAuthor The main author of the manuscript's username (email).
+	 * 
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
@@ -55,6 +59,7 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Returns the date the manuscript was submitted.
+	 * 
 	 * @return the date the manuscript was submitted.
 	 */
 	public Date getSubmissionDate() {
@@ -64,6 +69,7 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Setter for the date the manuscript was submitted.
+	 * 
 	 * @author Ian Waak
 	 * @version 4/30/2017
 	 */
@@ -74,7 +80,9 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Getter for the paper's title.
+	 * 
 	 * @return The title of the paper.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
@@ -87,17 +95,20 @@ public class Manuscript implements Serializable{
 	 * Getter for the paper file.
 	 * 
 	 * @return The file holding the paper.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public File getManuscript() {
+	public File getManuscriptFile() {
 		return myManuscript;
 	}
 	
 	
 	/**
-	 * Getter for the list of author's
+	 * Getter for the list of authors.
+	 * 
 	 * @return The paper's authors.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
@@ -109,8 +120,9 @@ public class Manuscript implements Serializable{
 	
 	
 	/**
-	 * This method will return the Author emails.
-	 * @return the collection of Author emails
+	 * This method will return the Author email.
+	 * 
+	 * @return the collection of Author email
 	 */
 	public ArrayList<String> getAuthorEmails() {
 		ArrayList<String> emails = new ArrayList<String>();
@@ -122,14 +134,44 @@ public class Manuscript implements Serializable{
 	
 	
 	/**
-	 * Adds a co-author to the paper.
-	 * @param theAuthor The co-author to be added.
+	 * Adds an author to the paper.
+	 * 
+	 * @param theAuthor The author to be added.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
+	 * @throws AuthorExistsInListException 
 	 */
-	public void addAuthor(User theAuthor) {
-		//need to make sure this doesn't already exist in the collection
-		myAuthors.add(theAuthor);
+	public void addAuthor(User theAuthor) throws AuthorExistsInListException {
+		if (authorNotInList(theAuthor))
+			myAuthors.add(theAuthor);
+		else
+			throw new AuthorExistsInListException();
+	}
+	
+	/**
+	 * Helper method to determine that theAuthor is not already part of the author list.
+	 * It does this by checking that it is first not an object already within the list, and 
+	 * next that the email of theAuthor does not already belong to one in myAuthors.
+	 * 
+	 * @param theAuthor The new author to check
+	 * @return If theAuthor is already within myAuthors list
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/13/2017
+	 */
+	private boolean authorNotInList (User theAuthor) {
+		boolean authorNotInList = true;
+		
+		//checks if the same User object is already in list
+		authorNotInList = !(myAuthors.contains(theAuthor));	
+		
+		//checks if a User in myAuthors has the same email
+		for (User authors : myAuthors) {
+			authorNotInList = !(authors.getEmail().equals(theAuthor.getEmail()));	
+		}
+		
+		return authorNotInList;
 	}
 	
 	
@@ -137,6 +179,7 @@ public class Manuscript implements Serializable{
 	 * Replaces the file of the paper with an updated version.
 	 * 
 	 * @param thePaper The new paper file.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
@@ -144,4 +187,31 @@ public class Manuscript implements Serializable{
 		myManuscript = thePaper;
 	}
 
+	
+	/**
+	 * Custom Exception to throw when author is found within the author list already.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/13/2017
+	 */
+	public class AuthorExistsInListException extends Exception {
+
+		/**
+		 * Serialized UID for this exception class
+		 */
+		private static final long serialVersionUID = 5998939099739282922L;
+		
+		private static final String ERROR_MESSAGE = "Author already exists in the author list";
+		
+		/**
+		 * AuthorExistsInListException constructor. Passes the ERROR_MESSAGE into the super
+		 * class constructor.
+		 * 
+		 * @author Connor Lundberg
+		 * @version 5/13/2017
+		 */
+		public AuthorExistsInListException () {
+			super (ERROR_MESSAGE);
+		}
+	}
 }
