@@ -5,6 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
+import model.Author;
+import model.Conference;
+import model.ConferenceReadWrite;
+import model.Manuscript;
+import model.Reviewer;
+import model.SubprogramChair;
+import model.User;
+import model.UserReadWrite;
 /**
  * This is the driver and view component of the program. 
  * @author James Roberts, Vincent Povio

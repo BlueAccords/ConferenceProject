@@ -3,7 +3,7 @@
  * Conference Project - Group 2
  * 
  */
-package conference_package;
+package model;
 
 import java.util.ArrayList;
 import java.util.Date;

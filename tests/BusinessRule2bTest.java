@@ -15,11 +15,11 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import conference_package.Conference;
-import conference_package.Manuscript;
-import conference_package.Reviewer;
-import conference_package.SubprogramChair;
-import conference_package.User;
+import model.Conference;
+import model.Manuscript;
+import model.Reviewer;
+import model.SubprogramChair;
+import model.User;
 
 public class BusinessRule2bTest {
 

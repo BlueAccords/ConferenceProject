@@ -4,7 +4,7 @@
  * 
  */
 
-package conference_package;
+package model;
 
 import java.io.Serializable;
 
