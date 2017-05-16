@@ -8,12 +8,11 @@ import java.util.Scanner;
 
 import model.Author;
 import model.Conference;
-import model.ConferenceReadWrite;
 import model.Manuscript;
 import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
-import model.UserReadWrite;
+
 /**
  * This is the driver and view component of the program. 
  * @author James Roberts, Vincent Povio
@@ -32,14 +31,6 @@ public class UserInterface {
 	 * The Scanner.
 	 */
 	private final static Scanner scan = new Scanner(System.in);
-	/**
-	 * Allows for .ser file of conferences to be read and updated
-	 */
-	private final static ConferenceReadWrite crw = new ConferenceReadWrite("./confData.ser");
-	/**
-	 * Allows for the .ser file of users to be read and updated.
-	 */
-	private final static UserReadWrite urw = new UserReadWrite("./userData.ser");
 	/**
 	 * The id of the logged in user.
 	 */
@@ -129,8 +120,8 @@ public class UserInterface {
 		} while (!userLogin.equals("9"));
 		System.out.println("Thank you, and goodbye.");
 		//This has to happen when the program exits. If not any changes made to a conference will not be saved.
-		crw.writeConferences(conferenceList);
-		urw.writeUsers(userList);
+		Conference.writeConferences(conferenceList);
+		User.writeUsers(userList);
 	}
 
 	private static boolean printViewScreen() {
@@ -226,7 +217,7 @@ public class UserInterface {
 				scan.nextLine();
 				currentConference = null;
 				//Write the list of conference in case any changes have been made.
-				crw.writeConferences(conferenceList);
+				Conference.writeConferences(conferenceList);
 				return true;
 			default:
 				System.out.println("Invalid entry, please try again.");
@@ -298,8 +289,8 @@ public class UserInterface {
 				return false;
 			case 9:
 				//Write any possible changes
-				crw.writeConferences(conferenceList);
-				urw.writeUsers(userList);
+				Conference.writeConferences(conferenceList);
+				User.writeUsers(userList);
 				return true;
 			default:
 				System.out.println("Invalid entry, please try again.");
@@ -318,8 +309,8 @@ public class UserInterface {
 	 */
 	private static void setUp() {
 				
-		conferenceList = crw.readConferences();
-		userList = urw.readUsers();
+		conferenceList = Conference.readConferences();
+		userList = User.readUsers();
 		//The file doesn't exist, this shouldn't happen since the .ser files should be uploaded to git
 		if (conferenceList == null || userList == null) {
 			try {
@@ -327,8 +318,8 @@ public class UserInterface {
 			} catch (Exception e) {
 				System.out.println("Creating Files Failed");
 			}
-			userList = urw.readUsers();
-			conferenceList = crw.readConferences();
+			userList = User.readUsers();
+			conferenceList = Conference.readConferences();
 		}
 		
 	}
@@ -375,7 +366,7 @@ public class UserInterface {
 		testU8.setLastName("Snow");
 		users.add(testU8);
 		//Write the users file
-		urw.writeUsers(users);
+		User.writeUsers(users);
 		
 		
 		//Make the conferences
@@ -482,7 +473,7 @@ public class UserInterface {
         Conference detroitConf = new Conference("Detroit Conference", paperDead2, revDead, recDead, finalDead);
         conferences.add(seattleConf);
         conferences.add(detroitConf);
-		crw.writeConferences(conferences);
+		Conference.writeConferences(conferences);
 	}
 
 }
