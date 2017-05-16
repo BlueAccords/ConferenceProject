@@ -1,4 +1,4 @@
-package conference_package;
+package client;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
