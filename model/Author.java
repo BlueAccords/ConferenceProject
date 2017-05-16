@@ -74,6 +74,7 @@ public class Author implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public void addManuscript(Manuscript theManuscript) {
+		//Should we check if the manuscript is already in the list?
 		myManuscripts.add(theManuscript);
 	}
 		
@@ -88,8 +89,8 @@ public class Author implements Serializable{
 	 * @param theManuscript The old manuscript to remove
 	 * @throws ManuscriptNotInListException If the list is empty or theManuscript is not in the list
 	 * 
-	 * @author Ayub Tiba
-	 * @version 4/29/2017
+	 * @author Ayub Tiba, Connor Lundberg
+	 * @version 5/13/2017
 	 */
 	public void removeManuscript(Manuscript theManuscript) throws ManuscriptNotInListException {
 		if (myManuscripts.contains(theManuscript)) {
