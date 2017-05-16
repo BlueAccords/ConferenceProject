@@ -31,7 +31,7 @@ public class Manuscript implements Serializable{
 	private File myManuscript;
 	
 	/** The list of authors by username, index 0 is the primary author. */
-	private ArrayList<User> myAuthors;
+	private ArrayList<Author> myAuthors;
 	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
@@ -41,17 +41,17 @@ public class Manuscript implements Serializable{
 	 * Constructors for The class.
 	 * 
 	 * @param theTitle The manuscript's title.
-	 * @param theManuscript The manuscripts's corresponding file.
+	 * @param theManuscriptFile The manuscripts's corresponding file.
 	 * @param theMainAuthor The main author of the manuscript's username (email).
 	 * 
 	 * @author Ayub Tiba
 	 * @version 4/27/2017
 	 */
-	public Manuscript(String theTitle, File theManuscript, User theMainAuthor) {
+	public Manuscript(String theTitle, File theManuscriptFile, Author theMainAuthor) {
 		myTitle = theTitle;
-		myAuthors = new ArrayList<User>();
+		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
-		myManuscript = theManuscript;
+		myManuscript = theManuscriptFile;
 		mySubmissionDate = new Date();
 		
 	}
@@ -112,8 +112,8 @@ public class Manuscript implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public ArrayList<User> getAuthors() {
-		ArrayList<User> copy = new ArrayList<User>();
+	public ArrayList<Author> getAuthors() {
+		ArrayList<Author> copy = new ArrayList<Author>();
 		copy.addAll(myAuthors);
 		return copy;
 	}
@@ -126,8 +126,8 @@ public class Manuscript implements Serializable{
 	 */
 	public ArrayList<String> getAuthorEmails() {
 		ArrayList<String> emails = new ArrayList<String>();
-		for (User author : myAuthors) {
-			emails.add(author.getEmail());
+		for (Author author : myAuthors) {
+			emails.add(author.getUser().getEmail());
 		}
 		return emails;
 	}
@@ -142,7 +142,7 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 * @throws AuthorExistsInListException 
 	 */
-	public void addAuthor(User theAuthor) throws AuthorExistsInListException {
+	public void addAuthor(Author theAuthor) throws AuthorExistsInListException {
 		if (authorNotInList(theAuthor))
 			myAuthors.add(theAuthor);
 		else
@@ -160,15 +160,15 @@ public class Manuscript implements Serializable{
 	 * @author Connor Lundberg
 	 * @version 5/13/2017
 	 */
-	private boolean authorNotInList (User theAuthor) {
+	private boolean authorNotInList (Author theAuthor) {
 		boolean authorNotInList = true;
 		
 		//checks if the same User object is already in list
 		authorNotInList = !(myAuthors.contains(theAuthor));	
 		
 		//checks if a User in myAuthors has the same email
-		for (User authors : myAuthors) {
-			authorNotInList = !(authors.getEmail().equals(theAuthor.getEmail()));	
+		for (Author authors : myAuthors) {
+			authorNotInList = !(authors.getUser().getEmail().equals(theAuthor.getUser().getEmail()));	
 		}
 		
 		return authorNotInList;

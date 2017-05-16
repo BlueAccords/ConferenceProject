@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @Version May 7 2017
  *
  */
-public class Author implements Serializable{
+public class Author extends User implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -1841250627863643455L;
@@ -27,14 +27,52 @@ public class Author implements Serializable{
 	/** Collection of all papers the user has submitted to the conference. */
 	private ArrayList<Manuscript> myManuscripts;
 	
+	
 	/**
-	 * Constructor for an Author.
+	 * Constructor for an Author that takes theUser in order to link
+	 * this Author to a User when working with Co-Authors and determining who has written
+	 * what Manuscript.
 	 * 
-	 * @param aUser the User associated with the Author.
+	 * @param theUser the User associated with the Author.
 	 */
-	public Author(User aUser) {
-		//no defensive copy, this acts as a pointer.
-		myUser = aUser;
+	public Author(User theUser) {
+		this("", "", theUser);
+	}
+	
+	
+	/**
+	 * Constructor for an Author that takes theFirstName and theLastName of the Author.
+	 * This is used for adding Authors to a Manuscript for Authors who aren't Users in 
+	 * the system.
+	 * 
+	 * Post: The User associated with this Author is being set to null, so do not try
+	 * to use getUser for this Author or a NullPointerException will be thrown.
+	 * 
+	 * @param theFirstName The first name of the Author.
+	 * @param theLastName The last name of the Author.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/15/2017
+	 */
+	public Author(String theFirstName, String theLastName) {
+		this(theFirstName, theLastName, null);
+	}
+	
+	
+	/**
+	 * Constructor for an Author that takes theFirstName, theLastName, and theUser.
+	 * This is public for testing, but it will generally not be needed as it is mainly
+	 * used by the other two constructors in Author to call super.
+	 * 
+	 * @param theFirstName The first name of the Author.
+	 * @param theLastName The last name of the Author.
+	 * @param theUser The User corresponding to this Author.
+	 */
+	public Author(String theFirstName, String theLastName, User theUser) {
+		super("");
+		super.setFirstName(theFirstName);
+		super.setLastName(theLastName);
+		myUser = theUser;
 		myManuscripts = new ArrayList<Manuscript>();
 	}
 	

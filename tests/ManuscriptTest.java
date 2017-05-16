@@ -9,6 +9,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Author;
 import model.Manuscript;
 import model.Manuscript.AuthorExistsInListException;
 import model.User;
@@ -22,17 +23,17 @@ import model.User;
  */
 public class ManuscriptTest {
 	
-	User myMainUserForManuscript;
+	Author myMainAuthorForManuscript;
 	Manuscript myManuscript;
 	
 
 	@Before
 	public void setUp() throws Exception {
-		myMainUserForManuscript = new User("v_helsing@live.com");
-		myMainUserForManuscript.setFirstName("Van");
-		myMainUserForManuscript.setLastName("Helsing");
+		myMainAuthorForManuscript = new Author(new User("v_helsing@live.com"));
+		myMainAuthorForManuscript.getUser().setFirstName("Van");
+		myMainAuthorForManuscript.getUser().setLastName("Helsing");
 		
-		myManuscript = new Manuscript ("Existence of \"Mythical\" Creatures", new File("C:/Users/Connor/Documents/test.txt"), myMainUserForManuscript);
+		myManuscript = new Manuscript ("Existence of \"Mythical\" Creatures", new File("C:/Users/Connor/Documents/test.txt"), myMainAuthorForManuscript);
 	}
 
 	
@@ -73,10 +74,10 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void getAuthors_TestGetAuthorsForSameMainAuthorAsUsedInConstructor() {
-		ArrayList<User> listOfAuthorsForMyManuscript = myManuscript.getAuthors();
+		ArrayList<Author> listOfAuthorsForMyManuscript = myManuscript.getAuthors();
 		
 		assertEquals("Main author was not within the list of authors: " + listOfAuthorsForMyManuscript.toString(), 
-				listOfAuthorsForMyManuscript.get(0), myMainUserForManuscript);
+				listOfAuthorsForMyManuscript.get(0), myMainAuthorForManuscript);
 	}
 	
 	
@@ -89,7 +90,7 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void addAuthor_TestAddAuthorForNewAuthorAddedToAuthorList() {
-		User newAuthorToAddToAuthorListForMyManuscript = new User("g_OfRivia@witchercareers.com");
+		Author newAuthorToAddToAuthorListForMyManuscript = new Author(new User("g_OfRivia@witchercareers.com"));
 		
 		try {
 			myManuscript.addAuthor(newAuthorToAddToAuthorListForMyManuscript);
@@ -97,7 +98,7 @@ public class ManuscriptTest {
 			e.printStackTrace();
 		}
 		
-		ArrayList<User> listOfAuthorsForMyManuscript = myManuscript.getAuthors();
+		ArrayList<Author> listOfAuthorsForMyManuscript = myManuscript.getAuthors();
 		assertFalse("Size of author list has not increased: " + listOfAuthorsForMyManuscript.size(), listOfAuthorsForMyManuscript.size() == 1);
 		assertTrue("Size of author list is not 2: " + listOfAuthorsForMyManuscript.size(), listOfAuthorsForMyManuscript.size() == 2);
 		
@@ -116,7 +117,7 @@ public class ManuscriptTest {
 	 */
 	@Test (expected = AuthorExistsInListException.class)
 	public void addAuthor_TestAddAuthorForAuthorExistsInListExceptionThrownWithSameUser() throws AuthorExistsInListException {
-		User newAuthorToAddToAuthorListForMyManuscript = new User("g_OfRivia@witchercareers.com");
+		Author newAuthorToAddToAuthorListForMyManuscript = new Author(new User("g_OfRivia@witchercareers.com"));
 		
 		myManuscript.addAuthor(newAuthorToAddToAuthorListForMyManuscript);
 		myManuscript.addAuthor(newAuthorToAddToAuthorListForMyManuscript);
@@ -134,8 +135,8 @@ public class ManuscriptTest {
 	 */
 	@Test (expected = AuthorExistsInListException.class)
 	public void addAuthor_TestAddAuthorForAuthorExistsInListExceptionThrownWithNewUserButSameEmail() throws AuthorExistsInListException {
-		User newAuthorToAddToAuthorListForMyManuscript = new User("g_OfRivia@witchercareers.com");
-		User newAuthorToAddToAuthorListForMyManuscriptWithSameEmail = new User("g_OfRivia@witchercareers.com");
+		Author newAuthorToAddToAuthorListForMyManuscript = new Author(new User("g_OfRivia@witchercareers.com"));
+		Author newAuthorToAddToAuthorListForMyManuscriptWithSameEmail = new Author(new User("g_OfRivia@witchercareers.com"));
 		
 		myManuscript.addAuthor(newAuthorToAddToAuthorListForMyManuscript);
 		myManuscript.addAuthor(newAuthorToAddToAuthorListForMyManuscriptWithSameEmail);
@@ -150,9 +151,9 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void getAuthorsEmails_TestGetAuthorsEmailsForCorrectEmailsOfListGreaterThanOne() {
-		User newAuthorToAddToAuthorListForMyManuscript = new User("g_OfRivia@witchercareers.com");
-		ArrayList<User> userListToPullEmailsFrom = new ArrayList<User>();
-		userListToPullEmailsFrom.add(myMainUserForManuscript);
+		Author newAuthorToAddToAuthorListForMyManuscript = new Author(new User("g_OfRivia@witchercareers.com"));
+		ArrayList<Author> userListToPullEmailsFrom = new ArrayList<Author>();
+		userListToPullEmailsFrom.add(myMainAuthorForManuscript);
 		userListToPullEmailsFrom.add(newAuthorToAddToAuthorListForMyManuscript);
 
 		try {
@@ -163,8 +164,8 @@ public class ManuscriptTest {
 		
 		
 		for (int i = 0; i < myManuscript.getAuthorEmails().size(); i++) {
-			assertTrue("User email not the same as that in list: " + userListToPullEmailsFrom.get(i).getEmail(), 
-					myManuscript.getAuthorEmails().get(i).equals(userListToPullEmailsFrom.get(i).getEmail()));
+			assertTrue("User email not the same as that in list: " + userListToPullEmailsFrom.get(i).getUser().getEmail(), 
+					myManuscript.getAuthorEmails().get(i).equals(userListToPullEmailsFrom.get(i).getUser().getEmail()));
 		}
 	}
 	

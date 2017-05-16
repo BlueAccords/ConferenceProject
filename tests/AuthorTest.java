@@ -23,6 +23,21 @@ public class AuthorTest {
 		myUserForAuthor = new User ("rickluvsszechuansauce@gmail.com");
 		myTestAuthor = new Author (myUserForAuthor);
 	}
+	
+	
+	/**
+	 * Tests that the Author constructor that takes the first and last name only will
+	 * throw a NullPointerException if getUser and any subsequent User-based methods are called.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/15/2017
+	 */
+	@Test (expected = NullPointerException.class)
+	public void authorConstructor_TestAuthorConstructorFirstAndLastNameForNullReturningUserThrowsNullPointerException() {
+		Author authorMadeWithNoUser = new Author("Bird", "Person");
+		authorMadeWithNoUser.getUser().getEmail();
+		fail("Called getUser and still received the email from a null User returned");
+	}
 
 	
 	/**
@@ -35,7 +50,7 @@ public class AuthorTest {
 	@Test
 	public void addManuscript_TestAddManuscriptForCorrectlyAddedManuscript() {
 		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		myTestAuthor.addManuscript(newManuscriptToAdd);
 		assertTrue("The list of manuscripts attached to this author does not contain the new manuscript", 
@@ -54,10 +69,10 @@ public class AuthorTest {
 	@Test
 	public void addManuscript_TestAddManuscriptForCorrectListValuesAndListSize() {
 		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		Manuscript differentNewManuscriptToAdd = new Manuscript ("Environmental Impacts of Mega Seed Harvests", 
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		myTestAuthor.addManuscript(newManuscriptToAdd);
 		myTestAuthor.addManuscript(differentNewManuscriptToAdd);
@@ -87,7 +102,7 @@ public class AuthorTest {
 	@Test
 	public void removeManuscript_TestRemoveManuscriptForCorrectEmptyListAfterOperation() {
 		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		myTestAuthor.addManuscript(newManuscriptToAdd);
 		assertEquals("The list size is not 1: " + myTestAuthor.getNumSubmittedManuscripts(), myTestAuthor.getNumSubmittedManuscripts(), 1);
@@ -113,7 +128,7 @@ public class AuthorTest {
 	@Test (expected = ManuscriptNotInListException.class)
 	public void removeManuscript_TestRemoveManuscriptForExceptionByRemovingFromEmptyList() throws ManuscriptNotInListException {
 		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		myTestAuthor.removeManuscript(newManuscriptToAdd);
 		fail("ManuscriptNotInListException not thrown after removing from an empty list");
@@ -132,10 +147,10 @@ public class AuthorTest {
 	@Test (expected = ManuscriptNotInListException.class)
 	public void removeManuscript_TestRemoveManuscriptForExceptionByRemovingManuscriptThatIsNotInList() throws ManuscriptNotInListException {
 		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		Manuscript differentNewManuscriptToAdd = new Manuscript ("Environmental Impacts of Mega Seed Harvests", 
-				new File("C:/users/connor/documents/test.txt"), myUserForAuthor);
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
 		
 		
 		myTestAuthor.addManuscript(newManuscriptToAdd);

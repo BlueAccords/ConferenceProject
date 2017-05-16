@@ -5,13 +5,14 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import model.*;
+import model.Manuscript.AuthorExistsInListException;
 
 /**
  * The System controller that handles the different states of the 
  * program. It is the bridge between the UI and the Model. 
  * 
  * @author Connor Lundberg
- * @version 5/13/2017
+ * @version 5/15/2017
  */
 public class Controller extends Observable implements Observer {
 
@@ -35,11 +36,14 @@ public class Controller extends Observable implements Observer {
 	public static final int LIST_ASSIGNED_REVIEWERS_VIEW = 5;
 
 	
-	//Objects we are adding in the //System. We are saving them because we need persistence between states.
+	//Objects we are adding in the System. We are saving them because we need persistence between states.
 	private int myCurrentState;
 
+	private User myCurrentUser;
 	private Conference myCurrentConference;
 	private Manuscript myCurrentManuscript;
+	private Author myCurrentAuthor;
+	private SubprogramChair myCurrentSubprogramChair;
 	private Reviewer myCurrentReviewer;
 	
 
@@ -52,8 +56,11 @@ public class Controller extends Observable implements Observer {
 	 */
 	public Controller () {
 		myCurrentState = AUTHOR;
+		myCurrentUser = new User(null);
 		myCurrentConference = new Conference(null, null, null, null, null);
 		myCurrentManuscript = new Manuscript(null, null, null);
+		myCurrentAuthor = new Author(myCurrentUser);
+		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);
 	}
 	
@@ -242,6 +249,8 @@ public class Controller extends Observable implements Observer {
 	 * Sets the current state to the passed int value. Used for testing
 	 * purposes only.
 	 * 
+	 * Pre: theNewState must be a value made from the Controller class constants.
+	 * 
 	 * @param theNewState The new state to set
 	 * @author Connor Lundberg
 	 * @version 5/6/2017
@@ -303,13 +312,29 @@ public class Controller extends Observable implements Observer {
 	 * Makes the Manuscript to submit. This is just a helper method for clarity of
 	 * FSM.
 	 * 
-	 * @param thePieces The parsed String array
+	 * @param thePieces The parsed String array received from changeState
 	 * @return The new Manuscript
 	 * @author Connor Lundberg
 	 * @version 5/6/2017
 	 */
 	private Manuscript makeManuscript (String[] thePieces) {
-		return null;
+		//Creating the return manuscript. May need to refactor Manuscript to take an Author instead of a User.
+		//Not sure why it's using that.
+		Manuscript returnManuscript = new Manuscript(thePieces[1], new File(thePieces[2]), myCurrentAuthor);
+		returnManuscript.setSubmissionDate(new Date());
+		for (int i = 3; i < thePieces.length; i++) {
+			String[] name = thePieces[i].split(" ");
+			Author temp = new Author(name[0], name[1]);
+			try {
+				returnManuscript.addAuthor(new Author(name[0], name[1]));
+				temp.addManuscript(returnManuscript);
+			} catch (AuthorExistsInListException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();											//Will need to replace this with something else.
+			}
+		}
+		
+		return returnManuscript;
 	}
 	
 	
