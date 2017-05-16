@@ -33,6 +33,16 @@ public class Manuscript implements Serializable{
 	/** The list of authors by username, index 0 is the primary author. */
 	private ArrayList<Author> myAuthors;
 	
+	/** The list of reviews given to this manuscript. */
+	private ArrayList<File> myReviews;
+	
+	/** The minimum number of reviews in order for this manuscript 
+	 * to be ready for recommendation.*/
+	private static final int SUFFICIENT_REVIEWS = 3;
+	
+	/** Current state of whether this manuscript can be recommended. */
+	private boolean isRecommendable;
+	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
@@ -147,6 +157,27 @@ public class Manuscript implements Serializable{
 			myAuthors.add(theAuthor);
 		else
 			throw new AuthorExistsInListException();
+	}
+	
+	/**
+	 * Adds a review to the manuscript by adding file to myReviews list.
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/16/17
+	 * 
+	 */
+	public void addReview(File theReview){
+		myReviews.add(theReview);
+		if (myReviews.size() >= SUFFICIENT_REVIEWS){
+			isRecommendable = true;
+		}
+	}
+	
+	/**
+	 * Gets boolean state of isRecommendable field.
+	 */
+	public boolean isRecommendable(){
+		return isRecommendable;
 	}
 	
 	/**
