@@ -17,7 +17,7 @@ import java.util.Date;
  */
 
 public class Conference implements Serializable{
-	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/confData.ser";
+	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
 	private static final int MAX_AUTHOR_SUBMISSIONS = 5;

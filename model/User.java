@@ -6,7 +6,8 @@
 
 package model;
 
-import java.io.Serializable;
+import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Representation of a User in the conference program. 
@@ -15,6 +16,8 @@ import java.io.Serializable;
  *
  */
 public class User implements Serializable{
+
+	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/userData.ser";
 
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 8870025955073752215L;
@@ -109,24 +112,108 @@ public class User implements Serializable{
 		this.myEmail = theEmail;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-		
-		
-		
-		
-	
+	/**
+	 * Writes the passed list of users to a file for storage and retrieval.
+	 * returns true if write successful, false otherwise.
+	 * @param theUsers List of all Users.
+	 * @return t/f if write successful.
+	 * @author James Roberts
+	 * @version 4/27/2017
+	 */
+	public static boolean writeUsers(ArrayList<User> theUsers) {
+		FileOutputStream fout = null;
+		ObjectOutputStream oos = null;
+
+		//Try to open both streams and write the ArrayList
+		try {
+			fout = new FileOutputStream(PERSISTENT_DATA_LOCATION);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(theUsers);
+
+		} catch (Exception e) {
+			e.printStackTrace(); //Maybe remove this in final version?
+			return false;
+		} finally {
+			// Close both streams, return false if there is an issue.
+			if(fout != null) {
+				try {
+					fout.close();
+				} catch (Exception e) {
+					return false;
+				}
+			}
+
+			if(oos != null) {
+				try {
+					oos.close();
+				} catch (Exception e) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Reads the ArrayList of Users stored in the file destination the object
+	 * was initialized with, returns null if the operation failed.
+	 * @return The list of stored Users.
+	 * @author James Roberts
+	 * @version 4/28/2017
+	 */
+	public static ArrayList<User> readUsers() {
+		ArrayList<User> allUsers = new ArrayList<User>();
+		FileInputStream fin = null;
+		ObjectInputStream ois = null;
+		//attempt to open the file and read in the ArrayList
+		try {
+			fin = new FileInputStream(PERSISTENT_DATA_LOCATION);
+			ois = new ObjectInputStream(fin);
+			//This unchecked cast should be ok since we are the ones in control of the system.
+			allUsers = (ArrayList<User>) ois.readObject();
+
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return null;
+		} finally {
+			//close both streams
+			if (ois != null) {
+				try {
+					ois.close();
+				} catch (Exception e) {
+					// need to do something here to indicate failure?
+				}
+			}
+
+			if (ois != null) {
+				try {
+					ois.close();
+				} catch (Exception e) {
+					// need to do something here to indicate failure?
+				}
+			}
+		}
+
+		return allUsers;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
