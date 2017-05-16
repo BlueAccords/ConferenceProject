@@ -57,7 +57,7 @@ public class Controller extends Observable implements Observer {
 	public Controller () {
 		myCurrentState = AUTHOR;
 		myCurrentUser = new User(null);
-		myCurrentConference = new Conference(null, null, null, null, null);
+		myCurrentConference = new Conference("", null, null, null, null);
 		myCurrentManuscript = new Manuscript(null, null, null);
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
@@ -139,7 +139,8 @@ public class Controller extends Observable implements Observer {
 									notifyObservers(myCurrentState);
 									break;
 								}
-
+								//TODO Will need to add this Manuscript into some serialized list for storage.
+								myCurrentManuscript = manuscriptToSubmit;
 								myCurrentState = AUTHOR + LIST_MANUSCRIPT_VIEW;
 								setChanged();
 								notifyObservers(myCurrentState);
@@ -245,6 +246,11 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public Manuscript getManuscript() {
+		return myCurrentManuscript;
+	}
+	
+	
 	/**
 	 * Sets the current state to the passed int value. Used for testing
 	 * purposes only.
@@ -282,7 +288,7 @@ public class Controller extends Observable implements Observer {
 	 * @author Josiah Hopkins
 	 * @version 5/6/2017
 	 */
-    private Conference findConference(String theNextState, List<Conference> conferenceList) {
+    private Conference findConference(String theNextState, List<Conference> conferenceList) {			//May move this into another class to share responsibilities.
 	    for(Conference c: conferenceList){
 
         }
@@ -300,7 +306,7 @@ public class Controller extends Observable implements Observer {
 	 * @author Josiah Hopkins
 	 * @version 5/6/2017
 	 */
-    private Reviewer findReviewer(String theNextState, List<Reviewer> pastReviewers) {
+    private Reviewer findReviewer(String theNextState, List<Reviewer> pastReviewers) {			//May move this into another class to share responsibilities.
 		for(Reviewer r: pastReviewers){
 
 		}
@@ -311,6 +317,9 @@ public class Controller extends Observable implements Observer {
 	/**
 	 * Makes the Manuscript to submit. This is just a helper method for clarity of
 	 * FSM.
+	 * 
+	 * Post: Can return a null returnManuscript if any Author name included in the
+	 * passed String is already an Author for the Manuscript.
 	 * 
 	 * @param thePieces The parsed String array received from changeState
 	 * @return The new Manuscript
@@ -329,8 +338,9 @@ public class Controller extends Observable implements Observer {
 				returnManuscript.addAuthor(new Author(name[0], name[1]));
 				temp.addManuscript(returnManuscript);
 			} catch (AuthorExistsInListException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();											//Will need to replace this with something else.
+				//If the exception is thrown, then makeManuscript will return null
+				returnManuscript = null;
+				break;
 			}
 		}
 		
@@ -339,16 +349,16 @@ public class Controller extends Observable implements Observer {
 	
 	
 	/**
-	 * Sets the new Account. This checks if theNewAccount is a valid Account within
-	 * the AccountDatabase. If so, then it will set the current Account to theNewAccount,
-	 * otherwise it will add theNewAccount to the AccountDatabase.
+	 * Sets the field myCurrentUser to theNewUser.
 	 * 
-	 * @param theNewAccount The new Account to set.
+	 * Pre: theNewUser is not null received from the update.
+	 * 
+	 * @param theNewUser The new User to set.
 	 * @author Connor Lundberg
-	 * @version 5/6/2017
+	 * @version 5/15/2017
 	 */
-	private void setAccount (User theNewAccount) {
-
+	private void setUser (User theNewUser) {
+		myCurrentUser = theNewUser;
 	}
 	
 	
@@ -358,17 +368,16 @@ public class Controller extends Observable implements Observer {
 	
 	
 	/**
-	 * Sets the new Conference. This checks if theNewConference is a valid Conference within
-	 * the ConferenceDatabase. If so, then it will set the current Conference to theNewConference,
-	 * otherwise it will add theNewConference to the ConferenceDatabase. *A new Conference should
-	 * not be added in any case other than with the Program Chair.
+	 * Sets the field myCurrentConference to theNewConference.
+	 * 
+	 * Pre: theNewConference is not null received from the update.
 	 * 
 	 * @param theNewConference The new Conference to set.
 	 * @author Connor Lundberg
-	 * @version 5/6/2017
+	 * @version 5/15/2017
 	 */
 	public void setConference (Conference theNewConference) {
-
+		myCurrentConference = theNewConference;
 	}
 	
 	
@@ -389,6 +398,8 @@ public class Controller extends Observable implements Observer {
 			changeState ((String) arg1);
 		} else if (arg1 instanceof Conference) {
 			setConference((Conference) arg1);
+		} else if (arg1 instanceof User) {
+			setUser((User) arg1);
 		}
 	}
 		

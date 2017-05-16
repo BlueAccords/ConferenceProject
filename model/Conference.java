@@ -57,19 +57,19 @@ public class Conference implements Serializable{
 	/**
 	 * Constructors for the object.
 	 * @param theConferenceName The name of the conference.
-	 * @param thePDead The paper deadline.
-	 * @param theRevDead The review deadline.
-	 * @param theRecDead The recommendation deadline.
-	 * @param theFinalDead The final decision deadline.
+	 * @param theManuscriptDeadline The paper deadline.
+	 * @param theReviewerDeadline The review deadline.
+	 * @param theRecommendationDeadline The recommendation deadline.
+	 * @param theFinalDecisionDeadline The final decision deadline.
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public Conference(String theConferenceName, Date thePDead, Date theRevDead, Date theRecDead, Date theFinalDead) {
+	public Conference(String theConferenceName, Date theManuscriptDeadline, Date theReviewerDeadline, Date theRecommendationDeadline, Date theFinalDecisionDeadline) {
 		myConferenceName = theConferenceName;
-		myManuscriptDeadline = new Date(thePDead.getTime());
-		myReviewDeadline = new Date(theRevDead.getTime());
-		myRecDeadline = new Date(theRecDead.getTime());
-		myFinalDeadline = new Date(theFinalDead.getTime());
+		myManuscriptDeadline = new Date(theManuscriptDeadline.getTime());
+		myReviewDeadline = new Date(theReviewerDeadline.getTime());
+		myRecDeadline = new Date(theRecommendationDeadline.getTime());
+		myFinalDeadline = new Date(theFinalDecisionDeadline.getTime());
 		myManuscripts = new ArrayList<Manuscript>();
 		conferenceAuthors = new ArrayList<Author>();
 		conferenceReviewers = new ArrayList<Reviewer>();
