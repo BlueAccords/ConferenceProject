@@ -4,7 +4,7 @@
  * 
  */
 
-package conference_package;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ public class SubprogramChair implements Serializable{
 
 	/** The maximum number of manuscripts for a reviewer. */
 	private static final int MAX_REVIEW_PAPERS = 8;
+	
 	
 	/** The user ID (email) associated with this SubprogramChair. */
 	User myUser;
@@ -173,6 +174,31 @@ public class SubprogramChair implements Serializable{
 			}
 			return false;
 			
+		}
+		
+		/**
+		 * Checks whether theConference deadline for manuscript submission
+		 * exceeds todays date.  If so (the deadline is still in the future), 
+		 * the Subprogram Chair is not able to assign reviewer.
+		 *
+		 * 
+		 * 
+		 * @return boolean value whether a reviewer can be assigned.
+		 */
+		public boolean isAbleToAssignReviewer(){
+		
+			return false;
+		}
+		//I think the check for reviews should go into manuscript class.
+		/**
+		 * Checks whether theManuscript has at least SUFFICIENT_REVIEWS.
+		 * If so, returns true.
+		 * 
+		 * @return whether theManuscript has at least SUFFICIENT_REVIEWS
+		 */
+		public boolean isAbleToRecommend(){
+			
+			return false;
 		}
 		
 		/**

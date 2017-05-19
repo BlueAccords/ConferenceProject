@@ -1,0 +1,12 @@
+/Author.class
+/Conference.class
+/ConferenceReadWrite.class
+/Manuscript.class
+/Reviewer.class
+/SubprogramChair.class
+/User.class
+/UserReadWrite.class
+/Manuscript$AuthorExistsInListException.class
+/Manuscript$AuthorDoesNotExistInListException.class
+/Author$ManuscriptNotInListException.class
+/SubprogramChairTest.class
