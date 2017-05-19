@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -31,8 +32,8 @@ public class UI_Author_Conference_View extends JPanel implements ActionListener{
 		setOpaque(true);
 	}
 	
-	private void createConferenceOptions() {
-		JPanel buttonPanel = new JPanel(new GridLayout(0,1));
+	private void createConferenceList() {
+		JPanel conferenceListPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		for (int i = 0; i < size; i++) {
 			JButton button = new JButton(text);
@@ -43,13 +44,75 @@ public class UI_Author_Conference_View extends JPanel implements ActionListener{
 		        }  
 		    }); 
 			group.add(button);
-			buttonPanel.add(button);
+			conferenceListPanel.add(button);
 			
 		}
-		buttonPanel.setOpaque(true);
-		add(buttonPanel, BorderLayout.CENTER);
+		conferenceListPanel.setOpaque(true);
+		conferenceListPanel.setBorder(BorderFactory.createTitledBorder(
+		        BorderFactory.createEtchedBorder(), "Conference List"));
+		add(conferenceListPanel, BorderLayout.CENTER);
 		
 	}
+	
+	private void createConferenceOptions() {
+		JPanel conferenceOptionPanel = new JPanel(new GridLayout(0,1));
+		
+		JButton submitButton = new JButton("Submit Manuscript");
+		submitButton.setActionCommand("Submit Manuscript");
+		submitButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+		        update("Submit Manuscript");  
+		    }  
+		}); 
+		conferenceOptionPanel.add(submitButton);
+		
+		JButton viewManuscriptButton = new JButton("View Manuscripts");
+		viewManuscriptButton.setActionCommand("View Manuscripts");
+		viewManuscriptButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+		        update("View Manuscripts");  
+		    }  
+		}); 
+		conferenceOptionPanel.add(viewManuscriptButton);
+		
+		conferenceOptionPanel.setOpaque(true);
+		conferenceOptionPanel.setBorder(BorderFactory.createTitledBorder(
+		        BorderFactory.createEtchedBorder(), "Conference Options"));
+		add(conferenceOptionPanel, BorderLayout.CENTER);
+		
+	}
+	
+	private void createManuscriptOptions() {
+		JPanel manuscriptOptionPanel = new JPanel(new GridLayout(0,1));
+		
+		JButton submitButton = new JButton("Submit Manuscript");
+		submitButton.setActionCommand("Submit Manuscript");
+		submitButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+		        update("Submit Manuscript");  
+		    }  
+		}); 
+		manuscriptOptionPanel.add(submitButton);
+		
+		JButton viewManuscriptButton = new JButton("View Manuscripts");
+		viewManuscriptButton.setActionCommand("View Manuscripts");
+		viewManuscriptButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+		        update("View Manuscripts");  
+		    }  
+		}); 
+		manuscriptOptionPanel.add(viewManuscriptButton);
+		
+		manuscriptOptionPanel.setOpaque(true);
+		manuscriptOptionPanel.setBorder(BorderFactory.createTitledBorder(
+		        BorderFactory.createEtchedBorder(), "Conference Options"));
+		add(manuscriptOptionPanel, BorderLayout.CENTER);
+		
+	}
+	
+	
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
