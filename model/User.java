@@ -162,7 +162,7 @@ public class User implements Serializable{
 	 * @author James Roberts
 	 * @version 4/28/2017
 	 */
-	public static ArrayList<User> readUsers() {
+	public static ArrayList<User> getUsers() {
 		ArrayList<User> allUsers = new ArrayList<User>();
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
@@ -197,23 +197,4 @@ public class User implements Serializable{
 
 		return allUsers;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
