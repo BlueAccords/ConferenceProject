@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import model.*;
 import model.Manuscript.AuthorExistsInListException;
+import client.UI_ParentFrame_View;
 
 /**
  * The System controller that handles the different states of the 
@@ -97,6 +98,7 @@ public class Controller extends Observable implements Observer {
 		if (myCurrentState < 0) {
 			switch (myCurrentState) {
 				case LOG_IN_STATE:
+					UI_ParentFrame_View parentFrame = new UI_ParentFrame_View("Conference Program", 400, 600);
 					myCurrentState = CHOOSE_USER;
 					
 					setChanged();
