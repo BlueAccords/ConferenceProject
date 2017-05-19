@@ -64,7 +64,10 @@ public class ControllerTest {
 				manuscriptWithSameValuesToCompare);
 	}
 
-	
+
+
+
+
 	/**
 	 * A simple helper class to show the changes to the state machine in Controller.
 	 * @author Connor

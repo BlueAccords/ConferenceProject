@@ -370,7 +370,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public static ArrayList<Conference> readConferences() {
+	public static ArrayList<Conference> getConferences() {
 		ArrayList<Conference> allConfs = new ArrayList<Conference>();
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
