@@ -12,10 +12,12 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import model.Conference;
+import model.Manuscript;
 
 public class UI_Author_Conference_View extends Observable  implements Observer {
 	
 	  private ArrayList<Conference> myConferenceList;
+	  private ArrayList<Manuscript> myManuscriptList;
 	  private int myCounter;
 	
 	/**
@@ -25,12 +27,13 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 	
 	public UI_Author_Conference_View() {
 		myConferenceList = new ArrayList<Conference>();
+		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;
 
 		
 	}
 	
-	private JPanel createConferenceList() {
+	public JPanel createConferenceList() {
 		JPanel conferenceListPanel = new JPanel(new GridLayout(0,1));
 		int i;
 		ButtonGroup group = new ButtonGroup();
@@ -54,7 +57,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 		
 	}
 	
-	private JPanel createConferenceOptions() {
+	public JPanel createConferenceOptions() {
 		JPanel conferenceOptionPanel = new JPanel(new GridLayout(0,1));
 		
 		JButton submitButton = new JButton("Submit Manuscript");
@@ -84,7 +87,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 		
 	}
 	
-	private JPanel createManuscriptOptions() {
+	public JPanel createManuscriptOptions() {
 		JPanel manuscriptOptionPanel = new JPanel(new GridLayout(0,1));
 		
 		JButton editButton = new JButton("Edit Manuscript");
@@ -122,6 +125,21 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 		        BorderFactory.createEtchedBorder(), "Conference Options"));
 		
 		return manuscriptOptionPanel;
+		
+	}
+	
+	public JPanel submitManuscriptView() {
+		
+		
+		return 
+		
+	}
+	
+	
+	public JPanel viewManuscriptListView() {
+		
+		
+		return 
 		
 	}
 
