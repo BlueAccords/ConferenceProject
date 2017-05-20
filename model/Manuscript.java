@@ -212,10 +212,11 @@ public class Manuscript implements Serializable{
 	 * @param thePaper The new paper file.
 	 * 
 	 * @author James Roberts
+	 * @author Casey Anderson
 	 * @version 4/27/2017
 	 */
-	public void updatePaper(File thePaper) {
-		myManuscript = thePaper;
+	public void updateManuscript(File theManuscript) {
+		myManuscript = theManuscript;
 	}
 
 	
