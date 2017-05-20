@@ -58,7 +58,7 @@ public class Controller extends Observable implements Observer {
 	public Controller () {
 		myCurrentState = AUTHOR;
 		myCurrentUser = new User(null);
-		myCurrentConference = new Conference("", null, null, null, null);
+		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
 		myCurrentManuscript = new Manuscript(null, null, null);
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
@@ -396,6 +396,7 @@ public class Controller extends Observable implements Observer {
 	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		System.out.println("Cntroller updated");
 		if (arg1 instanceof String) {
 			changeState ((String) arg1);
 		} else if (arg1 instanceof Conference) {
