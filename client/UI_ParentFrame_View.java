@@ -56,8 +56,8 @@ public class UI_ParentFrame_View extends Observable implements Observer {
         buttonPanel.add(btn1);
         buttonPanel.add(btn2);
 
-        myFrame.getContentPane().add(cardPanel, BorderLayout.NORTH);
-        myFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        myFrame.getContentPane().add(cardPanel, BorderLayout.CENTER);
+        //myFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
         btn1.addActionListener(e -> {
         	System.out.println("btn1 was hit");

@@ -2,18 +2,33 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
+/**
+ * This Login view will instantiate a JPanel and hold 2 child panels
+ * which are the login form and the buttons to login, register, or exit
+ * @author Ryan Tran
+ * @version 5/20/17
+ */
 public class LoginView {
 
+	// Parent Panel that holds the child panels
 	private JPanel myPanel;
+	
+	// Panel that holds login forms and labels
 	private JPanel myFormPanel;
+	
+	// Panel that holds buttons like login, register and exit
 	private JPanel myBtnPanel;
 	private JButton myLoginBtn;
 	private JButton myExitBtn;
@@ -21,14 +36,25 @@ public class LoginView {
 	private JTextField myUsernameField;
 	private JLabel myUsernameLabel;
 	
+	private JLabel myProgramTitleLabel;
+	
 	public LoginView() {
 		// initalize components
-		myPanel = new JPanel(new BorderLayout());
+		myPanel = new JPanel();
+		myPanel.setLayout(new BorderLayout());
+
 		myLoginBtn = new JButton("Login");
 		myRegisterBtn = new JButton("Register");
 		myExitBtn = new JButton("Exit");
 		myUsernameLabel = new JLabel("Username:");
+		myProgramTitleLabel = new JLabel("MSEE Conference Manager", SwingConstants.CENTER);
 		myUsernameField = new JTextField(20);
+		
+		// add title to parent panel
+		myProgramTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+		myProgramTitleLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		myPanel.add(myProgramTitleLabel, BorderLayout.NORTH);
+
 		
 		// Set up panel for form elements(excluding buttons)
 		myFormPanel = new JPanel();
@@ -77,8 +103,11 @@ public class LoginView {
 		btnGbc.fill = GridBagConstraints.HORIZONTAL;
 		btnGbc.ipady = 5;
 		myBtnPanel.add(myExitBtn, btnGbc);
-
 		
+		// set padding
+		myBtnPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		// add setup button panel to parent panel
 		myPanel.add(myBtnPanel, BorderLayout.SOUTH);
 		
 		
