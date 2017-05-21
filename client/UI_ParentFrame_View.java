@@ -10,13 +10,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.TreeMap;
 
 
 public class UI_ParentFrame_View extends Observable implements Observer {
 	private static final long serialVersionUID = 6981714533618801412L;
+
 	private JFrame myFrame;
+	private Map<String, JPanel> myPanelList;
 	private JPanel cardPanel, jp1, jp2, buttonPanel;
 	private JLabel jl1, jl2;
 	private JButton btn1, btn2;
@@ -29,6 +33,8 @@ public class UI_ParentFrame_View extends Observable implements Observer {
 		myFrame.setSize(theX, theY);
 		myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         
+		myPanelList = new TreeMap<String, JPanel>();
+		
         cardPanel = new JPanel();
         buttonPanel = new JPanel();
 
@@ -83,6 +89,40 @@ public class UI_ParentFrame_View extends Observable implements Observer {
 	 */
 	public JFrame getJFrame() {
 		return this.myFrame;
+	}
+	
+
+	/**
+	 * This method will add a panel to the JFrame as well ass the panel and its associated name
+	 * to the parent view's list of panels which will allow switching to the JPanel.
+	 * 
+	 * PreConditions:
+	 * 	thePanel and thePanelName must be non-null 
+	 * @param thePanel The JPanel to add to the parent Jframe's list of panels that it can switch between.
+	 * @param thePanelName The String name that will be used to allow switching to the given JPanel
+	 */
+	public void addPanel(JPanel thePanel, String thePanelName) {
+		if(this.myPanelList.containsKey(thePanelName)) {
+			throw new IllegalArgumentException("Panel with that panel name has already been added to the JFrame");
+		}
+		
+		this.myPanelList.put(thePanelName, thePanel);
+        cardPanel.add(thePanel, thePanelName);
+	}
+	
+	/**
+	 * This method will switch the view to the panel that belongs to the passed in panel name.
+	 * @param thePanelName
+	 */
+	public void switchToPanel(String thePanelName) {
+		JPanel panelToSwitchTo = this.myPanelList.get(thePanelName);
+		
+		if(panelToSwitchTo == null) {
+			throw new IllegalArgumentException("Panel Name argument does not belong to a valid JPanel");
+		}
+		
+		CardLayout cl = (CardLayout) cardPanel.getLayout();
+    	cl.show(cardPanel, thePanelName);
 	}
 
 

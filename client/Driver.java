@@ -7,6 +7,7 @@ public class Driver {
 		UI_ParentFrame_View systemUI = new UI_ParentFrame_View("Main Window", 400, 600);
 		systemController.addObserver(systemUI);
 		systemUI.addObserver(systemController);
+		
 		systemUI.getJFrame().show();
 		systemController.startProgram();
 	}
