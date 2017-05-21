@@ -43,8 +43,12 @@ public class UI_ParentFrame_View extends Observable implements Observer {
         jp1.add(jl1);
         jp2.add(jl2);
 
-        cardPanel.add(jp1, "1");
+        LoginView loginView = new LoginView();
+        JPanel loginPanel = loginView.getPanel();
+        
+        cardPanel.add(loginPanel, "1");
         cardPanel.add(jp2, "2");
+
 
         btn1 = new JButton("Show Card 1");
         btn2 = new JButton("Show Card 2");
@@ -60,7 +64,6 @@ public class UI_ParentFrame_View extends Observable implements Observer {
         	CardLayout cl = (CardLayout) cardPanel.getLayout();
         	setChanged();
         	notifyObservers("test from ui frame");
-
         	cl.show(cardPanel, "1");
         });
         
