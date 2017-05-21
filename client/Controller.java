@@ -40,7 +40,6 @@ public class Controller extends Observable implements Observer {
 	
 	//Objects we are adding in the System. We are saving them because we need persistence between states.
 	private int myCurrentState;
-
 	private User myCurrentUser;
 	private Conference myCurrentConference;
 	private Manuscript myCurrentManuscript;
@@ -48,6 +47,9 @@ public class Controller extends Observable implements Observer {
 	private SubprogramChair myCurrentSubprogramChair;
 	private Reviewer myCurrentReviewer;
 	private ParentFrameView myParentFrame;
+	
+	// Persistent Data for objects we will be serializing/deserializing
+	private ArrayList<User> myUserList;
 	
 
 	/**
@@ -65,6 +67,12 @@ public class Controller extends Observable implements Observer {
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);
+		
+		// initialization data from local serialized file
+		myUserList = User.getUsers();
+		
+		// temporary test data;
+		myUserList.add(new User("john@email.com"));
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
@@ -85,7 +93,7 @@ public class Controller extends Observable implements Observer {
 		// set intial view to login panel
 		LoginView loginView = new LoginView();
 		JPanel loginPanel = loginView.getPanel();
-		loginView.addObserver(myParentFrame);
+		loginView.addObserver(this);
 		myParentFrame.addPanel(loginPanel, "loginPanel");
 		myParentFrame.getJFrame().setVisible(true);
 
@@ -408,7 +416,23 @@ public class Controller extends Observable implements Observer {
 	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println("Cntroller updated");
+
+		// If current state is login state, verify that passed in arg
+		// is a string and validate to check if username belongs to a user
+		if(myCurrentState == LOG_IN_STATE) {
+			if(arg1 instanceof String) {
+				// verify if email belongs to given user else stay within same state
+				if(User.doesEmailBelongToUser(myUserList, (String) arg1)) {
+					myCurrentUser = User.getUserByEmail(myUserList, (String) arg1);
+					UI_Author_Conference_View authConfView = new UI_Author_Conference_View();
+					myParentFrame.addPanel(authConfView.createConferenceListView(), "AuthConfView");
+					myParentFrame.switchToPanel("AuthConfView");
+				} else {
+					return;
+				}
+			}
+		}
+		
 		if (arg1 instanceof String) {
 			changeState ((String) arg1);
 		} else if (arg1 instanceof Conference) {

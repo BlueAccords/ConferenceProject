@@ -118,7 +118,7 @@ public class ParentFrameView extends Observable implements Observer {
 			setChanged();
 			notifyObservers(arg);
 		} else if(arg instanceof String) {
-			System.out.println("Username was entered?");
+			System.out.println(arg + "Username was entered");
 		}
 		
 	}
