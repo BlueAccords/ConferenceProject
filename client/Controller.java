@@ -4,9 +4,10 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import javax.swing.JPanel;
+
 import model.*;
 import model.Manuscript.AuthorExistsInListException;
-import client.UI_ParentFrame_View;
 
 /**
  * The System controller that handles the different states of the 
@@ -46,6 +47,7 @@ public class Controller extends Observable implements Observer {
 	private Author myCurrentAuthor;
 	private SubprogramChair myCurrentSubprogramChair;
 	private Reviewer myCurrentReviewer;
+	private ParentFrameView myParentFrame;
 	
 
 	/**
@@ -63,6 +65,9 @@ public class Controller extends Observable implements Observer {
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);
+		
+		// initialize parent JFrame window and initialize observer connection between the two
+		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
 	}
 	
 	
@@ -76,6 +81,13 @@ public class Controller extends Observable implements Observer {
 	 */
 	public void startProgram () {
 		myCurrentState = LOG_IN_STATE;
+		
+		// set intial view to login panel
+		LoginView loginView = new LoginView();
+		JPanel loginPanel = loginView.getPanel();
+		myParentFrame.addPanel(loginPanel, "loginPanel");
+		myParentFrame.getJFrame().setVisible(true);
+
 		setChanged();
 		notifyObservers(myCurrentState);
 	}
@@ -98,7 +110,6 @@ public class Controller extends Observable implements Observer {
 		if (myCurrentState < 0) {
 			switch (myCurrentState) {
 				case LOG_IN_STATE:
-					UI_ParentFrame_View parentFrame = new UI_ParentFrame_View("Conference Program", 400, 600);
 					myCurrentState = CHOOSE_USER;
 					
 					setChanged();

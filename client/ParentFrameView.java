@@ -16,7 +16,7 @@ import java.util.Observer;
 import java.util.TreeMap;
 
 
-public class UI_ParentFrame_View extends Observable implements Observer {
+public class ParentFrameView extends Observable implements Observer {
 	private static final long serialVersionUID = 6981714533618801412L;
 
 	private JFrame myFrame;
@@ -27,7 +27,7 @@ public class UI_ParentFrame_View extends Observable implements Observer {
 	private CardLayout cardLayout;
 
 	
-	UI_ParentFrame_View(String theTitle, int theX, int theY) {
+	ParentFrameView(String theTitle, int theX, int theY) {
 		this.myFrame = new JFrame(theTitle);
 
 		myFrame.setSize(theX, theY);
@@ -36,35 +36,18 @@ public class UI_ParentFrame_View extends Observable implements Observer {
 		myPanelList = new TreeMap<String, JPanel>();
 		
         cardPanel = new JPanel();
-        buttonPanel = new JPanel();
-
         cardPanel.setLayout(new CardLayout());
 
-        jp1 = new JPanel();
-        jp2 = new JPanel();
-
-        jl1 = new JLabel("Card 1");
-        jl2 = new JLabel("Card 2");
-
-        jp1.add(jl1);
-        jp2.add(jl2);
-
-        LoginView loginView = new LoginView();
-        JPanel loginPanel = loginView.getPanel();
-        
-        cardPanel.add(loginPanel, "1");
-        cardPanel.add(jp2, "2");
-
-
-        btn1 = new JButton("Show Card 1");
-        btn2 = new JButton("Show Card 2");
-
-        buttonPanel.add(btn1);
-        buttonPanel.add(btn2);
-
         myFrame.getContentPane().add(cardPanel, BorderLayout.CENTER);
-        //myFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
+        
+//        LoginView loginView = new LoginView();
+//        JPanel loginPanel = loginView.getPanel();
+//        addPanel(loginPanel, "loginPanel");
+        //cardPanel.add(loginPanel, "1");
+
+
+        /*
         btn1.addActionListener(e -> {
         	System.out.println("btn1 was hit");
         	CardLayout cl = (CardLayout) cardPanel.getLayout();
@@ -79,7 +62,7 @@ public class UI_ParentFrame_View extends Observable implements Observer {
         	cl.show(cardPanel, "2");
         });
 
-
+		*/
 
     }
 	
@@ -108,6 +91,10 @@ public class UI_ParentFrame_View extends Observable implements Observer {
 		
 		this.myPanelList.put(thePanelName, thePanel);
         cardPanel.add(thePanel, thePanelName);
+        switchToPanel(thePanelName);
+        
+        cardPanel.revalidate();
+        cardPanel.repaint();
 	}
 	
 	/**
@@ -125,10 +112,14 @@ public class UI_ParentFrame_View extends Observable implements Observer {
     	cl.show(cardPanel, thePanelName);
 	}
 
-
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("UI Parent Frame was notified of update");
+		if(arg instanceof Integer) {
+			setChanged();
+			notifyObservers(arg);
+		}
 		
 	}
+	
 }
