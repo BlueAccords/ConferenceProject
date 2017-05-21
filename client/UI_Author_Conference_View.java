@@ -38,7 +38,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 		int i;
 		ButtonGroup group = new ButtonGroup();
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
-			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName() + "	" + myConferenceList.get(myCounter).getPaperDeadline());
+			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName() + "	" + myConferenceList.get(myCounter).getManuscriptDeadline());
 			button.setActionCommand(myConferenceList.get(myCounter).getConferenceName());
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
@@ -131,7 +131,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 	public JPanel submitManuscriptView() {
 		
 		
-		return 
+		return new JPanel();
 		
 	}
 	
@@ -139,7 +139,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 	public JPanel viewManuscriptListView() {
 		
 		
-		return 
+		return new JPanel();
 		
 	}
 
