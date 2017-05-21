@@ -85,6 +85,7 @@ public class Controller extends Observable implements Observer {
 		// set intial view to login panel
 		LoginView loginView = new LoginView();
 		JPanel loginPanel = loginView.getPanel();
+		loginView.addObserver(myParentFrame);
 		myParentFrame.addPanel(loginPanel, "loginPanel");
 		myParentFrame.getJFrame().setVisible(true);
 

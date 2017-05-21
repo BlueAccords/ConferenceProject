@@ -40,7 +40,6 @@ public class ParentFrameView extends Observable implements Observer {
 
         myFrame.getContentPane().add(cardPanel, BorderLayout.CENTER);
 
-        
 //        LoginView loginView = new LoginView();
 //        JPanel loginPanel = loginView.getPanel();
 //        addPanel(loginPanel, "loginPanel");
@@ -118,6 +117,8 @@ public class ParentFrameView extends Observable implements Observer {
 		if(arg instanceof Integer) {
 			setChanged();
 			notifyObservers(arg);
+		} else if(arg instanceof String) {
+			System.out.println("Username was entered?");
 		}
 		
 	}

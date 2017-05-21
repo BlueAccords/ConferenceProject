@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Observable;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import javax.swing.border.EmptyBorder;
  * @author Ryan Tran
  * @version 5/20/17
  */
-public class LoginView {
+public class LoginView extends Observable {
 
 	// Parent Panel that holds the child panels
 	private JPanel myPanel;
@@ -72,6 +73,14 @@ public class LoginView {
 		myFormPanel.add(myUsernameField, formGbc);
 		
 		myPanel.add(myFormPanel, BorderLayout.CENTER);
+		
+		// initalization button actions
+		myLoginBtn.addActionListener(e -> {
+			myUsernameField.getText();
+			setChanged();
+			notifyObservers(myUsernameField.getText());
+		});
+		
 		
 		// Set up Buttons Panel
 		myBtnPanel = new JPanel();
