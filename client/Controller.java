@@ -119,8 +119,14 @@ public class Controller extends Observable implements Observer {
 		if (myCurrentState < 0) {
 			switch (myCurrentState) {
 				case LOG_IN_STATE:
-					myCurrentState = CHOOSE_USER;
-					
+					if(User.doesEmailBelongToUser(myUserList, (String) pieces[0])) {
+						myCurrentUser = User.getUserByEmail(myUserList, (String) pieces[0]);
+						ConferenceListView confListView = new ConferenceListView();
+						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
+						myParentFrame.switchToPanel("AuthConfView");
+						myCurrentState = CHOOSE_USER;
+					}
+
 					setChanged();
 					notifyObservers(myCurrentState);
 					break;
@@ -416,22 +422,6 @@ public class Controller extends Observable implements Observer {
 	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
-
-		// If current state is login state, verify that passed in arg
-		// is a string and validate to check if username belongs to a user
-		if(myCurrentState == LOG_IN_STATE) {
-			if(arg1 instanceof String) {
-				// verify if email belongs to given user else stay within same state
-				if(User.doesEmailBelongToUser(myUserList, (String) arg1)) {
-					myCurrentUser = User.getUserByEmail(myUserList, (String) arg1);
-					ConferenceListView confListView = new ConferenceListView();
-					myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
-					myParentFrame.switchToPanel("AuthConfView");
-				} else {
-					return;
-				}
-			}
-		}
 		
 		if (arg1 instanceof String) {
 			changeState ((String) arg1);
