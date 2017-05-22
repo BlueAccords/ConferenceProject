@@ -424,8 +424,8 @@ public class Controller extends Observable implements Observer {
 				// verify if email belongs to given user else stay within same state
 				if(User.doesEmailBelongToUser(myUserList, (String) arg1)) {
 					myCurrentUser = User.getUserByEmail(myUserList, (String) arg1);
-					UI_Author_Conference_View authConfView = new UI_Author_Conference_View();
-					myParentFrame.addPanel(authConfView.createConferenceListView(), "AuthConfView");
+					ConferenceListView confListView = new ConferenceListView();
+					myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
 					myParentFrame.switchToPanel("AuthConfView");
 				} else {
 					return;
