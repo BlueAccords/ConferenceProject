@@ -177,6 +177,8 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Gets boolean state of isRecommendable field.
+	 * @author Morgan Blackmore
+	 * @version 5/19/17
 	 */
 	public boolean isRecommendable(){
 		return isRecommendable;
