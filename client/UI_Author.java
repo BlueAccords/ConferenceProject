@@ -27,7 +27,7 @@ import model.Manuscript;
  * @author Casey Anderson
  * @version 5/17/2017
  */
-public class UI_Author_Conference_View extends Observable  implements Observer {
+public class UI_Author extends Observable  implements Observer {
 	
 	/**
 	 * List of Manuscripts belonging to Author
@@ -48,7 +48,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 	 * Constructor to initialize fields.
 	 * @author Casey Anderson
 	 */
-	public UI_Author_Conference_View() {
+	public UI_Author() {
 		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;		
 	}
