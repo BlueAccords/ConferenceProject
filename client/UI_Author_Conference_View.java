@@ -30,11 +30,6 @@ import model.Manuscript;
 public class UI_Author_Conference_View extends Observable  implements Observer {
 	
 	/**
-	 * List of Conferences available to Author
-	 */
-	private ArrayList<Conference> myConferenceList;
-	
-	/**
 	 * List of Manuscripts belonging to Author
 	 */
 	private ArrayList<Manuscript> myManuscriptList;
@@ -54,45 +49,8 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 	 * @author Casey Anderson
 	 */
 	public UI_Author_Conference_View() {
-		myConferenceList = new ArrayList<Conference>();
 		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;		
-	}
-	
-	/**
-	 * Method to create a view for Conference selection.
-	 * @return JPanel displaying all the available Conferences to select.
-	 * @author Casey Anderson
-	 */
-	public JPanel createConferenceListView() {
-		
-		JPanel conferenceListPanel = new JPanel(new GridLayout(0,1));
-		ButtonGroup group = new ButtonGroup();
-		
-		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
-			
-			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName() + "	" + myConferenceList.get(myCounter).getManuscriptDeadline());
-			button.setActionCommand(myConferenceList.get(myCounter).getConferenceName());
-			
-			button.addActionListener(new ActionListener(){  
-				public void actionPerformed(ActionEvent e){  
-					setChanged();
-				    notifyObservers(myConferenceList.get(myCounter).getConferenceName());  
-		        }  
-		    }); 
-			
-			group.add(button);
-			conferenceListPanel.add(button);
-			
-		}
-		
-		conferenceListPanel.setOpaque(true);
-		
-		conferenceListPanel.setBorder(BorderFactory.createTitledBorder(
-		        BorderFactory.createEtchedBorder(), "Conference List"));
-		
-		return conferenceListPanel;
-		
 	}
 	
 	/**
@@ -281,15 +239,7 @@ public class UI_Author_Conference_View extends Observable  implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-
-		//if (arg1 instanceof ArrayList<Conference>) {
-			//myConferenceList = (ArrayList<Conference>) arg1;
-		//}
-		
-		//else if (arg1 instanceof ArrayList<Manuscript>) {
-		//	myManuscriptList = (ArrayList<Manuscript>) arg1
-		//}
-		
+		myManuscriptList = (ArrayList<Manuscript>) arg1;
 		
 	}	
 	
