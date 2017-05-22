@@ -51,9 +51,10 @@ public class SubprogramChair implements Serializable{
 	 * Returns a collection of Manuscripts assigned to the User as a Subprogram Chair.
 	 * @return a collection of Manuscripts assigned to the User as a Subprogram Chair.
 	 * @author Vincent Povio
+	 * @author Casey Anderson
 	 * @version 4/25/2017
 	 */
-	public ArrayList<Manuscript> getAssignedPapersSPC() {
+	public ArrayList<Manuscript> getAssignedManuscriptSPC() {
 		ArrayList<Manuscript> assignedMansSPCcopy = new ArrayList<Manuscript>();
 		assignedMansSPCcopy.addAll(assignedManuscriptsSPC);
 		return assignedMansSPCcopy;
@@ -65,9 +66,10 @@ public class SubprogramChair implements Serializable{
 	 * assigned to.
 	 * @param theManuscript the Paper to be assigned to the Subprogram Chair.
 	 * @author Vincent Povio
+	 * @author Casey Anderson
 	 * @version 4/29/2017
 	 */
-	public void addPaperToSPC(Manuscript theManuscript) {
+	public void addManuscriptToSPC(Manuscript theManuscript) {
 		//need to make sure the paper does not already exist in this collection.
 		//need to test if it is null or set that as a precondition.
 		assignedManuscriptsSPC.add(theManuscript);

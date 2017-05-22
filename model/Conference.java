@@ -89,11 +89,12 @@ public class Conference implements Serializable{
 	
 	/**
 	 * Getter for the deadline of paper submissions.
-	 * @return The deadline of paper submissions.
+	 * @return The deadline of Manuscript submissions.
 	 * @author James Roberts
+	 * @author Casey Anderson
 	 * @version 4/27/2017
 	 */
-	public Date getPaperDeadline() {
+	public Date getManuscriptDeadline() {
 		// need to make copy to encapsulate.
 		return new Date(myManuscriptDeadline.getTime());
 	}

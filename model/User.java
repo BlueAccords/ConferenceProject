@@ -111,6 +111,53 @@ public class User implements Serializable{
 	public void setEmail(String theEmail) {
 		this.myEmail = theEmail;
 	}
+	
+	/**
+	 * Compares the passed in email to the passed in list of users and
+	 * returns a true or false depending on if the list contains a user with the given email.
+	 * PreConditions:
+	 * 	theUsers must be non-null
+	 * 	theEmail must be non-null
+	 * 
+	 * @param theUsers The user list to check for the given email
+	 * @param theEmail The email to check against the user list
+	 * @return a boolean, indicating if the email exists within the list or not
+	 */
+	public static boolean doesEmailBelongToUser(ArrayList<User> theUsers, String theEmail) {
+		boolean userExists = false;
+		
+		for(User aUser : theUsers) {
+			if(aUser.getEmail().equals(theEmail)) {
+				userExists = true;
+			}
+		}
+		
+		return userExists;
+	}
+	
+	/**
+	 * Returns the given user by passed in email.
+	 * @param theUsers The user list to check against to obtain the user object
+	 * @param theEmail The email to get the user object by
+	 * @throws IllegalArgumentException if user with given email is not found
+	 * @return A User
+	 */
+	public static User getUserByEmail(ArrayList<User> theUsers, String theEmail) {
+		User userToReturn = null;
+
+		for(User aUser : theUsers) {
+			if(aUser.getEmail().equals(theEmail)) {
+				userToReturn = aUser;
+			}
+		}
+		
+		if(userToReturn == null) {
+			throw new IllegalArgumentException("No user with given email exists with user list");
+		}
+		
+		
+		return userToReturn;
+	}
 
 
 	/**
@@ -174,7 +221,7 @@ public class User implements Serializable{
 			allUsers = (ArrayList<User>) ois.readObject();
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		} finally {
 			//close both streams
