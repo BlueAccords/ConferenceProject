@@ -62,7 +62,9 @@ public class Manuscript implements Serializable{
 		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
 		myManuscript = theManuscriptFile;
+		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
+		isRecommendable = false;
 		
 	}
 	
@@ -175,6 +177,8 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Gets boolean state of isRecommendable field.
+	 * @author Morgan Blackmore
+	 * @version 5/19/17
 	 */
 	public boolean isRecommendable(){
 		return isRecommendable;

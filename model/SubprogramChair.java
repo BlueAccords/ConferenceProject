@@ -183,11 +183,12 @@ public class SubprogramChair implements Serializable{
 		 * exceeds todays date.  If so (the deadline is still in the future), 
 		 * the Subprogram Chair is not able to assign reviewer.
 		 *
-		 * 
-		 * 
+		 * @author Morgan Blackmore
+		 * @version 5/19/17
 		 * @return boolean value whether a reviewer can be assigned.
 		 */
-		public boolean isAbleToAssignReviewer(){
+		public boolean isAbleToAssignReviewer(Conference theConference, Manuscript theManuscript){
+			if (theConference.getPaperDeadline() > Date. 
 		
 			return false;
 		}
