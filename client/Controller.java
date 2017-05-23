@@ -74,6 +74,10 @@ public class Controller extends Observable implements Observer {
 		// temporary test data;
 		myUserList.add(new User("john@email.com"));
 		
+		ArrayList<Conference> exampleList = new ArrayList<Conference>();
+		exampleList.add(new Conference("ACM Conference", new Date(), new Date(), new Date(), new Date()));
+		Conference.writeConferences(exampleList);
+		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
 	}
@@ -124,7 +128,9 @@ public class Controller extends Observable implements Observer {
 						ConferenceListView confListView = new ConferenceListView();
 						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
 						myParentFrame.switchToPanel("AuthConfView");
-						myCurrentState = CHOOSE_USER;
+						myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;		//Should be CHOOSE_USER, but that screen has not been created yet.
+						setChanged();
+						notifyObservers(Conference.getConferences());
 					}
 
 					setChanged();

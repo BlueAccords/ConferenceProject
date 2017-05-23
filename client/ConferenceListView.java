@@ -31,6 +31,20 @@ public class ConferenceListView extends Observable  implements Observer {
 	}
 	
 	/**
+	 * Extra Constructor that takes a Conference list as a parameter so it does
+	 * not have to be passed through update.
+	 * 
+	 * @param theConferenceList Must be a non-null list of Conferences
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/23/2017
+	 */
+	public ConferenceListView(ArrayList<Conference> theConferenceList) {
+		myConferenceList = theConferenceList;
+		myCounter = 0;
+	}
+	
+	/**
 	 * Method to create a view for Conference selection.
 	 * @return JPanel displaying all the available Conferences to select.
 	 * @author Casey Anderson
