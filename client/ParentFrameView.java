@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Conference;
+
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -116,9 +118,19 @@ public class ParentFrameView extends Observable implements Observer {
 		System.out.println("UI Parent Frame was notified of update");
 		if(arg instanceof Integer) {
 			setChanged();
-			notifyObservers(arg);
+			notifyObservers((Integer) arg);
 		} else if(arg instanceof String) {
-			System.out.println(arg + "Username was entered");
+			setChanged();
+			notifyObservers((String) arg);
+		} else if(o instanceof ConferenceListView) { //Coming from ConferenceListView
+			if (arg instanceof String) {
+				setChanged();
+				notifyObservers((String) arg);
+			} else {
+				System.out.println("Received a Conference");
+				setChanged();
+				notifyObservers((Conference) arg);
+			}
 		}
 		
 	}

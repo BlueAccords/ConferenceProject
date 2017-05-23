@@ -80,6 +80,7 @@ public class Controller extends Observable implements Observer {
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
+		myParentFrame.addObserver(this);
 	}
 	
 	
@@ -117,107 +118,60 @@ public class Controller extends Observable implements Observer {
 	 * @version 5/6/2017
 	 * @param theNextState The next state the program will be in.
 	 */
-	private void changeState (String theNextState) {
-		String[] pieces = theNextState.split(",");
+	private void changeState (int theNextState) {
+		//String[] pieces = theNextState.split(",");
 		
-		if (myCurrentState < 0) {
-			switch (myCurrentState) {
+		if (theNextState < 0) {
+			switch (theNextState) {
 				case LOG_IN_STATE:
-					if(User.doesEmailBelongToUser(myUserList, (String) pieces[0])) {
-						myCurrentUser = User.getUserByEmail(myUserList, (String) pieces[0]);
-						ConferenceListView confListView = new ConferenceListView();
+					if(myCurrentUser != null) {
+						ConferenceListView confListView = new ConferenceListView(Conference.getConferences());
+						confListView.addObserver(myParentFrame);
 						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
 						myParentFrame.switchToPanel("AuthConfView");
 						myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;		//Should be CHOOSE_USER, but that screen has not been created yet.
-						setChanged();
-						notifyObservers(Conference.getConferences());
 					}
-
-					setChanged();
-					notifyObservers(myCurrentState);
+					
+					//setChanged();					//This is commented out because I don't think Controller needs to be observable.
+					//notifyObservers(myCurrentState);
 					break;
 				case CHOOSE_USER:
-					switch (pieces[0]) {
-						case "":
+					switch (theNextState) { //will need to break this up more here.
+						case 0:
 							myCurrentState = AUTHOR;
 							break;
-						case "a":
+						case 1:
 							myCurrentState = SUBPROGRAM_CHAIR;
 							break;
 					}
 					myCurrentState += LIST_CONFERENCE_VIEW;
 					
-					setChanged();
-					notifyObservers(myCurrentState);
+					//setChanged();
+					//notifyObservers(myCurrentState);
 					break;
 			}
 		} else {
-			switch ((myCurrentState / 10) * 10) {
+			switch ((theNextState / 10) * 10) {
 				case AUTHOR:
-					switch (myCurrentState % 10){
+					switch (theNextState % 10){
 						
 						case SUBMIT_MANUSCRIPT:
 							Manuscript manuscriptToSubmit;
-							if(pieces[0].equals("")){
-								manuscriptToSubmit = makeManuscript(pieces);
-								// handle case where paper is past submission deadline
-								if(manuscriptToSubmit == null) {
-									myCurrentState = FAIL_SUBMITED_PAST_DEADLINE;
-									setChanged();
-									notifyObservers(myCurrentState);
-									break;
-								// handle max limitcase
-								} else if(5 >= 5) {
-									myCurrentState = FAIL_AUTHOR_HAS_TO_MANY_MANUSCRIPTS;
-									setChanged();
-									notifyObservers(myCurrentState);
-									break;
-								}
-								//TODO Will need to add this Manuscript into some serialized list for storage.
-								myCurrentManuscript = manuscriptToSubmit;
-								myCurrentState = AUTHOR + LIST_MANUSCRIPT_VIEW;
-								setChanged();
-								notifyObservers(myCurrentState);
-	                        }
+							
 	
 							break;
 						case LIST_MANUSCRIPT_VIEW:
-							if (pieces[0].equals("")) {
-								myCurrentState = AUTHOR + USER_OPTIONS;
-								setChanged();
-								notifyObservers(myCurrentState);
-							}
-							else if (pieces[0].equals("")) {
-								myCurrentState = AUTHOR;
-								setChanged();
-								notifyObservers(myCurrentState);
-							}
+							
 							break;
 						case LIST_CONFERENCE_VIEW:
-							if (pieces[0].equals("")) {
-								myCurrentState = AUTHOR + USER_OPTIONS;
-								setChanged();
-								notifyObservers(myCurrentState);
-							}
+							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
+							authorView.addObserver(myParentFrame);
+							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
+							myParentFrame.switchToPanel("ViewManuscriptListView");
+							
 							break;
 						case USER_OPTIONS:
-							switch (pieces[0]) {
-							case "":
-								myCurrentState = AUTHOR;
-	                    		break;
-	                    	case "a":
-	                    		myCurrentState = AUTHOR + SUBMIT_MANUSCRIPT;
-	                    		break;
-	                    	case "b":
-	                    		myCurrentState = AUTHOR + LIST_MANUSCRIPT_VIEW;
-	                    		break;
-	                    	case "c":
-	                    		myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;
-	                    		break;
-							}
 							
-							setChanged();
-							notifyObservers(myCurrentState);
 							break;
 					}
 					
@@ -235,7 +189,7 @@ public class Controller extends Observable implements Observer {
 							notifyObservers(myCurrentState);
 	                        break;
 	                    case ASSIGN_MANUSCRIPT:
-	                    	UUID key = UUID.fromString(pieces[1]);
+	                    	//UUID key = UUID.fromString(pieces[1]);
 
 	                    	myCurrentState = SUBPROGRAM_CHAIR + LIST_MANUSCRIPT_VIEW;
 	                    	setChanged();
@@ -259,16 +213,6 @@ public class Controller extends Observable implements Observer {
 							notifyObservers(myCurrentState);
 	                        break;
 	                    case USER_OPTIONS:
-	                    	switch (pieces[0]) {
-		                    	case "":
-		                    		myCurrentState = SUBPROGRAM_CHAIR + ASSIGN_REVIEWER;
-		                    		break;
-		                    	case "a":
-		                    		myCurrentState = SUBPROGRAM_CHAIR + LIST_CONFERENCE_VIEW;
-		                    		break;
-		                    	case "b":
-		                    		myCurrentState = SUBPROGRAM_CHAIR + LIST_MANUSCRIPT_VIEW;
-	                    	}
 	                    	
 	                    	setChanged();
 							notifyObservers(myCurrentState);
@@ -383,16 +327,20 @@ public class Controller extends Observable implements Observer {
 	
 	
 	/**
-	 * Sets the field myCurrentUser to theNewUser.
+	 * Sets the field myCurrentUser to theNewUsernameLiteral if it is a valid name within the
+	 * User list.
 	 * 
-	 * Pre: theNewUser is not null received from the update.
+	 * Pre: theNewUsername is not null received from the update.
 	 * 
-	 * @param theNewUser The new User to set.
+	 * @param theNewUsernameLiteral The new Username to check. If it is valid, then set.
 	 * @author Connor Lundberg
-	 * @version 5/15/2017
+	 * @version 5/23/2017
 	 */
-	private void setUser (User theNewUser) {
-		myCurrentUser = theNewUser;
+	private void setUser (String theNewUsernameLiteral) {
+		if(User.doesEmailBelongToUser(myUserList, theNewUsernameLiteral)) {
+			System.out.println("setting a user");
+			myCurrentUser = User.getUserByEmail(myUserList, theNewUsernameLiteral);
+		}
 	}
 	
 	
@@ -412,6 +360,7 @@ public class Controller extends Observable implements Observer {
 	 */
 	public void setConference (Conference theNewConference) {
 		myCurrentConference = theNewConference;
+		System.out.println("set a conference");
 	}
 	
 	
@@ -430,11 +379,13 @@ public class Controller extends Observable implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		
 		if (arg1 instanceof String) {
-			changeState ((String) arg1);
+			System.out.println("going to set a user");
+			setUser((String) arg1);
 		} else if (arg1 instanceof Conference) {
+			System.out.println("going to set a conference");
 			setConference((Conference) arg1);
-		} else if (arg1 instanceof User) {
-			setUser((User) arg1);
+		} else if (arg1 instanceof Integer) {
+			changeState((Integer) arg1);
 		}
 	}
 		

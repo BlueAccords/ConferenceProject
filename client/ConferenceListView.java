@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import model.Conference;
 
-public class ConferenceListView extends Observable  implements Observer {
+public class ConferenceListView extends Observable {
 	/**
 	 * List of Conferences available to Author
 	 */
@@ -62,7 +62,9 @@ public class ConferenceListView extends Observable  implements Observer {
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
 					setChanged();
-				    notifyObservers(myConferenceList.get(myCounter).getConferenceName());  
+				    notifyObservers(myConferenceList.get(myCounter - 1));  
+				    setChanged();
+				    notifyObservers(Controller.AUTHOR + Controller.LIST_CONFERENCE_VIEW);
 		        }  
 		    }); 
 			
@@ -80,9 +82,4 @@ public class ConferenceListView extends Observable  implements Observer {
 		
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		myConferenceList =   (ArrayList<Conference>) arg1;
-		
-	}
 }

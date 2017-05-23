@@ -27,7 +27,7 @@ import model.Manuscript;
  * @author Casey Anderson
  * @version 5/17/2017
  */
-public class UI_Author extends Observable  implements Observer {
+public class UI_Author extends Observable {
 	
 	/**
 	 * List of Manuscripts belonging to Author
@@ -52,6 +52,21 @@ public class UI_Author extends Observable  implements Observer {
 		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;		
 	}
+	
+	
+	/**
+	 * Constructor that takes a Manuscript list so it does not have to go through update.
+	 * 
+	 * @param theManuscriptList Must be a non-null list of Manuscripts
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/23/201
+	 */
+	public UI_Author(ArrayList<Manuscript> theManuscriptList) {
+		myManuscriptList = theManuscriptList;
+		myCounter = 0;
+	}
+	
 	
 	/**
 	 * Method to create a view for the options available for Conferences.
@@ -236,11 +251,5 @@ public class UI_Author extends Observable  implements Observer {
 		return manuscriptListPanel;
 		
 	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		myManuscriptList = (ArrayList<Manuscript>) arg1;
-		
-	}	
 	
 }

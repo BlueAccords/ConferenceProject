@@ -79,6 +79,8 @@ public class LoginView extends Observable {
 			myUsernameField.getText();
 			setChanged();
 			notifyObservers(myUsernameField.getText());
+			setChanged();
+			notifyObservers(Controller.LOG_IN_STATE);
 		});
 		
 		
