@@ -194,7 +194,7 @@ public class Conference implements Serializable{
 	public ArrayList<Manuscript> getManuscripts() {
 		ArrayList<Manuscript> copy = new ArrayList<Manuscript>();
 		copy.addAll(myManuscripts);
-		return copy;
+		return myManuscripts;
 	}
 	
 	/**

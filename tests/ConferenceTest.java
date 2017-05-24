@@ -36,7 +36,7 @@ public class ControllerTest {
     public void setUp() throws Exception {
         RSAConference = new Conference("RSA", new Date(), new Date(), new Date(), new Date());
         TesselationsConference = new Conference("Tesselations", new Date(), new Date(), new Date(), new Date());
-        conferenceList = Conference.readConferences();
+        conferenceList = Conference.getConferences();
     }
 
 

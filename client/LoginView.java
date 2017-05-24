@@ -75,6 +75,7 @@ public class LoginView extends Observable {
 		myPanel.add(myFormPanel, BorderLayout.CENTER);
 		
 		// initalization button actions
+
 		myLoginBtn.addActionListener(e -> {
 			myUsernameField.getText();
 			setChanged();
@@ -82,6 +83,7 @@ public class LoginView extends Observable {
 			setChanged();
 			notifyObservers(Controller.LOG_IN_STATE);
 		});
+
 		
 		
 		// Set up Buttons Panel

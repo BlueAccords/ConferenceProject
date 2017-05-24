@@ -129,7 +129,7 @@ public class Manuscript implements Serializable{
 	public ArrayList<Author> getAuthors() {
 		ArrayList<Author> copy = new ArrayList<Author>();
 		copy.addAll(myAuthors);
-		return copy;
+		return myAuthors;
 	}
 	
 	
