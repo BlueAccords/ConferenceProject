@@ -8,6 +8,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SubprogramChair implements Serializable{
 	
@@ -216,7 +219,7 @@ public class SubprogramChair implements Serializable{
 		 */
 		public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscript) {
 			//List of eligible reviewers
-			ArrayList<Reviewer> eligibleReviewers = new ArrayList<>();
+			ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
 
 			//List of author names for the paper in need of review
 			ArrayList<String> authors = new ArrayList<String>();
@@ -243,8 +246,25 @@ public class SubprogramChair implements Serializable{
 					eligibleReviewers.add(possibleReviewer);
 				}
 			}
-			
+			removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(eligibleReviewers, theManuscript);
 			return eligibleReviewers;
+		}
+
+		private void removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(ArrayList<Reviewer> reviewerList, Manuscript theManuscript){
+			Set<User> conflictingReviewersByUser = new HashSet<User>();
+			for(Author currentAuthor: theManuscript.getAuthors()){
+				for(Manuscript currentAuthorsCurrentManuscript: currentAuthor.getMyManuscripts()){
+					for(Author sharedAuthor: currentAuthorsCurrentManuscript.getAuthors()){
+						conflictingReviewersByUser.add(sharedAuthor.getUser());
+					}
+				}
+			}
+			for(int i = 0; i < reviewerList.size(); i++){
+				if(conflictingReviewersByUser.contains(reviewerList.get(i).getUser())){
+					reviewerList.remove(i);
+					i--;
+				}
+			}
 		}
 
 }

@@ -244,4 +244,14 @@ public class User implements Serializable{
 
 		return allUsers;
 	}
+
+	@Override
+	public boolean equals(Object o){
+		User comparingUser = (User) o;
+		if(comparingUser.getEmail().equals(this.getEmail())){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
