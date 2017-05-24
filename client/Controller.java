@@ -72,11 +72,8 @@ public class Controller extends Observable implements Observer {
 		myUserList = User.getUsers();
 		
 		// temporary test data;
-		myUserList.add(new User("john@email.com"));
+		//myUserList.add(new User("john@email.com"));
 		
-		ArrayList<Conference> exampleList = new ArrayList<Conference>();
-		exampleList.add(new Conference("ACM Conference", new Date(), new Date(), new Date(), new Date()));
-		Conference.writeConferences(exampleList);
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
