@@ -179,7 +179,7 @@ public class ManuscriptTest {
 	@Test
 	public void updateFile_TestUpdateFileForCorrectNewFilePath() {
 		File newFileToUpdateMyManuscriptWith = new File("C:/Users/Connor/Documents/test2.txt");
-		myManuscript.updatePaper(newFileToUpdateMyManuscriptWith);
+		myManuscript.updateManuscript(newFileToUpdateMyManuscriptWith);
 		
 		assertTrue("File not the same as the one used to update: " + myManuscript.getManuscriptFile().getAbsolutePath(), 
 				myManuscript.getManuscriptFile().getAbsolutePath().equals(new File("C:/Users/Connor/Documents/test2.txt").getAbsolutePath()));
@@ -200,6 +200,8 @@ public class ManuscriptTest {
 		
 		assertEquals("Submission date is not the same as the one set: " + myManuscript.getSubmissionDate(), myManuscript.getSubmissionDate(), newSubmissionDate);
 	}
+	
+
 }
 
 

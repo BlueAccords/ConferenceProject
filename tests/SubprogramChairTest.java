@@ -85,25 +85,81 @@ public class SubprogramChairTest {
 
 	/**
 	 * Test method for {@link model.SubprogramChair#assignManuscriptToReviewer(model.Reviewer, model.Manuscript)}.
+	 * 
+	 * Test valid assignment of a manuscript to a reviewer
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/24/17
+	 * @throws Exception 
 	 */
 	@Test
-	public void testAssignManuscriptToReviewer() {
+	public void testAssignManuscriptToReviewer_validAssignment_manuscriptAddedToReviewer() throws Exception {
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, rsa);
+		assertEquals("rsa should be added to reviewerJohns list", reviewerJohn.getAssignedManuscripts().get(1), rsa );
+	}
+	
+
+
+	/**
+	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
+	 * 
+	 * Test valid case where reviewer is 1 below limit
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testIsUnderAssignedManuscriptLimit_1BelowLimit_manuscriptAddedToReviewer() {
 		fail("Not yet implemented");
 	}
 
 	/**
 	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
+	 * 
+	 * Test valid case where reviewer is at limit
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
 	 */
 	@Test
-	public void testIsUnderAssignedManuscriptLimit() {
+	public void testIsUnderAssignedManuscriptLimit_atLimit_manuscriptNotAddedToReviewer() {
 		fail("Not yet implemented");
 	}
-
+	
 	/**
-	 * Test method for {@link model.SubprogramChair#isAuthor(model.Reviewer, model.Manuscript)}.
+	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
+	 * 
+	 * Test valid case where reviewer is over limit
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
 	 */
 	@Test
-	public void testIsAuthor() {
+	public void testIsUnderAssignedManuscriptLimit_overLimit_manuscriptNotAddedToReviewer() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for {@link model.SubprogramChair#isAuthor(model.Reviewer, model.Manuscript)}.
+	 * Give a manuscript in which Reviewer is an Author of the manuscript
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/24/17
+	 * 
+	 */
+	@Test
+	public void testIsAuthor_ReviewerIsAuthor_manuscriptNotAddedToReviewer() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for {@link model.SubprogramChair#isAuthor(model.Reviewer, model.Manuscript)}.
+	 * Give a manuscript in which Reviewer is an Coauthor of the manuscript
+ 	 * @author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testIsAuthor_ReviewerIsCoauthor_manuscriptNotAddedToReviewer() {
 		fail("Not yet implemented");
 	}
 
@@ -123,5 +179,85 @@ public class SubprogramChairTest {
 		assertFalse(result.contains(reviewerBob));
 		assertFalse(result.contains(reviewerJohn));
 	}
+	
+	/**
+	 * Test method for isAfterSubmissionDeadline.
+	 * 
+	 * Test valid case where todays date is after submissionDeadline.  Method should return true.
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testisAfterSubmissionDeadline_afterSubmissionDeadline_true() {
+		fail("Not yet implemented");
+	}
 
+	/**
+	 * Test method for isAfterSubmissionDeadline.
+	 * 
+	 * Test case where todays date is at submissionDeadline.  Method should return false.
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testisAfterSubmissionDeadline_atSubmissionDeadline_false() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for isAfterSubmissionDeadline.
+	 * 
+	 * Test case where todays date is before submissionDeadline.  Method should return false.
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testisAfterSubmissionDeadline_beforeSubmissionDeadline_false() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for submitRecommendation.
+	 * 
+	 * Test valid case where manuscript has SUFFICIENT_REVIEWS.  theRecommendation file should be stored in 
+	 * manuscripts myRecommendation field
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test
+	public void testSubmitRecommendation_manuscriptHasSufficientReviews_addTheRecommendationToManuscript() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for submitRecommendation.
+	 * 
+	 * Test  case where manuscript has fewer than SUFFICIENT_REVIEWS.  theRecommendation file should not be stored in 
+	 * manuscripts myRecommendation field
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test (expected = Exception.class)
+	public void testSubmitRecommendation_manuscriptHasInsufficientReviews_doNotAddTheRecommendationToManuscript() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test method for submitRecommendation.
+	 * 
+	 * Test valid case where theRecommendation file is null.  It should not be stored in 
+	 * manuscripts myRecommendation field
+	 * 
+	 *@author Morgan Blackmore
+	 * @version 5/24/17
+	 */
+	@Test (expected = NullPointerException.class)
+	public void testSubmitRecommendation_nullRecommedation_doNotAddTheRecommendationToManuscript() {
+		fail("Not yet implemented");
+	}
 }

@@ -8,6 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -183,29 +184,23 @@ public class SubprogramChair implements Serializable{
 		
 		/**
 		 * Checks whether theConference deadline for manuscript submission
-		 * exceeds todays date.  If so (the deadline is still in the future), 
-		 * the Subprogram Chair is not able to assign reviewer.
+		 * exceeds todays date.  If so (the deadline is still in the future)
+		 * and will return false.
 		 *
 		 * @author Morgan Blackmore
 		 * @version 5/19/17
-		 * @return boolean value whether a reviewer can be assigned.
+		 * @return boolean true if current date is after manuscriptSubmissionDeadline
 		 */
-		public boolean isAbleToAssignReviewer(Conference theConference, Manuscript theManuscript){
-			//if (theConference.getPaperDeadline() > Date.
+		public boolean isAfterSubmissionDeadline(Conference theConference, Manuscript theManuscript){
+			if (theConference.getManuscriptDeadline().before(new Date())){ //deadline is before today
+				return false; 
+			} else {
+				return true;	
+			}
 		
-			return false;
-		}
-		//I think the check for reviews should go into manuscript class.
-		/**
-		 * Checks whether theManuscript has at least SUFFICIENT_REVIEWS.
-		 * If so, returns true.
-		 * 
-		 * @return whether theManuscript has at least SUFFICIENT_REVIEWS
-		 */
-		public boolean isAbleToRecommend(){
 			
-			return false;
 		}
+
 		
 		/**
 		 * This function gets a list of all eligible reviewers.

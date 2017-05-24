@@ -32,6 +32,9 @@ public class Manuscript implements Serializable{
 	/** The body of the manuscript. */
 	private File myManuscript;
 	
+	/** The body of the recommendation. */
+	private File myRecommendation;
+	
 	/** The list of authors by username, index 0 is the primary author. */
 	private ArrayList<Author> myAuthors;
 	
@@ -42,8 +45,6 @@ public class Manuscript implements Serializable{
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
 	
-	/** Current state of whether this manuscript can be recommended. */
-	private boolean isRecommendable;
 	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
@@ -66,7 +67,6 @@ public class Manuscript implements Serializable{
 		myManuscript = theManuscriptFile;
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
-		isRecommendable = false;
 		
 	}
 	
@@ -168,23 +168,53 @@ public class Manuscript implements Serializable{
 	 * 
 	 * @author Morgan Blackmore
 	 * @version 5/16/17
+	 * @throws NullPointerException if theReview is null
 	 * 
 	 */
-	public void addReview(File theReview){
-		myReviews.add(theReview);
-		if (myReviews.size() >= SUFFICIENT_REVIEWS){
-			isRecommendable = true;
+	public void addReview(File theReview) throws NullPointerException{
+		if (theReview == null){
+			throw new NullPointerException();
 		}
+		myReviews.add(theReview);
+
 	}
 	
 	/**
-	 * Gets boolean state of isRecommendable field.
+	 * Instantiates myRecommendation with theRecommendation.
+	 * Checks if this manuscript has sufficient reviews, if not, throws Exception
+	 * 
 	 * @author Morgan Blackmore
-	 * @version 5/19/17
+	 * @version 5/24/17
+	 * @throws Exception if manuscript does not have sufficient reviews
+	 * @throws NullPointerException if theRecommendation is null
+	 * @param theRecommendation file
+	 * 
 	 */
-	public boolean isRecommendable(){
-		return isRecommendable;
+	public void addRecommendation(File theRecommendation) throws NullPointerException, Exception{
+		if (theRecommendation == null ){
+			throw new NullPointerException();
+		}
+		if (myReviews.size()< SUFFICIENT_REVIEWS) {
+			throw new Exception("Insuffiecient reviews.  Need: " + SUFFICIENT_REVIEWS + " Have: " +myReviews.size());
+		}
+		//if exception not thrown, myRecommendation instantiated
+		myRecommendation = theRecommendation;
 	}
+	
+	/**
+	 * Getter for myRecommendation file 
+	 * 
+	 * @return myRecommendation file
+	 * @author Morgan Blackmore
+	 * @version 5/42/17
+	 */
+	public File getRecommendation(){
+		return myRecommendation;
+	}
+	
+	
+	
+
 	
 	/**
 	 * Helper method to determine that theAuthor is not already part of the author list.
@@ -252,4 +282,6 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
+
+
 }
