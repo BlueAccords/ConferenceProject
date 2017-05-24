@@ -160,6 +160,15 @@ public class SubprogramChair implements Serializable{
 		}
 		
 		/**
+		 * Getter for MAX_REVIEW_PAPERS Limit
+		 * 
+		 * @return int value of MAX_REVIEW_PAPERS 
+		 */
+		public int getMaxReviewPapers(){
+			return MAX_REVIEW_PAPERS;
+		}
+		
+		/**
 		 * Checks if the Passed User is an Author or CoAuthor of the passed Paper.
 		 * @author Ayub Tiba
 		 * @param theReviewer The Reviewer to check.

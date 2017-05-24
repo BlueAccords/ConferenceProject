@@ -35,12 +35,19 @@ public class SubprogramChairTest {
 	private User john;
 	private Author authorJohn;
 	private Reviewer reviewerJohn;
+	private User zeb;
+	private Author authorZeb;
+	private User darth;
+	private Author authorDarth;
 	private User lilRyeRye;
 	private SubprogramChair subprogramChairLilRyeRye;
 
 	private Conference RSAConference;
 	private Manuscript rsa;
 	private Manuscript tessellations;
+	private Manuscript electrocution;
+	private Manuscript sithFingers;
+	private Manuscript hairstyle;
 
 
 	/**
@@ -57,6 +64,13 @@ public class SubprogramChairTest {
 		john = new User("john@john.com");
 		authorJohn = new Author(john);
 		reviewerJohn = new Reviewer(john);
+		
+		zeb = new User("zeb@zeb.com");
+		authorZeb = new Author(zeb);
+		
+		darth = new User("darth@dstar.com");
+		authorDarth = new Author(darth);
+		
 		lilRyeRye = new User("lilRyeRye@example.com");
 		subprogramChairLilRyeRye = new SubprogramChair(lilRyeRye);
 
@@ -73,6 +87,9 @@ public class SubprogramChairTest {
 		rsa.addAuthor(authorJim);
 		tessellations = new Manuscript("Tessellations", new File("UserTest.java"), authorBob);
 		tessellations.addAuthor(authorJohn);
+		electrocution = new Manuscript("Electrocution", new File("UserTest.java"), authorZeb);
+		sithFingers = new Manuscript("How to shoot lighting from your fingers", new File("UserTest.java"), authorDarth);
+		hairstyle = new Manuscript("Interesting Hair Using Electricity", new File("UserTest.java"), authorJim);
 	}
 
 	/**
@@ -103,41 +120,40 @@ public class SubprogramChairTest {
 	/**
 	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
 	 * 
-	 * Test valid case where reviewer is 1 below limit
+	 * Test valid case where reviewer is under assigned MAX_REVIEW_PAPERS
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
 	 */
 	@Test
-	public void testIsUnderAssignedManuscriptLimit_1BelowLimit_manuscriptAddedToReviewer() {
-		fail("Not yet implemented");
+	public void testIsUnderAssignedManuscriptLimit_underLimit_return() throws Exception {
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, rsa);
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, electrocution);
+		assertTrue("reviewerJohn has two assignments, should be under limit",
+				subprogramChairLilRyeRye.isUnderAssignedManuscriptLimit(reviewerJohn));
+		
+		
 	}
 
 	/**
 	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
 	 * 
-	 * Test valid case where reviewer is at limit
+	 * Test case where reviewer is at limit
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
 	 */
-	@Test
-	public void testIsUnderAssignedManuscriptLimit_atLimit_manuscriptNotAddedToReviewer() {
-		fail("Not yet implemented");
+	@Test (expected = Exception.class)
+	public void testIsUnderAssignedManuscriptLimit_atLimit_returnFalse() throws Exception {
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, rsa);
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, electrocution);
+		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, sithFingers); //reviewer at limit
+		assertFalse("reviewerJohn has max assigned manuscripts", subprogramChairLilRyeRye.isUnderAssignedManuscriptLimit(reviewerJohn));
+
 	}
 	
-	/**
-	 * Test method for {@link model.SubprogramChair#isUnderAssignedManuscriptLimit(model.Reviewer)}.
-	 * 
-	 * Test valid case where reviewer is over limit
-	 * 
-	 *@author Morgan Blackmore
-	 * @version 5/24/17
-	 */
-	@Test
-	public void testIsUnderAssignedManuscriptLimit_overLimit_manuscriptNotAddedToReviewer() {
-		fail("Not yet implemented");
-	}
 	
 	/**
 	 * Test method for {@link model.SubprogramChair#isAuthor(model.Reviewer, model.Manuscript)}.
@@ -145,11 +161,13 @@ public class SubprogramChairTest {
 	 * 
 	 * @author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
 	 * 
 	 */
 	@Test
-	public void testIsAuthor_ReviewerIsAuthor_manuscriptNotAddedToReviewer() {
-		fail("Not yet implemented");
+	public void testIsAuthor_ReviewerIsAuthor_returnTrue(){
+		assertTrue("The author is the reviewer", subprogramChairLilRyeRye.isAuthor(reviewerBob, rsa));
+		
 	}
 	
 	/**
@@ -159,8 +177,8 @@ public class SubprogramChairTest {
 	 * @version 5/24/17
 	 */
 	@Test
-	public void testIsAuthor_ReviewerIsCoauthor_manuscriptNotAddedToReviewer() {
-		fail("Not yet implemented");
+	public void testIsAuthor_ReviewerIsCoauthor_returnTrue() {
+		assertTrue("The author is the reviewer", subprogramChairLilRyeRye.isAuthor(reviewerJim, rsa));
 	}
 
 	@Test
@@ -190,7 +208,7 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void testisAfterSubmissionDeadline_afterSubmissionDeadline_true() {
-		fail("Not yet implemented");
+		subprogramChairLilRyeRye.isAfterSubmissionDeadline(RSAConference, rsa);
 	}
 
 	/**
