@@ -191,7 +191,7 @@ public class SubprogramChair implements Serializable{
 		 * @return boolean value whether a reviewer can be assigned.
 		 */
 		public boolean isAbleToAssignReviewer(Conference theConference, Manuscript theManuscript){
-			if (theConference.getPaperDeadline() > Date. 
+			//if (theConference.getPaperDeadline() > Date.
 		
 			return false;
 		}
