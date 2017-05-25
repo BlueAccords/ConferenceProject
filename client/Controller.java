@@ -77,7 +77,7 @@ public class Controller extends Observable implements Observer {
 		
 		
 		// initialize parent JFrame window and initialize observer connection between the two
-		myParentFrame = new ParentFrameView("MSEE Conference Program", 600, 900);
+		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);
 		myParentFrame.addObserver(this);
 	}
 	

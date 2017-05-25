@@ -2,13 +2,16 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Observable;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -48,6 +51,7 @@ public class LoginView extends Observable {
 		myRegisterBtn = new JButton("Register");
 		myExitBtn = new JButton("Exit");
 		myUsernameLabel = new JLabel("Username:");
+		myUsernameLabel.setFont(new Font("Serif", Font.PLAIN, 18));
 		myProgramTitleLabel = new JLabel("MSEE Conference Manager", SwingConstants.CENTER);
 		myUsernameField = new JTextField(20);
 		
@@ -66,6 +70,7 @@ public class LoginView extends Observable {
 		formGbc.gridx = 0;
 		formGbc.gridy = 0;
 		formGbc.anchor = GridBagConstraints.LINE_START;
+		myUsernameLabel.setBorder(new EmptyBorder(0, 0, 0, 25));
 		myFormPanel.add(myUsernameLabel, formGbc);
 		
 		formGbc.gridx = 1;
@@ -83,6 +88,18 @@ public class LoginView extends Observable {
 			notifyObservers(Controller.LOG_IN_STATE);
 		});
 		
+		/**
+		 * Iterates through parent frames until JFrame parent is found and closes it.
+		 */
+		myExitBtn.addActionListener(e -> {
+			Container nextParentFrame = myExitBtn.getParent();
+            do 
+                nextParentFrame = nextParentFrame.getParent(); 
+            while (!(nextParentFrame instanceof JFrame));                                      
+            ((JFrame) nextParentFrame).dispose();
+            System.exit(0);
+		});
+		
 		
 		// Set up Buttons Panel
 		myBtnPanel = new JPanel();
@@ -97,6 +114,7 @@ public class LoginView extends Observable {
 		btnGbc.fill = GridBagConstraints.HORIZONTAL;
 		btnGbc.ipady = 20;
 		btnGbc.weightx = 0.0;
+		myLoginBtn.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		myBtnPanel.add(myLoginBtn, btnGbc);
 			
 		btnGbc.gridx = 0;
@@ -119,6 +137,7 @@ public class LoginView extends Observable {
 		myBtnPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		// add setup button panel to parent panel
+		myBtnPanel.setBorder(BorderFactory.createEmptyBorder(0, 400, 50, 400));
 		myPanel.add(myBtnPanel, BorderLayout.SOUTH);
 		
 		
