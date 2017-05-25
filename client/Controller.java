@@ -51,6 +51,7 @@ public class Controller extends Observable implements Observer {
 	
 	// Persistent Data for objects we will be serializing/deserializing
 	private ArrayList<User> myUserList;
+	private boolean isOpen;
 	
 
 	/**
@@ -75,6 +76,7 @@ public class Controller extends Observable implements Observer {
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);
 		myParentFrame.addObserver(this);
+		isOpen = false;
 	}
 	
 	
@@ -165,6 +167,7 @@ public class Controller extends Observable implements Observer {
 					// reset session data and header gui state
 					this.resetCurrentSessionState();
 					this.myParentFrame.logoutUser();
+					isOpen = false;
 
 					// switch to login view
 					LoginView loginView = new LoginView();
@@ -181,12 +184,34 @@ public class Controller extends Observable implements Observer {
 					switch (theNextState % 10){
 						
 						case SUBMIT_MANUSCRIPT:
-							Manuscript manuscriptToSubmit;
-							
-	
+							if (!isOpen) {
+								UI_Author authorView = new UI_Author();
+								authorView.addObserver(myParentFrame);
+								myParentFrame.addPanel(authorView.submitManuscriptView(), "submitManuscriptView");
+								myParentFrame.switchToPanel("submitManuscriptView");
+								isOpen = true;
+							} else {
+								UI_Author authorView = new UI_Author();
+								authorView.addObserver(myParentFrame);
+								myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
+								myParentFrame.switchToPanel("createConferenceOptions");
+								isOpen = false;
+							}
 							break;
 						case LIST_MANUSCRIPT_VIEW:
-							
+							if (!isOpen) {
+								UI_Author authorView = new UI_Author();
+								authorView.addObserver(myParentFrame);
+								myParentFrame.addPanel(authorView.viewManuscriptListView(), "viewManuscriptListView");
+								myParentFrame.switchToPanel("viewManuscriptListView");
+								isOpen = true;
+							} else {
+								UI_Author authorView = new UI_Author();
+								authorView.addObserver(myParentFrame);
+								myParentFrame.addPanel(authorView.createManuscriptOptions(), "createManuscriptOptions");
+								myParentFrame.switchToPanel("createManuscriptOptions");
+								isOpen = false;
+							}
 							break;
 						case LIST_CONFERENCE_VIEW:
 							UserRoleView userRoleView = new UserRoleView(myCurrentConference); //Will need to change constructor to take some boolean for SubChair
