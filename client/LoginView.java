@@ -1,12 +1,14 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,7 +26,7 @@ import javax.swing.border.EmptyBorder;
  * @author Ryan Tran
  * @version 5/20/17
  */
-public class LoginView extends Observable {
+public class LoginView extends Observable implements Observer {
 
 	// Parent Panel that holds the child panels
 	private JPanel myPanel;
@@ -55,6 +57,8 @@ public class LoginView extends Observable {
 		myUsernameLabel.setFont(new Font("Serif", Font.PLAIN, 18));
 		myProgramTitleLabel = new JLabel("MSEE Conference Manager", SwingConstants.CENTER);
 		myUsernameField = new JTextField(20);
+		myErrorLabel = new JLabel();
+		myErrorLabel.setForeground(Color.RED);
 		
 		// add title to parent panel
 		myProgramTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
@@ -74,14 +78,27 @@ public class LoginView extends Observable {
 		myUsernameLabel.setBorder(new EmptyBorder(0, 0, 0, 25));
 		myFormPanel.add(myUsernameLabel, formGbc);
 		
+		// set error label to invisible by default
+		formGbc.gridx = 0;
+		formGbc.gridy = 1;
+		formGbc.anchor = GridBagConstraints.LINE_START;
+		myErrorLabel.setVisible(false);
+		myFormPanel.add(myErrorLabel, formGbc);
+
 		formGbc.gridx = 1;
+		formGbc.gridy = 0;
 		formGbc.anchor = GridBagConstraints.LINE_END;
 		myFormPanel.add(myUsernameField, formGbc);
 		
 		myPanel.add(myFormPanel, BorderLayout.CENTER);
 		
 		// initalization button actions
+		
+		// login action
+		// should send username in field to controller
+		// and reset error message label
 		myLoginBtn.addActionListener(e -> {
+			this.myErrorLabel.setVisible(false);
 			myUsernameField.getText();
 			setChanged();
 			notifyObservers(myUsernameField.getText());
@@ -151,6 +168,34 @@ public class LoginView extends Observable {
 	 */
 	public JPanel getPanel() {
 		return this.myPanel;
+	}
+	
+	/**
+	 * Sets the error label to the passed in error message.
+	 * 
+	 * PreConditions:
+	 * 	String should be non-null
+	 * PostConditions:
+	 * 	myErrorLabel should be set to theMessage
+	 * @param theMessage the string to set the error label to
+	 */
+	private void setErrorMessage(String theMessage) {
+		this.myErrorLabel.setText(theMessage);
+		this.myErrorLabel.setVisible(true);
+	}
+
+	/**
+	 * Update method to be called when the observable the loginView is observing
+	 * notifies the LoginVIew of changes.
+	 */
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if(arg1 instanceof String) {
+			String controllerMsg = (String) arg1;
+			if(controllerMsg.equals("Invalid Username")) {
+				setErrorMessage("Invalid Username");
+			}
+		}
 	}
 	
 }

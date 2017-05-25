@@ -93,6 +93,7 @@ public class Controller extends Observable implements Observer {
 		LoginView loginView = new LoginView();
 		JPanel loginPanel = loginView.getPanel();
 		loginView.addObserver(this);
+		this.addObserver(loginView);
 		myParentFrame.addPanel(loginPanel, "loginPanel");
 		myParentFrame.getJFrame().setVisible(true);
 
@@ -109,6 +110,7 @@ public class Controller extends Observable implements Observer {
 	 * @author Connor Lundberg
 	 * @author Josiah Hopkins
 	 * @author Morgan Blackmore
+	 * @author Ryan Tran
 	 * @version 5/6/2017
 	 * @param theNextState The next state the program will be in.
 	 */
@@ -125,7 +127,8 @@ public class Controller extends Observable implements Observer {
 						myParentFrame.switchToPanel("AuthConfView");
 						myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;		//Should be CHOOSE_USER, but that screen has not been created yet.
 					} else {
-						System.out.println("invalid user name");
+						setChanged();
+						notifyObservers("Invalid Username");
 					}
 					
 					//setChanged();					//This is commented out because I don't think Controller needs to be observable.
@@ -156,6 +159,7 @@ public class Controller extends Observable implements Observer {
 					LoginView loginView = new LoginView();
 					JPanel loginPanel = loginView.getPanel();
 					loginView.addObserver(this);
+					this.addObserver(loginView);
 					myParentFrame.addPanel(loginPanel, "loginPanel");
 					myParentFrame.switchToPanel("loginPanel");
 					break;
