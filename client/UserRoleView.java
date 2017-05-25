@@ -8,9 +8,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Observable;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import model.Conference;
 
@@ -51,6 +53,7 @@ public class UserRoleView extends Observable{
 		gbc.anchor = GridBagConstraints.LINE_START;
 		myViewTitle = new JLabel("Choose a User Role for... " + theSelectedConference.getConferenceName());
 		myViewTitle.setFont(new Font("Serif", Font.PLAIN, 24));
+		myViewTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
 		myPanel.add(myViewTitle, gbc);
 		
 		gbc.gridy++;
@@ -79,6 +82,7 @@ public class UserRoleView extends Observable{
 		/*gbc.gridy++;
 		myReviewerBtn = new JButton("Reviewer Role");
 		myReviewerBtn.addActionListener(e -> {
+		myReviewerBtn.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
 			System.out.println("reviewer btn role clicked");
 		});
 		myPanel.add(myReviewerBtn, gbc);*/

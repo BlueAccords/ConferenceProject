@@ -132,7 +132,7 @@ public class ParentFrameView extends Observable implements Observer {
 	 */
 	public void setUserRole(String theRole) {
 		String currentUserEmail = this.myHeaderCurrentUsernameLabel.getText();
-		this.myHeaderCurrentUsernameLabel.setText("Role: " + theRole + " | " + currentUserEmail);
+		this.myHeaderCurrentUsernameLabel.setText(theRole + " | " + currentUserEmail);
 		
 		this.myFrame.revalidate();
 		this.myFrame.repaint();

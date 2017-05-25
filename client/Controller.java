@@ -142,6 +142,7 @@ public class Controller extends Observable implements Observer {
 							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
 							authorView.addObserver(myParentFrame);
 							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
+							myParentFrame.setUserRole("Author");
 							myParentFrame.switchToPanel("ViewManuscriptListView");
 							break;
 						case SUBPROGRAM_CHAIR:
@@ -149,6 +150,7 @@ public class Controller extends Observable implements Observer {
 							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
+							myParentFrame.setUserRole("Author");
 							myParentFrame.switchToPanel("ViewReviewersListView");
 							break;
 					}
