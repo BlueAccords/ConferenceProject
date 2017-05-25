@@ -14,7 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Author;
 import model.Conference;
+import model.User;
 
 /**
  * This view will allow the user to select a user role after they've already selected a conference OR return the conference list
@@ -35,6 +37,8 @@ public class UserRoleView extends Observable{
 	
 	private JButton myConferenceListBtn;
 	
+	private User myUser;
+	
 	/**
 	 * Constructor to init the view after a user has chosen a conference
 	 * and that conference is passed into the view
@@ -43,9 +47,11 @@ public class UserRoleView extends Observable{
 	 * @author Ryan Tran
 	 * @version 5/25/17
 	 */
-	public UserRoleView(Conference theSelectedConference) {
+	public UserRoleView(Conference theSelectedConference, User theUser) {
 		myPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
+		
+		myUser = theUser;
 
 		// init view title and add to panel
 		gbc.gridx = 0;
@@ -59,6 +65,8 @@ public class UserRoleView extends Observable{
 		gbc.gridy++;
 		myAuthorBtn = new JButton("Author Role");
 		myAuthorBtn.addActionListener(e -> {
+			setChanged();
+			notifyObservers(new Author(myUser));
 			setChanged();
 			notifyObservers(Controller.CHOOSE_USER + Controller.AUTHOR);
 		});

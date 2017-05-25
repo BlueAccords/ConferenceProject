@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SubprogramChair implements Serializable{
+public class SubprogramChair extends User implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -6999273827761122770L;
@@ -36,6 +36,7 @@ public class SubprogramChair implements Serializable{
 	 * @param aUser the User associated with this SPC.
 	 */
 	public SubprogramChair(User aUser) {
+		super("");
 		//no defensive copy made, we want this to act as a pointer.
 		myUser = aUser;
 		assignedManuscriptsSPC = new ArrayList<Manuscript>();
