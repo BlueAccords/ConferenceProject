@@ -82,7 +82,7 @@ public class UI_Author extends Observable {
 		submitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-		        notifyObservers("Submit Manuscript");  
+		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);  
 		    }  
 		});
 		
@@ -93,7 +93,7 @@ public class UI_Author extends Observable {
 		viewManuscriptButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-				notifyObservers("View Manuscripts");  
+				notifyObservers(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);  
 		    }  
 		});
 		

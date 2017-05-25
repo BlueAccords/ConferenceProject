@@ -30,7 +30,7 @@ public class Manuscript implements Serializable{
 	private String myTitle;
 	
 	/** The body of the manuscript. */
-	private File myManuscript;
+	private File myManuscriptFile;
 	
 	/** The body of the recommendation. */
 	private File myRecommendation;
@@ -64,7 +64,7 @@ public class Manuscript implements Serializable{
 		myTitle = theTitle;
 		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
-		myManuscript = theManuscriptFile;
+		myManuscriptFile = theManuscriptFile;
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
 		
@@ -114,7 +114,7 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public File getManuscriptFile() {
-		return myManuscript;
+		return myManuscriptFile;
 	}
 	
 	
@@ -252,7 +252,7 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public void updateManuscript(File theManuscript) {
-		myManuscript = theManuscript;
+		myManuscriptFile = theManuscript;
 	}
 
 	
