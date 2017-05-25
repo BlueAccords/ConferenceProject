@@ -200,7 +200,9 @@ public class Controller extends Observable implements Observer {
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
-								UI_Author authorView = new UI_Author();
+								System.out.println("==================================");
+								System.out.println(myCurrentConference.getConferenceName());
+								UI_Author authorView = new UI_Author(myCurrentConference.getManuscripts());
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.viewManuscriptListView(), "viewManuscriptListView");
 								myParentFrame.switchToPanel("viewManuscriptListView");
