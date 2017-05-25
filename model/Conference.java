@@ -216,6 +216,7 @@ public class Conference implements Serializable{
 			throw new Exception("An Author or Coauthor has already submitted max Papers.");
 		}
 		
+		
 		//Now add paper to its respective author and create a new author if necessary. 
 		for (User author : theManuscript.getAuthors()) {
 			Author potentialAuthor = getAuthor(author);
@@ -247,7 +248,6 @@ public class Conference implements Serializable{
 		boolean check = true;	
 		ArrayList<User> authors = new ArrayList<User>();
 		authors.addAll(theManuscript.getAuthors());
-		//System.out.println(authors.size());
 		for (User author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
