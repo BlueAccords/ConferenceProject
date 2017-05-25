@@ -116,8 +116,26 @@ public class ParentFrameView extends Observable implements Observer {
 		this.myHeaderCurrentUsernameLabel.setText(theUser.getEmail());
 		this.myHeaderPanel.setVisible(true);
 		
-		myCardPanel.revalidate();
-        myCardPanel.repaint();
+		this.myFrame.revalidate();
+        this.myFrame.repaint();
+	}
+	
+	/**
+	 * Sets the header to display the user role in addition to the username.
+	 * 
+	 * PreConditions:
+	 * 	myHeaderCurrentUsernameLabel must already have a username set.
+	 * 	theRole string must be non-null
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theRole the role string to append to the header's username display
+	 */
+	public void setUserRole(String theRole) {
+		String currentUserEmail = this.myHeaderCurrentUsernameLabel.getText();
+		this.myHeaderCurrentUsernameLabel.setText("Role: " + theRole + " | " + currentUserEmail);
+		
+		this.myFrame.revalidate();
+		this.myFrame.repaint();
 	}
 	
 	/**
