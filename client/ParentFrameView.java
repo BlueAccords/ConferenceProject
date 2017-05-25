@@ -156,6 +156,7 @@ public class ParentFrameView extends Observable implements Observer {
 	public void update(Observable o, Object arg) {
 		System.out.println("UI Parent Frame was notified of update");
 		if(arg instanceof Integer) {
+			System.out.println("Received new state from " + o.getClass().getSimpleName());
 			setChanged();
 			notifyObservers((Integer) arg);
 		} else if(arg instanceof String) {
@@ -166,7 +167,7 @@ public class ParentFrameView extends Observable implements Observer {
 				setChanged();
 				notifyObservers((String) arg);
 			} else {
-				System.out.println("Received a Conference");
+				//System.out.println("Received a Conference");
 				setChanged();
 				notifyObservers((Conference) arg);
 			}
