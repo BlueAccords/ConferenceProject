@@ -193,15 +193,16 @@ public class SubprogramChair implements Serializable{
 		
 		/**
 		 * Checks whether theConference deadline for manuscript submission
-		 * exceeds todays date.  If so (the deadline is still in the future)
+		 * is after theDate.  If so (the deadline is still in the future)
 		 * and will return false.
+		 * 
 		 *
 		 * @author Morgan Blackmore
 		 * @version 5/19/17
-		 * @return boolean true if current date is after manuscriptSubmissionDeadline
+		 * @return boolean true if manuscriptSubmissionDeadline is after theDate
 		 */
-		public boolean isAfterSubmissionDeadline(Conference theConference, Manuscript theManuscript){
-			if (theConference.getManuscriptDeadline().before(new Date())){ //deadline is before today
+		public boolean isAfterSubmissionDeadline(Conference theConference, Date theDate){
+			if (theConference.getManuscriptDeadline().before(theDate)){//is conferenceDL before theDate, if so, return False
 				return false; 
 			} else {
 				return true;	

@@ -80,7 +80,7 @@ public class SubprogramChairTest {
 
 
 		Calendar submissionDeadline = Calendar.getInstance();
-		submissionDeadline.add(Calendar.HOUR, -14);
+		submissionDeadline.add(Calendar.HOUR, -14);//sets submissionDL 14 hrs earlier than now
 		RSAConference = new Conference("RSA", submissionDeadline.getTime(), new Date(), new Date(), new Date());
 
 		rsa = new Manuscript("RSA", new File("ControllerTest.java"), authorBob);
@@ -112,7 +112,7 @@ public class SubprogramChairTest {
 	@Test
 	public void testAssignManuscriptToReviewer_validAssignment_manuscriptAddedToReviewer() throws Exception {
 		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, rsa);
-		assertEquals("rsa should be added to reviewerJohns list", reviewerJohn.getAssignedManuscripts().get(1), rsa );
+		assertEquals("rsa should be added to reviewerJohns list", reviewerJohn.getAssignedManuscripts().get(0), rsa );
 	}
 	
 
@@ -143,15 +143,16 @@ public class SubprogramChairTest {
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
-	 * @throws Exception 
 	 */
-	@Test (expected = Exception.class)
+	@Test 
 	public void testIsUnderAssignedManuscriptLimit_atLimit_returnFalse() throws Exception {
-		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, rsa);
-		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, electrocution);
-		subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, sithFingers); //reviewer at limit
+		
+		for (int i = 0; i<subprogramChairLilRyeRye.getMaxReviewPapers(); i++) {
+			String title = new String("Manuscript" + i);
+			Manuscript autoScrip = new Manuscript(title, new File("UserTest.java"), authorDarth);
+			subprogramChairLilRyeRye.assignManuscriptToReviewer(reviewerJohn, autoScrip);
+		}
 		assertFalse("reviewerJohn has max assigned manuscripts", subprogramChairLilRyeRye.isUnderAssignedManuscriptLimit(reviewerJohn));
-
 	}
 	
 	
@@ -208,7 +209,11 @@ public class SubprogramChairTest {
 	 */
 	@Test
 	public void testisAfterSubmissionDeadline_afterSubmissionDeadline_true() {
-		subprogramChairLilRyeRye.isAfterSubmissionDeadline(RSAConference, rsa);
+		Calendar afterDeadline = Calendar.getInstance(); 
+		
+		assertFalse(subprogramChairLilRyeRye.isAfterSubmissionDeadline(RSAConference, afterDeadline.getTime()));
+
+
 	}
 
 	/**
@@ -220,8 +225,10 @@ public class SubprogramChairTest {
 	 * @version 5/24/17
 	 */
 	@Test
-	public void testisAfterSubmissionDeadline_atSubmissionDeadline_false() {
-		fail("Not yet implemented");
+	public void testisAfterSubmissionDeadline_atSubmissionDeadline_true() {
+		Date atDeadline = RSAConference.getManuscriptDeadline();
+		assertTrue("SubmissionDL and current time should be same, so return True", 
+				subprogramChairLilRyeRye.isAfterSubmissionDeadline(RSAConference, atDeadline));
 	}
 	
 	/**
@@ -233,8 +240,15 @@ public class SubprogramChairTest {
 	 * @version 5/24/17
 	 */
 	@Test
-	public void testisAfterSubmissionDeadline_beforeSubmissionDeadline_false() {
-		fail("Not yet implemented");
+	public void testisAfterSubmissionDeadline_beforeSubmissionDeadline_true() {
+	
+		Calendar beforeDeadline = Calendar.getInstance();
+		beforeDeadline.add(Calendar.HOUR, -18);
+		//ConfDL is 14 hours ago
+		//thisDL is 18 hours ago 
+		//so will return true b/c ConfDL is after thisDL
+		assertTrue("beforeDeadline set before conferenceDeadline, should return false",subprogramChairLilRyeRye.isAfterSubmissionDeadline(RSAConference, beforeDeadline.getTime()));
+		
 	}
 	
 	/**
@@ -245,10 +259,21 @@ public class SubprogramChairTest {
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void testSubmitRecommendation_manuscriptHasSufficientReviews_addTheRecommendationToManuscript() {
-		fail("Not yet implemented");
+	public void testSubmitRecommendation_manuscriptHasSufficientReviews_addTheRecommendationToManuscript() throws NullPointerException, Exception {
+		File review1 = new File("UserTest.java");
+		File review2 = new File("UserTest.java");
+		File review3 = new File("UserTest.java");
+		File recommendation = new File("UserTest.java");
+		rsa.addReview(review1);
+		rsa.addReview(review2);
+		rsa.addReview(review3);
+		rsa.addRecommendation(recommendation);
+		assertEquals("recommendation in manuscript should equal recommendation submitted", rsa.getRecommendation(), recommendation);
+		
 	}
 	
 	/**
@@ -259,10 +284,14 @@ public class SubprogramChairTest {
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
+	 * @throws NullPointerException 
 	 */
 	@Test (expected = Exception.class)
-	public void testSubmitRecommendation_manuscriptHasInsufficientReviews_doNotAddTheRecommendationToManuscript() {
-		fail("Not yet implemented");
+	public void testSubmitRecommendation_manuscriptHasInsufficientReviews_throwException() throws NullPointerException, Exception {
+		File recommendation = new File("UserTest.java");
+		rsa.addRecommendation(recommendation);
+		
 	}
 	
 	/**
@@ -273,9 +302,13 @@ public class SubprogramChairTest {
 	 * 
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
+	 * @throws Exception 
+	 * @throws NullPointerException 
 	 */
 	@Test (expected = NullPointerException.class)
-	public void testSubmitRecommendation_nullRecommedation_doNotAddTheRecommendationToManuscript() {
-		fail("Not yet implemented");
+	public void testSubmitRecommendation_nullRecommedation_doNotAddTheRecommendationToManuscript() throws NullPointerException, Exception {
+		File nullRecommendation = null;
+		rsa.addRecommendation(nullRecommendation);
+		
 	}
 }
