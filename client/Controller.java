@@ -118,6 +118,7 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
+			System.out.println("State is less than 0");
 			switch (theNextState) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
@@ -135,14 +136,16 @@ public class Controller extends Observable implements Observer {
 					//notifyObservers(myCurrentState);
 					break;
 				case CHOOSE_USER:
-					switch ((theNextState / 10) * 10) { //will need to break this up more here.
+					switch (((theNextState * -1) / 10) * 10) { //will need to break this up more here.
 						case AUTHOR:
+							System.out.println("User chose Author role");
 							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
 							authorView.addObserver(myParentFrame);
 							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
 							myParentFrame.switchToPanel("ViewManuscriptListView");
 							break;
 						case SUBPROGRAM_CHAIR:
+							System.out.println("User chose Subprogram Chair role");
 							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
@@ -184,8 +187,10 @@ public class Controller extends Observable implements Observer {
 							
 							break;
 						case LIST_CONFERENCE_VIEW:
-							
-							
+							UserRoleView userRoleView = new UserRoleView(myCurrentConference); //Will need to change constructor to take some boolean for SubChair
+							userRoleView.addObserver(myParentFrame);
+							myParentFrame.addPanel(userRoleView.getPanel(), "UserRoleView");
+							myParentFrame.switchToPanel("UserRoleView");
 							break;
 						case USER_OPTIONS:
 							
@@ -355,9 +360,9 @@ public class Controller extends Observable implements Observer {
 	 */
 	private void setUser (String theNewUsernameLiteral) {
 		if(User.doesEmailBelongToUser(myUserList, theNewUsernameLiteral)) {
-			System.out.println("setting a user");
+			//System.out.println("setting a user");
 			myCurrentUser = User.getUserByEmail(myUserList, theNewUsernameLiteral);
-			System.out.println("Updating header gui to refelect logged in user");
+			//System.out.println("Updating header gui to refelect logged in user");
 			this.myParentFrame.setUserToBeLoggedIn(myCurrentUser);
 		}
 	}
@@ -415,12 +420,13 @@ public class Controller extends Observable implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		
 		if (arg1 instanceof String) {
-			System.out.println("going to set a user");
+			//System.out.println("going to set a user");
 			setUser((String) arg1);
 		} else if (arg1 instanceof Conference) {
-			System.out.println("going to set a conference");
+			//System.out.println("going to set a conference");
 			setConference((Conference) arg1);
 		} else if (arg1 instanceof Integer) {
+			System.out.println("Going to make a new state");
 			changeState((Integer) arg1);
 		}
 	}
