@@ -141,7 +141,8 @@ public class Controller extends Observable implements Observer {
 					switch (((theNextState * -1) / 10) * 10) { //will need to break this up more here.
 						case AUTHOR:
 							System.out.println("User chose Author role");
-							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
+							//myCurrentAuthor = (Author) myCurrentUser;
+							UI_Author authorView = new UI_Author(myCurrentAuthor); //need to use a static getManuscripts once it's available and pass it here.
 							authorView.addObserver(myParentFrame);
 							myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
 							myParentFrame.setUserRole("Author");
@@ -149,6 +150,7 @@ public class Controller extends Observable implements Observer {
 							break;
 						case SUBPROGRAM_CHAIR:
 							System.out.println("User chose Subprogram Chair role");
+							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
 							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
@@ -185,13 +187,13 @@ public class Controller extends Observable implements Observer {
 						
 						case SUBMIT_MANUSCRIPT:
 							if (!isOpen) {
-								UI_Author authorView = new UI_Author();
+								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.submitManuscriptView(), "submitManuscriptView");
 								myParentFrame.switchToPanel("submitManuscriptView");
 								isOpen = true;
 							} else {
-								UI_Author authorView = new UI_Author();
+								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
 								myParentFrame.switchToPanel("createConferenceOptions");
@@ -200,15 +202,13 @@ public class Controller extends Observable implements Observer {
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
-								System.out.println("==========================");
-								System.out.println(myCurrentConference.getManuscripts().size());
-								UI_Author authorView = new UI_Author(myCurrentConference.getManuscripts());
+								UI_Author authorView = new UI_Author(myCurrentAuthor.getMyManuscripts(), myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.viewManuscriptListView(), "viewManuscriptListView");
 								myParentFrame.switchToPanel("viewManuscriptListView");
 								isOpen = true;
 							} else {
-								UI_Author authorView = new UI_Author();
+								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.createManuscriptOptions(), "createManuscriptOptions");
 								myParentFrame.switchToPanel("createManuscriptOptions");
@@ -216,7 +216,7 @@ public class Controller extends Observable implements Observer {
 							}
 							break;
 						case LIST_CONFERENCE_VIEW:
-							UserRoleView userRoleView = new UserRoleView(myCurrentConference); //Will need to change constructor to take some boolean for SubChair
+							UserRoleView userRoleView = new UserRoleView(myCurrentConference, myCurrentUser); //Will need to change constructor to take some boolean for SubChair
 							userRoleView.addObserver(myParentFrame);
 							myParentFrame.addPanel(userRoleView.getPanel(), "UserRoleView");
 							myParentFrame.switchToPanel("UserRoleView");
@@ -369,6 +369,24 @@ public class Controller extends Observable implements Observer {
 	
 	
 	/**
+	 * Adds theManuscriptToAdd to the current Author and the current Conference after checking if it already
+	 * belongs to either of them.
+	 * 
+	 * Pre: theManuscriptToAdd is not null.
+	 * 
+	 * @param theManuscriptToAdd The new Manuscript to add
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/25/2017
+	 */
+	private void addManuscriptToAuthorAndConference (Manuscript theManuscriptToAdd) { //not checking for conference yet
+		if (!myCurrentAuthor.checkForExistingManuscript(theManuscriptToAdd.getTitle())) {
+			myCurrentAuthor.addManuscript(theManuscriptToAdd);
+		}
+	}
+	
+	
+	/**
 	 * Sets the field myCurrentUser to theNewUsernameLiteral if it is a valid name within the
 	 * User list.
 	 * 
@@ -433,6 +451,16 @@ public class Controller extends Observable implements Observer {
 	public void setReviewer(Reviewer theNewReviewer) {
 		myCurrentReviewer = theNewReviewer;
 	}
+	
+	
+	public void setAuthor(Author theNewAuthor) {
+		myCurrentAuthor = theNewAuthor;
+	}
+	
+	
+	public void setSubprogramChair(SubprogramChair theNewSubprogramChair) {
+		myCurrentSubprogramChair = theNewSubprogramChair;
+	}
 
 
 	/**
@@ -455,6 +483,12 @@ public class Controller extends Observable implements Observer {
 			changeState((Integer) arg1);
 		} else if (arg1 instanceof Reviewer) {
 			setReviewer((Reviewer) arg1);
+		} else if (arg1 instanceof Author) {
+			setAuthor((Author) arg1);
+		} else if (arg1 instanceof SubprogramChair) {
+			setSubprogramChair((SubprogramChair) arg1);
+		} else if (arg1 instanceof Manuscript) {
+			addManuscriptToAuthorAndConference((Manuscript) arg1);
 		}
 	}
 		

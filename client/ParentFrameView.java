@@ -14,7 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Author;
 import model.Conference;
+import model.Manuscript;
+import model.SubprogramChair;
 import model.User;
 
 import java.util.Map;
@@ -189,6 +192,15 @@ public class ParentFrameView extends Observable implements Observer {
 				setChanged();
 				notifyObservers((Conference) arg);
 			}
+		} else if (arg instanceof Author) {
+			setChanged();
+			notifyObservers((Author) arg);
+		} else if (arg instanceof SubprogramChair) {
+			setChanged();
+			notifyObservers((SubprogramChair) arg);
+		} else if (arg instanceof Manuscript) {
+			setChanged();
+			notifyObservers((Manuscript) arg);
 		}
 		
 	}

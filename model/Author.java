@@ -104,6 +104,33 @@ public class Author extends User implements Serializable{
 	
 	
 	/**
+	 * Checks for an existing Manuscript with the same title as the String passed.
+	 * 
+	 * @param theManuscriptTitleToCheck The String title to check
+	 * @return True if there exists a submitted Manuscript with the same name, false otherwise.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/25/2017
+	 */
+	public boolean checkForExistingManuscript (String theManuscriptTitleToCheck) {
+		boolean manuscriptExists = false;
+		ArrayList<String> manuscriptTitles = new ArrayList<String> ();
+		for (Manuscript singleManuscript : myManuscripts) {
+			manuscriptTitles.add(singleManuscript.getTitle());
+		}
+		
+		for (String title : manuscriptTitles) {
+			if (title.equals(theManuscriptTitleToCheck)) {
+				manuscriptExists = true;
+				break;
+			}
+		}
+		
+		return manuscriptExists;
+	}
+	
+	
+	/**
 	 * This method will add a passed Manuscript to the User's collection of Manuscript. 
 	 * 
 	 * @param theManuscript
