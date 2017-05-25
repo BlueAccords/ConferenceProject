@@ -39,6 +39,7 @@ public class LoginView extends Observable {
 	private JButton myRegisterBtn;
 	private JTextField myUsernameField;
 	private JLabel myUsernameLabel;
+	private JLabel myErrorLabel;
 	
 	private JLabel myProgramTitleLabel;
 	

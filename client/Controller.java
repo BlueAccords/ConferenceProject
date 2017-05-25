@@ -62,7 +62,7 @@ public class Controller extends Observable implements Observer {
 	 */
 	public Controller () {
 		myCurrentState = AUTHOR;
-		myCurrentUser = new User(null);
+		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
 		myCurrentManuscript = new Manuscript(null, null, null);
 		myCurrentAuthor = new Author(myCurrentUser);
@@ -71,10 +71,6 @@ public class Controller extends Observable implements Observer {
 		
 		// initialization data from local serialized file
 		myUserList = User.getUsers();
-		
-		// temporary test data;
-		//myUserList.add(new User("john@email.com"));
-		
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);
@@ -128,6 +124,8 @@ public class Controller extends Observable implements Observer {
 						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
 						myParentFrame.switchToPanel("AuthConfView");
 						myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;		//Should be CHOOSE_USER, but that screen has not been created yet.
+					} else {
+						System.out.println("invalid user name");
 					}
 					
 					//setChanged();					//This is commented out because I don't think Controller needs to be observable.
@@ -371,7 +369,7 @@ public class Controller extends Observable implements Observer {
 	 */
 	private void resetCurrentSessionState() {
 		myCurrentState = AUTHOR;
-		myCurrentUser = new User(null);
+		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
 		myCurrentManuscript = new Manuscript(null, null, null);
 		myCurrentAuthor = new Author(myCurrentUser);
