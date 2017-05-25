@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +11,14 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.Author;
 import model.Conference;
 import model.Manuscript;
 
@@ -39,6 +42,8 @@ public class UI_Author extends Observable {
 	 */
 	private int myCounter;
 	
+	private Author myAuthor;
+	
 	/**
 	 * 
 	 */
@@ -48,7 +53,8 @@ public class UI_Author extends Observable {
 	 * Constructor to initialize fields.
 	 * @author Casey Anderson
 	 */
-	public UI_Author() {
+	public UI_Author(Author theAuthor) {
+		myAuthor = theAuthor;
 		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;		
 	}
@@ -62,7 +68,8 @@ public class UI_Author extends Observable {
 	 * @author Connor Lundberg
 	 * @version 5/23/201
 	 */
-	public UI_Author(ArrayList<Manuscript> theManuscriptList) {
+	public UI_Author(ArrayList<Manuscript> theManuscriptList, Author theAuthor) {
+		myAuthor = theAuthor;
 		myManuscriptList = theManuscriptList;
 		myCounter = 0;
 	}
@@ -165,7 +172,7 @@ public class UI_Author extends Observable {
 	public JPanel submitManuscriptView() {
 		
 		// JPanels for for view.
-		JPanel createManuscriptPanel = new JPanel();
+		JPanel createManuscriptPanel = new JPanel(new GridLayout(3,1));
 		JPanel manuscriptTitlePanel = new JPanel();
 		JPanel manuscriptAuthorsPanel = new JPanel();
 		JPanel ManuscriptFilePanel = new JPanel();
@@ -173,25 +180,28 @@ public class UI_Author extends Observable {
 		
 		// JTextField and JTextArea for gathering authors Manuscript information.
 		JTextField manuscriptTitleField = new JTextField(20);
-		JTextField manuscriptFileField = new JTextField(20);
-		JTextArea textArea = new JTextArea("Please Enter Author name and all Co-Authors seperated by a comma ','", 5, 20);
+		JFileChooser manuscriptFileChooser = new JFileChooser();
+		JTextArea textArea = new JTextArea(5, 20);
 		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setLineWrap(true);
 		
 		// Submission button.
 		JButton ManuscriptSubmitButton = new JButton("Submit");
-		ManuscriptSubmitButton.setActionCommand("Delete Manuscript");
+		ManuscriptSubmitButton.setActionCommand("Submit Manuscript");
 		
 		ManuscriptSubmitButton.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
+			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
+				Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
 				setChanged();
-				notifyObservers(manuscriptTitleField.getText() + "," + textArea.getText() + "," + manuscriptFileField.getText());  
+				notifyObservers(newManuscript);  
+				setChanged();
+				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
 		    }  
 		});
 		
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
-		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript: ");
+		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
 		JLabel ManuscriptFileLabel = new JLabel("Enter File Path: ");
 			
 		manuscriptTitlePanel.add(ManuscriptTitleLabel);
@@ -199,7 +209,8 @@ public class UI_Author extends Observable {
 		manuscriptAuthorsPanel.add(ManuscriptAuthorsLabel);
 		manuscriptAuthorsPanel.add(textArea);
 		ManuscriptFilePanel.add(ManuscriptFileLabel);
-		ManuscriptFilePanel.add(manuscriptFileField);
+		ManuscriptFilePanel.add(manuscriptFileChooser);
+		ManuscriptSubmitPanel.add(ManuscriptSubmitButton);
 		createManuscriptPanel.add(manuscriptTitlePanel);
 		createManuscriptPanel.add(manuscriptAuthorsPanel);
 		createManuscriptPanel.add(ManuscriptFilePanel);
