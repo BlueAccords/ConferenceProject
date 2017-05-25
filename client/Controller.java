@@ -135,15 +135,21 @@ public class Controller extends Observable implements Observer {
 					//notifyObservers(myCurrentState);
 					break;
 				case CHOOSE_USER:
-					switch (theNextState) { //will need to break this up more here.
-						case 0:
-							myCurrentState = AUTHOR;
+					switch ((theNextState / 10) * 10) { //will need to break this up more here.
+						case AUTHOR:
+							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
+							authorView.addObserver(myParentFrame);
+							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
+							myParentFrame.switchToPanel("ViewManuscriptListView");
 							break;
-						case 1:
-							myCurrentState = SUBPROGRAM_CHAIR;
+						case SUBPROGRAM_CHAIR:
+							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
+							subprogramChairView.addObserver(myParentFrame);
+							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
+							myParentFrame.switchToPanel("ViewReviewersListView");
 							break;
 					}
-					myCurrentState += LIST_CONFERENCE_VIEW;
+					//myCurrentState += LIST_CONFERENCE_VIEW;
 					
 					//setChanged();
 					//notifyObservers(myCurrentState);
@@ -178,10 +184,7 @@ public class Controller extends Observable implements Observer {
 							
 							break;
 						case LIST_CONFERENCE_VIEW:
-							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
-							authorView.addObserver(myParentFrame);
-							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
-							myParentFrame.switchToPanel("ViewManuscriptListView");
+							
 							
 							break;
 						case USER_OPTIONS:
