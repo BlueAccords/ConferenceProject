@@ -55,7 +55,6 @@ public class Driver {
 		confList.add(chiConf);
 		confList.add(eccvConf);
 		confList.add(icmlConf);
-		Conference.writeConferences(confList);
 	
 		// test authors for manuscripts
 		Author testAuth1 = new Author(testUser1);
@@ -81,7 +80,8 @@ public class Driver {
 			theException.printStackTrace();
 			System.out.println("Error in adding test Manuscripts");
 		}
-				
+		
+		Conference.writeConferences(confList);
 		systemController.startProgram();
 	}
 

@@ -4,9 +4,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -61,11 +63,20 @@ public class ConferenceListView extends Observable {
 			
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
-					setChanged();
-				    notifyObservers(myConferenceList.get(myCounter - 1));  
-				    setChanged();
-				    notifyObservers(Controller.AUTHOR + Controller.LIST_CONFERENCE_VIEW);
-		        }  
+					int confIndex = getClickedConference(group, e);
+					System.out.println("Conf index = " + confIndex);
+					System.out.println(   ((JButton)e.getSource()).getText()    );
+					System.out.println("Conference at conf index = " + myConferenceList.get(confIndex).getConferenceName());
+					if(confIndex > -1) {
+						setChanged();
+						notifyObservers(myConferenceList.get(confIndex));
+						setChanged();
+						notifyObservers(Controller.AUTHOR + Controller.LIST_CONFERENCE_VIEW);
+					} else {
+						System.out.println("Conference Not Found");
+					}
+
+				} 
 		    }); 
 			
 			group.add(button);
@@ -81,5 +92,40 @@ public class ConferenceListView extends Observable {
 		return conferenceListPanel;
 		
 	}
+	
+	/**
+	 * This method will return the index conference linked to the button clicked
+	 * by iterating through the button group, and seeing which button was pressed and
+	 * finding the same conference in the conference list with that index.
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theBtnGroup the button group containing the button that was pressed
+	 * @param theAction The action, we are comparing the action's parent button to the button group
+	 * @return the index of the conference object that is linked to the pressed button
+	 */
+	private int getClickedConference(ButtonGroup theBtnGroup, ActionEvent theAction) {
+		int i = 0;
+		boolean confFound = false;
 
+		Enumeration groupElements = theBtnGroup.getElements();
+		while (groupElements.hasMoreElements()) {
+			AbstractButton originalGroupBtn = (AbstractButton)groupElements.nextElement();
+			JButton actionSrcBtn = ((JButton)theAction.getSource());
+			
+			if(originalGroupBtn.equals(actionSrcBtn)) {
+				System.out.println("match button found");
+				confFound = true;
+				break;
+			}
+			
+			i++;
+		}
+		
+		if(confFound) {
+			return i;
+		} else {
+			return -1;
+		}
+	}
 }
