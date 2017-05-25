@@ -19,6 +19,7 @@ import model.Manuscript.AuthorExistsInListException;
 public class Controller extends Observable implements Observer {
 
 	//View States
+	public static final int LOG_OUT_STATE = -6;
 	public static final int FAIL_REVIEWER_IS_AUTHOR_ON_MANUSCRIPT= -5;
 	public static final int FAIL_SUBMITED_PAST_DEADLINE = -4;
 	public static final int FAIL_AUTHOR_HAS_TO_MANY_MANUSCRIPTS = -3;
@@ -145,6 +146,20 @@ public class Controller extends Observable implements Observer {
 					
 					//setChanged();
 					//notifyObservers(myCurrentState);
+					break;
+				case LOG_OUT_STATE:
+					System.out.println("Log out state entered");
+					
+					// reset session data and header gui state
+					this.resetCurrentSessionState();
+					this.myParentFrame.logoutUser();
+
+					// switch to login view
+					LoginView loginView = new LoginView();
+					JPanel loginPanel = loginView.getPanel();
+					loginView.addObserver(this);
+					myParentFrame.addPanel(loginPanel, "loginPanel");
+					myParentFrame.switchToPanel("loginPanel");
 					break;
 			}
 		} else {
@@ -337,12 +352,31 @@ public class Controller extends Observable implements Observer {
 		if(User.doesEmailBelongToUser(myUserList, theNewUsernameLiteral)) {
 			System.out.println("setting a user");
 			myCurrentUser = User.getUserByEmail(myUserList, theNewUsernameLiteral);
+			System.out.println("Updating header gui to refelect logged in user");
+			this.myParentFrame.setUserToBeLoggedIn(myCurrentUser);
 		}
 	}
 	
 	
 	private void printAccounts () {
 
+	}
+	
+	/**
+	 * this method will be used to reset all myCurrent* fields in the controller
+	 * and reset the controller's state back to what it should be when at the login screen.
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 */
+	private void resetCurrentSessionState() {
+		myCurrentState = AUTHOR;
+		myCurrentUser = new User(null);
+		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
+		myCurrentManuscript = new Manuscript(null, null, null);
+		myCurrentAuthor = new Author(myCurrentUser);
+		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
+		myCurrentReviewer = new Reviewer(null);
 	}
 	
 	
