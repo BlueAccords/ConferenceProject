@@ -118,8 +118,8 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
-			System.out.println("State is less than 0");
-			switch (theNextState) {
+			System.out.println("State is less than 0 " + theNextState + " = " + ((theNextState * -1) / 10) * 10);
+			switch (theNextState % -10) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
 						ConferenceListView confListView = new ConferenceListView(Conference.getConferences());
@@ -141,16 +141,16 @@ public class Controller extends Observable implements Observer {
 							System.out.println("User chose Author role");
 							UI_Author authorView = new UI_Author(); //need to use a static getManuscripts once it's available and pass it here.
 							authorView.addObserver(myParentFrame);
-							myParentFrame.addPanel(authorView.viewManuscriptListView(), "ViewManuscriptListView");
+							myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
 							myParentFrame.setUserRole("Author");
-							myParentFrame.switchToPanel("ViewManuscriptListView");
+							myParentFrame.switchToPanel("createConferenceOptions");
 							break;
 						case SUBPROGRAM_CHAIR:
 							System.out.println("User chose Subprogram Chair role");
 							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
-							myParentFrame.setUserRole("Author");
+							myParentFrame.setUserRole("Subprogram Chair");
 							myParentFrame.switchToPanel("ViewReviewersListView");
 							break;
 					}
@@ -208,38 +208,29 @@ public class Controller extends Observable implements Observer {
 				case SUBPROGRAM_CHAIR:
 					switch (myCurrentState % 10){
 	                    case ASSIGN_REVIEWER:
-	                        myCurrentState = SUBPROGRAM_CHAIR + ASSIGN_MANUSCRIPT;
-	                        setChanged();
-							notifyObservers(myCurrentState);
+	                       
 	                        break;
 	                    case ASSIGN_MANUSCRIPT:
-	                    	//UUID key = UUID.fromString(pieces[1]);
-
-	                    	myCurrentState = SUBPROGRAM_CHAIR + LIST_MANUSCRIPT_VIEW;
-	                    	setChanged();
-	                    	notifyObservers(myCurrentState);
+	                    	
+	                    	
 	                    	break;
 	                    case LIST_CONFERENCE_VIEW:
-							myCurrentState = SUBPROGRAM_CHAIR + USER_OPTIONS;
-							setChanged();
-							notifyObservers(myCurrentState);
+							
+							
 	                        break;
 						case LIST_MANUSCRIPT_VIEW:
-							myCurrentState = SUBPROGRAM_CHAIR + USER_OPTIONS;
+							
 	                    	
-							setChanged();
-							notifyObservers(myCurrentState);
+							
 							break;
 	                    case LIST_ASSIGNED_REVIEWERS_VIEW:
-	                    	myCurrentState = SUBPROGRAM_CHAIR + USER_OPTIONS;
+	                    	//will assign a chosen reviewer here
 	                    	
-							setChanged();
-							notifyObservers(myCurrentState);
+							
 	                        break;
 	                    case USER_OPTIONS:
 	                    	
-	                    	setChanged();
-							notifyObservers(myCurrentState);
+	                    	
 	                    	break;
 					}
 					break;
@@ -403,12 +394,17 @@ public class Controller extends Observable implements Observer {
 	 */
 	public void setConference (Conference theNewConference) {
 		myCurrentConference = theNewConference;
-		System.out.println("set a conference");
+		//System.out.println("set a conference");
 	}
 	
 	
 	public Conference getCurrentConference () {
 		return myCurrentConference;
+	}
+	
+	
+	public void setReviewer(Reviewer theNewReviewer) {
+		myCurrentReviewer = theNewReviewer;
 	}
 
 
@@ -430,6 +426,8 @@ public class Controller extends Observable implements Observer {
 		} else if (arg1 instanceof Integer) {
 			System.out.println("Going to make a new state");
 			changeState((Integer) arg1);
+		} else if (arg1 instanceof Reviewer) {
+			setReviewer((Reviewer) arg1);
 		}
 	}
 		

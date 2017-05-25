@@ -75,7 +75,7 @@ public class UserRoleView extends Observable{
 		mySubProgramChairBtn = new JButton("SubProgram Chair Role");
 		mySubProgramChairBtn.addActionListener(e -> {
 			setChanged();
-			notifyObservers(Controller.CHOOSE_USER * Controller.SUBPROGRAM_CHAIR);
+			notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
 		});
 		myPanel.add(mySubProgramChairBtn, gbc);
 		

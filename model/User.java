@@ -55,6 +55,19 @@ public class User implements Serializable{
 	
 	
 	/**
+	 * Getter for the User's whole name.
+	 * 
+	 * @return the User's current whole name (first name + last name)
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/25/2017
+	 */
+	public String getWholeName() {
+		return myFirstName + " " + myLastName;
+	}
+	
+	
+	/**
 	 * Setter for User's last name. 
 	 * 
 	 * @param theLastName The new last name to set
