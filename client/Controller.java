@@ -419,9 +419,9 @@ public class Controller extends Observable implements Observer {
 	 * @version 5/23/2017
 	 */
 	private void setUser (String theNewUsernameLiteral) {
-		if(User.doesEmailBelongToUser(myUserList, theNewUsernameLiteral)) {
+		if(User.doesEmailBelongToUser(theNewUsernameLiteral)) {
 			//System.out.println("setting a user");
-			myCurrentUser = User.getUserByEmail(myUserList, theNewUsernameLiteral);
+			myCurrentUser = User.getUserByEmail(theNewUsernameLiteral);
 			//System.out.println("Updating header gui to refelect logged in user");
 			this.myParentFrame.setUserToBeLoggedIn(myCurrentUser);
 		}

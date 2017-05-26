@@ -21,21 +21,20 @@ public class Driver {
 		Controller systemController = new Controller();
 		
 		// add dummy users
-		ArrayList<User> testUsers = new ArrayList<User>();
-
+		User.initializeUserListToEmptyList();
 		User testUser1 = new User("john@email.com");
 		User testUser2 = new User("connor@test.com", true);
 		User testUser3 = new User("casanova@test.com");
 		User testUser4 = new User("mdanger@test.com");
 		User testUser5 = new User("jmoney@test.com");
 		User testUser6 = new User("lilryerye@test.com");
-		testUsers.add(testUser6);
-		testUsers.add(testUser5);
-		testUsers.add(testUser4);
-		testUsers.add(testUser3);
-		testUsers.add(testUser2);
-		testUsers.add(testUser1);
-		User.writeUsers(testUsers);
+		User.addUser(testUser6);
+		User.addUser(testUser5);
+		User.addUser(testUser4);
+		User.addUser(testUser3);
+		User.addUser(testUser2);
+		User.addUser(testUser1);
+		User.writeUsers();
 		
 		// set submission date to current date + 15 days
 		Calendar tempCalendar = Calendar.getInstance();

@@ -22,6 +22,8 @@ public class User implements Serializable{
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 8870025955073752215L;
 	
+	private static ArrayList<User> myUserList;
+	
 	/** The user's last name. */
 	private String myLastName;
 	
@@ -146,17 +148,18 @@ public class User implements Serializable{
 	}
 	
 	/**
-	 * Compares the passed in email to the passed in list of users and
+	 * Compares the passed in email to the User class' static user list
 	 * returns a true or false depending on if the list contains a user with the given email.
 	 * PreConditions:
 	 * 	theUsers must be non-null
 	 * 	theEmail must be non-null
+	 * 	User.initializeUserList() must have been called at program start
 	 * 
-	 * @param theUsers The user list to check for the given email
 	 * @param theEmail The email to check against the user list
 	 * @return a boolean, indicating if the email exists within the list or not
 	 */
-	public static boolean doesEmailBelongToUser(ArrayList<User> theUsers, String theEmail) {
+	public static boolean doesEmailBelongToUser(String theEmail) {
+		ArrayList<User> theUsers = myUserList;
 		boolean userExists = false;
 		
 		for(User aUser : theUsers) {
@@ -170,12 +173,17 @@ public class User implements Serializable{
 	
 	/**
 	 * Returns the given user by passed in email.
+	 * 
+	 * Preconditions
+	 * 	Program must have called User.initalizeUserList() on program start
+	 * 
 	 * @param theUsers The user list to check against to obtain the user object
 	 * @param theEmail The email to get the user object by
 	 * @throws IllegalArgumentException if user with given email is not found
 	 * @return A User
 	 */
-	public static User getUserByEmail(ArrayList<User> theUsers, String theEmail) {
+	public static User getUserByEmail(String theEmail) {
+		ArrayList<User> theUsers = myUserList;
 		User userToReturn = null;
 
 		for(User aUser : theUsers) {
@@ -194,14 +202,18 @@ public class User implements Serializable{
 
 
 	/**
-	 * Writes the passed list of users to a file for storage and retrieval.
+	 * Writes the User class' static list of users to a file for storage and retrieval.
 	 * returns true if write successful, false otherwise.
-	 * @param theUsers List of all Users.
+	 * preconditions:
+	 * 	Program must have initialized the userlist by calling User.initializeUserList() at program start
 	 * @return t/f if write successful.
 	 * @author James Roberts
+	 * @author Ryan Tran
 	 * @version 4/27/2017
 	 */
-	public static boolean writeUsers(ArrayList<User> theUsers) {
+	public static boolean writeUsers() {
+		ArrayList<User> theUsers = myUserList;
+
 		FileOutputStream fout = null;
 		ObjectOutputStream oos = null;
 
@@ -276,6 +288,34 @@ public class User implements Serializable{
 		}
 
 		return allUsers;
+	}
+	
+	/**
+	 * This method will add a user to the current in memory user list.
+	 * 	PreConditions:
+	 * 		Program must have initialized the User class' static user list before attempting to add a User.
+	 * @param theUser
+	 */
+	public static void addUser(User theUser) {
+		myUserList.add(theUser);
+	}
+	
+	/**
+	 * This method will initialize the global user list in memory by deserializing the users
+	 * from serializable object. This should be run only once at the beginning of the program.
+	 * @author Ryan Tran
+	 */
+	public static void initializeUserListFromSerializableObject() {
+		myUserList = User.getUsers();
+	}
+	
+	/**
+	 * Initializes the User class' user list to an empty list.
+	 * Note: If you call writeUsers at a later time it will overwrite the locally stored User List.
+	 * @author Ryan Tran
+	 */
+	public static void initializeUserListToEmptyList() {
+		myUserList = new ArrayList<User>();
 	}
 
 	@Override
