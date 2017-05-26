@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +44,7 @@ public class UI_Author extends Observable {
 	private int myCounter;
 	
 	private Author myAuthor;
-	
+
 	/**
 	 * 
 	 */
@@ -82,7 +83,8 @@ public class UI_Author extends Observable {
 	 */
 	public JPanel createConferenceOptions() {
 		
-		JPanel conferenceOptionPanel = new JPanel(new GridLayout(0,1));		
+		JPanel conferenceOptionButtonPanel = new JPanel(new GridLayout(0,1));		
+		JPanel ConferenceOptionPanel = new JPanel(new GridBagLayout());
 		JButton submitButton = new JButton("Submit Manuscript");
 		submitButton.setActionCommand("Submit Manuscript");
 		
@@ -93,7 +95,7 @@ public class UI_Author extends Observable {
 		    }  
 		});
 		
-		conferenceOptionPanel.add(submitButton);
+		conferenceOptionButtonPanel.add(submitButton);
 		JButton viewManuscriptButton = new JButton("View Manuscripts");
 		viewManuscriptButton.setActionCommand("View Manuscripts");
 		
@@ -104,13 +106,13 @@ public class UI_Author extends Observable {
 		    }  
 		});
 		
-		conferenceOptionPanel.add(viewManuscriptButton);		
-		conferenceOptionPanel.setOpaque(true);
+		conferenceOptionButtonPanel.add(viewManuscriptButton);		
+		conferenceOptionButtonPanel.setOpaque(true);
 		
-		conferenceOptionPanel.setBorder(BorderFactory.createTitledBorder(
+		conferenceOptionButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference Options"));
-		
-		return conferenceOptionPanel;
+		ConferenceOptionPanel.add(conferenceOptionButtonPanel);
+		return ConferenceOptionPanel;
 		
 	}
 	
@@ -231,10 +233,11 @@ public class UI_Author extends Observable {
 	/**
 	 * Method to create view to display all manuscripts belonging to author.
 	 * @return JPanel to display Manuscripts for selection.
+	 * @author Casey Anderson
 	 */
 	public JPanel viewManuscriptListView() {
-		
-		JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
+		JPanel manuscriptListPanel = new JPanel(new GridBagLayout());
+		JPanel manuscriptButtonPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		
 		for (myCounter = 0; myCounter < myManuscriptList.size(); myCounter++) {
@@ -250,15 +253,15 @@ public class UI_Author extends Observable {
 		    });
 			
 			group.add(button);
-			manuscriptListPanel.add(button);
+			manuscriptButtonPanel.add(button);
 			
 		}
 		
-		manuscriptListPanel.setOpaque(true);
+		manuscriptButtonPanel.setOpaque(true);
 		
-		manuscriptListPanel.setBorder(BorderFactory.createTitledBorder(
+		manuscriptButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Manuscript List"));
-		
+		manuscriptListPanel.add(manuscriptButtonPanel);
 		return manuscriptListPanel;
 		
 	}

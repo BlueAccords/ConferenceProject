@@ -1,5 +1,8 @@
 package client;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,10 +55,9 @@ public class ConferenceListView extends Observable {
 	 * @author Casey Anderson
 	 */
 	public JPanel createConferenceListView() {
-		
-		JPanel conferenceListPanel = new JPanel(new GridLayout(0,1));
+		JPanel conferencePanel = new JPanel(new GridBagLayout());
+		JPanel conferenceButtonPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
-		
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
 			
 			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName() + "	" + myConferenceList.get(myCounter).getManuscriptDeadline());
@@ -80,16 +82,17 @@ public class ConferenceListView extends Observable {
 		    }); 
 			
 			group.add(button);
-			conferenceListPanel.add(button);
+			conferenceButtonPanel.add(button);
 			
 		}
 		
-		conferenceListPanel.setOpaque(true);
+		conferenceButtonPanel.setOpaque(true);
 		
-		conferenceListPanel.setBorder(BorderFactory.createTitledBorder(
+		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference List"));
-		
-		return conferenceListPanel;
+		conferencePanel.add(conferenceButtonPanel);
+		//conferencePanel.setBackground(Color.WHITE);
+		return conferencePanel;
 		
 	}
 	
