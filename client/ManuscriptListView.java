@@ -27,8 +27,8 @@ public class ManuscriptListView extends Observable {
 	 */
 	private int myCounter;
 	
-	public ManuscriptListView() {
-		myManuscriptList = new ArrayList<Manuscript>();
+	public ManuscriptListView(ArrayList<Manuscript> theManuscriptList) {
+		myManuscriptList = theManuscriptList;
 		myCounter = 0;
 	}
 	

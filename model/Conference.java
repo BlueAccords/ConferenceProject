@@ -24,6 +24,12 @@ public class Conference implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
+
+	/** A static conference list that holds all the current conferences. 
+	 *  All changes to conferences should be done to this list and then it will be saved to a local
+	 *  serialized object upon program exit.
+	 */
+	private static ArrayList<Conference> myConferenceList;
 	
 	/** The name of the conference. */
 	private String myConferenceName;
@@ -408,7 +414,9 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public static boolean writeConferences(ArrayList<Conference> theConferences) {
+	public static boolean writeConferences() {
+		ArrayList<Conference> theConferences = myConferenceList;
+
 		FileOutputStream fout = null;
 		ObjectOutputStream oos = null;
 
@@ -441,6 +449,35 @@ public class Conference implements Serializable{
 		}
 		return true;
 	}
+	
+	/**
+	 * Adds the passed in conference to the static conference list in the Conference class.
+	 * Preconditions:
+	 * 	Static Conference list must have been initialized before calling this method
+	 * @param theConference
+	 */
+	public static void addConference(Conference theConference) {
+		myConferenceList.add(theConference);
+	}
+	
+	/**
+	 * This method will initialize the global conference list in memory by deserializing the conference list
+	 * from the serializable object. This should be run only once at the beginning of the program.
+	 * @author Ryan Tran
+	 */
+	public static void initializeConferenceListFromSerializableObject() {
+		myConferenceList = Conference.getConferencesFromSerializedObject();
+	}
+	
+	/**
+	 * Initializes the Conference class' user list to an empty list.
+	 * Note: If you call writeConferences at a later time it will overwrite the locally stored Conference List.
+	 * @author Ryan Tran
+	 */
+	public static void initializeConferenceListToEmptyList() {
+		myConferenceList = new ArrayList<Conference>();
+	}
+
 
 	/**
 	 * Reads the ArrayList of Conferences stored in the file destination the object
@@ -449,7 +486,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public static ArrayList<Conference> getConferences() {
+	public static ArrayList<Conference> getConferencesFromSerializedObject() {
 		ArrayList<Conference> allConfs = new ArrayList<Conference>();
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
@@ -483,6 +520,16 @@ public class Conference implements Serializable{
 		}
 
 		return allConfs;
+	}
+	
+	/**
+	 * This method will return the Conference class' static conference list.
+	 * Preconditions:
+	 * 	static Conference class must have its conference list initialized.
+	 * @return an array list of conferences
+	 */
+	public static ArrayList<Conference> getConferences() {
+		return myConferenceList;
 	}
 
 }

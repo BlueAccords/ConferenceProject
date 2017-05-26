@@ -49,8 +49,6 @@ public class Controller extends Observable implements Observer {
 	private Reviewer myCurrentReviewer;
 	private ParentFrameView myParentFrame;
 	
-	// Persistent Data for objects we will be serializing/deserializing
-	private ArrayList<User> myUserList;
 	private boolean isOpen;
 	
 
@@ -70,8 +68,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);
 		
-		// initialization data from local serialized file
-		myUserList = User.getUsers();
+		// initialize data from serialized objects
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);
@@ -419,9 +416,9 @@ public class Controller extends Observable implements Observer {
 	 * @version 5/23/2017
 	 */
 	private void setUser (String theNewUsernameLiteral) {
-		if(User.doesEmailBelongToUser(myUserList, theNewUsernameLiteral)) {
+		if(User.doesEmailBelongToUser(theNewUsernameLiteral)) {
 			//System.out.println("setting a user");
-			myCurrentUser = User.getUserByEmail(myUserList, theNewUsernameLiteral);
+			myCurrentUser = User.getUserByEmail(theNewUsernameLiteral);
 			//System.out.println("Updating header gui to refelect logged in user");
 			this.myParentFrame.setUserToBeLoggedIn(myCurrentUser);
 		}

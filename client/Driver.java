@@ -21,21 +21,20 @@ public class Driver {
 		Controller systemController = new Controller();
 		
 		// add dummy users
-		ArrayList<User> testUsers = new ArrayList<User>();
-
+		User.initializeUserListToEmptyList();
 		User testUser1 = new User("john@email.com");
 		User testUser2 = new User("connor@test.com", true);
 		User testUser3 = new User("casanova@test.com");
 		User testUser4 = new User("mdanger@test.com");
 		User testUser5 = new User("jmoney@test.com");
 		User testUser6 = new User("lilryerye@test.com");
-		testUsers.add(testUser6);
-		testUsers.add(testUser5);
-		testUsers.add(testUser4);
-		testUsers.add(testUser3);
-		testUsers.add(testUser2);
-		testUsers.add(testUser1);
-		User.writeUsers(testUsers);
+		User.addUser(testUser6);
+		User.addUser(testUser5);
+		User.addUser(testUser4);
+		User.addUser(testUser3);
+		User.addUser(testUser2);
+		User.addUser(testUser1);
+		User.writeUsers();
 		
 		// set submission date to current date + 15 days
 		Calendar tempCalendar = Calendar.getInstance();
@@ -44,18 +43,19 @@ public class Driver {
 		Date submissionDate = tempCalendar.getTime();
 		
 		// add dummy conferences
-		ArrayList<Conference> confList = new ArrayList<Conference>();
+		Conference.initializeConferenceListToEmptyList();
+		
 		Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
 		Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
 		cvprConf.addSubprogramChair(testUser2);
 		Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 		Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 		Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());
-		confList.add(acmConf);
-		confList.add(cvprConf);
-		confList.add(chiConf);
-		confList.add(eccvConf);
-		confList.add(icmlConf);
+		Conference.addConference(acmConf);
+		Conference.addConference(cvprConf);
+		Conference.addConference(chiConf);
+		Conference.addConference(eccvConf);
+		Conference.addConference(icmlConf);
 	
 		// test authors for manuscripts
 		Author testAuth1 = new Author(testUser1);
@@ -82,7 +82,7 @@ public class Driver {
 			System.out.println("Error in adding test Manuscripts");
 		}
 		
-		Conference.writeConferences(confList);
+		Conference.writeConferences();
 		systemController.startProgram();
 	}
 
