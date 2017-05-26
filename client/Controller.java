@@ -35,7 +35,7 @@ public class Controller extends Observable implements Observer {
 	public static final int LIST_MANUSCRIPT_VIEW = 2;
 	public static final int LIST_CONFERENCE_VIEW = 3;
 	public static final int ASSIGN_REVIEWER = 4;
-	public static final int ASSIGN_MANUSCRIPT = 6;
+	public static final int SUBMIT_RECOMMENDATION = 6;
 	public static final int LIST_ASSIGNED_REVIEWERS_VIEW = 5;
 
 	
@@ -241,7 +241,7 @@ public class Controller extends Observable implements Observer {
 	                       //SPC assigns a reviewer to a manuscript.
 	                    	//displays a list of valid reviewers available for this manuscript. 
 	                        break;
-	                    case ASSIGN_MANUSCRIPT:
+	                    case SUBMIT_RECOMMENDATION:
 	                 
 	                    	/*
 	                    	 *Does this mean "assign a manuscript to a SPC"?  
