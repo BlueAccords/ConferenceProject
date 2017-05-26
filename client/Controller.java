@@ -384,7 +384,14 @@ public class Controller extends Observable implements Observer {
 	 */
 	private void addManuscriptToAuthorAndConference (Manuscript theManuscriptToAdd) { //not checking for conference yet
 		if (!myCurrentAuthor.checkForExistingManuscript(theManuscriptToAdd.getTitle())) {
-			myCurrentAuthor.addManuscript(theManuscriptToAdd);
+			//myCurrentAuthor.addManuscript(theManuscriptToAdd);
+			try {
+				myCurrentConference.addManuscript(theManuscriptToAdd);
+			} catch (Exception e) {
+				System.out.println("manuscript failed to add =============");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
