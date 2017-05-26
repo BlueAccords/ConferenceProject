@@ -69,6 +69,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentReviewer = new Reviewer(null);
 		
 		// initialize data from serialized objects
+		// if in debug, driver will init user and conference list
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);
@@ -218,7 +219,7 @@ public class Controller extends Observable implements Observer {
 						case LIST_CONFERENCE_VIEW:
 							UserRoleView userRoleView = new UserRoleView(myCurrentConference, myCurrentUser); //Will need to change constructor to take some boolean for SubChair
 							userRoleView.addObserver(myParentFrame);
-							myParentFrame.addPanel(userRoleView.getPanel(), "UserRoleView");
+							myParentFrame.addPanel(userRoleView.createSelectRolePanel(), "UserRoleView");
 							myParentFrame.switchToPanel("UserRoleView");
 							break;
 						case USER_OPTIONS:

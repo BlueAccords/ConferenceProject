@@ -271,7 +271,6 @@ public class User implements Serializable{
 			ois = new ObjectInputStream(fin);
 			//This unchecked cast should be ok since we are the ones in control of the system.
 			allUsers = (ArrayList<User>) ois.readObject();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -294,6 +293,7 @@ public class User implements Serializable{
 			}
 		}
 
+		System.out.println("Init user list from serializable object");
 		return allUsers;
 	}
 	

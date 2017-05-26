@@ -3,17 +3,14 @@
  */
 package client;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import model.Author;
 import model.Conference;
 import model.User;
@@ -31,12 +28,6 @@ public class UserRoleView extends Observable{
 	
 	// user role buttons
 	private JButton myAuthorBtn;
-	private JButton myProgramChairBtn;
-	private JButton mySubProgramChairBtn;
-	private JButton myReviewerBtn;
-	
-	private JButton myConferenceListBtn;
-	
 	private User myUser;
 	
 	/**
@@ -48,63 +39,45 @@ public class UserRoleView extends Observable{
 	 * @version 5/25/17
 	 */
 	public UserRoleView(Conference theSelectedConference, User theUser) {
-		myPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		
 		myUser = theUser;
 
-		// init view title and add to panel
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.LINE_START;
-		myViewTitle = new JLabel("Choose a User Role for... " + theSelectedConference.getConferenceName());
-		myViewTitle.setFont(new Font("Serif", Font.PLAIN, 24));
-		myViewTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
-		myPanel.add(myViewTitle, gbc);
-		
-		gbc.gridy++;
+		myViewTitle = new JLabel("Available Roles for: " + theSelectedConference.getConferenceName());
 		myAuthorBtn = new JButton("Author Role");
+
+	}
+	
+	/**
+	 * Method to create view for Manuscript options.
+	 * @return JPanel that displays Manuscript options for selection.
+	 * @author Casey Anderson
+	 */
+	public JPanel createSelectRolePanel() {
+		JPanel selectedUserRolePanel = new JPanel(new GridBagLayout());
+		JPanel selectRoleButtonPanel = new JPanel(new GridLayout(0,1));
+		selectRoleButtonPanel.add(myViewTitle);
 		myAuthorBtn.addActionListener(e -> {
 			setChanged();
 			notifyObservers(new Author(myUser));
 			setChanged();
 			notifyObservers(Controller.CHOOSE_USER + Controller.AUTHOR);
 		});
-		myPanel.add(myAuthorBtn, gbc);
-		
-		/*gbc.gridy++;
-		myProgramChairBtn = new JButton("Program Chair Role");
-		myProgramChairBtn.addActionListener(e -> {
-			System.out.println("program chair role btn clicked");
-		});
-		myPanel.add(myProgramChairBtn, gbc);*/
+		selectRoleButtonPanel.add(myAuthorBtn);
+
 		if (myUser.isSubprogramChair()) {
-			gbc.gridy++;
-			mySubProgramChairBtn = new JButton("SubProgram Chair Role");
-			mySubProgramChairBtn.addActionListener(e -> {
+			JButton subProgramChairBtn = new JButton("SubProgram Chair Role");
+			subProgramChairBtn.addActionListener(e -> {
 				setChanged();
 				notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
 			});
-			myPanel.add(mySubProgramChairBtn, gbc);
+			selectRoleButtonPanel.add(subProgramChairBtn);
 		}
-		/*gbc.gridy++;
-		myReviewerBtn = new JButton("Reviewer Role");
-		myReviewerBtn.addActionListener(e -> {
-		myReviewerBtn.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
-			System.out.println("reviewer btn role clicked");
-		});
-		myPanel.add(myReviewerBtn, gbc);*/
-	}
-	
-	/**
-	 * 
-	 * Returns this view's JPanel
-	 * 
-	 * @author Ryan Tran
-	 * @version 5/25/17
-	 * @return returns the user role view's JPanel
-	 */
-	public JPanel getPanel() {
-		return this.myPanel;
+
+		selectRoleButtonPanel.setOpaque(true);
+		
+		selectRoleButtonPanel.setBorder(BorderFactory.createTitledBorder(
+		        BorderFactory.createEtchedBorder(), "Select Role"));
+		selectedUserRolePanel.add(selectRoleButtonPanel);
+		return selectedUserRolePanel;
+		
 	}
 }
