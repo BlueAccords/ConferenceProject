@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import model.Manuscript;
 
-public class ManuscriptListView extends Observable {
+public class AuthorManuscriptListView extends Observable {
 	/**
 	 * List of Conferences available to Author
 	 */
@@ -27,7 +27,7 @@ public class ManuscriptListView extends Observable {
 	 */
 	private int myCounter;
 	
-	public ManuscriptListView(ArrayList<Manuscript> theManuscriptList) {
+	public AuthorManuscriptListView(ArrayList<Manuscript> theManuscriptList) {
 		myManuscriptList = theManuscriptList;
 		myCounter = 0;
 	}

@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ManuscriptOptionView extends Observable {
+public class AuthorManuscriptOptionView extends Observable {
 	
 	/**
 	 * Method to create view for Manuscript options.

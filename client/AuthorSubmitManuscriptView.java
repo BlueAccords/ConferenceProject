@@ -17,10 +17,10 @@ import javax.swing.JTextField;
 import model.Author;
 import model.Manuscript;
 
-public class SubmitManuscriptView extends Observable {
+public class AuthorSubmitManuscriptView extends Observable {
 	private Author myAuthor;
 
-	public SubmitManuscriptView(Author theAuthor) {
+	public AuthorSubmitManuscriptView(Author theAuthor) {
 		myAuthor = theAuthor;
 	}
 	

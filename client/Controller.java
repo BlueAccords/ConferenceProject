@@ -148,7 +148,7 @@ public class Controller extends Observable implements Observer {
 						case SUBPROGRAM_CHAIR:
 							System.out.println("User chose Subprogram Chair role");
 							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
-							UI_SubprogramChair subprogramChairView = new UI_SubprogramChair(); //need to use a static getManuscripts once it's available and pass it here.
+							SPCAssignReviewerView subprogramChairView = new SPCAssignReviewerView(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
 							myParentFrame.setUserRole("Subprogram Chair");

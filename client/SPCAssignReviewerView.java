@@ -17,10 +17,14 @@ import javax.swing.JPanel;
 import model.Reviewer;
 
 /**
- * @author Morgan
+ * Displays panel of all possible valid reviewers for this manuscript
+ * For SubprogramChair to choose one to assign as a reviewer to this manuscript
+ *  
+ * @author Morgan Blackmore
+ * @author Connor Lundberg
  *
  */
-public class UI_SubprogramChair extends Observable {
+public class SPCAssignReviewerView extends Observable {
 	
 	private ArrayList<Reviewer> myReviewerList;
 	private int myCounter;
@@ -32,7 +36,7 @@ public class UI_SubprogramChair extends Observable {
 	 * @author Connor Lundberg
 	 * @version 5/25/2017
 	 */
-	public UI_SubprogramChair() {
+	public SPCAssignReviewerView() {
 		myReviewerList = new ArrayList<Reviewer>();
 		myCounter = 0;
 	}
@@ -49,7 +53,7 @@ public class UI_SubprogramChair extends Observable {
 	 * @author Connor Lundberg
 	 * @version 5/25/2017
 	 */
-	public UI_SubprogramChair(ArrayList<Reviewer> theReviewerList) {
+	public SPCAssignReviewerView(ArrayList<Reviewer> theReviewerList) {
 		myReviewerList = theReviewerList;
 		myCounter = 0;
 	}
