@@ -7,6 +7,8 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import javafx.scene.input.KeyCode;
 
 /**
  * This Login view will instantiate a JPanel and hold 2 child panels
@@ -88,6 +92,30 @@ public class LoginView extends Observable implements Observer {
 		formGbc.gridx = 1;
 		formGbc.gridy = 0;
 		formGbc.anchor = GridBagConstraints.LINE_END;
+		
+		// Key Listener for when user hits Enter when typing in username
+		myUsernameField.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					myErrorLabel.setVisible(false);
+					myUsernameField.getText();
+					setChanged();
+					notifyObservers(myUsernameField.getText());
+					setChanged();
+					notifyObservers(Controller.LOG_IN_STATE);
+				}
+			}
+
+			// events we're not handling but need to be implemented for KeyListener object
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+			
+		});
 		myFormPanel.add(myUsernameField, formGbc);
 		
 		myPanel.add(myFormPanel, BorderLayout.CENTER);
@@ -98,7 +126,7 @@ public class LoginView extends Observable implements Observer {
 		// should send username in field to controller
 		// and reset error message label
 		myLoginBtn.addActionListener(e -> {
-			this.myErrorLabel.setVisible(false);
+			myErrorLabel.setVisible(false);
 			myUsernameField.getText();
 			setChanged();
 			notifyObservers(myUsernameField.getText());
