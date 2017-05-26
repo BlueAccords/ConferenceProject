@@ -78,15 +78,15 @@ public class UserRoleView extends Observable{
 			System.out.println("program chair role btn clicked");
 		});
 		myPanel.add(myProgramChairBtn, gbc);*/
-		
-		gbc.gridy++;
-		mySubProgramChairBtn = new JButton("SubProgram Chair Role");
-		mySubProgramChairBtn.addActionListener(e -> {
-			setChanged();
-			notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
-		});
-		myPanel.add(mySubProgramChairBtn, gbc);
-		
+		if (myUser.isSubprogramChair()) {
+			gbc.gridy++;
+			mySubProgramChairBtn = new JButton("SubProgram Chair Role");
+			mySubProgramChairBtn.addActionListener(e -> {
+				setChanged();
+				notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
+			});
+			myPanel.add(mySubProgramChairBtn, gbc);
+		}
 		/*gbc.gridy++;
 		myReviewerBtn = new JButton("Reviewer Role");
 		myReviewerBtn.addActionListener(e -> {

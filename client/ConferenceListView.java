@@ -45,7 +45,8 @@ public class ConferenceListView extends Observable {
 	 * @author Connor Lundberg
 	 * @version 5/23/2017
 	 */
-	public ConferenceListView(ArrayList<Conference> theConferenceList) {
+	public ConferenceListView(ArrayList<Conference> theConferenceList, User theUser) {
+		myUser = theUser;
 		myConferenceList = theConferenceList;
 		myCounter = 0;
 	}
@@ -100,7 +101,7 @@ public class ConferenceListView extends Observable {
 			//	conferenceButtonPanel.add(new JLabel("No"));
 			//}
 			
-			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
+			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
 				conferenceButtonPanel.add(new JLabel("Yes"));
 			} else {
 				conferenceButtonPanel.add(new JLabel("No"));

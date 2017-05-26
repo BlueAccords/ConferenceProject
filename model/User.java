@@ -30,6 +30,8 @@ public class User implements Serializable{
 	
 	/** The user's email, used as a unique identifier for them. */
 	private String myEmail;
+	
+	private boolean myIsSubprogramChair;
 		
 	/**
 	 * Constructor for a User.
@@ -39,7 +41,21 @@ public class User implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public User(String theEmail) {
-		myEmail = theEmail;		
+		this(theEmail, false);	
+	}
+	
+	/**
+	 * Constructor that sets the Subprogram Chair boolean too.
+	 * 
+	 * @param theEmail The email attached to this User
+	 * @param theIsSubprogramChair The boolean showing whether this User is registered as a Subprogram Chair
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/25/2017
+	 */
+	public User(String theEmail, boolean theIsSubprogramChair) {
+		myEmail = theEmail;
+		myIsSubprogramChair = theIsSubprogramChair;
 	}
 	
 	/**
@@ -102,6 +118,10 @@ public class User implements Serializable{
 		this.myFirstName = theFirstName;
 	}
 	
+	
+	public boolean isSubprogramChair() {
+		return myIsSubprogramChair;
+	}
 	
 	/**
 	 * Getter for User's email.
