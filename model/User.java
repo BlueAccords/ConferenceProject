@@ -22,6 +22,12 @@ public class User implements Serializable{
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = 8870025955073752215L;
 	
+	/**
+	 * A static User list holding all users for the system.
+	 * Should be initialized on program start and all changes to users should be done
+	 * to this list.
+	 * Upon program exit this list should be saved to the serialized object.
+	 */
 	private static ArrayList<User> myUserList;
 	
 	/** The user's last name. */
@@ -252,9 +258,10 @@ public class User implements Serializable{
 	 * was initialized with, returns null if the operation failed.
 	 * @return The list of stored Users.
 	 * @author James Roberts
+	 * @author Ryan Tran
 	 * @version 4/28/2017
 	 */
-	public static ArrayList<User> getUsers() {
+	public static ArrayList<User> getUsersFromSerializedObject() {
 		ArrayList<User> allUsers = new ArrayList<User>();
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
@@ -291,6 +298,18 @@ public class User implements Serializable{
 	}
 	
 	/**
+	 * This method will return the User class' static user list
+	 * 
+	 * Preconditions:
+	 * 	User class have its user list initialized prior to this call.
+	 * @return An arraylist of Users
+	 * @author Ryan Tran
+	 */
+	public static ArrayList<User> getUsers() {
+		return myUserList;
+	}
+	
+	/**
 	 * This method will add a user to the current in memory user list.
 	 * 	PreConditions:
 	 * 		Program must have initialized the User class' static user list before attempting to add a User.
@@ -300,13 +319,14 @@ public class User implements Serializable{
 		myUserList.add(theUser);
 	}
 	
+	
 	/**
 	 * This method will initialize the global user list in memory by deserializing the users
 	 * from serializable object. This should be run only once at the beginning of the program.
 	 * @author Ryan Tran
 	 */
 	public static void initializeUserListFromSerializableObject() {
-		myUserList = User.getUsers();
+		myUserList = User.getUsersFromSerializedObject();
 	}
 	
 	/**

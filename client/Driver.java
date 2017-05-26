@@ -43,18 +43,19 @@ public class Driver {
 		Date submissionDate = tempCalendar.getTime();
 		
 		// add dummy conferences
-		ArrayList<Conference> confList = new ArrayList<Conference>();
+		Conference.initializeConferenceListToEmptyList();
+		
 		Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
 		Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
 		cvprConf.addSubprogramChair(testUser2);
 		Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 		Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 		Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());
-		confList.add(acmConf);
-		confList.add(cvprConf);
-		confList.add(chiConf);
-		confList.add(eccvConf);
-		confList.add(icmlConf);
+		Conference.addConference(acmConf);
+		Conference.addConference(cvprConf);
+		Conference.addConference(chiConf);
+		Conference.addConference(eccvConf);
+		Conference.addConference(icmlConf);
 	
 		// test authors for manuscripts
 		Author testAuth1 = new Author(testUser1);
@@ -81,7 +82,7 @@ public class Driver {
 			System.out.println("Error in adding test Manuscripts");
 		}
 		
-		Conference.writeConferences(confList);
+		Conference.writeConferences();
 		systemController.startProgram();
 	}
 
