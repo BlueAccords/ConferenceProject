@@ -67,6 +67,7 @@ public class Manuscript implements Serializable{
 		myManuscriptFile = theManuscriptFile;
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
+		myRecommendation = null;
 		
 	}
 	
@@ -180,6 +181,17 @@ public class Manuscript implements Serializable{
 	}
 	
 	/**
+	 * Gets the list of reviews.
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/26/17
+	 * @return ArrayList of reviews myReviews
+	 */
+	public ArrayList<File> getReviews(){
+		return new ArrayList<File>(myReviews);
+	}
+	
+	/**
 	 * Instantiates myRecommendation with theRecommendation.
 	 * Checks if this manuscript has sufficient reviews, if not, throws Exception
 	 * 
@@ -203,6 +215,7 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Getter for myRecommendation file 
+	 * Will return null if no recommendation has been submitted yet.
 	 * 
 	 * @return myRecommendation file
 	 * @author Morgan Blackmore
