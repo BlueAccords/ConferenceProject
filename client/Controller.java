@@ -218,7 +218,7 @@ public class Controller extends Observable implements Observer {
 						case LIST_CONFERENCE_VIEW:
 							UserRoleView userRoleView = new UserRoleView(myCurrentConference, myCurrentUser); //Will need to change constructor to take some boolean for SubChair
 							userRoleView.addObserver(myParentFrame);
-							myParentFrame.addPanel(userRoleView.getPanel(), "UserRoleView");
+							myParentFrame.addPanel(userRoleView.createSelectRolePanel(), "UserRoleView");
 							myParentFrame.switchToPanel("UserRoleView");
 							break;
 						case USER_OPTIONS:
