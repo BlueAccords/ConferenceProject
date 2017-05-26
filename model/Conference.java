@@ -321,6 +321,29 @@ public class Conference implements Serializable{
 		return newSPC;
 	}
 
+	/**
+	 * This method will return a list of manuscripts that belong to this
+	 * conference as well as contains the passed in author as the manuscript author.
+	 * 
+	 * PreConditions:
+	 * 	theAuthor must be non-null
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theAuthor The author to check for ownership over the manuscripts of this conference
+	 * @return A list of manuscripts that belong to this conference and the given author
+	 */
+	public ArrayList<Manuscript> getManuscriptsBelongingToAuthor(Author theAuthor) {
+		ArrayList<Manuscript> returnList = new ArrayList<Manuscript>();
+		
+		for(Manuscript aManu : this.myManuscripts) {
+			if(aManu.doesManuscriptBelongToAuthor(theAuthor)) {
+				returnList.add(aManu);
+			}
+		}
+		
+		return returnList;
+	}
 
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.

@@ -63,16 +63,16 @@ public class ConferenceListView extends Observable {
 			
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
+					
+					// check index of button against index of conference in conference list
 					int confIndex = getClickedConference(group, e);
-					System.out.println("Conf index = " + confIndex);
-					System.out.println(   ((JButton)e.getSource()).getText()    );
-					System.out.println("Conference at conf index = " + myConferenceList.get(confIndex).getConferenceName());
 					if(confIndex > -1) {
 						setChanged();
 						notifyObservers(myConferenceList.get(confIndex));
 						setChanged();
 						notifyObservers(Controller.AUTHOR + Controller.LIST_CONFERENCE_VIEW);
 					} else {
+						//TODO: Add better error handling here.
 						System.out.println("Conference Not Found");
 					}
 

@@ -212,9 +212,29 @@ public class Manuscript implements Serializable{
 		return myRecommendation;
 	}
 	
-	
-	
+	/**
+	 * Checks whether or not the passed in author is part of the list of
+	 * authors for this manuscript.
+	 * 
+	 * Preconditions:
+	 * 	theAuthor must be non-null
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theAuthor The author to compare to the list of authors belonging to this manuscript.
+	 * @return A boolean true if author exists within manuscript author list, false otherwise
+	 */
+	public boolean doesManuscriptBelongToAuthor(Author theAuthor) {
+		boolean authorIsFound = false;
 
+		for (Author author : myAuthors) {
+			if(author.getUser().getEmail().equals(theAuthor.getUser().getEmail())) {
+				authorIsFound = true;
+			}
+		}
+
+		return authorIsFound;
+	}
 	
 	/**
 	 * Helper method to determine that theAuthor is not already part of the author list.

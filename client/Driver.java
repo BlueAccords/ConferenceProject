@@ -58,14 +58,14 @@ public class Driver {
 	
 		// test authors for manuscripts
 		Author testAuth1 = new Author(testUser1);
-		Author testAuth2 = new Author(testUser1);
+		Author testAuth2 = new Author(testUser2);
 		Author testAuth3 = new Author(testUser3);
 		
 		// Adding manuscripts to users.
 		Manuscript manu1 = new Manuscript("Linear Logic", new File(""), testAuth1);
 		Manuscript manu2 = new Manuscript("Quantum Crytography: Public Key Distribution and Coin Tossing", new File(""), testAuth1);
-		Manuscript manu3 = new Manuscript("A Theory of Limited Automata", new File(""), testAuth1);
-		Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth1);
+		Manuscript manu3 = new Manuscript("A Theory of Limited Automata", new File(""), testAuth2);
+		Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth2);
 		Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 		Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 		
