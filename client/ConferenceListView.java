@@ -146,7 +146,6 @@ public class ConferenceListView extends Observable {
 			JButton actionSrcBtn = ((JButton)theAction.getSource());
 			
 			if(originalGroupBtn.equals(actionSrcBtn)) {
-				System.out.println("match button found");
 				confFound = true;
 				break;
 			}
