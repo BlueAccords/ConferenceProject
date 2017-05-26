@@ -321,6 +321,12 @@ public class Conference implements Serializable{
 		return newSPC;
 	}
 	
+	/**
+	 * Method to determine if theUser is already Author for this Conference.
+	 * @param theUser is the user to be checked is it is Author in this Conference.
+	 * @return A boolean to reflect if theUser is Author in this Conference.
+	 * @author Casey Anderson
+	 */
 	public boolean isUserAuthor(User theUser) {
 		boolean isAuthor = false;
 		for (int i = 0; i < myManuscripts.size(); i++ ) {
@@ -333,6 +339,12 @@ public class Conference implements Serializable{
 		return isAuthor;
 	}
 	
+	/**
+	 * Method to determine if theUser is already Reviewer for this Conference.
+	 * @param theUser is the user to be checked is it is Reviewer in this Conference.
+	 * @return A boolean to reflect if theUser is Reviewer in this Conference.
+	 * @author Casey Anderson
+	 */
 	public boolean isUserReviewer(User theUser) {
 		boolean isReviewer = false;
 		for (int i = 0; i < conferenceReviewers.size(); i++ ) {
@@ -343,6 +355,12 @@ public class Conference implements Serializable{
 		return isReviewer;
 	}
 	
+	/**
+	 * Method to determine if theUser is already Subprogram Chair for this Conference.
+	 * @param theUser is the user to be checked is it is Subprogram Chair in this Conference.
+	 * @return A boolean to reflect if theUser is Subprogram Chair in this Conference.
+	 * @author Casey Anderson
+	 */
 	public boolean isUserSubprogramChair(User theUser) {
 		boolean isReviewer = false;
 		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {

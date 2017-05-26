@@ -1,7 +1,5 @@
 package client;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
