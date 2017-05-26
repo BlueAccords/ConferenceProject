@@ -320,6 +320,38 @@ public class Conference implements Serializable{
 		conferenceSubprogramChairs.add(new SubprogramChair(theUser));
 		return newSPC;
 	}
+	
+	public boolean isUserAuthor(User theUser) {
+		boolean isAuthor = false;
+		for (int i = 0; i < myManuscripts.size(); i++ ) {
+			for (int j = 0; j < myManuscripts.get(i).getAuthorEmails().size(); j++) {
+				if (myManuscripts.get(i).getAuthorEmails().get(j).equals(theUser.getEmail())) {
+					isAuthor = true;
+				}
+			}
+		}
+		return isAuthor;
+	}
+	
+	public boolean isUserReviewer(User theUser) {
+		boolean isReviewer = false;
+		for (int i = 0; i < conferenceReviewers.size(); i++ ) {
+			if (conferenceReviewers.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+				isReviewer = true;
+			}
+		}
+		return isReviewer;
+	}
+	
+	public boolean isUserSubprogramChair(User theUser) {
+		boolean isReviewer = false;
+		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {
+			if (conferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+				isReviewer = true;
+			}
+		}
+		return isReviewer;
+	}
 
 	/**
 	 * This method will return a list of manuscripts that belong to this

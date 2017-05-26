@@ -15,9 +15,11 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Conference;
+import model.User;
 
 public class ConferenceListView extends Observable {
 	/**
@@ -30,7 +32,10 @@ public class ConferenceListView extends Observable {
 	 */
 	private int myCounter;
 	
-	public ConferenceListView() {
+	private User myUser;
+	
+	public ConferenceListView(User theUser) {
+		myUser = theUser;
 		myConferenceList = new ArrayList<Conference>();
 		myCounter = 0;
 	}
@@ -55,12 +60,22 @@ public class ConferenceListView extends Observable {
 	 * @author Casey Anderson
 	 */
 	public JPanel createConferenceListView() {
+		JLabel conferenceNameLabel = new JLabel("Conference Name");
+		JLabel isManuscriptSubmittedLabel = new JLabel("Manuscript Submited");
+		JLabel isSubprogramChairLabel = new JLabel("Subprogram Chair Role");
+		JLabel isRiewerLabel = new JLabel("Reviewer Role");
+		JLabel conferenceDeadLineLabel = new JLabel("Conference Deadline");
 		JPanel conferencePanel = new JPanel(new GridBagLayout());
-		JPanel conferenceButtonPanel = new JPanel(new GridLayout(0,1));
+		JPanel conferenceButtonPanel = new JPanel(new GridLayout(0,5));
+		conferenceButtonPanel.add(conferenceNameLabel);
+		conferenceButtonPanel.add(isManuscriptSubmittedLabel);
+		conferenceButtonPanel.add(isSubprogramChairLabel);
+		conferenceButtonPanel.add(isRiewerLabel);
+		conferenceButtonPanel.add(conferenceDeadLineLabel);
 		ButtonGroup group = new ButtonGroup();
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
 			
-			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName() + "	" + myConferenceList.get(myCounter).getManuscriptDeadline());
+			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName());
 			button.setActionCommand(myConferenceList.get(myCounter).getConferenceName());
 			
 			button.addActionListener(new ActionListener(){  
@@ -83,6 +98,23 @@ public class ConferenceListView extends Observable {
 			
 			group.add(button);
 			conferenceButtonPanel.add(button);
+			//if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {
+				conferenceButtonPanel.add(new JLabel("Yes"));
+			//} else {
+			//	conferenceButtonPanel.add(new JLabel("No"));
+			//}
+			
+			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
+				conferenceButtonPanel.add(new JLabel("Yes"));
+			} else {
+				conferenceButtonPanel.add(new JLabel("No"));
+			}
+			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
+				conferenceButtonPanel.add(new JLabel("Yes"));
+			} else {
+				conferenceButtonPanel.add(new JLabel("No"));
+			}
+			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()));
 			
 		}
 		
