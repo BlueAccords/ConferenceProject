@@ -315,10 +315,9 @@ public class Conference implements Serializable{
 	 * @author: James Roberts
 	 * @version: 5/1/2017
 	 */
-	public SubprogramChair addSubprogramChair(User theUser) {
+	public void addSubprogramChair(User theUser) {
 		SubprogramChair newSPC = new SubprogramChair(theUser);
-		conferenceSubprogramChairs.add(new SubprogramChair(theUser));
-		return newSPC;
+		conferenceSubprogramChairs.add(newSPC);
 	}
 	
 	public boolean isUserAuthor(User theUser) {
@@ -344,13 +343,19 @@ public class Conference implements Serializable{
 	}
 	
 	public boolean isUserSubprogramChair(User theUser) {
-		boolean isReviewer = false;
+		boolean isSubprogramChair = false;
 		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {
+			System.out.println(conferenceSubprogramChairs == null);
+			System.out.println(conferenceSubprogramChairs.get(i) == null);
+			System.out.println(conferenceSubprogramChairs.get(i).getUser() == null);
+			System.out.println(conferenceSubprogramChairs.get(i).getUser().getEmail() == null);
+			System.out.println(theUser == null);
+			System.out.println(theUser.getEmail() == null);
 			if (conferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
-				isReviewer = true;
+				isSubprogramChair = true;
 			}
 		}
-		return isReviewer;
+		return isSubprogramChair;
 	}
 
 	/**

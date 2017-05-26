@@ -24,7 +24,7 @@ public class Driver {
 		ArrayList<User> testUsers = new ArrayList<User>();
 
 		User testUser1 = new User("john@email.com");
-		User testUser2 = new User("connor@test.com");
+		User testUser2 = new User("connor@test.com", true);
 		User testUser3 = new User("casanova@test.com");
 		User testUser4 = new User("mdanger@test.com");
 		User testUser5 = new User("jmoney@test.com");
@@ -47,6 +47,7 @@ public class Driver {
 		ArrayList<Conference> confList = new ArrayList<Conference>();
 		Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
 		Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
+		cvprConf.addSubprogramChair(testUser2);
 		Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 		Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 		Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());

@@ -124,11 +124,10 @@ public class Controller extends Observable implements Observer {
 			switch (theNextState % -10) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
-						ConferenceListView confListView = new ConferenceListView(Conference.getConferences());
+						ConferenceListView confListView = new ConferenceListView(Conference.getConferences(), myCurrentUser);
 						confListView.addObserver(myParentFrame);
 						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
 						myParentFrame.switchToPanel("AuthConfView");
-						myCurrentState = AUTHOR + LIST_CONFERENCE_VIEW;		//Should be CHOOSE_USER, but that screen has not been created yet.
 					} else {
 						setChanged();
 						notifyObservers("Invalid Username");
