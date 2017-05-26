@@ -238,23 +238,35 @@ public class Controller extends Observable implements Observer {
 				case SUBPROGRAM_CHAIR:
 					switch (myCurrentState % 10){
 	                    case ASSIGN_REVIEWER:
-	                       
+	                       //SPC assigns a reviewer to a manuscript.
+	                    	//displays a list of valid reviewers available for this manuscript. 
 	                        break;
 	                    case ASSIGN_MANUSCRIPT:
+	                 
+	                    	/*
+	                    	 *Does this mean "assign a manuscript to a SPC"?  
+	                    	 *Unless we need this for testing purposes, we don't need
+	                    	 *this type of functionality for the project.
+	                    	 * 
+	                    	 */
 	                    	
 	                    	
 	                    	break;
 	                    case LIST_CONFERENCE_VIEW:
+	                    	//does this need to be here?  Conference gets chosen before role in UI.
 							
 							
 	                        break;
 						case LIST_MANUSCRIPT_VIEW:
+							//will display list of assigned manuscripts for this conference
+							//will be the SPC main page
 							
 	                    	
 							
 							break;
 	                    case LIST_ASSIGNED_REVIEWERS_VIEW:
 	                    	//will assign a chosen reviewer here
+	                    	//Is this different from Assign_Reviewer?
 	                    	
 							
 	                        break;
