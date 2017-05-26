@@ -69,6 +69,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentReviewer = new Reviewer(null);
 		
 		// initialize data from serialized objects
+		// if in debug, driver will init user and conference list
 		
 		// initialize parent JFrame window and initialize observer connection between the two
 		myParentFrame = new ParentFrameView("MSEE Conference Program", 1280, 720);

@@ -23,6 +23,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import javafx.scene.input.KeyCode;
+import model.Conference;
+import model.User;
 
 /**
  * This Login view will instantiate a JPanel and hold 2 child panels
@@ -142,8 +144,10 @@ public class LoginView extends Observable implements Observer {
             do 
                 nextParentFrame = nextParentFrame.getParent(); 
             while (!(nextParentFrame instanceof JFrame));                                      
-            ((JFrame) nextParentFrame).dispose();
-            System.exit(0);
+            	((JFrame) nextParentFrame).dispose();
+				User.writeUsers();
+				Conference.writeConferences();
+				System.exit(0);
 		});
 		
 		

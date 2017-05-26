@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -41,6 +42,15 @@ public class ParentFrameView extends Observable implements Observer {
 		myFrame = new JFrame(theTitle);
 		myFrame.setSize(theX, theY);
 		myFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		
+		myFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(WindowEvent winEvt) {
+				System.out.println("window closing");
+				User.writeUsers();
+				Conference.writeConferences();
+				System.exit(0);
+			}
+		});
         
 		// init list of panels to swtich to
 		myPanelList = new TreeMap<String, JPanel>();
