@@ -238,6 +238,8 @@ public class Conference implements Serializable{
 		
 		//No exceptions thrown so it is ok to add the paper.
 		myManuscripts.add(theManuscript);
+		// update static conference list
+		Conference.updateConferenceInList(this);
 	}
 	
 	/**
@@ -458,6 +460,29 @@ public class Conference implements Serializable{
 	 */
 	public static void addConference(Conference theConference) {
 		myConferenceList.add(theConference);
+	}
+	
+	/**
+	 * This method will update the passed in conference if it exists within the
+	 * Conference class' static list of conferences 
+	 * 
+	 * Preconditions:
+	 * 	static conference list must have been initialized.
+	 * @return
+	 */
+	public static Conference updateConferenceInList(Conference theConference) {
+		boolean confFound = false;
+		Conference confToReturn = null;
+		
+		for(int i = 0; i < myConferenceList.size(); i++) {
+			if(myConferenceList.get(i).getConferenceName().equals(theConference.getConferenceName())) {
+				confFound = true;
+				myConferenceList.set(i, theConference);
+				confToReturn = myConferenceList.get(i);
+			}
+		}
+		
+		return confToReturn;
 	}
 	
 	/**
