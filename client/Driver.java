@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
+import model.SubprogramChair;
 import model.User;
 
 
@@ -76,6 +77,17 @@ public class Driver {
 			Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth2);
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
+			
+			
+			//Add manuscripts to SubprogramChair
+			ArrayList<Manuscript> assignedManuscriptsSPC = new ArrayList<Manuscript>();
+			assignedManuscriptsSPC.add(manu1);
+			assignedManuscriptsSPC.add(manu2);
+			assignedManuscriptsSPC.add(manu3);
+			assignedManuscriptsSPC.add(manu4);
+			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
+			acmConf.addSubprogramChair(spc);
+			
 			
 			try {
 				acmConf.addManuscript(manu1);

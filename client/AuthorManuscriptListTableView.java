@@ -37,7 +37,7 @@ import java.util.Observable;
  * @author Ryan Tran
  *
  */
-public class ManuscriptListTableView extends Observable implements ActionListener {
+public class AuthorManuscriptListTableView extends Observable implements ActionListener {
     private boolean DEBUG = false;
     private JPanel myPanel;
     private JPanel myButtonPanel;
@@ -66,7 +66,7 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 
     private ArrayList<Manuscript> myCurrentManuscriptList;
  
-    public ManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
+    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
     	myCurrentManuscriptList = theManuscriptList;
     	myPanel = new JPanel(new BorderLayout());
  
@@ -190,7 +190,9 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 		switch(action) {
 			case ADD_NEW_MANUSCRIPT:
 				setChanged();
-		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);  
+				notifyObservers(myCurrentlySelectedManuscript);
+				setChanged();
+				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
 				break;
 			case DELETE_MANSUCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());

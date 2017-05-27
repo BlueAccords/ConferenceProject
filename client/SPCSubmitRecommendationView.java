@@ -1,5 +1,6 @@
 package client;
 
+import java.io.File;
 
 /**
  * Displays panel for SubprogramChair to submit a recommendation for a manuscript 
@@ -11,13 +12,24 @@ package client;
 public class SPCSubmitRecommendationView {
 	
 	/*
-	 * see radio button yes/no
 	 * see jfile chooser
 	 * see file path
 	 * submit button
 	 * 
 	 * display Success pop-up and return to SPCHomeView
 	 */
+	
+	/** File to submit as recommendation.*/
+	private File myRecommendation;
+	
+	/**
+	 * default constructor
+	 */
+	public SPCSubmitRecommendationView() {
+		myRecommendation = new File("Empty");
+		
+	}
+	
 	
 
 }

@@ -20,7 +20,6 @@ import model.Reviewer;
  * Displays panel of all possible valid reviewers for this manuscript
  * For SubprogramChair to choose one to assign as a reviewer to this manuscript
  *  
- * @author Morgan Blackmore
  * @author Connor Lundberg
  *
  */

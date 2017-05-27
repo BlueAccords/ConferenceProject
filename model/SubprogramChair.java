@@ -44,6 +44,20 @@ public class SubprogramChair extends User implements Serializable{
 	}
 	
 	/**
+	 * Constructor that takes an arrayList of assignedManuscripts.
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/27/17
+	 * 
+	 */
+	public SubprogramChair(User aUser, ArrayList<Manuscript> theAssignedManuscripts) {
+		super("");
+		myUser = aUser;
+		assignedManuscriptsSPC = theAssignedManuscripts;
+	    assignedReviewers = new ArrayList<Reviewer>();
+		
+	}
+	/**
 	 * Getter for a User type.
 	 * @return the User associated with the SPC.
 	 */
