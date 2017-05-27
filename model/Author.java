@@ -173,7 +173,7 @@ public class Author extends User implements Serializable{
 			if (User.doesEmailBelongToUser(theAuthors[i])) {
 				tempUser = User.getUserByEmail(theAuthors[i]);
 				if (theConference.isUserAuthor(tempUser)) {
-					tempAuthor = (Author) tempUser;
+					tempAuthor = new Author(tempUser);
 					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
 						atLimit = false;
 					}
