@@ -48,24 +48,6 @@ public class ControllerAuthorStatesTest {
 	
 	
 	/**
-	 * Tests that the login state will throw an illegal argument exception when the user is null.
-	 * 
-	 * @author Connor Lundberg
-	 * @version 5/27/2017
-	 */
-	@Test (expected = IllegalArgumentException.class)
-	public void loginState_ChangeStateToLoginStateWithNullUser_PanelNameIsFailInvalidUsername_ThrowsException () {
-		User nullUser = null;
-		myTestController.setTestUser(nullUser);
-		assertTrue("The Controller's current User is not null", myTestController.getCurrentUser() == null);
-		
-		myTestControllerHelper.changeControllerState(Controller.LOG_IN_STATE);
-		
-		fail("The panel switched when the user is null");
-	}
-	
-	
-	/**
 	 * Tests that the login state changes the state into the Author Conference List View.
 	 * 
 	 * @author Connor Lundberg
@@ -125,6 +107,56 @@ public class ControllerAuthorStatesTest {
 		myTestControllerHelper.changeControllerState(Controller.LOG_OUT_STATE);
 		assertEquals("The current panel name is not LOGIN_PANEL_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
 				ParentFrameView.LOGIN_PANEL_VIEW, myTestController.getCurrentPanelName());
+	}
+	
+	
+	/**
+	 * Tests that the Author + Submit Manuscript state is working for both branches inside of it.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void authorSubmitManuscriptTest_ChangeStateToSubmitManuscript_PanelNameIsSubmitManuscriptViewThenCreateConferenceOptionsView () {
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+		assertEquals("The current panel name is not SUBMIT_MANUSCRIPT_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.SUBMIT_MANUSCRIPT_VIEW, myTestController.getCurrentPanelName());
+		
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+		assertEquals("The current panel name is not CREATE_CONFERENCE_OPTIONS_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW, myTestController.getCurrentPanelName());
+	}
+	
+	
+	/**
+	 * Tests that the Author + List Manuscript View state is working for both branches inside of it.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void authorListManuscriptViewTest_ChangeStateToListManuscriptView_PanelNameIsViewManuscriptListViewThenCreateConferenceOptionsView () {
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);
+		assertEquals("The current panel name is not VIEW_MANUSCRIPT_LIST_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW, myTestController.getCurrentPanelName());
+		
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);
+		assertEquals("The current panel name is not CREATE_MANUSCRIPT_OPTIONS_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW, myTestController.getCurrentPanelName());
+	}
+	
+	
+	/**
+	 * Tests that the Author + List Conference View state changes to the User Role View state.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void authorListConferenceViewTest_ChangeStateToListConferenceView_PanelNameIsUserRoleView () {
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.LIST_CONFERENCE_VIEW);
+		assertEquals("The current panel name is not USER_ROLE_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.USER_ROLE_VIEW, myTestController.getCurrentPanelName());
 	}
 
 	

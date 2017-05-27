@@ -10,7 +10,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import model.Conference;
+import model.User;
+
 public class AuthorConferenceOptionVIew extends Observable {
+	private Conference myConference;
+	private User myUser;
+	
+	public AuthorConferenceOptionVIew(Conference theConference, User theUser) {
+		myConference = theConference;
+		myUser = theUser;
+	}
 	
 	/**
 	 * Method to create a view for the options available for Conferences.
@@ -42,7 +52,13 @@ public class AuthorConferenceOptionVIew extends Observable {
 		    }  
 		});
 		
-		conferenceOptionButtonPanel.add(viewManuscriptButton);		
+		conferenceOptionButtonPanel.add(viewManuscriptButton);	
+		if (myConference.isUserAuthor(myUser)) {
+			viewManuscriptButton.setEnabled(true);
+		} else {
+			viewManuscriptButton.setEnabled(false);
+		}
+		
 		conferenceOptionButtonPanel.setOpaque(true);
 		
 		conferenceOptionButtonPanel.setBorder(BorderFactory.createTitledBorder(

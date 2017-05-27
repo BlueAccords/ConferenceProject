@@ -6,9 +6,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -232,8 +234,11 @@ public class UI_Author extends Observable {
 	
 	/**
 	 * Method to create view to display all manuscripts belonging to author.
+	 * 
 	 * @return JPanel to display Manuscripts for selection.
-	 * @author Casey Anderson
+	 * 
+	 * @author Casey Anderson, Connor Lundberg
+	 * @version 5/27/2017
 	 */
 	public JPanel viewManuscriptListView() {
 		JPanel manuscriptListPanel = new JPanel(new GridBagLayout());
@@ -247,8 +252,15 @@ public class UI_Author extends Observable {
 			
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
-					setChanged();
-				    notifyObservers(myManuscriptList.get(myCounter).getTitle());  
+					int manuIndex = getClickedManuscript (group, e);
+					if (manuIndex >= 0) {
+						setChanged();
+						notifyObservers(myManuscriptList.get(manuIndex)); 
+						setChanged();
+						notifyObservers(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);
+					} else {
+						System.out.println("Manuscript not found!");
+					}
 		        }  
 		    });
 			
@@ -264,6 +276,43 @@ public class UI_Author extends Observable {
 		manuscriptListPanel.add(manuscriptButtonPanel);
 		return manuscriptListPanel;
 		
+	}
+	
+	
+	/**
+	 * This method will return the index Manuscript linked to the button clicked
+	 * by iterating through the button group, and seeing which button was pressed and
+	 * finding the same Manuscript in the Manuscript list with that index.
+	 * 
+	 * @param theBtnGroup the button group containing the button that was pressed
+	 * @param theAction The action, we are comparing the action's parent button to the button group
+	 * @return the index of the Manuscript object that is linked to the pressed button
+	 * 
+	 * @author Ryan Tran, Connor Lundberg
+	 * @version 5/25/17
+	 */
+	private int getClickedManuscript (ButtonGroup theBtnGroup, ActionEvent theAction) {
+		int i = 0;
+		boolean manuFound = false;
+
+		Enumeration groupElements = theBtnGroup.getElements();
+		while (groupElements.hasMoreElements()) {
+			AbstractButton originalGroupBtn = (AbstractButton)groupElements.nextElement();
+			JButton actionSrcBtn = ((JButton)theAction.getSource());
+			
+			if(originalGroupBtn.equals(actionSrcBtn)) {
+				manuFound = true;
+				break;
+			}
+			
+			i++;
+		}
+		
+		if(manuFound) {
+			return i;
+		} else {
+			return -1;
+		}
 	}
 	
 }

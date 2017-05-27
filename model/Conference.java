@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Author.ManuscriptNotInListException;
+
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
  * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
@@ -242,6 +244,20 @@ public class Conference implements Serializable{
 		Conference.updateConferenceInList(this);
 	}
 	
+	public void removeManuscript(Manuscript theManuscriptToRemove) {
+		System.out.println(theManuscriptToRemove == null);
+		System.out.println(theManuscriptToRemove.getAuthorEmails() == null);
+		System.out.println(theManuscriptToRemove.getAuthors() == null);
+		for (Author author: theManuscriptToRemove.getAuthors()) {
+			try {
+				author.removeManuscript(theManuscriptToRemove);
+			} catch (ManuscriptNotInListException e) {
+				// TODO Auto-generated catch block
+				System.out.println("\n\nManuscript not found!!!!\n\n");
+			}
+		}
+	}
+	
 	/**
 	 * This method will get the author's email's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
@@ -371,12 +387,6 @@ public class Conference implements Serializable{
 	public boolean isUserSubprogramChair(User theUser) {
 		boolean isSubprogramChair = false;
 		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {
-			System.out.println(conferenceSubprogramChairs == null);
-			System.out.println(conferenceSubprogramChairs.get(i) == null);
-			System.out.println(conferenceSubprogramChairs.get(i).getUser() == null);
-			System.out.println(conferenceSubprogramChairs.get(i).getUser().getEmail() == null);
-			System.out.println(theUser == null);
-			System.out.println(theUser.getEmail() == null);
 			if (conferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
 				isSubprogramChair = true;
 			}

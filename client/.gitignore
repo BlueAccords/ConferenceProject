@@ -60,5 +60,12 @@
 /ManuscriptListTableView.class
 /ManuscriptListTableView$1.class
 /ManuscriptListTableView$MyTableModel.class
+<<<<<<< HEAD
 /SPCHomeView$1.class
 /SPCHomeView$2.class
+=======
+/AuthorManuscriptOptionsView$1.class
+/AuthorManuscriptOptionsView$2.class
+/AuthorManuscriptOptionsView.class
+>>>>>>> 5c8855c3cc7292e06cfef2d5f25aa19afccd50d8
+/AuthorSubmitManuscriptView$2.class

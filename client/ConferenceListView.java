@@ -75,22 +75,15 @@ public class ConferenceListView extends Observable {
 		c.gridy = 0;
 		conferenceButtonPanel.add(conferenceNameLabel, c);
 		c.gridx = 1;
-		c.gridy = 0;
 		conferenceButtonPanel.add(isManuscriptSubmittedLabel, c);
 		c.gridx = 2;
-		c.gridy = 0;
 		conferenceButtonPanel.add(isSubprogramChairLabel, c);
 		c.gridx = 3;
-		c.gridy = 0;
 		conferenceButtonPanel.add(isRiewerLabel, c);
 		c.gridx = 4;
-		c.gridy = 0;
 		conferenceButtonPanel.add(conferenceDeadLineLabel, c);
 		ButtonGroup group = new ButtonGroup();
-		System.out.println("at the start");
-		System.out.println(myConferenceList == null);
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
-			System.out.println("in here");
 			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName());
 			button.setActionCommand(myConferenceList.get(myCounter).getConferenceName());
 			
@@ -111,38 +104,32 @@ public class ConferenceListView extends Observable {
 
 				} 
 		    }); 
-			System.out.println("in the middle");
 			group.add(button);
 			c.gridx = 0;
 			c.gridy = myCounter + 1;
 			conferenceButtonPanel.add(button, c);
 			c.gridx = 1;
-			c.gridy = myCounter + 1;
 			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {			
 				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
 				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
 			c.gridx = 2;
-			c.gridy = myCounter + 1;
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
 				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
 				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
 			c.gridx = 3;
-			c.gridy = myCounter + 1;
 			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
 				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
 				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
 			c.gridx = 4;
-			c.gridy = myCounter + 1;
 			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()), c);
 			
 		}
-		System.out.println("At the end");
 		conferenceButtonPanel.setOpaque(true);
 		
 		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
