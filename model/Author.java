@@ -93,7 +93,7 @@ public class Author extends User implements Serializable{
 	 * 
 	 * @return Collection of the Manuscripts a user has submitted to a conference.
 	 * 
-	 * @author Ayub Tiba, Jamesm Roberts
+	 * @author Ayub Tiba, Jamesm Roberts, Casey Anderson
 	 * @version 4/30/2017
 	 */
 	public ArrayList<Manuscript> getMyManuscripts() {
