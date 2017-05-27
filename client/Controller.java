@@ -221,7 +221,7 @@ public class Controller extends Observable implements Observer {
 					switch (theNextState % 10){
 						
 						case SUBMIT_MANUSCRIPT:
-							if (!isOpen) {
+							//if (!isOpen) {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
@@ -229,7 +229,7 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference).submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
-							} else {
+							/*} else {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW;
@@ -237,7 +237,7 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.addPanel(authorView.createConferenceOptions(), ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								isOpen = false;
-							}
+							}*/
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
