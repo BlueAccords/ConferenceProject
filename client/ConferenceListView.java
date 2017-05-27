@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -58,17 +59,30 @@ public class ConferenceListView extends Observable {
 	 */
 	public JPanel createConferenceListView() {
 		JLabel conferenceNameLabel = new JLabel("Conference Name");
-		JLabel isManuscriptSubmittedLabel = new JLabel("Manuscript Submited");
-		JLabel isSubprogramChairLabel = new JLabel("Subprogram Chair Role");
-		JLabel isRiewerLabel = new JLabel("Reviewer Role");
+		JLabel isManuscriptSubmittedLabel = new JLabel("Manuscript Submited  ");
+		JLabel isSubprogramChairLabel = new JLabel("Subprogram Chair Role  ");
+		JLabel isRiewerLabel = new JLabel("Reviewer Role  ");
 		JLabel conferenceDeadLineLabel = new JLabel("Conference Deadline");
 		JPanel conferencePanel = new JPanel(new GridBagLayout());
-		JPanel conferenceButtonPanel = new JPanel(new GridLayout(0,5));
-		conferenceButtonPanel.add(conferenceNameLabel);
-		conferenceButtonPanel.add(isManuscriptSubmittedLabel);
-		conferenceButtonPanel.add(isSubprogramChairLabel);
-		conferenceButtonPanel.add(isRiewerLabel);
-		conferenceButtonPanel.add(conferenceDeadLineLabel);
+		JPanel conferenceButtonPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 0;
+		c.gridy = 0;
+		conferenceButtonPanel.add(conferenceNameLabel, c);
+		c.gridx = 1;
+		c.gridy = 0;
+		conferenceButtonPanel.add(isManuscriptSubmittedLabel, c);
+		c.gridx = 2;
+		c.gridy = 0;
+		conferenceButtonPanel.add(isSubprogramChairLabel, c);
+		c.gridx = 3;
+		c.gridy = 0;
+		conferenceButtonPanel.add(isRiewerLabel, c);
+		c.gridx = 4;
+		c.gridy = 0;
+		conferenceButtonPanel.add(conferenceDeadLineLabel, c);
 		ButtonGroup group = new ButtonGroup();
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
 			
@@ -94,24 +108,33 @@ public class ConferenceListView extends Observable {
 		    }); 
 			
 			group.add(button);
-			conferenceButtonPanel.add(button);
-			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {
-				conferenceButtonPanel.add(new JLabel("Yes"));
+			c.gridx = 0;
+			c.gridy = myCounter + 1;
+			conferenceButtonPanel.add(button, c);
+			c.gridx = 1;
+			c.gridy = myCounter + 1;
+			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {			
+				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"));
+				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
-			
+			c.gridx = 2;
+			c.gridy = myCounter + 1;
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
-				conferenceButtonPanel.add(new JLabel("Yes"));
+				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"));
+				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
+			c.gridx = 3;
+			c.gridy = myCounter + 1;
 			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
-				conferenceButtonPanel.add(new JLabel("Yes"));
+				conferenceButtonPanel.add(new JLabel("Yes"), c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"));
+				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
-			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()));
+			c.gridx = 4;
+			c.gridy = myCounter + 1;
+			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()), c);
 			
 		}
 		
