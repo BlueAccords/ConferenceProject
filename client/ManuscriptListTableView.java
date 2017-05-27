@@ -136,7 +136,7 @@ public class ManuscriptListTableView extends Observable {
         		
         		        		
         		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
-        		returnList[i][2] =  theManuscriptList.get(i).getAuthors().get(0).getEmail();
+        		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
         		returnList[i][3] =  "Delete Btn";
         		returnList[i][4] =  "Download Btn";
         	}
