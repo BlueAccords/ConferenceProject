@@ -9,7 +9,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class AuthorManuscriptOptionView extends Observable {
+import model.Manuscript;
+
+public class AuthorManuscriptOptionsView extends Observable {
+	
+	private Manuscript myManuscript;
+	
+	
+	public AuthorManuscriptOptionsView (Manuscript theManuscript) {
+		myManuscript = theManuscript;
+	}
+	
 	
 	/**
 	 * Method to create view for Manuscript options.
@@ -19,7 +29,7 @@ public class AuthorManuscriptOptionView extends Observable {
 	public JPanel createManuscriptOptions() {
 		
 		JPanel manuscriptOptionPanel = new JPanel(new GridLayout(0,1));
-		JButton editButton = new JButton("Edit Manuscript");
+		/*JButton editButton = new JButton("Edit Manuscript");
 		editButton.setActionCommand("Edit Manuscript");
 		
 		editButton.addActionListener(new ActionListener(){  
@@ -29,7 +39,7 @@ public class AuthorManuscriptOptionView extends Observable {
 		    }  
 		});
 		
-		manuscriptOptionPanel.add(editButton);
+		manuscriptOptionPanel.add(editButton);*/
 		JButton authorListButton = new JButton("Author List");
 		authorListButton.setActionCommand("Author List");
 		
@@ -47,7 +57,9 @@ public class AuthorManuscriptOptionView extends Observable {
 		deleteManuscriptButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-				notifyObservers("Delete Manuscript");  
+				notifyObservers(myManuscript);  
+				setChanged();
+				notifyObservers(Controller.AUTHOR + Controller.MANUSCRIPT_OPTIONS_VIEW);
 		    }  
 		});
 		

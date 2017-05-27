@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Author.ManuscriptNotInListException;
+
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
  * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
@@ -240,6 +242,20 @@ public class Conference implements Serializable{
 		myManuscripts.add(theManuscript);
 		// update static conference list
 		Conference.updateConferenceInList(this);
+	}
+	
+	public void removeManuscript(Manuscript theManuscriptToRemove) {
+		System.out.println(theManuscriptToRemove == null);
+		System.out.println(theManuscriptToRemove.getAuthorEmails() == null);
+		System.out.println(theManuscriptToRemove.getAuthors() == null);
+		for (Author author: theManuscriptToRemove.getAuthors()) {
+			try {
+				author.removeManuscript(theManuscriptToRemove);
+			} catch (ManuscriptNotInListException e) {
+				// TODO Auto-generated catch block
+				System.out.println("\n\nManuscript not found!!!!\n\n");
+			}
+		}
 	}
 	
 	/**
