@@ -7,13 +7,16 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	   AuthorTest.class,
 	   UserTest.class,
-	   ManuscriptTest.class
+	   ManuscriptTest.class,
+	   SubprogramChairTest.class,
+	   ConferenceTest.class,
+	   ControllerAuthorStatesTest.class
 	})
 
 /**
  * JUnit test suite which allows us to run all of our tests at once. 
- * @author James Roberts
- * @version 5/6/2017
+ * @author James Roberts, Connor Lundberg
+ * @version 5/27/2017
  *
  */
 public class TestingSuite {

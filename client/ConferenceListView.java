@@ -48,7 +48,10 @@ public class ConferenceListView extends Observable {
 	 */
 	public ConferenceListView(ArrayList<Conference> theConferenceList, User theUser) {
 		myUser = theUser;
-		myConferenceList = theConferenceList;
+		if (theConferenceList != null)	
+			myConferenceList = theConferenceList;
+		else
+			myConferenceList = new ArrayList<Conference> ();
 		myCounter = 0;
 	}
 	
@@ -84,8 +87,10 @@ public class ConferenceListView extends Observable {
 		c.gridy = 0;
 		conferenceButtonPanel.add(conferenceDeadLineLabel, c);
 		ButtonGroup group = new ButtonGroup();
+		System.out.println("at the start");
+		System.out.println(myConferenceList == null);
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
-			
+			System.out.println("in here");
 			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName());
 			button.setActionCommand(myConferenceList.get(myCounter).getConferenceName());
 			
@@ -106,7 +111,7 @@ public class ConferenceListView extends Observable {
 
 				} 
 		    }); 
-			
+			System.out.println("in the middle");
 			group.add(button);
 			c.gridx = 0;
 			c.gridy = myCounter + 1;
@@ -137,7 +142,7 @@ public class ConferenceListView extends Observable {
 			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()), c);
 			
 		}
-		
+		System.out.println("At the end");
 		conferenceButtonPanel.setOpaque(true);
 		
 		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
