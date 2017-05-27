@@ -21,6 +21,15 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Observable;
 
+/**
+ * Manuscript View that shows a list of an author's manuscripts.
+ * Allows following Actions:
+ * 	Add Manuscript
+ * 	Remove Manuscript
+ * 	View More Info(See all authors of manuscript + conference submitted to)
+ * @author Ryan Tran
+ *
+ */
 public class ManuscriptListTableView extends Observable {
     private boolean DEBUG = false;
     private JPanel myPanel;
@@ -52,7 +61,7 @@ public class ManuscriptListTableView extends Observable {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// Only fire event listener on mouse release of selected row
+				// Only manuscript row selection should set currentManuscript
 				if (!e.getValueIsAdjusting()) {
 					System.out.println(myCurrentManuscriptList.get(table.getSelectedRow()).getTitle() + " is Selected");
 			    }
