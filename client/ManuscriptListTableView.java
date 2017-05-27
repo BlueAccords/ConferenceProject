@@ -108,6 +108,9 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 					
 					Manuscript selectedManu = myCurrentManuscriptList.get(table.getSelectedRow());
 					setCurrentlySelectedManuscript(selectedManu);
+					
+					setChanged();
+					notifyObservers(myCurrentlySelectedManuscript);
 			    }
 				
 			}
@@ -186,7 +189,8 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 		
 		switch(action) {
 			case ADD_NEW_MANUSCRIPT:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
+				setChanged();
+		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);  
 				break;
 			case DELETE_MANSUCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
