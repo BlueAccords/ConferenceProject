@@ -118,17 +118,16 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
-			System.out.println("State is less than 0 " + theNextState + " = " + ((theNextState * -1) / 10) * 10);
 			switch (theNextState % -10) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
 						ConferenceListView confListView = new ConferenceListView(Conference.getConferences(), myCurrentUser);
 						confListView.addObserver(myParentFrame);
-						myParentFrame.addPanel(confListView.createConferenceListView(), "AuthConfView");
-						myParentFrame.switchToPanel("AuthConfView");
+						myParentFrame.addPanel(confListView.createConferenceListView(), ParentFrameView.AUTHOR_CONFERENCE_LIST_VIEW);
+						myParentFrame.switchToPanel(ParentFrameView.AUTHOR_CONFERENCE_LIST_VIEW);
+						System.out.println("ParentFrame panel name: " + myParentFrame.getCurrentPanelName());
 					} else {
-						setChanged();
-						notifyObservers("Invalid Username");
+						myParentFrame.switchToPanel(ParentFrameView.FAIL_INVALID_USERNAME);
 					}
 					
 					//setChanged();					//This is commented out because I don't think Controller needs to be observable.
@@ -137,22 +136,22 @@ public class Controller extends Observable implements Observer {
 				case CHOOSE_USER:
 					switch (((theNextState * -1) / 10) * 10) { //will need to break this up more here.
 						case AUTHOR:
-							System.out.println("User chose Author role");
+							//System.out.println("User chose Author role");
 							//myCurrentAuthor = (Author) myCurrentUser;
 							UI_Author authorView = new UI_Author(myCurrentAuthor); //need to use a static getManuscripts once it's available and pass it here.
 							authorView.addObserver(myParentFrame);
-							myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
-							myParentFrame.setUserRole("Author");
-							myParentFrame.switchToPanel("createConferenceOptions");
+							myParentFrame.addPanel(authorView.createConferenceOptions(), ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
+							myParentFrame.setUserRole(ParentFrameView.AUTHOR_ROLE);
+							myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 							break;
 						case SUBPROGRAM_CHAIR:
-							System.out.println("User chose Subprogram Chair role");
+							//System.out.println("User chose Subprogram Chair role");
 							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
 							SPCAssignReviewerView subprogramChairView = new SPCAssignReviewerView(); //need to use a static getManuscripts once it's available and pass it here.
 							subprogramChairView.addObserver(myParentFrame);
-							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), "ViewReviewersListView");
-							myParentFrame.setUserRole("Subprogram Chair");
-							myParentFrame.switchToPanel("ViewReviewersListView");
+							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
+							myParentFrame.setUserRole(ParentFrameView.SUBPROGRAM_CHAIR_ROLE);
+							myParentFrame.switchToPanel(ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
 							break;
 					}
 					//myCurrentState += LIST_CONFERENCE_VIEW;
@@ -161,7 +160,7 @@ public class Controller extends Observable implements Observer {
 					//notifyObservers(myCurrentState);
 					break;
 				case LOG_OUT_STATE:
-					System.out.println("Log out state entered");
+					//System.out.println("Log out state entered");
 					
 					// reset session data and header gui state
 					this.resetCurrentSessionState();
@@ -173,8 +172,8 @@ public class Controller extends Observable implements Observer {
 					JPanel loginPanel = loginView.getPanel();
 					loginView.addObserver(this);
 					this.addObserver(loginView);
-					myParentFrame.addPanel(loginPanel, "loginPanel");
-					myParentFrame.switchToPanel("loginPanel");
+					myParentFrame.addPanel(loginPanel, ParentFrameView.LOGIN_PANEL_VIEW);
+					myParentFrame.switchToPanel(ParentFrameView.LOGIN_PANEL_VIEW);
 					break;
 			}
 		} else {
@@ -186,49 +185,42 @@ public class Controller extends Observable implements Observer {
 							if (!isOpen) {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.submitManuscriptView(), "submitManuscriptView");
-								myParentFrame.switchToPanel("submitManuscriptView");
+								myParentFrame.addPanel(authorView.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
 							} else {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.createConferenceOptions(), "createConferenceOptions");
-								myParentFrame.switchToPanel("createConferenceOptions");
+								myParentFrame.addPanel(authorView.createConferenceOptions(), ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
+								myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								isOpen = false;
 							}
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
-								System.out.println("Manuscript list view ========================================");
+								//System.out.println("Manuscript list view ========================================");
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
-								System.out.println("size of manuscripts belonging to auth and conference is..." + authorManuscriptList.size());
+								//System.out.println("size of manuscripts belonging to auth and conference is..." + authorManuscriptList.size());
 
 								// switch to manuscript list table view
 								ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
 								manuscriptListView.addObserver(myParentFrame);
-								myParentFrame.addPanel(manuscriptListView.getMyPanel(), "manuscriptListView");
-								
-								/*
-								UI_Author authorView = new UI_Author(authorManuscriptList, myCurrentAuthor);
-								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.viewManuscriptListView(), "viewManuscriptListView");
-								
-								*/
-								myParentFrame.switchToPanel("manuscriptListView");
+								myParentFrame.addPanel(manuscriptListView.getMyPanel(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+								myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
 								isOpen = true;
 							} else {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.createManuscriptOptions(), "createManuscriptOptions");
-								myParentFrame.switchToPanel("createManuscriptOptions");
+								myParentFrame.addPanel(authorView.createManuscriptOptions(), ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW);
+								myParentFrame.switchToPanel(ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW);
 								isOpen = false;
 							}
 							break;
 						case LIST_CONFERENCE_VIEW:
 							UserRoleView userRoleView = new UserRoleView(myCurrentConference, myCurrentUser); //Will need to change constructor to take some boolean for SubChair
 							userRoleView.addObserver(myParentFrame);
-							myParentFrame.addPanel(userRoleView.createSelectRolePanel(), "UserRoleView");
-							myParentFrame.switchToPanel("UserRoleView");
+							myParentFrame.addPanel(userRoleView.createSelectRolePanel(), ParentFrameView.USER_ROLE_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.USER_ROLE_VIEW);
 							break;
 						case USER_OPTIONS:
 							
@@ -284,6 +276,11 @@ public class Controller extends Observable implements Observer {
 					break;
 			}
 		}
+	}
+	
+	
+	public String getUserRole () {
+		return myParentFrame.getUserRole();
 	}
 	
 	
@@ -414,6 +411,10 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public String getCurrentPanelName () {
+		return myParentFrame.getCurrentPanelName();
+	}
+	
 	/**
 	 * Sets the field myCurrentUser to theNewUsernameLiteral if it is a valid name within the
 	 * User list.
@@ -476,6 +477,11 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public User getCurrentUser () {
+		return myCurrentUser;
+	}
+	
+	
 	public void setReviewer(Reviewer theNewReviewer) {
 		myCurrentReviewer = theNewReviewer;
 	}
@@ -489,6 +495,22 @@ public class Controller extends Observable implements Observer {
 	public void setSubprogramChair(SubprogramChair theNewSubprogramChair) {
 		myCurrentSubprogramChair = theNewSubprogramChair;
 	}
+	
+	
+	/**
+	 * Used to test the user in the states without having to add to the database.
+	 * Don't use this when setting the actual user. Pass a string to Controller's Update
+	 * as normal, not a User object.
+	 * 
+	 * @param theNewTestUser The new test user
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public void setTestUser (User theNewTestUser) {
+		myCurrentUser = theNewTestUser;
+	}
+	
 
 
 	/**
@@ -517,6 +539,8 @@ public class Controller extends Observable implements Observer {
 			setSubprogramChair((SubprogramChair) arg1);
 		} else if (arg1 instanceof Manuscript) {
 			addManuscriptToAuthorAndConference((Manuscript) arg1);
+		} else if (arg1 instanceof User) {
+			setTestUser ((User) arg1);
 		}
 	}
 		

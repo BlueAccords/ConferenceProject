@@ -29,15 +29,31 @@ import java.util.TreeMap;
 
 public class ParentFrameView extends Observable implements Observer {
 	private static final long serialVersionUID = 6981714533618801412L;
+	
+	public static final String AUTHOR_CONFERENCE_LIST_VIEW = "AuthConfView";
+	public static final String CREATE_CONFERENCE_OPTIONS_VIEW = "createConferenceOptions";
+	public static final String VIEW_REVIEWERS_LIST_VIEW = "ViewReviewersListView";
+	public static final String LOGIN_PANEL_VIEW = "loginPanel";
+	public static final String SUBMIT_MANUSCRIPT_VIEW = "submitManuscriptView";
+	public static final String VIEW_MANUSCRIPT_LIST_VIEW = "viewManuscriptListView";
+	public static final String CREATE_MANUSCRIPT_OPTIONS_VIEW = "createManuscriptOptions";
+	public static final String USER_ROLE_VIEW = "UserRoleView";
+
+	public static final String AUTHOR_ROLE = "Author";
+	public static final String SUBPROGRAM_CHAIR_ROLE = "Subprogram Chair";
+	public static final String FAIL_INVALID_USERNAME = "Invalid Username";
+	
 
 	private JFrame myFrame;
 	private Map<String, JPanel> myPanelList;
+	private String myCurrentPanelName;
+	private String myUserRole;
 	private JPanel myCardPanel, myButtonPanel, myHeaderPanel;
 	private JLabel myHeaderCurrentUsernameLabel;
 	private JButton myHeaderLogoutBtn;
 
 	
-	ParentFrameView(String theTitle, int theX, int theY) {
+	public ParentFrameView(String theTitle, int theX, int theY) {
 		// init parent frame values
 		myFrame = new JFrame(theTitle);
 		myFrame.setSize(theX, theY);
@@ -54,6 +70,8 @@ public class ParentFrameView extends Observable implements Observer {
         
 		// init list of panels to swtich to
 		myPanelList = new TreeMap<String, JPanel>();
+		myCurrentPanelName = "";
+		myUserRole = "";
 		
 		// main card panel and layout, used to switch between different panels for any navigation.
         myCardPanel = new JPanel();
@@ -144,11 +162,17 @@ public class ParentFrameView extends Observable implements Observer {
 	 * @param theRole the role string to append to the header's username display
 	 */
 	public void setUserRole(String theRole) {
+		myUserRole = theRole;
 		String currentUserEmail = this.myHeaderCurrentUsernameLabel.getText();
 		this.myHeaderCurrentUsernameLabel.setText(theRole + " | " + currentUserEmail);
 		
 		this.myFrame.revalidate();
 		this.myFrame.repaint();
+	}
+	
+	
+	public String getUserRole () {
+		return myUserRole;
 	}
 	
 	/**
@@ -168,6 +192,21 @@ public class ParentFrameView extends Observable implements Observer {
         myCardPanel.repaint();
 	}
 	
+	
+	/**
+	 * A method to test that the panel name is switching correctly. Only used in testing for the 
+	 * Controller.
+	 * 
+	 * @return The current panel name switched to
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public String getCurrentPanelName () {
+		return myCurrentPanelName;
+	}
+	
+	
 	/**
 	 * This method will switch the view to the panel that belongs to the passed in panel name.
 	 * @param thePanelName
@@ -178,7 +217,7 @@ public class ParentFrameView extends Observable implements Observer {
 		if(panelToSwitchTo == null) {
 			throw new IllegalArgumentException("Panel Name argument does not belong to a valid JPanel");
 		}
-		
+		myCurrentPanelName = thePanelName;
 		CardLayout cl = (CardLayout) myCardPanel.getLayout();
     	cl.show(myCardPanel, thePanelName);
 	}
@@ -191,6 +230,7 @@ public class ParentFrameView extends Observable implements Observer {
 			setChanged();
 			notifyObservers((Integer) arg);
 		} else if(arg instanceof String) {
+			myCurrentPanelName = (String) arg;
 			setChanged();
 			notifyObservers((String) arg);
 		} else if(o instanceof ConferenceListView) { //Coming from ConferenceListView
@@ -211,6 +251,9 @@ public class ParentFrameView extends Observable implements Observer {
 		} else if (arg instanceof Manuscript) {
 			setChanged();
 			notifyObservers((Manuscript) arg);
+		} else if (arg instanceof User) {
+			setChanged();
+			notifyObservers((User) arg);
 		}
 		
 	}
