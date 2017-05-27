@@ -51,6 +51,7 @@ public class ParentFrameView extends Observable implements Observer {
 	private JPanel myCardPanel, myButtonPanel, myHeaderPanel;
 	private JLabel myHeaderCurrentUsernameLabel;
 	private JButton myHeaderLogoutBtn;
+	private JButton myHeaderBackBtn;
 
 	
 	public ParentFrameView(String theTitle, int theX, int theY) {
@@ -95,8 +96,17 @@ public class ParentFrameView extends Observable implements Observer {
         	//logoutUser();
         });
         
+        
+        myHeaderBackBtn = new JButton("Back");
+        
+        myHeaderBackBtn.addActionListener(e -> {
+        	setChanged();
+        	notifyObservers(Controller.GO_BACK);
+        });
+        
         // add elements to the header panel
         myHeaderPanel.add(new JLabel("MSEE Conference Manager"));
+        myHeaderPanel.add(myHeaderBackBtn);
         myHeaderPanel.add(Box.createHorizontalGlue());
         myHeaderPanel.add(myHeaderCurrentUsernameLabel);
         myHeaderPanel.add(myHeaderLogoutBtn);
@@ -224,9 +234,9 @@ public class ParentFrameView extends Observable implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("UI Parent Frame was notified of update");
+		//System.out.println("UI Parent Frame was notified of update");
 		if(arg instanceof Integer) {
-			System.out.println("Received new state from " + o.getClass().getSimpleName());
+			//System.out.println("Received new state from " + o.getClass().getSimpleName());
 			setChanged();
 			notifyObservers((Integer) arg);
 		} else if(arg instanceof String) {

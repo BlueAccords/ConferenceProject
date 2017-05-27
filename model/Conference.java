@@ -371,12 +371,6 @@ public class Conference implements Serializable{
 	public boolean isUserSubprogramChair(User theUser) {
 		boolean isSubprogramChair = false;
 		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {
-			System.out.println(conferenceSubprogramChairs == null);
-			System.out.println(conferenceSubprogramChairs.get(i) == null);
-			System.out.println(conferenceSubprogramChairs.get(i).getUser() == null);
-			System.out.println(conferenceSubprogramChairs.get(i).getUser().getEmail() == null);
-			System.out.println(theUser == null);
-			System.out.println(theUser.getEmail() == null);
 			if (conferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
 				isSubprogramChair = true;
 			}
