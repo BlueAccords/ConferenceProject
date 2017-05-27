@@ -29,6 +29,20 @@ import java.util.TreeMap;
 
 public class ParentFrameView extends Observable implements Observer {
 	private static final long serialVersionUID = 6981714533618801412L;
+	
+	public static final String AUTHOR_CONFERENCE_LIST_VIEW = "AuthConfView";
+	public static final String CREATE_CONFERENCE_OPTIONS_VIEW = "createConferenceOptions";
+	public static final String VIEW_REVIEWERS_LIST_VIEW = "ViewReviewersListView";
+	public static final String LOGIN_PANEL_VIEW = "loginPanel";
+	public static final String SUBMIT_MANUSCRIPT_VIEW = "submitManuscriptView";
+	public static final String VIEW_MANUSCRIPT_LIST_VIEW = "viewManuscriptListView";
+	public static final String CREATE_MANUSCRIPT_OPTIONS_VIEW = "createManuscriptOptions";
+	public static final String USER_ROLE_VIEW = "UserRoleView";
+
+	public static final String AUTHOR_ROLE = "Author";
+	public static final String SUBPROGRAM_CHAIR_ROLE = "Subprogram Chair";
+	public static final String FAIL_INVALID_USERNAME = "Invalid Username";
+	
 
 	private JFrame myFrame;
 	private Map<String, JPanel> myPanelList;
@@ -37,7 +51,7 @@ public class ParentFrameView extends Observable implements Observer {
 	private JButton myHeaderLogoutBtn;
 
 	
-	ParentFrameView(String theTitle, int theX, int theY) {
+	public ParentFrameView(String theTitle, int theX, int theY) {
 		// init parent frame values
 		myFrame = new JFrame(theTitle);
 		myFrame.setSize(theX, theY);
