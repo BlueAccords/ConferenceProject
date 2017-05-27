@@ -10,7 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ConferenceOptionVIew extends Observable {
+public class AuthorConferenceOptionVIew extends Observable {
 	
 	/**
 	 * Method to create a view for the options available for Conferences.
