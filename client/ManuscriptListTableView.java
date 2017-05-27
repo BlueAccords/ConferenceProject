@@ -99,8 +99,8 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
 					// Enable action buttons to be clickable if they are disabled.
-					if(!myAddNewManuscriptBtn.isEnabled()) {
-						myAddNewManuscriptBtn.setEnabled(true);
+					if(!myViewMoreInfoBtn.isEnabled()) {
+						//myAddNewManuscriptBtn.setEnabled(true);
 						myDeleteManuscriptBtn.setEnabled(true);
 						myViewMoreInfoBtn.setEnabled(true);
 						myDownloadBtn.setEnabled(true);
@@ -136,7 +136,7 @@ public class ManuscriptListTableView extends Observable implements ActionListene
         EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
         
         this.myAddNewManuscriptBtn = new JButton("Add New Manuscript...");
-        this.myAddNewManuscriptBtn.setEnabled(false);
+        //this.myAddNewManuscriptBtn.setEnabled(false);
         this.myAddNewManuscriptBtn.addActionListener(this);
         this.myAddNewManuscriptBtn.setActionCommand(this.ADD_NEW_MANUSCRIPT);
 
@@ -189,6 +189,7 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 		
 		switch(action) {
 			case ADD_NEW_MANUSCRIPT:
+				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 				setChanged();
 		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);  
 				break;
