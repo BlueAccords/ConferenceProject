@@ -47,6 +47,7 @@ public class ParentFrameView extends Observable implements Observer {
 	private JFrame myFrame;
 	private Map<String, JPanel> myPanelList;
 	private String myCurrentPanelName;
+	private String myUserRole;
 	private JPanel myCardPanel, myButtonPanel, myHeaderPanel;
 	private JLabel myHeaderCurrentUsernameLabel;
 	private JButton myHeaderLogoutBtn;
@@ -70,6 +71,7 @@ public class ParentFrameView extends Observable implements Observer {
 		// init list of panels to swtich to
 		myPanelList = new TreeMap<String, JPanel>();
 		myCurrentPanelName = "";
+		myUserRole = "";
 		
 		// main card panel and layout, used to switch between different panels for any navigation.
         myCardPanel = new JPanel();
@@ -160,11 +162,17 @@ public class ParentFrameView extends Observable implements Observer {
 	 * @param theRole the role string to append to the header's username display
 	 */
 	public void setUserRole(String theRole) {
+		myUserRole = theRole;
 		String currentUserEmail = this.myHeaderCurrentUsernameLabel.getText();
 		this.myHeaderCurrentUsernameLabel.setText(theRole + " | " + currentUserEmail);
 		
 		this.myFrame.revalidate();
 		this.myFrame.repaint();
+	}
+	
+	
+	public String getUserRole () {
+		return myUserRole;
 	}
 	
 	/**

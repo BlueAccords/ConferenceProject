@@ -278,6 +278,11 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public String getUserRole () {
+		return myParentFrame.getUserRole();
+	}
+	
+	
 	public Manuscript getManuscript() {
 		return myCurrentManuscript;
 	}

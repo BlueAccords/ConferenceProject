@@ -82,11 +82,49 @@ public class ControllerAuthorStatesTest {
 	}
 	
 	
-	
+	/**
+	 * Tests that the choose user state changes the state into the Conference Options View with the role set to Author.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
 	@Test
 	public void chooseUserState_ChangeStateToChooseUserState_MakesRoleAuthorWithPanelNameCreateConferenceOptionsView () {
-		myTestControllerHelper.changeControllerState(Controller.CHOOSE_USER); 
-		
+		myTestControllerHelper.changeControllerState(Controller.CHOOSE_USER + Controller.AUTHOR); 
+		assertEquals("The role is not Author: " + myTestController.getUserRole() + "       ", ParentFrameView.AUTHOR_ROLE, myTestController.getUserRole());
+		assertEquals("The current panel name is not CREATE_CONFERENCE_OPTIONS_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW, myTestController.getCurrentPanelName());
+	}
+	
+	
+	/**
+	 * Tests that the choose user state changes the state into the View Reviewers List View with the role set to SPC.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void chooseUserState_ChangeStateToChooseUserState_MakesRoleSPCWithPanelNameViewReviewersListView () {
+		myTestControllerHelper.changeControllerState(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
+		assertEquals("The role is not SPC: " + myTestController.getUserRole() + "       ", ParentFrameView.SUBPROGRAM_CHAIR_ROLE, myTestController.getUserRole());
+		assertEquals("The current panel name is not VIEW_REVIEWERS_LIST_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.VIEW_REVIEWERS_LIST_VIEW, myTestController.getCurrentPanelName());
+	}
+	
+	
+	/**
+	 * Tests that the logout state changes the state back to the login panel view with the Parent Frame's 
+	 * User being reset. (current User in Controller does not get changed, the name just doesn't get displayed
+	 * in frame header)
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void logoutState_ChangeStateToLogoutState_PanelNameIsLoginState () {
+		myTestControllerHelper.changeControllerState(Controller.LOG_OUT_STATE);
+		assertEquals("The current panel name is not LOGIN_PANEL_VIEW: " + myTestController.getCurrentPanelName() + "       ", 
+				ParentFrameView.LOGIN_PANEL_VIEW, myTestController.getCurrentPanelName());
 	}
 
 	
