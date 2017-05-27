@@ -60,4 +60,10 @@
 /ManuscriptListTableView.class
 /ManuscriptListTableView$1.class
 /ManuscriptListTableView$MyTableModel.class
+<<<<<<< HEAD
 /ManuscriptListTableView$ListSelectionEventHandler.class
+=======
+/AuthorManuscriptOptionsView$1.class
+/AuthorManuscriptOptionsView$2.class
+/AuthorManuscriptOptionsView.class
+>>>>>>> master

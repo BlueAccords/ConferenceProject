@@ -57,6 +57,65 @@ public class AuthorTest {
 				myTestAuthor.getMyManuscripts().contains(newManuscriptToAdd));
 	}
 	
+	/**
+	 * Tests the checkForExistingManuscript method for a manuscript title in authors manuscript list. Implicitly tests
+	 * getTitle as well.
+	 * 
+	 * @author Casey Anderson
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void checkForExistingManuscript_theManuscriptTitleToCheckIsInManuscriptList_ReturnTrue() {
+		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
+		
+		myTestAuthor.addManuscript(newManuscriptToAdd);
+		assertTrue("The list of manuscripts attached to this author does not contain the new manuscript title", 
+				myTestAuthor.checkForExistingManuscript(newManuscriptToAdd.getTitle()));
+	}
+	
+	/**
+	 * Tests the checkForExistingManuscript method for a manuscript title not in authors manuscript list. Implicitly tests
+	 * getTitle as well.
+	 * 
+	 * @author Casey Anderson
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void checkForExistingManuscript_theManuscriptTitleToCheckIsNotInManuscriptList_ReturnFalse() {
+		Manuscript newManuscriptToAdd = new Manuscript ("The Joys of Squanching",
+				new File("C:/users/connor/documents/test.txt"), myTestAuthor);
+		
+		User userForAuthor = new User ("rick@gmail.com");
+		Author testAuthor = new Author (userForAuthor);
+		
+		Manuscript newManuscriptToNotAdd = new Manuscript ("AI to replace all humans",
+				new File("C:/users/connor/documents/test.txt"), testAuthor);
+		
+		myTestAuthor.addManuscript(newManuscriptToAdd);
+		assertFalse("The list of manuscripts attached to this author does not contain the new manuscript title", 
+				myTestAuthor.checkForExistingManuscript(newManuscriptToNotAdd.getTitle()));
+	}
+	
+	/**
+	 * Tests the checkForExistingManuscript method for a single manuscript in authors manuscript list. Implicitly tests
+	 * getTitle as well.
+	 * 
+	 * @author Casey Anderson
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void checkForExistingManuscript_theManuscriptTitleToCheckIsinEmptyManuscriptList_ReturnFalse() {
+		User userForAuthor = new User ("rick@gmail.com");
+		Author testAuthor = new Author (userForAuthor);
+		
+		Manuscript newManuscriptToNotAdd = new Manuscript ("AI to replace all humans",
+				new File("C:/users/connor/documents/test.txt"), testAuthor);
+		
+		assertFalse("The list of manuscripts attached to this author does not contain the new manuscript title", 
+				myTestAuthor.checkForExistingManuscript(newManuscriptToNotAdd.getTitle()));
+	}
+	
 	
 	/**
 	 * Tests addManuscript for multiple manuscripts. This checks that the size of the returned

@@ -15,6 +15,7 @@ import javax.swing.table.TableCellRenderer;
 
 import model.Manuscript;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -37,7 +38,7 @@ public class ManuscriptListTableView extends Observable {
  
     public ManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
     	myCurrentManuscriptList = theManuscriptList;
-    	myPanel = new JPanel(new GridLayout(1, 0));
+    	myPanel = new JPanel(new BorderLayout());
  
         JTable table = new JTable(new MyTableModel());
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
@@ -74,7 +75,7 @@ public class ManuscriptListTableView extends Observable {
         JScrollPane scrollPane = new JScrollPane(table);
  
         //Add the scroll pane to this panel.
-        myPanel.add(scrollPane);
+        myPanel.add(scrollPane, BorderLayout.CENTER);
         myPanel.setOpaque(true);
     }
     
