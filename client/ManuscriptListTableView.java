@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -20,19 +22,24 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class ManuscriptListTableView extends Observable {
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
     private JPanel myPanel;
+    private ArrayList<Manuscript> myCurrentManuscriptList;
  
     public ManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
+    	myCurrentManuscriptList = theManuscriptList;
     	myPanel = new JPanel(new GridLayout(1, 0));
  
-        JTable table = new JTable(new MyTableModel(theManuscriptList));
+        JTable table = new JTable(new MyTableModel());
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
+
+        // This will only allow the user to select the entire row.
+        table.setRowSelectionAllowed(true);
        
         // Set width of title column to be size of longest title
         int width = 0;
-        for(int i = 0; i < theManuscriptList.size(); i++) {
+        for(int i = 0; i < myCurrentManuscriptList.size(); i++) {
         	TableCellRenderer renderer = table.getCellRenderer(i, 0);
 			Component comp = table.prepareRenderer(renderer, i, 0);
 			width = Math.max (comp.getPreferredSize().width, width);
@@ -40,7 +47,19 @@ public class ManuscriptListTableView extends Observable {
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(width);
 		
+		// Setup Event listener for table row selection
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Only fire event listener on mouse release of selected row
+				if (!e.getValueIsAdjusting()) {
+					System.out.println(myCurrentManuscriptList.get(table.getSelectedRow()).getTitle() + " is Selected");
+			    }
+				
+			}
+			
+		});
  
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
@@ -54,16 +73,33 @@ public class ManuscriptListTableView extends Observable {
     	return this.myPanel;
     }
  
+    /**
+     * Abstract table model class that represents the table's data for the manuscript list table.
+     * This model will be added to the JTable inside of the parent JPanel for this class.
+     * This model has to be instantiated with a ManuscriptList.
+     * @author Ryan Tran
+     * @version 5/27/17
+     *
+     */
     class MyTableModel extends AbstractTableModel {
         private String[] columnNames = {"Title",
                                         "Date Submitted",
                                         "Authors",
                                         "Delete",
                                         "Download"};
-        
+        /**
+         * 2D array of cell data for each row/column
+         */
         private Object[][] data;
-        public MyTableModel(ArrayList<Manuscript> theManuscriptList) {
-        	data = generateDataArray(theManuscriptList);
+        
+        /**
+         * Constructor for table model that requires a list of manuscripts to populate
+         * the 2d data array.
+         * 
+         * @author Ryan Tran
+         */
+        public MyTableModel() {
+        	data = generateDataArray(myCurrentManuscriptList);
         }
 
  
@@ -93,20 +129,6 @@ public class ManuscriptListTableView extends Observable {
             return getValueAt(0, c).getClass();
         }
  
-        /*
-         * Don't need to implement this method unless your table's
-         * editable.
-         */
-        public boolean isCellEditable(int row, int col) {
-            //Note that the data/cell address is constant,
-            //no matter where the cell appears onscreen.
-            if (col < 2) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
         private void printDebugData() {
             int numRows = getRowCount();
             int numCols = getColumnCount();
@@ -133,8 +155,6 @@ public class ManuscriptListTableView extends Observable {
         	
         	for(int i = 0; i < theManuscriptList.size(); i++) {
         		returnList[i][0] =  theManuscriptList.get(i).getTitle();
-        		
-        		        		
         		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
         		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
         		returnList[i][3] =  "Delete Btn";
