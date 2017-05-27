@@ -150,7 +150,7 @@ public class Controller extends Observable implements Observer {
 							ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 							// init manuscript list view
-							ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
+							AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
 							
 							// store state history
 							myPreviousStates.push(myLastState);
@@ -244,7 +244,7 @@ public class Controller extends Observable implements Observer {
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 								// init manuscript list view
-								ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
+								AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
 								
 								// store state history
 								myPreviousStates.push(myLastState);

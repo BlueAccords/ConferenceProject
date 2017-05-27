@@ -37,7 +37,7 @@ import java.util.Observable;
  * @author Ryan Tran
  *
  */
-public class ManuscriptListTableView extends Observable implements ActionListener {
+public class AuthorManuscriptListTableView extends Observable implements ActionListener {
     private boolean DEBUG = false;
     private JPanel myPanel;
     private JPanel myButtonPanel;
@@ -66,7 +66,7 @@ public class ManuscriptListTableView extends Observable implements ActionListene
 
     private ArrayList<Manuscript> myCurrentManuscriptList;
  
-    public ManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
+    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
     	myCurrentManuscriptList = theManuscriptList;
     	myPanel = new JPanel(new BorderLayout());
  
