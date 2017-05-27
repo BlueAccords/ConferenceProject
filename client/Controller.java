@@ -203,10 +203,18 @@ public class Controller extends Observable implements Observer {
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 								System.out.println("size of manuscripts belonging to auth and conference is..." + authorManuscriptList.size());
 
+								// switch to manuscript list table view
+								ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
+								manuscriptListView.addObserver(myParentFrame);
+								myParentFrame.addPanel(manuscriptListView.getMyPanel(), "manuscriptListView");
+								
+								/*
 								UI_Author authorView = new UI_Author(authorManuscriptList, myCurrentAuthor);
 								authorView.addObserver(myParentFrame);
 								myParentFrame.addPanel(authorView.viewManuscriptListView(), "viewManuscriptListView");
-								myParentFrame.switchToPanel("viewManuscriptListView");
+								
+								*/
+								myParentFrame.switchToPanel("manuscriptListView");
 								isOpen = true;
 							} else {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
