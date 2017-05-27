@@ -219,7 +219,7 @@ public class Controller extends Observable implements Observer {
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
 								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference).submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
 							} else {

@@ -21,6 +21,8 @@ public class Author extends User implements Serializable{
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -1841250627863643455L;
 
+	public static final int MAX_MANUSCRIPT_LIMIT = 5;
+	
 	/** The User associated with this author. */
 	private User myUser;
 	
@@ -161,6 +163,27 @@ public class Author extends User implements Serializable{
 		} else {
 			throw new ManuscriptNotInListException();
 		}
+	}
+	
+	public boolean isAuthorsAtLimit(String[] theAuthors, Conference theConference) {
+		boolean atLimit = true;
+		Author tempAuthor;
+		User tempUser;
+		for (int i = 0; i < theAuthors.length; i++) {
+			if (User.doesEmailBelongToUser(theAuthors[i])) {
+				tempUser = User.getUserByEmail(theAuthors[i]);
+				if (theConference.isUserAuthor(tempUser)) {
+					tempAuthor = new Author(tempUser);
+					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
+						atLimit = false;
+					}
+				}
+			}
+				
+		}
+		
+		return atLimit;
+		
 	}
 	
 	
