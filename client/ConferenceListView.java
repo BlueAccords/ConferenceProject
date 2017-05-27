@@ -95,11 +95,11 @@ public class ConferenceListView extends Observable {
 			
 			group.add(button);
 			conferenceButtonPanel.add(button);
-			//if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {
+			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {
 				conferenceButtonPanel.add(new JLabel("Yes"));
-			//} else {
-			//	conferenceButtonPanel.add(new JLabel("No"));
-			//}
+			} else {
+				conferenceButtonPanel.add(new JLabel("No"));
+			}
 			
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
 				conferenceButtonPanel.add(new JLabel("Yes"));

@@ -224,12 +224,12 @@ public class Conference implements Serializable{
 		
 		
 		//Now add paper to its respective author and create a new author if necessary. 
-		for (User author : theManuscript.getAuthors()) {
+		for (Author author : theManuscript.getAuthors()) {
 			Author potentialAuthor = getAuthor(author);
 			if (potentialAuthor != null) { //Author already exists, add the manuscript to them.
 				potentialAuthor.addManuscript(theManuscript);
 			} else { //This user is not yet an author, create a new Author in the conference for them.
-				potentialAuthor = new Author(author);
+				potentialAuthor = author;
 				potentialAuthor.addManuscript(theManuscript);
 				conferenceAuthors.add(potentialAuthor);
 				

@@ -63,7 +63,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentState = AUTHOR;
 		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
-		myCurrentManuscript = new Manuscript(null, null, null);
+		myCurrentManuscript = null;
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);

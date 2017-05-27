@@ -128,9 +128,7 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public ArrayList<Author> getAuthors() {
-		ArrayList<Author> copy = new ArrayList<Author>();
-		copy.addAll(myAuthors);
-		return copy;
+		return myAuthors;
 	}
 	
 	
