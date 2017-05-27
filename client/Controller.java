@@ -118,7 +118,6 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
-			System.out.println("State is less than 0 " + theNextState + " = " + ((theNextState * -1) / 10) * 10);
 			switch (theNextState % -10) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
@@ -126,9 +125,9 @@ public class Controller extends Observable implements Observer {
 						confListView.addObserver(myParentFrame);
 						myParentFrame.addPanel(confListView.createConferenceListView(), ParentFrameView.AUTHOR_CONFERENCE_LIST_VIEW);
 						myParentFrame.switchToPanel(ParentFrameView.AUTHOR_CONFERENCE_LIST_VIEW);
+						System.out.println("ParentFrame panel name: " + myParentFrame.getCurrentPanelName());
 					} else {
-						setChanged();
-						notifyObservers(ParentFrameView.FAIL_INVALID_USERNAME);
+						myParentFrame.switchToPanel(ParentFrameView.FAIL_INVALID_USERNAME);
 					}
 					
 					//setChanged();					//This is commented out because I don't think Controller needs to be observable.
@@ -406,6 +405,10 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public String getCurrentPanelName () {
+		return myParentFrame.getCurrentPanelName();
+	}
+	
 	/**
 	 * Sets the field myCurrentUser to theNewUsernameLiteral if it is a valid name within the
 	 * User list.
@@ -468,6 +471,11 @@ public class Controller extends Observable implements Observer {
 	}
 	
 	
+	public User getCurrentUser () {
+		return myCurrentUser;
+	}
+	
+	
 	public void setReviewer(Reviewer theNewReviewer) {
 		myCurrentReviewer = theNewReviewer;
 	}
@@ -481,6 +489,22 @@ public class Controller extends Observable implements Observer {
 	public void setSubprogramChair(SubprogramChair theNewSubprogramChair) {
 		myCurrentSubprogramChair = theNewSubprogramChair;
 	}
+	
+	
+	/**
+	 * Used to test the user in the states without having to add to the database.
+	 * Don't use this when setting the actual user. Pass a string to Controller's Update
+	 * as normal, not a User object.
+	 * 
+	 * @param theNewTestUser The new test user
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public void setTestUser (User theNewTestUser) {
+		myCurrentUser = theNewTestUser;
+	}
+	
 
 
 	/**
@@ -509,6 +533,8 @@ public class Controller extends Observable implements Observer {
 			setSubprogramChair((SubprogramChair) arg1);
 		} else if (arg1 instanceof Manuscript) {
 			addManuscriptToAuthorAndConference((Manuscript) arg1);
+		} else if (arg1 instanceof User) {
+			setTestUser ((User) arg1);
 		}
 	}
 		
