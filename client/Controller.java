@@ -164,15 +164,14 @@ public class Controller extends Observable implements Observer {
 							isOpen = true;
 							break;
 						case SUBPROGRAM_CHAIR:
-							//System.out.println("User chose Subprogram Chair role");
-							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
-							SPCAssignReviewerView subprogramChairView = new SPCAssignReviewerView(); //need to use a static getManuscripts once it's available and pass it here.
+							SPCHomeView subprogramChairView = new SPCHomeView(myCurrentUser, myCurrentConference.getManuscripts(),
+									myCurrentConference);
 							myPreviousStates.push(myLastState);
-							myLastState = ParentFrameView.VIEW_REVIEWERS_LIST_VIEW;
+							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							subprogramChairView.addObserver(myParentFrame);
-							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
+							myParentFrame.addPanel(subprogramChairView.homeViewLayout(), ParentFrameView.SPC_HOME_VIEW);
 							myParentFrame.setUserRole(ParentFrameView.SUBPROGRAM_CHAIR_ROLE);
-							myParentFrame.switchToPanel(ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.SPC_HOME_VIEW);
 							break;
 					}
 					//myCurrentState += LIST_CONFERENCE_VIEW;
