@@ -160,6 +160,7 @@ public class Controller extends Observable implements Observer {
 							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
 							SPCAssignReviewerView subprogramChairView = new SPCAssignReviewerView(); //need to use a static getManuscripts once it's available and pass it here.
 							myPreviousStates.push(myLastState);
+							//This is where default view is being chosen.
 							myLastState = ParentFrameView.VIEW_REVIEWERS_LIST_VIEW;
 							subprogramChairView.addObserver(myParentFrame);
 							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
