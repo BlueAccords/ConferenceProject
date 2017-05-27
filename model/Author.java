@@ -97,9 +97,7 @@ public class Author extends User implements Serializable{
 	 * @version 4/30/2017
 	 */
 	public ArrayList<Manuscript> getMyManuscripts() {
-		ArrayList<Manuscript> myManuscriptsCopy = new ArrayList<Manuscript>();
-		myManuscriptsCopy.addAll(myManuscripts);
-		return myManuscriptsCopy;
+		return myManuscripts;
 	}
 	
 	
