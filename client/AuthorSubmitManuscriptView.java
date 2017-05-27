@@ -15,13 +15,17 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Author;
+import model.Conference;
 import model.Manuscript;
 
 public class AuthorSubmitManuscriptView extends Observable {
 	private Author myAuthor;
+	
+	private Conference myConference;
 
-	public AuthorSubmitManuscriptView(Author theAuthor) {
+	public AuthorSubmitManuscriptView(Author theAuthor, Conference theConference) {
 		myAuthor = theAuthor;
+		myConference = theConference;
 	}
 	
 	/**
@@ -59,6 +63,21 @@ public class AuthorSubmitManuscriptView extends Observable {
 		    }  
 		});
 		
+		ManuscriptSubmitButton.setEnabled(false);
+		JButton AuthorSubmitButton = new JButton("Click to verify Authors");
+		AuthorSubmitButton.setActionCommand("Verify Authors");
+		
+		AuthorSubmitButton.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
+				String[] AuthorList = textArea.getText().split(",");
+				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+					ManuscriptSubmitButton.setEnabled(true);
+				} else {
+					
+				}
+		    }  
+		});
+		
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
 		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
@@ -86,5 +105,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		
 		return createManuscriptPanel;
 	}
+	
+
 
 }
