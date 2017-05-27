@@ -41,6 +41,9 @@ public class Manuscript implements Serializable{
 	/** The list of reviews given to this manuscript. */
 	private ArrayList<File> myReviews;
 	
+	/** The list of reviewers assigned to this manuscript. */
+	private ArrayList<Reviewer> myReviewerList;
+	
 	/** The minimum number of reviews in order for this manuscript 
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
@@ -68,6 +71,7 @@ public class Manuscript implements Serializable{
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
 		myRecommendation = null;
+		myReviewerList = new ArrayList<Reviewer>();
 		
 	}
 	
@@ -220,6 +224,10 @@ public class Manuscript implements Serializable{
 	 * @version 5/42/17
 	 */
 	public File getRecommendation(){
+		
+	
+			
+		
 		return myRecommendation;
 	}
 	
@@ -287,6 +295,27 @@ public class Manuscript implements Serializable{
 	}
 
 	
+	/**
+	 * @return the myReviewerList
+	 */
+	public ArrayList<Reviewer> getReviewerList() {
+		return myReviewerList;
+	}
+
+
+	public static int getSufficientReviews() {
+		return SUFFICIENT_REVIEWS;
+	}
+
+
+	/**
+	 * @param myReviewerList the myReviewerList to set
+	 */
+	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
+		this.myReviewerList = myReviewerList;
+	}
+
+
 	/**
 	 * Custom Exception to throw when author is found within the author list already.
 	 * 
