@@ -197,6 +197,9 @@ public class Controller extends Observable implements Observer {
 						if (lastView.equals(ParentFrameView.LOGIN_PANEL_VIEW)) {
 							changeState(LOG_OUT_STATE);
 						} else {
+							if (lastView.equals(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW)) {
+								isOpen = !isOpen;
+							}
 							myLastState = lastView;
 							myParentFrame.switchToPanel(lastView);
 						}
