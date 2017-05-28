@@ -52,16 +52,16 @@ public class Conference implements Serializable{
 	private ArrayList<Manuscript> myManuscripts;
 	
 	/** All Authors with Manuscripts's submitted to the conference. */
-	private ArrayList<Author> conferenceAuthors;
+	private ArrayList<Author> myConferenceAuthors;
 	
 	/** All eligible reviewers in the conference. */
-	private ArrayList<Reviewer> conferenceReviewers;	
+	private ArrayList<Reviewer> myConferenceReviewers;	
 	
 	/** All conference SPCs. */
-	private ArrayList<SubprogramChair> conferenceSubprogramChairs;
+	private ArrayList<SubprogramChair> myConferenceSubprogramChairs;
 	
 	/** The conference Program Chair. */
-	private User conferenceProgramChair;
+	private User myConferenceProgramChair;
 	
 	/**
 	 * Constructors for the object.
@@ -80,9 +80,9 @@ public class Conference implements Serializable{
 		myRecDeadline = new Date(theRecommendationDeadline.getTime());
 		myFinalDeadline = new Date(theFinalDecisionDeadline.getTime());
 		myManuscripts = new ArrayList<Manuscript>();
-		conferenceAuthors = new ArrayList<Author>();
-		conferenceReviewers = new ArrayList<Reviewer>();
-		conferenceSubprogramChairs = new ArrayList<SubprogramChair>();
+		myConferenceAuthors = new ArrayList<Author>();
+		myConferenceReviewers = new ArrayList<Reviewer>();
+		myConferenceSubprogramChairs = new ArrayList<SubprogramChair>();
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class Conference implements Serializable{
 	 */
 	public Author getAuthor(User theUser) {
 		Author matchingAuthor = null;
-		for (Author author : conferenceAuthors) {
+		for (Author author : myConferenceAuthors) {
 			if (author.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingAuthor = author;
 			}
@@ -167,7 +167,7 @@ public class Conference implements Serializable{
 	 */
 	public Reviewer getReviewer(User theUser) {
 		Reviewer matchingReviewer = null;
-		for (Reviewer reviewer : conferenceReviewers) {
+		for (Reviewer reviewer : myConferenceReviewers) {
 			if (reviewer.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingReviewer = reviewer;
 			}
@@ -185,7 +185,7 @@ public class Conference implements Serializable{
 	 */
 	public SubprogramChair getSubprogramChair(User theUser) {
 		SubprogramChair matchingSPC = null;
-		for (SubprogramChair subPC : conferenceSubprogramChairs) {
+		for (SubprogramChair subPC : myConferenceSubprogramChairs) {
 			if (subPC.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingSPC = subPC;
 			}
@@ -233,7 +233,7 @@ public class Conference implements Serializable{
 			} else { //This user is not yet an author, create a new Author in the conference for them.
 				potentialAuthor = author;
 				potentialAuthor.addManuscript(theManuscript);
-				conferenceAuthors.add(potentialAuthor);
+				myConferenceAuthors.add(potentialAuthor);
 				
 			}
 		}
@@ -325,7 +325,7 @@ public class Conference implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public ArrayList<SubprogramChair> getConfSPCs () {
-		return conferenceSubprogramChairs;
+		return myConferenceSubprogramChairs;
 	}
 	
 	/**
@@ -335,7 +335,7 @@ public class Conference implements Serializable{
 	 * @version 4/28/2017
 	 */
 	public User getConfPC () {
-		return conferenceProgramChair;
+		return myConferenceProgramChair;
 	}
 	
 	/**
@@ -346,7 +346,7 @@ public class Conference implements Serializable{
 	 */
 	public Reviewer addReviewer(User theUser) {
 		Reviewer newRev = new Reviewer(theUser);
-		conferenceReviewers.add(newRev);
+		myConferenceReviewers.add(newRev);
 		return newRev;
 	}
 	
@@ -358,7 +358,7 @@ public class Conference implements Serializable{
 	 * @version: 5/1/2017
 	 */
 	public void addSubprogramChair(SubprogramChair theSubprogramChair) {
-		conferenceSubprogramChairs.add(theSubprogramChair);
+		myConferenceSubprogramChairs.add(theSubprogramChair);
 	}
 	
 	/**
@@ -387,8 +387,8 @@ public class Conference implements Serializable{
 	 */
 	public boolean isUserReviewer(User theUser) {
 		boolean isReviewer = false;
-		for (int i = 0; i < conferenceReviewers.size(); i++ ) {
-			if (conferenceReviewers.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+		for (int i = 0; i < myConferenceReviewers.size(); i++ ) {
+			if (myConferenceReviewers.get(i).getUser().getEmail().equals(theUser.getEmail())) {
 				isReviewer = true;
 			}
 		}
@@ -403,8 +403,8 @@ public class Conference implements Serializable{
 	 */
 	public boolean isUserSubprogramChair(User theUser) {
 		boolean isSubprogramChair = false;
-		for (int i = 0; i < conferenceSubprogramChairs.size(); i++ ) {
-			if (conferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+		for (int i = 0; i < myConferenceSubprogramChairs.size(); i++ ) {
+			if (myConferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
 				isSubprogramChair = true;
 			}
 		}
@@ -434,6 +434,11 @@ public class Conference implements Serializable{
 		
 		return returnList;
 	}
+	
+	
+	
+	public ArrayList<Reviewer> getEligibleReviewers
+	
 
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.
