@@ -29,6 +29,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -41,6 +42,15 @@ import java.util.Observable;
  *
  */
 public class AuthorManuscriptListTableView extends Observable implements ActionListener {
+
+	/**
+	 * JButton Action Command Constants
+	 */
+    public static final String ADD_NEW_MANUSCRIPT = "ADD_NEW_MANUSCRIPT";
+    public static final String DELETE_MANSUCRIPT = "DELETE_MANUSCRIPT";
+    public static final String VIEW_MORE_INFO = "VIEW_MORE_INFO";
+    public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
+
     private boolean DEBUG = false;
     private JPanel myPanel;
     private JPanel myButtonPanel;
@@ -58,26 +68,19 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private boolean isAuthorAtMaxLimit;
     private boolean isAuthorPastSubmissionDeadline;
     
-    /**
-     *  used to disable action buttons until a table row is selected
-     */
-    private boolean myManuscriptRowIsSelected = false;
     
     /**
      * Used to store the currently selected manuscript from the manuscript table.
      * This is the manuscript that will be passed to the controller on add or delete
      */
     private Manuscript myCurrentlySelectedManuscript;
-    
-    public static final String ADD_NEW_MANUSCRIPT = "ADD_NEW_MANUSCRIPT";
-    public static final String DELETE_MANSUCRIPT = "DELETE_MANUSCRIPT";
-    public static final String VIEW_MORE_INFO = "VIEW_MORE_INFO";
-    public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
 
     private ArrayList<Manuscript> myCurrentManuscriptList;
+    private Conference myCurrentConference;
  
-    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
+    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList, Conference theConference) {
     	myCurrentManuscriptList = theManuscriptList;
+    	myCurrentConference = theConference;
     	myPanel = new JPanel(new BorderLayout());
  
         /**
@@ -154,7 +157,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		this.myDeleteManuscriptBtn.addActionListener(this);
 		this.myDeleteManuscriptBtn.setActionCommand(this.DELETE_MANSUCRIPT);
 
-
         this.myViewMoreInfoBtn = new JButton("View More Info");
         this.myViewMoreInfoBtn.setEnabled(false);
         this.myViewMoreInfoBtn.addActionListener(this);
@@ -178,9 +180,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         	this.myAddNewManuscriptBtn.setEnabled(false);
         	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
         	+ " Manuscript Submissions per conference");
-        // TODO: check if submission is past deadline.
-        } else if(false) {
-        	
+        } else if(myCurrentConference.getManuscriptDeadline().getTime() <= new Date().getTime()) {
+			this.myAddNewManuscriptBtn.setEnabled(false);
+        	this.myAddNewManuscriptBtn.setToolTipText("Manuscript Submission Deadline of "
+        			+ myCurrentConference.getManuscriptDeadline().toString() + " is already past for this conference"
+        			+ "Cannot submit a new Manuscript.");
+
         } else {
         	// clear tool tip
         	this.myAddNewManuscriptBtn.setToolTipText(null);
@@ -219,7 +224,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		
 		switch(action) {
 			case ADD_NEW_MANUSCRIPT:
-				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 				setChanged();
 				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 				break;
@@ -231,7 +235,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				notifyObservers(Controller.AUTHOR + Controller.DELETE_MANUSCRIPT);
 				break;
 			case VIEW_MORE_INFO:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 				StringBuilder authorNames = new StringBuilder();
 				for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
 					authorNames.append(author.getUser().getEmail() + "\n");
@@ -239,7 +242,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
 			case DOWNLOAD_MANUSCRIPT:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 				break;
 
 		}

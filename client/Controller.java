@@ -160,7 +160,8 @@ public class Controller extends Observable implements Observer {
 							ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 							// init manuscript list view
-							AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
+							AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList,
+									myCurrentConference);
 							
 							// store state history
 							myPreviousStates.push(myLastState);
@@ -271,7 +272,8 @@ public class Controller extends Observable implements Observer {
 							ArrayList<Manuscript> authorManuscriptListForRedirect = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 							// init manuscript list view
-							AuthorManuscriptListTableView manuscriptListViewForRedirect = new AuthorManuscriptListTableView(authorManuscriptListForRedirect);
+							AuthorManuscriptListTableView manuscriptListViewForRedirect = new AuthorManuscriptListTableView(authorManuscriptListForRedirect,
+									myCurrentConference);
 							
 							// store state history
 							myPreviousStates.push(myLastState);
@@ -289,7 +291,8 @@ public class Controller extends Observable implements Observer {
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 								// init manuscript list view
-								AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
+								AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList,
+										myCurrentConference);
 								
 								// store state history
 								myPreviousStates.push(myLastState);
@@ -337,7 +340,7 @@ public class Controller extends Observable implements Observer {
 						case DELETE_MANUSCRIPT:
 							removeManuscriptFromAuthorAndConference(myCurrentManuscript);
 							AuthorManuscriptListTableView manuscriptListTableView = new AuthorManuscriptListTableView(myCurrentConference
-									.getManuscriptsBelongingToAuthor(myCurrentAuthor));
+									.getManuscriptsBelongingToAuthor(myCurrentAuthor), myCurrentConference);
 							manuscriptListTableView.addObserver(myParentFrame);
 							myParentFrame.addPanel(manuscriptListTableView.getMyPanel(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
 							myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
