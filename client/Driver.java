@@ -109,6 +109,7 @@ public class Driver {
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
 			
+			/* Temporarily removing redundant reviewer/reviews for manu1
 			
 			manu1.addReviewer(testReviewer1);
 			manu1.addReviewer(testReviewer2);
@@ -116,6 +117,7 @@ public class Driver {
 			manu1.addReview(new File(""));
 			manu1.addReview(new File(""));
 			manu1.addReview(new File(""));
+			*/
 			
 			// Manuscripts for user with max # of manuscripts
 			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);
