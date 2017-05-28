@@ -45,6 +45,18 @@ public class UserTest {
 				.equals("Sherlock"));
 	}
 	
+	/**
+	 * Tests for the setEmail and getEmail methods that they are doing their jobs correctly.
+	 * 
+	 * @author Casey Anderson
+	 * @version 5/27/2017
+	 */
+	@Test
+	public void setEmailAndgetEmail_TestEmailSetIsTheSameAsReturned_ReturnEmailSet() {
+		myTestUser.setEmail("jimmy@email.com");
+		assertTrue("Email not set or returned correctly: " + myTestUser.getEmail(), myTestUser.getEmail()
+				.equals("jimmy@email.com"));
+	}
 	
 	/**
 	 * Tests for the setEmail to make sure it is setting the new email correctly. getEmail does not have to be tested

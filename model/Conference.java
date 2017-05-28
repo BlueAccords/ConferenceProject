@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Author.ManuscriptNotInListException;
+
 /**
  * This class represents a conference object and stores all relevant information, related papers and users.
  * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
@@ -20,10 +22,16 @@ public class Conference implements Serializable{
 	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
-	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
+	public static final int MAX_AUTHOR_SUBMISSIONS = 5;
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
+
+	/** A static conference list that holds all the current conferences. 
+	 *  All changes to conferences should be done to this list and then it will be saved to a local
+	 *  serialized object upon program exit.
+	 */
+	private static ArrayList<Conference> myConferenceList;
 	
 	/** The name of the conference. */
 	private String myConferenceName;
@@ -44,16 +52,16 @@ public class Conference implements Serializable{
 	private ArrayList<Manuscript> myManuscripts;
 	
 	/** All Authors with Manuscripts's submitted to the conference. */
-	private ArrayList<Author> conferenceAuthors;
+	private ArrayList<Author> myConferenceAuthors;
 	
 	/** All eligible reviewers in the conference. */
-	private ArrayList<Reviewer> conferenceReviewers;	
+	private ArrayList<Reviewer> myConferenceReviewers;	
 	
 	/** All conference SPCs. */
-	private ArrayList<SubprogramChair> conferenceSubprogramChairs;
+	private ArrayList<SubprogramChair> myConferenceSubprogramChairs;
 	
 	/** The conference Program Chair. */
-	private User conferenceProgramChair;
+	private User myConferenceProgramChair;
 	
 	/**
 	 * Constructors for the object.
@@ -72,9 +80,9 @@ public class Conference implements Serializable{
 		myRecDeadline = new Date(theRecommendationDeadline.getTime());
 		myFinalDeadline = new Date(theFinalDecisionDeadline.getTime());
 		myManuscripts = new ArrayList<Manuscript>();
-		conferenceAuthors = new ArrayList<Author>();
-		conferenceReviewers = new ArrayList<Reviewer>();
-		conferenceSubprogramChairs = new ArrayList<SubprogramChair>();
+		myConferenceAuthors = new ArrayList<Author>();
+		myConferenceReviewers = new ArrayList<Reviewer>();
+		myConferenceSubprogramChairs = new ArrayList<SubprogramChair>();
 	}
 	
 	/**
@@ -141,7 +149,7 @@ public class Conference implements Serializable{
 	 */
 	public Author getAuthor(User theUser) {
 		Author matchingAuthor = null;
-		for (Author author : conferenceAuthors) {
+		for (Author author : myConferenceAuthors) {
 			if (author.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingAuthor = author;
 			}
@@ -159,7 +167,7 @@ public class Conference implements Serializable{
 	 */
 	public Reviewer getReviewer(User theUser) {
 		Reviewer matchingReviewer = null;
-		for (Reviewer reviewer : conferenceReviewers) {
+		for (Reviewer reviewer : myConferenceReviewers) {
 			if (reviewer.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingReviewer = reviewer;
 			}
@@ -177,7 +185,7 @@ public class Conference implements Serializable{
 	 */
 	public SubprogramChair getSubprogramChair(User theUser) {
 		SubprogramChair matchingSPC = null;
-		for (SubprogramChair subPC : conferenceSubprogramChairs) {
+		for (SubprogramChair subPC : myConferenceSubprogramChairs) {
 			if (subPC.getUser().getEmail().equals(theUser.getEmail())) {
 				matchingSPC = subPC;
 			}
@@ -194,7 +202,7 @@ public class Conference implements Serializable{
 	public ArrayList<Manuscript> getManuscripts() {
 		ArrayList<Manuscript> copy = new ArrayList<Manuscript>();
 		copy.addAll(myManuscripts);
-		return myManuscripts;
+		return copy;
 	}
 	
 	/**
@@ -216,22 +224,56 @@ public class Conference implements Serializable{
 			throw new Exception("An Author or Coauthor has already submitted max Papers.");
 		}
 		
+		
 		//Now add paper to its respective author and create a new author if necessary. 
-		for (User author : theManuscript.getAuthors()) {
+		for (Author author : theManuscript.getAuthors()) {
 			Author potentialAuthor = getAuthor(author);
 			if (potentialAuthor != null) { //Author already exists, add the manuscript to them.
 				potentialAuthor.addManuscript(theManuscript);
 			} else { //This user is not yet an author, create a new Author in the conference for them.
-				potentialAuthor = new Author(author);
+				potentialAuthor = author;
 				potentialAuthor.addManuscript(theManuscript);
-				conferenceAuthors.add(potentialAuthor);
+				myConferenceAuthors.add(potentialAuthor);
 				
 			}
 		}
 		
 		//No exceptions thrown so it is ok to add the paper.
 		myManuscripts.add(theManuscript);
+		// update static conference list
+		Conference.updateConferenceInList(this);
 	}
+	
+	
+	/**
+	 * Removes the given Manuscript from each of its Authors' lists.
+	 * 
+	 * Pre: theManuscriptToRemove cannot be null
+	 * 
+	 * @param theManuscriptToRemove The Manuscript to remove
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public void removeManuscript(Manuscript theManuscriptToRemove) {
+		for (Author author: theManuscriptToRemove.getAuthors()) {
+			author.printManuscriptTitles();
+			try {
+				author.removeManuscript(theManuscriptToRemove);
+				author.printManuscriptTitles();
+			} catch (ManuscriptNotInListException e) {
+				// TODO Auto-generated catch block
+				System.out.println("\n\nManuscript not found!!!!\n\n");
+			}
+			System.out.println();
+		}
+		
+		if (myManuscripts.contains(theManuscriptToRemove))
+			myManuscripts.remove(theManuscriptToRemove);
+		
+		Conference.updateConferenceInList(this);
+	}
+	
 	
 	/**
 	 * This method will get the author's email's from the paper, look at each paper
@@ -247,7 +289,6 @@ public class Conference implements Serializable{
 		boolean check = true;	
 		ArrayList<User> authors = new ArrayList<User>();
 		authors.addAll(theManuscript.getAuthors());
-		//System.out.println(authors.size());
 		for (User author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
@@ -284,7 +325,7 @@ public class Conference implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public ArrayList<SubprogramChair> getConfSPCs () {
-		return conferenceSubprogramChairs;
+		return myConferenceSubprogramChairs;
 	}
 	
 	/**
@@ -294,33 +335,135 @@ public class Conference implements Serializable{
 	 * @version 4/28/2017
 	 */
 	public User getConfPC () {
-		return conferenceProgramChair;
+		return myConferenceProgramChair;
 	}
 	
 	/**
 	 * This method will add the passed User as a reviewer for the conference.
 	 * @param theReviewer the ID for the reviewer to be added
-	 * @author: Ian Waak
-	 * @version: 4/30/2017
+	 * @author: Ian Waak, Connor Lundberg
+	 * @version: 5/27/2017
 	 */
-	public Reviewer addReviewer(User theUser) {
-		Reviewer newRev = new Reviewer(theUser);
-		conferenceReviewers.add(newRev);
-		return newRev;
+	public Reviewer addReviewer(Reviewer theReviewer) {
+		//Reviewer newRev = new Reviewer(theUser);
+		myConferenceReviewers.add(theReviewer);
+		return theReviewer;
 	}
 	
 	/**
-	 * This method will add the passed User as a Subprogram Chair for the conference
+	 * This method will add the passed Subprogram Chair as a Subprogram Chair for the conference
 	 * @param theReviewer the ID for the reviewer to be added
 	 * @author: James Roberts
+	 * @author Morgan Blackmore
 	 * @version: 5/1/2017
 	 */
-	public SubprogramChair addSubprogramChair(User theUser) {
-		SubprogramChair newSPC = new SubprogramChair(theUser);
-		conferenceSubprogramChairs.add(new SubprogramChair(theUser));
-		return newSPC;
+	public void addSubprogramChair(SubprogramChair theSubprogramChair) {
+		myConferenceSubprogramChairs.add(theSubprogramChair);
+	}
+	
+	/**
+	 * Method to determine if theUser is already Author for this Conference.
+	 * @param theUser is the user to be checked is it is Author in this Conference.
+	 * @return A boolean to reflect if theUser is Author in this Conference.
+	 * @author Casey Anderson
+	 */
+	public boolean isUserAuthor(User theUser) {
+		boolean isAuthor = false;
+		for (int i = 0; i < myManuscripts.size(); i++ ) {
+			for (int j = 0; j < myManuscripts.get(i).getAuthorEmails().size(); j++) {
+				if (myManuscripts.get(i).getAuthorEmails().get(j).equals(theUser.getEmail())) {
+					isAuthor = true;
+				}
+			}
+		}
+		return isAuthor;
+	}
+	
+	/**
+	 * Method to determine if theUser is already Reviewer for this Conference.
+	 * @param theUser is the user to be checked is it is Reviewer in this Conference.
+	 * @return A boolean to reflect if theUser is Reviewer in this Conference.
+	 * @author Casey Anderson
+	 */
+	public boolean isUserReviewer(User theUser) {
+		boolean isReviewer = false;
+		for (int i = 0; i < myConferenceReviewers.size(); i++ ) {
+			if (myConferenceReviewers.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+				isReviewer = true;
+			}
+		}
+		return isReviewer;
+	}
+	
+	/**
+	 * Method to determine if theUser is already Subprogram Chair for this Conference.
+	 * @param theUser is the user to be checked is it is Subprogram Chair in this Conference.
+	 * @return A boolean to reflect if theUser is Subprogram Chair in this Conference.
+	 * @author Casey Anderson
+	 */
+	public boolean isUserSubprogramChair(User theUser) {
+		boolean isSubprogramChair = false;
+		for (int i = 0; i < myConferenceSubprogramChairs.size(); i++ ) {
+			if (myConferenceSubprogramChairs.get(i).getUser().getEmail().equals(theUser.getEmail())) {
+				isSubprogramChair = true;
+			}
+		}
+		return isSubprogramChair;
 	}
 
+	/**
+	 * This method will return a list of manuscripts that belong to this
+	 * conference as well as contains the passed in author as the manuscript author.
+	 * 
+	 * PreConditions:
+	 * 	theAuthor must be non-null
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theAuthor The author to check for ownership over the manuscripts of this conference
+	 * @return A list of manuscripts that belong to this conference and the given author
+	 */
+	public ArrayList<Manuscript> getManuscriptsBelongingToAuthor(Author theAuthor) {
+		ArrayList<Manuscript> returnList = new ArrayList<Manuscript>();
+		
+		for(Manuscript aManu : this.myManuscripts) {
+			if(aManu.doesManuscriptBelongToAuthor(theAuthor)) {
+				returnList.add(aManu);
+			}
+		}
+		
+		return returnList;
+	}
+	
+	
+	
+	/**
+	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
+	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then
+	 * looks reviewer by reviewer to see if any each one is an author of the manuscript. If a match is not found 
+	 * then it will add that reviewer to the eligible reviewers list.
+	 * 
+	 * Pre: theManuscriptToFindReviewersFor cannot be null, nor any of its values.
+	 * Post: The list of eligible reviewers returned won't be null, but can be empty.
+	 * 
+	 * @param theManuscriptToFindReviewersFor The Manuscript to use to get eligible reviewers
+	 * @return A list of eligible reviewers for the given Manuscript
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscriptToFindReviewersFor) {
+		ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
+		//ArrayList<Author> manuscriptAuthors = theManuscriptToFindReviewersFor.getAuthors();
+		for (Reviewer reviewer : myConferenceReviewers) {
+			if (!theManuscriptToFindReviewersFor.doesManuscriptBelongToReviewer(reviewer)) {		//checks if the reviewer is an author of the manuscript
+				eligibleReviewers.add(reviewer); //if not, then add the reviewer to the list
+			}
+		}
+		
+		return eligibleReviewers;
+	}
+	
 
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.
@@ -330,7 +473,9 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public static boolean writeConferences(ArrayList<Conference> theConferences) {
+	public static boolean writeConferences() {
+		ArrayList<Conference> theConferences = myConferenceList;
+
 		FileOutputStream fout = null;
 		ObjectOutputStream oos = null;
 
@@ -363,6 +508,58 @@ public class Conference implements Serializable{
 		}
 		return true;
 	}
+	
+	/**
+	 * Adds the passed in conference to the static conference list in the Conference class.
+	 * Preconditions:
+	 * 	Static Conference list must have been initialized before calling this method
+	 * @param theConference
+	 */
+	public static void addConference(Conference theConference) {
+		myConferenceList.add(theConference);
+	}
+	
+	/**
+	 * This method will update the passed in conference if it exists within the
+	 * Conference class' static list of conferences 
+	 * 
+	 * Preconditions:
+	 * 	static conference list must have been initialized.
+	 * @return
+	 */
+	public static Conference updateConferenceInList(Conference theConference) {
+		boolean confFound = false;
+		Conference confToReturn = null;
+		
+		for(int i = 0; i < myConferenceList.size(); i++) {
+			if(myConferenceList.get(i).getConferenceName().equals(theConference.getConferenceName())) {
+				confFound = true;
+				myConferenceList.set(i, theConference);
+				confToReturn = myConferenceList.get(i);
+			}
+		}
+		
+		return confToReturn;
+	}
+	
+	/**
+	 * This method will initialize the global conference list in memory by deserializing the conference list
+	 * from the serializable object. This should be run only once at the beginning of the program.
+	 * @author Ryan Tran
+	 */
+	public static void initializeConferenceListFromSerializableObject() {
+		myConferenceList = Conference.getConferencesFromSerializedObject();
+	}
+	
+	/**
+	 * Initializes the Conference class' user list to an empty list.
+	 * Note: If you call writeConferences at a later time it will overwrite the locally stored Conference List.
+	 * @author Ryan Tran
+	 */
+	public static void initializeConferenceListToEmptyList() {
+		myConferenceList = new ArrayList<Conference>();
+	}
+
 
 	/**
 	 * Reads the ArrayList of Conferences stored in the file destination the object
@@ -371,7 +568,7 @@ public class Conference implements Serializable{
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
-	public static ArrayList<Conference> getConferences() {
+	public static ArrayList<Conference> getConferencesFromSerializedObject() {
 		ArrayList<Conference> allConfs = new ArrayList<Conference>();
 		FileInputStream fin = null;
 		ObjectInputStream ois = null;
@@ -405,6 +602,16 @@ public class Conference implements Serializable{
 		}
 
 		return allConfs;
+	}
+	
+	/**
+	 * This method will return the Conference class' static conference list.
+	 * Preconditions:
+	 * 	static Conference class must have its conference list initialized.
+	 * @return an array list of conferences
+	 */
+	public static ArrayList<Conference> getConferences() {
+		return myConferenceList;
 	}
 
 }

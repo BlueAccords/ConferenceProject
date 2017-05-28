@@ -30,7 +30,10 @@ public class Manuscript implements Serializable{
 	private String myTitle;
 	
 	/** The body of the manuscript. */
-	private File myManuscript;
+	private File myManuscriptFile;
+	
+	/** The body of the recommendation. */
+	private File myRecommendation;
 	
 	/** The list of authors by username, index 0 is the primary author. */
 	private ArrayList<Author> myAuthors;
@@ -38,12 +41,13 @@ public class Manuscript implements Serializable{
 	/** The list of reviews given to this manuscript. */
 	private ArrayList<File> myReviews;
 	
+	/** The list of reviewers assigned to this manuscript. */
+	private ArrayList<Reviewer> myReviewerList;
+	
 	/** The minimum number of reviews in order for this manuscript 
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
 	
-	/** Current state of whether this manuscript can be recommended. */
-	private boolean isRecommendable;
 	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
@@ -63,10 +67,11 @@ public class Manuscript implements Serializable{
 		myTitle = theTitle;
 		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
-		myManuscript = theManuscriptFile;
+		myManuscriptFile = theManuscriptFile;
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
-		isRecommendable = false;
+		myRecommendation = new File("");
+		myReviewerList = new ArrayList<Reviewer>();
 		
 	}
 	
@@ -114,7 +119,7 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public File getManuscriptFile() {
-		return myManuscript;
+		return myManuscriptFile;
 	}
 	
 	
@@ -127,8 +132,6 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public ArrayList<Author> getAuthors() {
-		ArrayList<Author> copy = new ArrayList<Author>();
-		copy.addAll(myAuthors);
 		return myAuthors;
 	}
 	
@@ -168,22 +171,98 @@ public class Manuscript implements Serializable{
 	 * 
 	 * @author Morgan Blackmore
 	 * @version 5/16/17
+	 * @throws NullPointerException if theReview is null
 	 * 
 	 */
-	public void addReview(File theReview){
-		myReviews.add(theReview);
-		if (myReviews.size() >= SUFFICIENT_REVIEWS){
-			isRecommendable = true;
+	public void addReview(File theReview) throws NullPointerException{
+		if (theReview == null){
+			throw new NullPointerException();
 		}
+		myReviews.add(theReview);
+
 	}
 	
 	/**
-	 * Gets boolean state of isRecommendable field.
+	 * Gets the list of reviews.
+	 * 
 	 * @author Morgan Blackmore
-	 * @version 5/19/17
+	 * @version 5/26/17
+	 * @return ArrayList of reviews myReviews
 	 */
-	public boolean isRecommendable(){
-		return isRecommendable;
+	public ArrayList<File> getReviews(){
+		return new ArrayList<File>(myReviews);
+	}
+	
+	/**
+	 * Instantiates myRecommendation with theRecommendation.
+	 * Checks if this manuscript has sufficient reviews, if not, throws Exception
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/24/17
+	 * @throws Exception if manuscript does not have sufficient reviews
+	 * @throws NullPointerException if theRecommendation is null
+	 * @param theRecommendation file
+	 * 
+	 */
+	public void addRecommendation(File theRecommendation) throws NullPointerException, Exception{
+		if (theRecommendation == null ){
+			throw new NullPointerException();
+		}
+		if (myReviews.size()< SUFFICIENT_REVIEWS) {
+			throw new Exception("Insuffiecient reviews.  Need: " + SUFFICIENT_REVIEWS + " Have: " +myReviews.size());
+		}
+		//if exception not thrown, myRecommendation instantiated
+		myRecommendation = theRecommendation;
+	}
+	
+	/**
+	 * Getter for myRecommendation file 
+	 * Will return null if no recommendation has been submitted yet.
+	 * 
+	 * @return myRecommendation file
+	 * @author Morgan Blackmore
+	 * @version 5/42/17
+	 */
+	public File getRecommendation(){
+		return myRecommendation;
+	}
+	
+	/**
+	 * Checks whether or not the passed in author is part of the list of
+	 * authors for this manuscript.
+	 * 
+	 * Preconditions:
+	 * 	theAuthor must be non-null
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/25/17
+	 * @param theAuthor The author to compare to the list of authors belonging to this manuscript.
+	 * @return A boolean true if author exists within manuscript author list, false otherwise
+	 */
+	public boolean doesManuscriptBelongToAuthor(Author theAuthor) {
+		boolean authorIsFound = false;
+
+		for (Author author : myAuthors) {
+			if(author.getUser().getEmail().equals(theAuthor.getUser().getEmail())) {
+				authorIsFound = true;
+			}
+		}
+
+		return authorIsFound;
+	}
+	
+	
+	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
+		boolean reviewerIsFound = false;
+		
+		for (Author author : myAuthors) {
+			if (author.getUser().getEmail().equals(theReviewer.getUser().getEmail())) {
+				reviewerIsFound = true;
+				break;
+			}
+		}
+		
+		return reviewerIsFound;
 	}
 	
 	/**
@@ -222,10 +301,31 @@ public class Manuscript implements Serializable{
 	 * @version 4/27/2017
 	 */
 	public void updateManuscript(File theManuscript) {
-		myManuscript = theManuscript;
+		myManuscriptFile = theManuscript;
 	}
 
 	
+	/**
+	 * @return the myReviewerList
+	 */
+	public ArrayList<Reviewer> getReviewerList() {
+		return myReviewerList;
+	}
+
+
+	public static int getSufficientReviews() {
+		return SUFFICIENT_REVIEWS;
+	}
+
+
+	/**
+	 * @param myReviewerList the myReviewerList to set
+	 */
+	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
+		this.myReviewerList = myReviewerList;
+	}
+
+
 	/**
 	 * Custom Exception to throw when author is found within the author list already.
 	 * 
@@ -252,4 +352,6 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
+
+
 }

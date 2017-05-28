@@ -8,11 +8,12 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SubprogramChair implements Serializable{
+public class SubprogramChair extends User implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -6999273827761122770L;
@@ -35,12 +36,27 @@ public class SubprogramChair implements Serializable{
 	 * @param aUser the User associated with this SPC.
 	 */
 	public SubprogramChair(User aUser) {
+		super("");
 		//no defensive copy made, we want this to act as a pointer.
 		myUser = aUser;
 		assignedManuscriptsSPC = new ArrayList<Manuscript>();
 	    assignedReviewers = new ArrayList<Reviewer>();
 	}
 	
+	/**
+	 * Constructor that takes an arrayList of assignedManuscripts.
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/27/17
+	 * 
+	 */
+	public SubprogramChair(User aUser, ArrayList<Manuscript> theAssignedManuscripts) {
+		super("");
+		myUser = aUser;
+		assignedManuscriptsSPC = theAssignedManuscripts;
+	    assignedReviewers = new ArrayList<Reviewer>();
+		
+	}
 	/**
 	 * Getter for a User type.
 	 * @return the User associated with the SPC.
@@ -159,6 +175,15 @@ public class SubprogramChair implements Serializable{
 		}
 		
 		/**
+		 * Getter for MAX_REVIEW_PAPERS Limit
+		 * 
+		 * @return int value of MAX_REVIEW_PAPERS 
+		 */
+		public int getMaxReviewPapers(){
+			return MAX_REVIEW_PAPERS;
+		}
+		
+		/**
 		 * Checks if the Passed User is an Author or CoAuthor of the passed Paper.
 		 * @author Ayub Tiba
 		 * @param theReviewer The Reviewer to check.
@@ -183,29 +208,24 @@ public class SubprogramChair implements Serializable{
 		
 		/**
 		 * Checks whether theConference deadline for manuscript submission
-		 * exceeds todays date.  If so (the deadline is still in the future), 
-		 * the Subprogram Chair is not able to assign reviewer.
+		 * is after theDate.  If so (the deadline is still in the future)
+		 * and will return false.
+		 * 
 		 *
 		 * @author Morgan Blackmore
 		 * @version 5/19/17
-		 * @return boolean value whether a reviewer can be assigned.
+		 * @return boolean true if manuscriptSubmissionDeadline is after theDate
 		 */
-		public boolean isAbleToAssignReviewer(Conference theConference, Manuscript theManuscript){
-			//if (theConference.getPaperDeadline() > Date.
+		public boolean isAfterSubmissionDeadline(Conference theConference, Date theDate){
+			if (theConference.getManuscriptDeadline().before(theDate)){//is conferenceDL before theDate, if so, return False
+				return false; 
+			} else {
+				return true;	
+			}
 		
-			return false;
-		}
-		//I think the check for reviews should go into manuscript class.
-		/**
-		 * Checks whether theManuscript has at least SUFFICIENT_REVIEWS.
-		 * If so, returns true.
-		 * 
-		 * @return whether theManuscript has at least SUFFICIENT_REVIEWS
-		 */
-		public boolean isAbleToRecommend(){
 			
-			return false;
 		}
+
 		
 		/**
 		 * This function gets a list of all eligible reviewers.

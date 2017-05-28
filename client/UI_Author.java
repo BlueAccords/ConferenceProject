@@ -1,21 +1,27 @@
 package client;
 
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.Author;
 import model.Conference;
 import model.Manuscript;
 
@@ -39,6 +45,8 @@ public class UI_Author extends Observable {
 	 */
 	private int myCounter;
 	
+	private Author myAuthor;
+
 	/**
 	 * 
 	 */
@@ -48,7 +56,8 @@ public class UI_Author extends Observable {
 	 * Constructor to initialize fields.
 	 * @author Casey Anderson
 	 */
-	public UI_Author() {
+	public UI_Author(Author theAuthor) {
+		myAuthor = theAuthor;
 		myManuscriptList = new ArrayList<Manuscript>();
 		myCounter = 0;		
 	}
@@ -62,7 +71,8 @@ public class UI_Author extends Observable {
 	 * @author Connor Lundberg
 	 * @version 5/23/201
 	 */
-	public UI_Author(ArrayList<Manuscript> theManuscriptList) {
+	public UI_Author(ArrayList<Manuscript> theManuscriptList, Author theAuthor) {
+		myAuthor = theAuthor;
 		myManuscriptList = theManuscriptList;
 		myCounter = 0;
 	}
@@ -75,35 +85,36 @@ public class UI_Author extends Observable {
 	 */
 	public JPanel createConferenceOptions() {
 		
-		JPanel conferenceOptionPanel = new JPanel(new GridLayout(0,1));		
+		JPanel conferenceOptionButtonPanel = new JPanel(new GridLayout(0,1));		
+		JPanel ConferenceOptionPanel = new JPanel(new GridBagLayout());
 		JButton submitButton = new JButton("Submit Manuscript");
 		submitButton.setActionCommand("Submit Manuscript");
 		
 		submitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-		        notifyObservers("Submit Manuscript");  
+		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);  
 		    }  
 		});
 		
-		conferenceOptionPanel.add(submitButton);
+		conferenceOptionButtonPanel.add(submitButton);
 		JButton viewManuscriptButton = new JButton("View Manuscripts");
 		viewManuscriptButton.setActionCommand("View Manuscripts");
 		
 		viewManuscriptButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-				notifyObservers("View Manuscripts");  
+				notifyObservers(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);  
 		    }  
 		});
 		
-		conferenceOptionPanel.add(viewManuscriptButton);		
-		conferenceOptionPanel.setOpaque(true);
+		conferenceOptionButtonPanel.add(viewManuscriptButton);		
+		conferenceOptionButtonPanel.setOpaque(true);
 		
-		conferenceOptionPanel.setBorder(BorderFactory.createTitledBorder(
+		conferenceOptionButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference Options"));
-		
-		return conferenceOptionPanel;
+		ConferenceOptionPanel.add(conferenceOptionButtonPanel);
+		return ConferenceOptionPanel;
 		
 	}
 	
@@ -165,7 +176,7 @@ public class UI_Author extends Observable {
 	public JPanel submitManuscriptView() {
 		
 		// JPanels for for view.
-		JPanel createManuscriptPanel = new JPanel();
+		JPanel createManuscriptPanel = new JPanel(new GridLayout(3,1));
 		JPanel manuscriptTitlePanel = new JPanel();
 		JPanel manuscriptAuthorsPanel = new JPanel();
 		JPanel ManuscriptFilePanel = new JPanel();
@@ -173,25 +184,28 @@ public class UI_Author extends Observable {
 		
 		// JTextField and JTextArea for gathering authors Manuscript information.
 		JTextField manuscriptTitleField = new JTextField(20);
-		JTextField manuscriptFileField = new JTextField(20);
-		JTextArea textArea = new JTextArea("Please Enter Author name and all Co-Authors seperated by a comma ','", 5, 20);
+		JFileChooser manuscriptFileChooser = new JFileChooser();
+		JTextArea textArea = new JTextArea(5, 20);
 		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setLineWrap(true);
 		
 		// Submission button.
 		JButton ManuscriptSubmitButton = new JButton("Submit");
-		ManuscriptSubmitButton.setActionCommand("Delete Manuscript");
+		ManuscriptSubmitButton.setActionCommand("Submit Manuscript");
 		
 		ManuscriptSubmitButton.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
+			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
+				Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
 				setChanged();
-				notifyObservers(manuscriptTitleField.getText() + "," + textArea.getText() + "," + manuscriptFileField.getText());  
+				notifyObservers(newManuscript);  
+				setChanged();
+				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
 		    }  
 		});
 		
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
-		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript: ");
+		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
 		JLabel ManuscriptFileLabel = new JLabel("Enter File Path: ");
 			
 		manuscriptTitlePanel.add(ManuscriptTitleLabel);
@@ -199,7 +213,8 @@ public class UI_Author extends Observable {
 		manuscriptAuthorsPanel.add(ManuscriptAuthorsLabel);
 		manuscriptAuthorsPanel.add(textArea);
 		ManuscriptFilePanel.add(ManuscriptFileLabel);
-		ManuscriptFilePanel.add(manuscriptFileField);
+		ManuscriptFilePanel.add(manuscriptFileChooser);
+		ManuscriptSubmitPanel.add(ManuscriptSubmitButton);
 		createManuscriptPanel.add(manuscriptTitlePanel);
 		createManuscriptPanel.add(manuscriptAuthorsPanel);
 		createManuscriptPanel.add(ManuscriptFilePanel);
@@ -219,11 +234,15 @@ public class UI_Author extends Observable {
 	
 	/**
 	 * Method to create view to display all manuscripts belonging to author.
+	 * 
 	 * @return JPanel to display Manuscripts for selection.
+	 * 
+	 * @author Casey Anderson, Connor Lundberg
+	 * @version 5/27/2017
 	 */
 	public JPanel viewManuscriptListView() {
-		
-		JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
+		JPanel manuscriptListPanel = new JPanel(new GridBagLayout());
+		JPanel manuscriptButtonPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		
 		for (myCounter = 0; myCounter < myManuscriptList.size(); myCounter++) {
@@ -233,23 +252,67 @@ public class UI_Author extends Observable {
 			
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
-					setChanged();
-				    notifyObservers(myManuscriptList.get(myCounter).getTitle());  
+					int manuIndex = getClickedManuscript (group, e);
+					if (manuIndex >= 0) {
+						setChanged();
+						notifyObservers(myManuscriptList.get(manuIndex)); 
+						setChanged();
+						notifyObservers(Controller.AUTHOR + Controller.LIST_MANUSCRIPT_VIEW);
+					} else {
+						System.out.println("Manuscript not found!");
+					}
 		        }  
 		    });
 			
 			group.add(button);
-			manuscriptListPanel.add(button);
+			manuscriptButtonPanel.add(button);
 			
 		}
 		
-		manuscriptListPanel.setOpaque(true);
+		manuscriptButtonPanel.setOpaque(true);
 		
-		manuscriptListPanel.setBorder(BorderFactory.createTitledBorder(
+		manuscriptButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Manuscript List"));
-		
+		manuscriptListPanel.add(manuscriptButtonPanel);
 		return manuscriptListPanel;
 		
+	}
+	
+	
+	/**
+	 * This method will return the index Manuscript linked to the button clicked
+	 * by iterating through the button group, and seeing which button was pressed and
+	 * finding the same Manuscript in the Manuscript list with that index.
+	 * 
+	 * @param theBtnGroup the button group containing the button that was pressed
+	 * @param theAction The action, we are comparing the action's parent button to the button group
+	 * @return the index of the Manuscript object that is linked to the pressed button
+	 * 
+	 * @author Ryan Tran, Connor Lundberg
+	 * @version 5/25/17
+	 */
+	private int getClickedManuscript (ButtonGroup theBtnGroup, ActionEvent theAction) {
+		int i = 0;
+		boolean manuFound = false;
+
+		Enumeration groupElements = theBtnGroup.getElements();
+		while (groupElements.hasMoreElements()) {
+			AbstractButton originalGroupBtn = (AbstractButton)groupElements.nextElement();
+			JButton actionSrcBtn = ((JButton)theAction.getSource());
+			
+			if(originalGroupBtn.equals(actionSrcBtn)) {
+				manuFound = true;
+				break;
+			}
+			
+			i++;
+		}
+		
+		if(manuFound) {
+			return i;
+		} else {
+			return -1;
+		}
 	}
 	
 }

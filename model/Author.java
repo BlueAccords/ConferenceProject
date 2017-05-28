@@ -21,6 +21,8 @@ public class Author extends User implements Serializable{
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -1841250627863643455L;
 
+	public static final int MAX_MANUSCRIPT_LIMIT = 5;
+	
 	/** The User associated with this author. */
 	private User myUser;
 	
@@ -93,13 +95,38 @@ public class Author extends User implements Serializable{
 	 * 
 	 * @return Collection of the Manuscripts a user has submitted to a conference.
 	 * 
-	 * @author Ayub Tiba, Jamesm Roberts
+	 * @author Ayub Tiba, Jamesm Roberts, Casey Anderson
 	 * @version 4/30/2017
 	 */
 	public ArrayList<Manuscript> getMyManuscripts() {
-		ArrayList<Manuscript> myManuscriptsCopy = new ArrayList<Manuscript>();
-		myManuscriptsCopy.addAll(myManuscripts);
-		return myManuscriptsCopy;
+		return myManuscripts;
+	}
+	
+	
+	/**
+	 * Checks for an existing Manuscript with the same title as the String passed.
+	 * 
+	 * @param theManuscriptTitleToCheck The String title to check
+	 * @return True if there exists a submitted Manuscript with the same name, false otherwise.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/25/2017
+	 */
+	public boolean checkForExistingManuscript (String theManuscriptTitleToCheck) {
+		boolean manuscriptExists = false;
+		ArrayList<String> manuscriptTitles = new ArrayList<String> ();
+		for (Manuscript singleManuscript : myManuscripts) {
+			manuscriptTitles.add(singleManuscript.getTitle());
+		}
+		
+		for (String title : manuscriptTitles) {
+			if (title.equals(theManuscriptTitleToCheck)) {
+				manuscriptExists = true;
+				break;
+			}
+		}
+		
+		return manuscriptExists;
 	}
 	
 	
@@ -114,6 +141,14 @@ public class Author extends User implements Serializable{
 	public void addManuscript(Manuscript theManuscript) {
 		//Should we check if the manuscript is already in the list?
 		myManuscripts.add(theManuscript);
+	}
+	
+	
+	public void printManuscriptTitles () {
+		for (Manuscript manu : myManuscripts) {
+			System.out.print(" - " + manu.getTitle());
+		}
+		System.out.println(" - ");
 	}
 		
 	
@@ -136,6 +171,27 @@ public class Author extends User implements Serializable{
 		} else {
 			throw new ManuscriptNotInListException();
 		}
+	}
+	
+	public boolean isAuthorsAtLimit(String[] theAuthors, Conference theConference) {
+		boolean atLimit = false;
+		Author tempAuthor;
+		User tempUser;
+		for (int i = 0; i < theAuthors.length; i++) {
+			if (User.doesEmailBelongToUser(theAuthors[i])) {
+				tempUser = User.getUserByEmail(theAuthors[i]);
+				if (theConference.isUserAuthor(tempUser)) {
+					tempAuthor = theConference.getAuthor(tempUser);
+					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
+						atLimit = true;
+					}
+				}
+			}
+				
+		}
+		
+		return atLimit;
+		
 	}
 	
 	
