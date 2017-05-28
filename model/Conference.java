@@ -351,13 +351,14 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * This method will add the passed User as a Subprogram Chair for the conference
+	 * This method will add the passed Subprogram Chair as a Subprogram Chair for the conference
 	 * @param theReviewer the ID for the reviewer to be added
 	 * @author: James Roberts
+	 * @author Morgan Blackmore
 	 * @version: 5/1/2017
 	 */
-	public void addSubprogramChair(User theUser) {
-		SubprogramChair newSPC = new SubprogramChair(theUser);
+	public void addSubprogramChair(SubprogramChair theSubprogramChair) {
+		SubprogramChair newSPC = new SubprogramChair(theSubprogramChair);
 		conferenceSubprogramChairs.add(newSPC);
 	}
 	

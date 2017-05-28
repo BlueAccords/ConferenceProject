@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,11 +38,13 @@ public class AuthorSubmitManuscriptView extends Observable {
 	public JPanel submitManuscriptView() {
 		
 		// JPanels for for view.
-		JPanel createManuscriptPanel = new JPanel(new GridLayout(0,1));
-		JPanel manuscriptTitlePanel = new JPanel();
-		JPanel manuscriptAuthorsPanel = new JPanel();
-		JPanel ManuscriptFilePanel = new JPanel();
-		JPanel ManuscriptSubmitPanel = new JPanel();
+		JPanel ManuscriptPanelHolder = new JPanel(new GridBagLayout());
+		JPanel createManuscriptPanel = new JPanel(new GridBagLayout());
+		JPanel manuscriptTitlePanel = new JPanel(new GridBagLayout());
+		JPanel manuscriptAuthorsPanel = new JPanel(new GridBagLayout());
+		JPanel ManuscriptFilePanel = new JPanel(new GridBagLayout());
+		JPanel ManuscriptSubmitPanel = new JPanel(new GridBagLayout());
+		
 		
 		// JTextField and JTextArea for gathering authors Manuscript information.
 		JTextField manuscriptTitleField = new JTextField(20);
@@ -83,19 +87,39 @@ public class AuthorSubmitManuscriptView extends Observable {
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
 		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
 		JLabel ManuscriptFileLabel = new JLabel("Enter File Path: ");
-			
-		manuscriptTitlePanel.add(ManuscriptTitleLabel);
-		manuscriptTitlePanel.add(manuscriptTitleField);
-		manuscriptAuthorsPanel.add(ManuscriptAuthorsLabel);
-		manuscriptAuthorsPanel.add(textArea);
-		manuscriptAuthorsPanel.add(AuthorSubmitButton);
-		ManuscriptFilePanel.add(ManuscriptFileLabel);
-		ManuscriptFilePanel.add(manuscriptFileChooser);
-		ManuscriptSubmitPanel.add(ManuscriptSubmitButton);
-		createManuscriptPanel.add(manuscriptTitlePanel);
-		createManuscriptPanel.add(manuscriptAuthorsPanel);
-		createManuscriptPanel.add(ManuscriptFilePanel);
-		createManuscriptPanel.add(ManuscriptSubmitPanel);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 0;
+		c.gridy = 0;
+		
+		manuscriptTitlePanel.add(ManuscriptTitleLabel, c);
+		c.gridy = 1;
+		manuscriptTitlePanel.add(manuscriptTitleField, c);
+		c.gridy = 0;
+		manuscriptAuthorsPanel.add(ManuscriptAuthorsLabel, c);
+		c.gridy = 1;
+		c.ipady = 30;
+		manuscriptAuthorsPanel.add(textArea, c);
+		c.gridy = 2;
+		c.ipady = 10;
+		manuscriptAuthorsPanel.add(AuthorSubmitButton, c);
+		c.gridy = 0;
+		ManuscriptFilePanel.add(ManuscriptFileLabel, c);
+		c.gridy = 1;
+		ManuscriptFilePanel.add(manuscriptFileChooser, c);
+		c.gridy = 0;
+		ManuscriptSubmitPanel.add(ManuscriptSubmitButton, c);
+		c.ipady = 0;
+		createManuscriptPanel.add(manuscriptTitlePanel, c);
+		c.gridy = 1;
+		//c.ipady = 30;
+		createManuscriptPanel.add(manuscriptAuthorsPanel, c);
+		c.gridy = 2;
+		createManuscriptPanel.add(ManuscriptFilePanel, c);
+		c.gridy = 3;
+		createManuscriptPanel.add(ManuscriptSubmitPanel, c);
 		ManuscriptSubmitPanel.setOpaque(true);
 		createManuscriptPanel.setOpaque(true);
 		manuscriptTitlePanel.setOpaque(true);
@@ -104,8 +128,8 @@ public class AuthorSubmitManuscriptView extends Observable {
 		
 		createManuscriptPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Manuscript Submission Page"));
-		
-		return createManuscriptPanel;
+		ManuscriptPanelHolder.add(createManuscriptPanel);
+		return ManuscriptPanelHolder;
 	}
 	
 
