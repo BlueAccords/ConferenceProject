@@ -436,10 +436,7 @@ public class Conference implements Serializable{
 	}
 	
 	
-<<<<<<< HEAD
-	
-	public ArrayList<Reviewer> getEligibleReviewers;
-=======
+
 	/**
 	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
 	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then
@@ -466,7 +463,6 @@ public class Conference implements Serializable{
 		
 		return eligibleReviewers;
 	}
->>>>>>> 2910ee56df6bc00ba040167ecb077ecebf46b74d
 	
 
 	/**

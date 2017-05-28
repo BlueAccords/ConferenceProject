@@ -364,22 +364,17 @@ public class Controller extends Observable implements Observer {
 	                        break;
 	                    case SUBMIT_RECOMMENDATION:
 	                 
-	                    	/*
-	                    	 *Does this mean "assign a manuscript to a SPC"?  
-	                    	 *Unless we need this for testing purposes, we don't need
-	                    	 *this type of functionality for the project.
-	                    	 * 
-	                    	 */
+	                    	SPCSubmitRecommendationView subRecView = new SPCSubmitRecommendationView();
+	                    	myPreviousStates.push(myLastState);
+	                    	myLastState= ParentFrameView.SUBMIT_RECOMMENDATION_VIEW;
+	                    	subRecView.addObserver(myParentFrame);
+	                    	myParentFrame.addPanel(subRecView.submitRecommendationView(), ParentFrameView.ASSIGN_REVIEWERS_VIEW);
+	                        myParentFrame.switchToPanel(ParentFrameView.SUBMIT_RECOMMENDATION_VIEW);
 	                    	
 	                    	
 	                    	break;
 						case LIST_MANUSCRIPT_VIEW:
-<<<<<<< HEAD
-							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), 
-									myCurrentConference);
-=======
 							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), myCurrentConference);
->>>>>>> 2910ee56df6bc00ba040167ecb077ecebf46b74d
 							myPreviousStates.push(myLastState);
 							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							spcHomeView.addObserver(myParentFrame);
