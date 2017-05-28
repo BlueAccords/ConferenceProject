@@ -131,6 +131,12 @@ public class Driver {
 			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
 			//add SubprogramChair to Conference with open deadline 
 			acmConf.addSubprogramChair(spc);
+			try {
+				spc.assignManuscriptToReviewer(new Reviewer(testUser1), manu6);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			
 			

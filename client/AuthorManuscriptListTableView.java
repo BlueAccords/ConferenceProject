@@ -1,5 +1,6 @@
 package client;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
@@ -8,14 +9,17 @@ import javax.swing.JButton;
  */
  
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
@@ -25,9 +29,11 @@ import model.Manuscript;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
@@ -60,6 +66,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private JButton myDeleteManuscriptBtn;
     private JButton myViewMoreInfoBtn;
     private JButton myDownloadBtn;
+    private JLabel myConfTitleLabel;
     
     /**
      * Booleans to check business rules.
@@ -82,6 +89,16 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     	myCurrentManuscriptList = theManuscriptList;
     	myCurrentConference = theConference;
     	myPanel = new JPanel(new BorderLayout());
+    	
+    	// construct header using conference title and deadline date
+    	String confDeadlineDate = convertDateToExplicitFormat(myCurrentConference.getManuscriptDeadline());
+    	String viewHeaderTitle = "<html><div style='text-align: center;'>"
+    		+ "Your Submitted Manuscripts for <br>" + myCurrentConference.getConferenceName()
+    		+ "<br>Submission Deadline: " + confDeadlineDate + "</html>";
+    	myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
+		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+    	myPanel.add(myConfTitleLabel, BorderLayout.NORTH);
  
         /**
          * Set up and add Main Manuscript List Table
@@ -112,27 +129,33 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
 					// Enable action buttons to be clickable if they are disabled.
-					if(!myViewMoreInfoBtn.isEnabled()) {
-						//myAddNewManuscriptBtn.setEnabled(true);
-						myDeleteManuscriptBtn.setEnabled(true);
-						myViewMoreInfoBtn.setEnabled(true);
-						myDownloadBtn.setEnabled(true);
-					}
 					
 					Manuscript selectedManu = myCurrentManuscriptList.get(table.getSelectedRow());
 					setCurrentlySelectedManuscript(selectedManu);
+					if(!myViewMoreInfoBtn.isEnabled()) {
+						//myAddNewManuscriptBtn.setEnabled(true);
+				
+						myDeleteManuscriptBtn.setEnabled(true);
+						
+						myViewMoreInfoBtn.setEnabled(true);
+						myDownloadBtn.setEnabled(true);
 					
 					setChanged();
 					notifyObservers(myCurrentlySelectedManuscript);
+					}
 			    }
 				
 			}
 			
 		});
+		
+		// Set font for table header
+		Font headerFont = new Font("Arial", Font.BOLD, 14);
+		JTableHeader tableHeader = table.getTableHeader();
+		tableHeader.setFont(headerFont);
  
         //Create the scroll pane and add the table to it.
         myManuscriptListScrollPane = new JScrollPane(table);
- 
         //Add the scroll pane to this panel.
         myPanel.add(myManuscriptListScrollPane, BorderLayout.CENTER);
         
@@ -142,7 +165,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
          */
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
-        myButtonPanel.setBorder(new EmptyBorder(50, 25, 50, 25));
+        myButtonPanel.setBorder(new EmptyBorder(50, 0, 50, 0));
 
         // add buttons to btn panel
         // by default buttons are disabled until a row is selected
@@ -199,6 +222,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         
         myPanel.add(myButtonPanel, BorderLayout.SOUTH);
         
+        // Padding for entire view panel
+        myPanel.setBorder(new EmptyBorder(5, 20, 5, 20));
         myPanel.setOpaque(true);
     }
     
@@ -263,6 +288,31 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 	 */
 	private void setCurrentlySelectedManuscript(Manuscript theManuscript) {
 		this.myCurrentlySelectedManuscript = theManuscript;
+		if (!theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setEnabled(true);
+		} 
+		else if (theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setEnabled(false);
+		}
+		
+	}
+	
+	/**
+	 * Returns a string representing a date formatted to include GMT time zone
+	 * day, month, and year. 
+	 * PreConditions:
+	 * 	theDate is non-null
+	 * @param theDate
+	 * @return A string representing theDate.
+	 */
+	private String convertDateToExplicitFormat(Date theDate) {
+		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		SimpleDateFormat formatter = 
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss z '('Z')'");
+
+		String result = formatter.format(theDate);
+		
+		return result;
 	}
  
     /**
@@ -276,7 +326,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     class MyTableModel extends AbstractTableModel {
         private String[] columnNames = {"Title",
                                         "Date Submitted",
-                                        "Authors",
+                                        "Author",
                                         "Num. of Reviewers Assigned"};
         /**
          * 2D array of cell data for each row/column
@@ -348,6 +398,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         		returnList[i][0] =  theManuscriptList.get(i).getTitle();
         		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
         		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
+        		// TODO: Replace this with actual reviewers count once reviewers assigned to manuscript
+        		// is implemented
         		returnList[i][3] =  "# of reviewers assigned";
         	}
         	

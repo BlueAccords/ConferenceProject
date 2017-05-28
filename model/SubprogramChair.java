@@ -155,7 +155,7 @@ public class SubprogramChair extends User implements Serializable{
 		}
 			//no exceptions thrown, ok to add. 
 			theReviewer.addManuscriptToReviewer(theManuscript);
-			
+			theManuscript.addReviewer(theReviewer);
 		}
 		
 		/**

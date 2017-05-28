@@ -41,6 +41,7 @@ public class ParentFrameView extends Observable implements Observer {
 	public static final String CREATE_MANUSCRIPT_OPTIONS_VIEW = "createManuscriptOptions";
 	public static final String USER_ROLE_VIEW = "UserRoleView";
 	public static final String ASSIGN_REVIEWERS_VIEW = "AssignReviewersView";
+	public static final String SUBMIT_RECOMMENDATION_VIEW  = "SubmitRecommendationView";
 
 	public static final String AUTHOR_ROLE = "Author";
 	public static final String SUBPROGRAM_CHAIR_ROLE = "Subprogram Chair";

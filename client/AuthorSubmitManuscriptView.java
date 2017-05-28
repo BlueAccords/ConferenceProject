@@ -85,7 +85,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has to many Manuscripts submitted to this Conference.");  
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has too many Manuscripts submitted to this Conference.");  
 				}
 		    }  
 		});
