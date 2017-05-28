@@ -690,6 +690,8 @@ public class Controller extends Observable implements Observer {
 			setManuscript((Manuscript) arg1);
 		} else if (arg1 instanceof List<?>) {
 			myCurrentManuscript.setReviewerList((ArrayList<Reviewer>) arg1);
+		} else if (arg1 instanceof File) {
+			myCurrentSubprogramChair.setRecommendation((File) arg1);
 		}
 	}
 		
