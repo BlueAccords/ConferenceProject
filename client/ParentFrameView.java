@@ -33,6 +33,7 @@ public class ParentFrameView extends Observable implements Observer {
 	public static final String AUTHOR_CONFERENCE_LIST_VIEW = "AuthConfView";
 	public static final String CREATE_CONFERENCE_OPTIONS_VIEW = "createConferenceOptions";
 	public static final String VIEW_REVIEWERS_LIST_VIEW = "ViewReviewersListView";
+	public static final String SPC_HOME_VIEW = "SPCHomeView";
 	public static final String LOGIN_PANEL_VIEW = "loginPanel";
 	public static final String SUBMIT_MANUSCRIPT_VIEW = "submitManuscriptView";
 	public static final String VIEW_MANUSCRIPT_LIST_VIEW = "viewManuscriptListView";

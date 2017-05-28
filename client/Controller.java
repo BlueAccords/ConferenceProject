@@ -150,7 +150,7 @@ public class Controller extends Observable implements Observer {
 							ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 							// init manuscript list view
-							ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
+							AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
 							
 							// store state history
 							myPreviousStates.push(myLastState);
@@ -164,15 +164,14 @@ public class Controller extends Observable implements Observer {
 							isOpen = true;
 							break;
 						case SUBPROGRAM_CHAIR:
-							//System.out.println("User chose Subprogram Chair role");
-							//myCurrentSubprogramChair = (SubprogramChair) myCurrentUser;
-							SPCAssignReviewerView subprogramChairView = new SPCAssignReviewerView(); //need to use a static getManuscripts once it's available and pass it here.
+							SPCHomeView subprogramChairView = new SPCHomeView(myCurrentUser, myCurrentConference.getManuscripts(),
+									myCurrentConference);
 							myPreviousStates.push(myLastState);
-							myLastState = ParentFrameView.VIEW_REVIEWERS_LIST_VIEW;
+							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							subprogramChairView.addObserver(myParentFrame);
-							myParentFrame.addPanel(subprogramChairView.viewReviewersListView(), ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
+							myParentFrame.addPanel(subprogramChairView.homeViewLayout(), ParentFrameView.SPC_HOME_VIEW);
 							myParentFrame.setUserRole(ParentFrameView.SUBPROGRAM_CHAIR_ROLE);
-							myParentFrame.switchToPanel(ParentFrameView.VIEW_REVIEWERS_LIST_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.SPC_HOME_VIEW);
 							break;
 					}
 					//myCurrentState += LIST_CONFERENCE_VIEW;
@@ -222,7 +221,7 @@ public class Controller extends Observable implements Observer {
 					switch (theNextState % 10){
 						
 						case SUBMIT_MANUSCRIPT:
-							if (!isOpen) {
+							//if (!isOpen) {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
@@ -230,7 +229,7 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference).submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
-							} else {
+							/*} else {
 								UI_Author authorView = new UI_Author(myCurrentAuthor);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW;
@@ -238,14 +237,14 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.addPanel(authorView.createConferenceOptions(), ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								isOpen = false;
-							}
+							}*/
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 
 								// init manuscript list view
-								ManuscriptListTableView manuscriptListView = new ManuscriptListTableView(authorManuscriptList);
+								AuthorManuscriptListTableView manuscriptListView = new AuthorManuscriptListTableView(authorManuscriptList);
 								
 								// store state history
 								myPreviousStates.push(myLastState);
