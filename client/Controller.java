@@ -35,7 +35,7 @@ public class Controller extends Observable implements Observer {
 	public static final int SUBMIT_MANUSCRIPT_VIEW = 1;
 	public static final int LIST_MANUSCRIPT_VIEW = 2;
 	public static final int LIST_CONFERENCE_VIEW = 3;
-	public static final int ASSIGN_REVIEWER = 4;
+	public static final int ASSIGN_REVIEWERS = 4;
 	public static final int LIST_ASSIGNED_REVIEWERS_VIEW = 5;
 	public static final int SUBMIT_RECOMMENDATION = 6;
 	public static final int MANUSCRIPT_OPTIONS_VIEW = 7;
@@ -353,9 +353,15 @@ public class Controller extends Observable implements Observer {
 					break;
 				case SUBPROGRAM_CHAIR:
 					switch (myCurrentState % ROLE_POS){
-	                    case ASSIGN_REVIEWER:
-	                       //SPC assigns a reviewer to a manuscript.
-	                    	//displays a list of valid reviewers available for this manuscript. 
+	                    case ASSIGN_REVIEWERS:
+	                    	//find eligible reviewers here
+	                    	
+	                        SPCAssignReviewersView assignReviewersView = new SPCAssignReviewersView();
+	                        myPreviousStates.push(myLastState);
+	                        myLastState = ParentFrameView.ASSIGN_REVIEWERS_VIEW;
+	                        assignReviewersView.addObserver(myParentFrame);
+	                        myParentFrame.addPanel(assignReviewersView.viewReviewersListView(), ParentFrameView.ASSIGN_REVIEWERS_VIEW);
+	                        myParentFrame.switchToPanel(ParentFrameView.ASSIGN_REVIEWERS_VIEW);
 	                        break;
 	                    case SUBMIT_RECOMMENDATION:
 	                 
@@ -368,17 +374,14 @@ public class Controller extends Observable implements Observer {
 	                    	
 	                    	
 	                    	break;
-	                    case LIST_CONFERENCE_VIEW:
-	                    	//does this need to be here?  Conference gets chosen before role in UI.
-							
-							
-	                        break;
 						case LIST_MANUSCRIPT_VIEW:
-							//will display list of assigned manuscripts for this conference
-							//will be the SPC main page
-							
-	                    	
-							
+							SPCHomeView spcHomeView = new SPCHomeView(myCurrentUser, myCurrentConference.getManuscripts(), 
+									myCurrentConference);
+							myPreviousStates.push(myLastState);
+							myLastState = ParentFrameView.SPC_HOME_VIEW;
+							spcHomeView.addObserver(myParentFrame);
+							myParentFrame.addPanel(spcHomeView.displayTable(), ParentFrameView.SPC_HOME_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.SPC_HOME_VIEW);
 							break;
 	                    case LIST_ASSIGNED_REVIEWERS_VIEW:
 	                    	//will assign a chosen reviewer here
@@ -684,14 +687,8 @@ public class Controller extends Observable implements Observer {
 			 * and the new state will perform the action using the controller myCurrentManuscript field.
 			*/ 
 			setManuscript((Manuscript) arg1);
-
-			/*
-			if (arg0 instanceof AuthorManuscriptOptionsView) {
-				removeManuscriptFromAuthorAndConference((Manuscript) arg1);
-			} else {
-				addManuscriptToAuthorAndConference((Manuscript) arg1);
-			}
-			*/
+		} else if (arg1 instanceof List<?>) {
+			myCurrentManuscript.setReviewerList((ArrayList<Reviewer>) arg1);
 		}
 	}
 		

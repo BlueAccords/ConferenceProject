@@ -191,7 +191,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		case ASSIGN_REVIEWER:
 			//				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 			setChanged();
-			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
+			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWERS);
 			break;
 		case SUBMIT_RECOMMENDATION:
 			//				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
@@ -203,7 +203,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 		}
 	}
-
+				
 
 	/**
 	 * Sets the view's currently selected manuscript field to the passed in manuscript.
