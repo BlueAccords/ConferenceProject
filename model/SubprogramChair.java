@@ -6,6 +6,7 @@
 
 package model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,8 @@ public class SubprogramChair extends User implements Serializable{
 	/** Collection of any Users assigned as Reviewers to a Subprogram Chair. */
 	private ArrayList<Reviewer> assignedReviewers;
 	
+	private File myRecommendation;
+	
 	/**
 	 * Constructor for a SubprogramChair.
 	 * @param aUser the User associated with this SPC.
@@ -38,6 +41,7 @@ public class SubprogramChair extends User implements Serializable{
 	public SubprogramChair(User aUser) {
 		super("");
 		//no defensive copy made, we want this to act as a pointer.
+		myRecommendation = new File("");
 		myUser = aUser;
 		assignedManuscriptsSPC = new ArrayList<Manuscript>();
 	    assignedReviewers = new ArrayList<Reviewer>();
@@ -52,6 +56,7 @@ public class SubprogramChair extends User implements Serializable{
 	 */
 	public SubprogramChair(User aUser, ArrayList<Manuscript> theAssignedManuscripts) {
 		super("");
+		myRecommendation = new File("");
 		myUser = aUser;
 		assignedManuscriptsSPC = theAssignedManuscripts;
 	    assignedReviewers = new ArrayList<Reviewer>();
@@ -65,6 +70,17 @@ public class SubprogramChair extends User implements Serializable{
 		
 		return myUser;
 	}
+	
+	
+	public void setRecommendation (File theRecommendation) {
+		myRecommendation = theRecommendation;
+	}
+	
+	
+	public File getRecommendation () {
+		return myRecommendation;
+	}
+	
 	
 	/**
 	 * Returns a collection of Manuscripts assigned to the User as a Subprogram Chair.
