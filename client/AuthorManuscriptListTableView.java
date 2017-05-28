@@ -1,5 +1,6 @@
 package client;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
@@ -8,14 +9,17 @@ import javax.swing.JButton;
  */
  
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
@@ -25,6 +29,7 @@ import model.Manuscript;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,6 +65,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private JButton myDeleteManuscriptBtn;
     private JButton myViewMoreInfoBtn;
     private JButton myDownloadBtn;
+    private JLabel myConfTitleLabel;
     
     /**
      * Booleans to check business rules.
@@ -82,6 +88,11 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     	myCurrentManuscriptList = theManuscriptList;
     	myCurrentConference = theConference;
     	myPanel = new JPanel(new BorderLayout());
+    	
+    	myConfTitleLabel = new JLabel(myCurrentConference.getConferenceName(), SwingConstants.CENTER);
+		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+    	myPanel.add(myConfTitleLabel, BorderLayout.NORTH);
  
         /**
          * Set up and add Main Manuscript List Table
@@ -129,10 +140,14 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 			}
 			
 		});
+		
+		// Set font for table header
+		Font headerFont = new Font("Arial", Font.BOLD, 14);
+		JTableHeader tableHeader = table.getTableHeader();
+		tableHeader.setFont(headerFont);
  
         //Create the scroll pane and add the table to it.
         myManuscriptListScrollPane = new JScrollPane(table);
- 
         //Add the scroll pane to this panel.
         myPanel.add(myManuscriptListScrollPane, BorderLayout.CENTER);
         
@@ -142,7 +157,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
          */
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
-        myButtonPanel.setBorder(new EmptyBorder(50, 25, 50, 25));
+        myButtonPanel.setBorder(new EmptyBorder(50, 0, 50, 0));
 
         // add buttons to btn panel
         // by default buttons are disabled until a row is selected
@@ -199,6 +214,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         
         myPanel.add(myButtonPanel, BorderLayout.SOUTH);
         
+        // Padding for entire view panel
+        myPanel.setBorder(new EmptyBorder(5, 20, 5, 20));
         myPanel.setOpaque(true);
     }
     
@@ -276,7 +293,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     class MyTableModel extends AbstractTableModel {
         private String[] columnNames = {"Title",
                                         "Date Submitted",
-                                        "Authors",
+                                        "Author",
                                         "Num. of Reviewers Assigned"};
         /**
          * 2D array of cell data for each row/column
