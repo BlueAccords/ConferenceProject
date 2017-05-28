@@ -76,16 +76,18 @@ public class SPCAssignReviewersView extends Observable {
 	 * @version 5/25/2017
 	 */
 	public JPanel viewReviewersListView() {
-		JPanel reviewersListPanel = new JPanel(new GridLayout(0,1));
+		JPanel reviewersListPanel = new JPanel(new GridLayout(0,2));
+		JPanel reviewerButtonPanel = new JPanel(new GridLayout(0, 1));
+		JPanel reviewerLabelPanel = new JPanel(new GridLayout(0, 1));
 		
 
 		//JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		
 		for (myCounter = 0; myCounter < myEligibleReviewers.size(); myCounter++) {
-			JLabel reviewerLabel = new JLabel (myEligibleReviewers.get(myCounter).getUser().getWholeName());
+			JLabel reviewerLabel = new JLabel (myEligibleReviewers.get(myCounter).getUser().getEmail());
 			JButton button = new JButton("Assign"); //will need to display more info here about the reviewer *maybe not a button*
-			button.setActionCommand(myEligibleReviewers.get(myCounter).getUser().getWholeName());
+			button.setActionCommand(myEligibleReviewers.get(myCounter).getUser().getEmail());
 			
 			button.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
@@ -103,17 +105,19 @@ public class SPCAssignReviewersView extends Observable {
 			
 			group.add(button);
 			
-			JButton submitReviewers = new JButton ("Submit");
-			submitReviewers.addActionListener(e -> {
-				setChanged();
-				notifyObservers(myAssignedReviewers);
-				setChanged();
-				notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
-			});
 			
+			reviewersListPanel.add(reviewerLabel);
 			reviewersListPanel.add(button);
 		}	
 		
+		JButton submitReviewers = new JButton ("Submit");
+		submitReviewers.addActionListener(e -> {
+			setChanged();
+			notifyObservers(myAssignedReviewers);
+			setChanged();
+			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
+		});
+		reviewersListPanel.add(submitReviewers);
 		reviewersListPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Assigned Reviewers List"));
 		

@@ -14,6 +14,7 @@ import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Manuscript.AuthorExistsInListException;
+import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
 
@@ -37,6 +38,12 @@ public class Driver {
 			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
+			Reviewer testReviewer1 = new Reviewer(testUser1);
+			Reviewer testReviewer2 = new Reviewer(testUser2);
+			Reviewer testReviewer3 = new Reviewer(testUser3);
+			Reviewer testReviewer4 = new Reviewer(testUser4);
+			Reviewer testReviewer5 = new Reviewer(testUser5);
+			Reviewer testReviewer6 = new Reviewer(testUser6);
 			User testUserWithMaxManuscripts = new User("max@email.com");
 			User.addUser(testUser6);
 			User.addUser(testUser5);
@@ -61,6 +68,12 @@ public class Driver {
 			Conference.initializeConferenceListToEmptyList();
 			
 			Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
+			acmConf.addReviewer(testReviewer1);
+			acmConf.addReviewer(testReviewer2);
+			acmConf.addReviewer(testReviewer3);
+			acmConf.addReviewer(testReviewer4);
+			acmConf.addReviewer(testReviewer5);
+			acmConf.addReviewer(testReviewer6);
 			Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
 			cvprConf.addSubprogramChair(new SubprogramChair(testUser2));
 			Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
