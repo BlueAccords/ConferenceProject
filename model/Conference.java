@@ -467,19 +467,6 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Returns the max number of manuscripts an author is allowed to submit
-	 * per conference
-	 * 
-	 * @author Ryan Tran
-	 * @version 5/28/17
-	 * @return an int indicating the max num of manuscripts allowed to be submitted
-	 */
-	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
-		return MAX_AUTHOR_SUBMISSIONS;
-	}
-	
-
-	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.
 	 * returns true if write successful, false otherwise.
 	 * @param theConferences List of all conferences.
@@ -629,6 +616,19 @@ public class Conference implements Serializable{
 	 */
 	public static ArrayList<Conference> getConferences() {
 		return myConferenceList;
+	}
+
+	/**
+	 * Returns the max number of manuscripts an author is allowed to submit
+	 * per conference
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/28/17
+	 * @return an int indicating the max num of manuscripts allowed to be submitted
+	 */
+
+	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
+		return MAX_AUTHOR_SUBMISSIONS;
 	}
 
 }
