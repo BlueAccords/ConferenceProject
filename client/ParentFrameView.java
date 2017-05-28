@@ -183,9 +183,9 @@ public class ParentFrameView extends Observable implements Observer {
 		
 		// dont show divider if role is set to nothing
 		if(theRole.equals("")) {
-			this.myHeaderCurrentUserRole.setText(theRole + "  |");
-		} else {
 			this.myHeaderCurrentUserRole.setText("");
+		} else {
+			this.myHeaderCurrentUserRole.setText(theRole + "  |");
 		}
 		
 		this.myFrame.revalidate();

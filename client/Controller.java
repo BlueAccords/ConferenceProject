@@ -348,6 +348,7 @@ public class Controller extends Observable implements Observer {
 							}
 							break;
 						case DELETE_MANUSCRIPT:
+							System.out.println("DELET THIS");
 							removeManuscriptFromAuthorAndConference(myCurrentManuscript);
 							AuthorManuscriptListTableView manuscriptListTableView = new AuthorManuscriptListTableView(myCurrentConference
 									.getManuscriptsBelongingToAuthor(myCurrentAuthor));
