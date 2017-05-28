@@ -3,10 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import model.Conference;
 import org.junit.After;
@@ -32,74 +29,112 @@ public class ConferenceTest {
     ArrayList<Conference> conferenceList;
     Conference RSAConference;
     Conference TesselationsConference;
+    Manuscript aManuscript;
+    Author authorBob;
+	Reviewer reviewerBob;
+	Author authorJohn;
+	Manuscript johns;
 
+	User bob;
+	User john;
 
     @Before
     public void setUp() throws Exception {
         RSAConference = new Conference("RSA", new Date(), new Date(), new Date(), new Date());
+
+        john = new User("John@john.com", false);
+        authorJohn = new Author(john);
+        johns = new Manuscript("Johns awesome paper", new File("Author.java"), authorJohn);
         TesselationsConference = new Conference("Tesselations", new Date(), new Date(), new Date(), new Date());
         conferenceList = Conference.getConferences();
+        authorBob  = new Author("Josh", "Smith");
+        bob = new User("Bob@bob.com", false);
+        reviewerBob = new Reviewer(bob);
+        aManuscript = new Manuscript("Conference test.java manuscript", new File("ConferenceTest.java"), authorBob);
     }
 
 
-    @Test
-    public void readConferences_newConference_true(){
+	@Test
+	public void addManuscript() throws Exception {
+    	RSAConference.addManuscript(aManuscript);
+    	assertTrue(RSAConference.getManuscripts().contains(aManuscript));
+	}
 
+	@Test
+	public void removeManuscript() throws Exception {
+    	RSAConference.addManuscript(aManuscript);
+    	RSAConference.removeManuscript(aManuscript);
+    	assertFalse(RSAConference.getManuscripts().contains(aManuscript));
+	}
+
+	@Test
+	public void addReviewer() throws Exception {
+    	RSAConference.addReviewer(reviewerBob);
+    	assertTrue(RSAConference.getEligibleReviewers(aManuscript).contains(reviewerBob));
+	}
+
+	@Test
+	public void isUserAuthor() throws Exception {
+		assertFalse(RSAConference.isUserAuthor(bob));
+	}
+
+	@Test
+	public void isUserAuthor_yes() throws Exception {
+    	RSAConference.addManuscript(johns);
+		assertTrue(RSAConference.isUserAuthor(john));
+	}
+
+	@Test
+	public void isUserReviewer() throws Exception {
+		assertFalse(RSAConference.isUserReviewer(bob));
+	}
+
+	@Test
+	public void isUserReviewer_yes() throws Exception {
+    	RSAConference.addReviewer(reviewerBob);
+		assertTrue(RSAConference.isUserReviewer(bob));
+	}
+
+
+	@Test
+	public void getManuscriptsBelongingToAuthor() throws Exception {
+		RSAConference.addManuscript(johns);
+		List<Manuscript> submitted = RSAConference.getManuscriptsBelongingToAuthor(authorJohn);
+		assertTrue(submitted.size() == 1);
+		assertTrue(submitted.contains(johns));
     }
 
-    @Test
-    public void readConferences_noNewConference_true(){
+	@Test
+	public void addConference() throws Exception {
+    	Conference.addConference(RSAConference);
+    	assertTrue(Conference.getConferences().contains(RSAConference));
+	}
 
-    }
+	@Test
+	public void updateConferenceInList() throws Exception {
+    	Conference.addConference(RSAConference);
+    	RSAConference.addManuscript(aManuscript);
+    	Conference.updateConferenceInList(RSAConference);
+    	assertTrue(Conference.getConferences().get(0).getManuscripts().contains(aManuscript));
+	}
+
+	@Test
+	public void initializeConferenceListToEmptyList() throws Exception {
+    	RSAConference.initializeConferenceListToEmptyList();
+		assertTrue(RSAConference.getConferences().isEmpty());
+	}
 
 
-    @Test
-    public void writeConferences_newConference_true(){
 
-    }
+	@Test
+	public void getEligibleReviewers() throws Exception {
 
-    @Test
-    public void writeConferences_noNewConference_true(){
+	}
 
-    }
-    
-    
-    @Test
-    public void getEligibleReviewers_TestThatListIsSmallerThanAllReviewersList_ReturnsEligibleReviewers () {
-    	User mainTestUser = new User("connor@gmail.com");
-    	Author mainTestAuthor = new Author(mainTestUser);
-    	Manuscript testManuscript = new Manuscript ("Test manuscript", new File(""), mainTestAuthor);
-    	
-    	User testUser1 = new User("jCricket@test.com");
-    	User testUser2 = new User("evilKineval@test.com");
-    	User testUser3 = new User("gLucas@sosomovies.net");
-    	User testUser4 = new User("almostDone@test.com");
-    	Author testAuthor1 = new Author(testUser1);
-    	Author testAuthor2 = new Author(testUser2);
-    	Reviewer testReviewer1 = new Reviewer(testUser3); //good
-    	Reviewer testReviewer2 = new Reviewer(testUser4); //good
-    	Reviewer testReviewer3 = new Reviewer(testUser2);
-    	Reviewer testReviewer4 = new Reviewer(testUser1);
-    	RSAConference.addReviewer(testReviewer4);
-    	RSAConference.addReviewer(testReviewer3);
-    	RSAConference.addReviewer(testReviewer2);
-    	RSAConference.addReviewer(testReviewer1);
-    	try {
-			testManuscript.addAuthor(testAuthor1);
-		} catch (AuthorExistsInListException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	try {
-			testManuscript.addAuthor(testAuthor2);
-		} catch (AuthorExistsInListException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	ArrayList<Reviewer> eligibleReviewers = RSAConference.getEligibleReviewers(testManuscript);
-    	assertTrue("The list of eligible reviewers is not a size of 2: " + eligibleReviewers.size(), eligibleReviewers.size() == 2);
-    	assertTrue("The list of eligible reviewers does not contain gLucas@sosomovies.net", eligibleReviewers.contains(testReviewer1));
-    	assertTrue("The list of eligible reviewers does not contain almostDone@test.com", eligibleReviewers.contains(testReviewer2));
-    }
+
+
+	@Test
+	public void isValidNumberOfSubmissions() throws Exception {
+	}
+
 }

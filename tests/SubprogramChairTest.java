@@ -83,7 +83,7 @@ public class SubprogramChairTest {
 		submissionDeadline.add(Calendar.HOUR, -14);//sets submissionDL 14 hrs earlier than now
 		RSAConference = new Conference("RSA", submissionDeadline.getTime(), new Date(), new Date(), new Date());
 
-		rsa = new Manuscript("RSA", new File("ControllerTest.java"), authorBob);
+		rsa = new Manuscript("RSA", new File("ConferenceTest.java"), authorBob);
 		rsa.addAuthor(authorJim);
 		tessellations = new Manuscript("Tessellations", new File("UserTest.java"), authorBob);
 		tessellations.addAuthor(authorJohn);
