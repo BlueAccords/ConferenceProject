@@ -1,6 +1,8 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +12,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 
+import client.AuthorManuscriptListTableView.MyTableModel;
 import model.Conference;
 import model.Manuscript;
 import model.Reviewer;
@@ -24,243 +35,284 @@ import model.User;
  * Displays a table of manuscripts to which the SubprogramChair has been assigned along with their status.
  * Table contains links to all other views the SPC needs.
  * 
- * 
+ * @author Ryan Tran
  * @author Morgan Blackmore
  * @version 5/27/17
  * 
  *
  */
-public class SPCHomeView extends Observable {
-	/**List of Manuscripts assigned to SPC **/
-	private ArrayList<Manuscript> myManuscriptList;
+public class SPCHomeView extends Observable implements ActionListener{
+	/**Base panel to display scroll pane**/
+	private JPanel myPanel;
+	/**Panel to display buttons. **/
+	private JPanel myButtonPanel;
+	/**Scroll Pane to hold Table**/
+	private JScrollPane myManuscriptListScrollPane;
 
-	/**User ID **/
-	private User myUser;
+	private JButton assignReviewerBtn;
+	private JButton submitRecommendationBtn;
 
-	/** Conference to with SPC is assigned. **/
+
+	/** used to disable action buttons until a table row is selected.**/
+	private boolean isManuscriptSelected = false;
+
+	/**the manuscript that will be passed ton controller*/
+	private Manuscript myCurrentlySelectedManuscript;
+
+	/**the Conference for this SPC */
 	private Conference myConference;
 
-	/**
-	 * Default Constructor
-	 * 
-	 */
-	public SPCHomeView(User theUser, Conference theConference){
-		myManuscriptList = new ArrayList<Manuscript>();
-		myUser = theUser;
-		myConference = theConference;
-	}
+	public static final String ASSIGN_REVIEWER = "ASSIGN_REVIEWER";
+	public static final String SUBMIT_RECOMMENDATION = "SUBMIT_RECOMMENDATION";
+
+	private ArrayList<Manuscript> myManuscriptList;
+
 
 	/**
-	 * Constructor that takes an ArrayList<Manuscript>
-	 * 
-	 * @param theManuscriptList must be non-null list of Manuscripts
+	 *  constructor
 	 */
-	public SPCHomeView(User theUser, ArrayList<Manuscript> theManuscriptList, Conference theConference){
+	public SPCHomeView(ArrayList<Manuscript> theManuscriptList ,Conference theConference){
 		myManuscriptList = theManuscriptList;
-		myUser = theUser;
+		myPanel = new JPanel(new BorderLayout());
 		myConference = theConference;
+
+		/**
+		 * Set up and add Main Manuscript List Table
+		 */
+		JTable table = new JTable(new MyTableModel());
+		table.setPreferredScrollableViewportSize(new Dimension(500, 200));
+		table.setFillsViewportHeight(true);
+
+		// This will only allow the user to select the entire row.
+		table.setRowSelectionAllowed(true);
+
+		// Set width of title column to be size of longest title
+		int width = 0;
+		for(int i = 0; i < myManuscriptList.size(); i++) {
+			TableCellRenderer renderer = table.getCellRenderer(i, 0);
+			Component comp = table.prepareRenderer(renderer, i, 0);
+			width = Math.max (comp.getPreferredSize().width, width);
+		}
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(width);
+
+		// Setup Event listener for table row selection
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// On table row select set currently selected manuscript field to
+				// selected manuscript
+				if (!e.getValueIsAdjusting()) {
+					// Enable action buttons to be clickable if they are disabled.
+					//					if(!myViewMoreInfoBtn.isEnabled()) {
+					assignReviewerBtn.setEnabled(true);
+					submitRecommendationBtn.setEnabled(true);
+					//						myViewMoreInfoBtn.setEnabled(true);
+					//						myDownloadBtn.setEnabled(true);
+					//					}
+
+					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
+					setCurrentlySelectedManuscript(selectedManu);
+
+					setChanged();
+					notifyObservers(myCurrentlySelectedManuscript);
+				}
+
+			}
+
+		});
+
+		//Create the scroll pane and add the table to it.
+		myManuscriptListScrollPane = new JScrollPane(table);
+
+		//Add the scroll pane to this panel.
+		myPanel.add(myManuscriptListScrollPane, BorderLayout.CENTER);
+
+
+		/**
+		 * Setup South Button Panel
+		 */
+		myButtonPanel = new JPanel();
+		myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
+		myButtonPanel.setBorder(new EmptyBorder(50, 25, 50, 25));
+
+		// add buttons to btn panel
+		// by default buttons are disabled until a row is selected
+		EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
+
+		this.assignReviewerBtn = new JButton("Add New Manuscript...");
+		this.assignReviewerBtn.addActionListener(this);
+		this.assignReviewerBtn.setActionCommand(this.ASSIGN_REVIEWER);
+
+		this.submitRecommendationBtn = new JButton("Delete Manuscript");
+		this.submitRecommendationBtn.setEnabled(false);
+		this.submitRecommendationBtn.addActionListener(this);
+		this.submitRecommendationBtn.setActionCommand(this.SUBMIT_RECOMMENDATION);
+
+		myButtonPanel.add(assignReviewerBtn);
+		myButtonPanel.add(submitRecommendationBtn);
+
+
+		myPanel.add(myButtonPanel, BorderLayout.SOUTH);
+
+		myPanel.setOpaque(true);
 	}
 
 	/**
-	 * JPanel with SPC_HomeView Layout, calls displayTable() to create inner display panel
+	 * Returns the main JPanel for this view
 	 * 
-	 * @return JPanel displaying internal JPanel
+	 * PreConditions:
+	 * 	JPanel must already have been instantiated
+	 * @return a JPanel
+	 * @author Ryan Tran
+	 * @version 5/27/17
 	 */
-	public JPanel homeViewLayout(){
-		JPanel baseLayer = new JPanel(new BorderLayout());
-		JPanel displayTable = displayTable();
-		baseLayer.add(displayTable, BorderLayout.CENTER);
-
-		return baseLayer;
-
+	public JPanel getMyPanel() {
+		return this.myPanel;
 	}
 
-	public JPanel displayTable() {
-		//
-		JPanel displayTable = new JPanel(new GridLayout(0,6));
+	/**
+	 * Action listener for different buttons.
+	 * 
+	 * @author Morgan Blackmore
+	 * @author Ryan Tran
+	 * @version 5/27/17
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String action = e.getActionCommand();
 
-		//Column Titles
-		JLabel title = new JLabel("Title");
-		JLabel reviewer1 = new JLabel("Reviewer 1");
-		JLabel reviewer2 = new JLabel("Reviewer 2");
-		JLabel reviewer3 = new JLabel("Reviewer 3");
-		JLabel recommendation = new JLabel("Recommendation");
-		JLabel ManSubDeadline = new JLabel("Manuscript Submission Deadline");
+		switch(action) {
+		case ASSIGN_REVIEWER:
+			//				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
+			setChanged();
+			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
+			break;
+		case SUBMIT_RECOMMENDATION:
+			//				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
+			setChanged();
+			notifyObservers(myCurrentlySelectedManuscript);
+			setChanged();
+			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.SUBMIT_RECOMMENDATION);
+			break;
 
-		//Add labels to displayTable to act as column headers
-		displayTable.add(title);
-		displayTable.add(reviewer1);
-		displayTable.add(reviewer2);
-		displayTable.add(reviewer3);
-		displayTable.add(recommendation);
-		displayTable.add(ManSubDeadline);
-
-		//build that MFn' table
-		ButtonGroup bGroup = new ButtonGroup();
-		for (int i = 0; i < myManuscriptList.size(); i++){
-
-			Manuscript thisManuscript = myManuscriptList.get(i);
-
-			/*First column: 
-			 * display labels of manuscript titles
-			 */
-			JLabel thisTitle = new JLabel(thisManuscript.getTitle());
-			displayTable.add(thisTitle);
-			
-			/*
-			 * Check if manuscript submission is still open, if so, display: 
-			 * "manuscript submission is still open" 
-			 */
-			/*if manuscript deadline is after today, it is still open.
-			 * Display across all three reviewer columns
-			 */
-			if (myConference.getManuscriptDeadline().after(new Date())){
-				JLabel subDeadline = new JLabel("Manuscript submission is still open.");
-				displayTable.add(subDeadline);
-				displayTable.add(subDeadline);
-				displayTable.add(subDeadline);
-
-			} else {
-
-				/*Second, third, and fourth columns:
-				 * display status of Reviews
-				 * 3 options - awaiting review, assign reviewer, review submitted
-				 */
-
-				ArrayList<Reviewer> reviewerList = thisManuscript.getReviewerList();
-				ArrayList<File> reviewList = myManuscriptList.get(i).getReviews(); 
-
-				/*this set-up will misrepresent which reviewers have submitted their reviews
-				 * Won't display properly if Reviewer1 is not the first to submit review 
-				 * Fix would mean connecting the review file with the Reviewer and right now our model class can't do that
-				 * Will get back to it when time allows.  For now, this displays the data, just misleadingly. 
-				 */
-
-				/*for each reviewer look to see if there is a review.
-				 * If there is a reviewer but no review display "awaiting review"
-				 * If there is a reviewer and a review, display "review submitted"
-				 */
-
-				
-				/*magic number 3 comes from the number of reviewers to display
-				 * counts down to indicate how many reviewer spots are empty in table
-				 * and need assignReviewer buttons.
-				 */
-				int AssignReviewerButtonsNeededCounter = 3;
-				
-				for (Reviewer reviewer : reviewerList){
-					
-					//reviewer but no review submitted
-					if (!reviewList.get(i).exists()){
-						JLabel awaitingReview = new JLabel("Awaiting review.");
-						displayTable.add(awaitingReview);
-						AssignReviewerButtonsNeededCounter--;
-					} 
-					//reviewer and review submitted
-					else {
-						JLabel reviewSubmitted = new JLabel("Review submitted.");
-						displayTable.add(reviewSubmitted);
-						AssignReviewerButtonsNeededCounter--;
-					}
-
-				}//endfor
-				
-				/*
-				 * Now backfill for any empty spots in table where there was no
-				 * reviewer in reviewerList
-				 */
-				for (int j = 0; j<AssignReviewerButtonsNeededCounter; j++){
-					
-					JButton assignReviewerButton = new JButton("Assign Reviewer");
-					assignReviewerButton.setActionCommand("Assign Reviewer");
-					assignReviewerButton.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							/*
-							 * The code below all follows Ryan's example from the ConferenceListView class
-							 * But I'm not sure its necessary here, I wrote a simple
-							 * replacement below
-							 */
-//							int manuscriptIndex = getClickedManuscript(bGroup, e);
-//							if(manuscriptIndex > -1 ) {
-//								setChanged();
-//								notifyObservers(myManuscriptList.get(manuscriptIndex));
-//								setChanged();
-//								notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
-//							} else {
-//								//should display to gui not console
-//								System.out.println("Manuscript not found.");
-//							}
-							setChanged();
-							notifyObservers(thisManuscript);
-							setChanged();
-							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
-								
-						}
-					});
-					
-					displayTable.add(assignReviewerButton);	
-					
-				} //endfor
-
-				/*
-				 * 5th Column: 
-				 * display Recommendation status
-				 * 3 options - rec submitted, awaiting reviews, submit rec 
-				 */
-				//if there is already a recommendation
-				if (thisManuscript.getRecommendation().exists()){
-					JLabel recommendationSubmitted = new JLabel("Recommendation Submitted.");
-					displayTable.add(recommendationSubmitted);
-					
-				}
-				//if there are insufficient reviews
-				if (thisManuscript.getReviews().size()<3) {
-					JLabel awaitingReviews = new JLabel("Awaiting Reviews.");
-					displayTable.add(awaitingReviews);
-				}
-				//if there are sufficient reviews and no recommendation exists
-				if (thisManuscript.getReviews().size() >= 3 && !thisManuscript.getRecommendation().exists()){
-					JButton submitRecommendation = new JButton("Submit recommendation.");
-					submitRecommendation.setActionCommand("Submit recommendation.");
-					submitRecommendation.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							
-//							int manuscriptIndex = getClickedManuscript(bGroup, e);
-//							if(manuscriptIndex > -1 ) {
-//								setChanged();
-//								notifyObservers(myManuscriptList.get(manuscriptIndex));
-//								setChanged();
-//								notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.SUBMIT_RECOMMENDATION);
-//							} else {
-//								//should display to gui not console
-//								System.out.println("Manuscript not found.");
-//							}
-							setChanged();
-							notifyObservers(thisManuscript);
-							setChanged();
-							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
-								
-						}
-					});
-					
-					displayTable.add(submitRecommendation);	
-				}
-				
-
-				/*
-				 * 6th Column:
-				 * display ManuscriptSubmissionDeadline
-				 */
-				JLabel thisMansDeadline = new JLabel(myConference.getManuscriptDeadline()+ "");
-				displayTable.add(thisMansDeadline);
-				
-
-			} // Endelse
-		} // Endfor
-
-
-
-		return displayTable;
+		}
 	}
+
+
+	/**
+	 * Sets the view's currently selected manuscript field to the passed in manuscript.
+	 * 
+	 * Preconditions:
+	 * 	Manuscript must be non-null
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/27/17
+	 * @param theManuscript the manuscript to be set to the currently selected manuscript field
+	 */
+	private void setCurrentlySelectedManuscript(Manuscript theManuscript) {
+		this.myCurrentlySelectedManuscript = theManuscript;
+	}
+	/**
+	 * Abstract table model class that represents the table's data for the manuscript list table.
+	 * This model will be added to the JTable inside of the parent JPanel for this class.
+	 * This model has to be instantiated with a ManuscriptList.
+	 * @author Ryan Tran
+	 * @author Morgan Blackmore
+	 * @version 5/27/17
+	 *
+	 */
+	class MyTableModel extends AbstractTableModel {
+		private String[] columnNames = {"Title",
+				"Num Reviewers Assigned",
+				"Num Reviews Submitted",
+				"Recommendation Submitted"};
+		/**
+		 * 2D array of cell data for each row/column
+		 */
+		private Object[][] data;
+
+		/**
+		 * Constructor for table model that requires a list of manuscripts to populate
+		 * the 2d data array.
+		 * 
+		 * @author Ryan Tran
+		 */
+		public MyTableModel() {
+			data = generateDataArray(myManuscriptList);
+		}
+
+
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		public int getRowCount() {
+			return data.length;
+		}
+
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+
+		/*
+		 * JTable uses this method to determine the default renderer/
+		 * editor for each cell.  If we didn't implement this method,
+		 * then the last column would contain text ("true"/"false"),
+		 * rather than a check box.
+		 */
+		public Class getColumnClass(int c) {
+			return getValueAt(0, c).getClass();
+		}
+
+		private void printDebugData() {
+			int numRows = getRowCount();
+			int numCols = getColumnCount();
+
+			for (int i=0; i < numRows; i++) {
+				System.out.print("    row " + i + ":");
+				for (int j=0; j < numCols; j++) {
+					System.out.print("  " + data[i][j]);
+				}
+				System.out.println();
+			}
+			System.out.println("--------------------------");
+		}
+
+		/**
+		 * This method will generate a 2D array list using the passed in manuscript list
+		 * and populate the 2d array to fit a table format of rows and columns
+		 * Column Headers are: Title, Submission Date, Authors, Delete Btn, Download Btn
+		 * @param theManuscriptList
+		 * @return
+		 */
+		private Object[][] generateDataArray(ArrayList<Manuscript> theManuscriptList) {
+			Object[][] returnList = new Object[theManuscriptList.size()][4];
+
+			for(int i = 0; i < theManuscriptList.size(); i++) {
+				returnList[i][0] =  theManuscriptList.get(i).getTitle();
+				returnList[i][1] =  theManuscriptList.get(i).getReviewerList().size();
+				returnList[i][2] =  theManuscriptList.get(i).getReviews().size();
+
+				if (theManuscriptList.get(i).getRecommendation().exists()){
+					returnList[i][3] =  "Recommendation submitted";
+				} else if (theManuscriptList.get(i).getReviews().size()>=3){
+					returnList[i][3] = "Submit Recommendation";
+				} else if (theManuscriptList.get(i).getReviews().size()<3){
+					returnList[i][3] = "Awaiting Reviews";
+				}
+				
+			}
+
+			return returnList;
+		}
+	}
+
+
 
 }

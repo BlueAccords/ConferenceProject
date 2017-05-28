@@ -79,13 +79,14 @@ public class Driver {
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			
 			
-			//Add manuscripts to SubprogramChair
+			//Add manuscripts to SubprogramChair 
 			ArrayList<Manuscript> assignedManuscriptsSPC = new ArrayList<Manuscript>();
 			assignedManuscriptsSPC.add(manu1);
 			assignedManuscriptsSPC.add(manu2);
 			assignedManuscriptsSPC.add(manu3);
 			assignedManuscriptsSPC.add(manu4);
 			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
+			//add SubprogramChair to Conference with open deadline 
 			acmConf.addSubprogramChair(spc);
 			
 			
