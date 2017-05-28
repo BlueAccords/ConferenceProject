@@ -56,8 +56,8 @@ public class ConferenceTest {
 
 	@Test
 	public void addManuscript() throws Exception {
-    	RSAConference.addManuscript(aManuscript);
-    	assertTrue(RSAConference.getManuscripts().contains(aManuscript));
+    	TesselationsConference.addManuscript(aManuscript);
+    	assertTrue(TesselationsConference.getManuscripts().contains(aManuscript));
 	}
 
 	@Test
@@ -69,8 +69,8 @@ public class ConferenceTest {
 
 	@Test
 	public void addReviewer() throws Exception {
-    	RSAConference.addReviewer(reviewerBob);
-    	assertTrue(RSAConference.getEligibleReviewers(aManuscript).contains(reviewerBob));
+    	TesselationsConference.addReviewer(reviewerBob);
+    	assertTrue(TesselationsConference.getEligibleReviewers(aManuscript).contains(reviewerBob));
 	}
 
 	@Test
@@ -98,8 +98,8 @@ public class ConferenceTest {
 
 	@Test
 	public void getManuscriptsBelongingToAuthor() throws Exception {
-		RSAConference.addManuscript(johns);
-		List<Manuscript> submitted = RSAConference.getManuscriptsBelongingToAuthor(authorJohn);
+		TesselationsConference.addManuscript(johns);
+		List<Manuscript> submitted = TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn);
 		assertTrue(submitted.size() == 1);
 		assertTrue(submitted.contains(johns));
     }
