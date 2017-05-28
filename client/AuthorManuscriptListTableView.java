@@ -202,6 +202,10 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				break;
 			case VIEW_MORE_INFO:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
+				setChanged();
+				notifyObservers(myCurrentlySelectedManuscript);
+				setChanged();
+				notifyObservers(Controller.AUTHOR + Controller.VIEW_MANUSCRIPT_INFO);
 				break;
 			case DOWNLOAD_MANUSCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
