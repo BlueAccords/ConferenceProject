@@ -335,7 +335,6 @@ public class Controller extends Observable implements Observer {
 							}
 							break;
 						case DELETE_MANUSCRIPT:
-							System.out.println("DELET THIS");
 							removeManuscriptFromAuthorAndConference(myCurrentManuscript);
 							AuthorManuscriptListTableView manuscriptListTableView = new AuthorManuscriptListTableView(myCurrentConference
 									.getManuscriptsBelongingToAuthor(myCurrentAuthor));
@@ -355,8 +354,8 @@ public class Controller extends Observable implements Observer {
 					switch (myCurrentState % ROLE_POS){
 	                    case ASSIGN_REVIEWERS:
 	                    	//find eligible reviewers here
-	                    	
-	                        SPCAssignReviewersView assignReviewersView = new SPCAssignReviewersView();
+	                    	ArrayList<Reviewer> eligibleReviewers = myCurrentConference.getEligibleReviewers(myCurrentManuscript);
+	                        SPCAssignReviewersView assignReviewersView = new SPCAssignReviewersView(eligibleReviewers);
 	                        myPreviousStates.push(myLastState);
 	                        myLastState = ParentFrameView.ASSIGN_REVIEWERS_VIEW;
 	                        assignReviewersView.addObserver(myParentFrame);
@@ -375,8 +374,12 @@ public class Controller extends Observable implements Observer {
 	                    	
 	                    	break;
 						case LIST_MANUSCRIPT_VIEW:
+<<<<<<< HEAD
 							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), 
 									myCurrentConference);
+=======
+							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), myCurrentConference);
+>>>>>>> 2910ee56df6bc00ba040167ecb077ecebf46b74d
 							myPreviousStates.push(myLastState);
 							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							spcHomeView.addObserver(myParentFrame);
