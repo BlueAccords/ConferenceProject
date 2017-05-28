@@ -46,7 +46,7 @@ public class SPCSubmitRecommendationView extends Observable{
 	 */
 	public SPCSubmitRecommendationView(){
 		myRecommendation = new File("");
-		myPanel = new JPanel(new GridLayout(0,7));
+		myPanel = new JPanel(new GridLayout(7,0));
 	}
 
 
@@ -65,7 +65,10 @@ public class SPCSubmitRecommendationView extends Observable{
 		JLabel filePrompt = new JLabel("Select a file to upload");
 		JLabel filePathPrompt = new JLabel("File path");
 
-		JSlider scaleSlider = new JSlider(0, 10);
+		JSlider scaleSlider = new JSlider(0, 10, 5);
+		scaleSlider.setPaintTicks(true);
+		scaleSlider.setSnapToTicks(true);
+		
 		JFileChooser fileChooser = new JFileChooser();
 		JLabel filePathDisplay = new JLabel();
 
