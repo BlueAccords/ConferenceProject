@@ -33,6 +33,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
@@ -89,7 +90,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     	myCurrentConference = theConference;
     	myPanel = new JPanel(new BorderLayout());
     	
-    	myConfTitleLabel = new JLabel(myCurrentConference.getConferenceName(), SwingConstants.CENTER);
+    	// construct header using conference title and deadline date
+    	String confDeadlineDate = convertDateToExplicitFormat(myCurrentConference.getManuscriptDeadline());
+    	String viewHeaderTitle = "<html><div style='text-align: center;'>"
+    		+ "Your Submitted Manuscripts for <br>" + myCurrentConference.getConferenceName()
+    		+ "<br>Submission Deadline: " + confDeadlineDate + "</html>";
+    	myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
 		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
         myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
     	myPanel.add(myConfTitleLabel, BorderLayout.NORTH);
@@ -289,6 +295,24 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 			myDeleteManuscriptBtn.setEnabled(false);
 		}
 		
+	}
+	
+	/**
+	 * Returns a string representing a date formatted to include GMT time zone
+	 * day, month, and year. 
+	 * PreConditions:
+	 * 	theDate is non-null
+	 * @param theDate
+	 * @return A string representing theDate.
+	 */
+	private String convertDateToExplicitFormat(Date theDate) {
+		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		SimpleDateFormat formatter = 
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss z '('Z')'");
+
+		String result = formatter.format(theDate);
+		
+		return result;
 	}
  
     /**
