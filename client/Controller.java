@@ -27,8 +27,8 @@ public class Controller extends Observable implements Observer {
     public static final int LOG_IN_STATE = -2;
     public static final int CHOOSE_USER = -1;
 	public static final int AUTHOR = 0;
-	public static final int REVIEWER = 10;
-	public static final int SUBPROGRAM_CHAIR = 20;
+	public static final int REVIEWER = 100;
+	public static final int SUBPROGRAM_CHAIR = 200;
 	
 	//Action States
 	public static final int USER_OPTIONS = 0;
@@ -127,7 +127,7 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
-			switch (theNextState % -10) {
+			switch (theNextState % -100) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
 						ConferenceListView confListView = new ConferenceListView(Conference.getConferences(), myCurrentUser);
@@ -143,7 +143,7 @@ public class Controller extends Observable implements Observer {
 					//notifyObservers(myCurrentState);
 					break;
 				case CHOOSE_USER:
-					switch (((theNextState * -1) / 10) * 10) { //will need to break this up more here.
+					switch (((theNextState * -1) / 100) * 100) { //will need to break this up more here.
 						case AUTHOR:
 							//System.out.println("User chose Author role");
 							//myCurrentAuthor = (Author) myCurrentUser;
@@ -216,9 +216,9 @@ public class Controller extends Observable implements Observer {
 					break;
 			}
 		} else {
-			switch ((theNextState / 10) * 10) {
+			switch ((theNextState / 100) * 100) {
 				case AUTHOR:
-					switch (theNextState % 10){
+					switch (theNextState % 100){
 						
 						case SUBMIT_MANUSCRIPT:
 							//if (!isOpen) {
@@ -293,12 +293,12 @@ public class Controller extends Observable implements Observer {
 					
 					break;
 				case REVIEWER:
-					switch (myCurrentState % 10){
+					switch (myCurrentState % 100){
 	
 					}
 					break;
 				case SUBPROGRAM_CHAIR:
-					switch (myCurrentState % 10){
+					switch (myCurrentState % 100){
 	                    case ASSIGN_REVIEWER:
 	                       //SPC assigns a reviewer to a manuscript.
 	                    	//displays a list of valid reviewers available for this manuscript. 
