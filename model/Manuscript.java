@@ -70,7 +70,7 @@ public class Manuscript implements Serializable{
 		myManuscriptFile = theManuscriptFile;
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
-		myRecommendation = null;
+		myRecommendation = new File("");
 		myReviewerList = new ArrayList<Reviewer>();
 		
 	}
@@ -224,10 +224,6 @@ public class Manuscript implements Serializable{
 	 * @version 5/42/17
 	 */
 	public File getRecommendation(){
-		
-	
-			
-		
 		return myRecommendation;
 	}
 	

@@ -434,6 +434,11 @@ public class Conference implements Serializable{
 		
 		return returnList;
 	}
+	
+	
+	
+	public ArrayList<Reviewer> getEligibleReviewers
+	
 
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.

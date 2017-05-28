@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -131,7 +132,7 @@ public class ConferenceListView extends Observable {
 			
 		}
 		conferenceButtonPanel.setOpaque(true);
-		
+		//conferenceButtonPanel.setBackground(Color.WHITE);
 		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference List"));
 		conferencePanel.add(conferenceButtonPanel);
