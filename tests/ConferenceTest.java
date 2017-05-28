@@ -35,6 +35,7 @@ public class ConferenceTest {
 	Author authorJohn;
 	Manuscript johns;
 
+	Reviewer reviewerJohn;
 	User bob;
 	User john;
 
@@ -54,6 +55,7 @@ public class ConferenceTest {
         bob = new User("Bob@bob.com", false);
         authorBob = new Author(bob);
         reviewerBob = new Reviewer(bob);
+        reviewerJohn = new Reviewer(john);
         aManuscript = new Manuscript("Conference test.java manuscript", new File("ConferenceTest.java"), authorBob);
     }
 
@@ -73,9 +75,9 @@ public class ConferenceTest {
 
 	@Test
 	public void addReviewer() throws Exception {
-    	TesselationsConference.addReviewer(reviewerBob);
+    	TesselationsConference.addReviewer(reviewerJohn);
     	System.out.println(TesselationsConference.getEligibleReviewers(aManuscript).size());
-    	assertTrue(TesselationsConference.getEligibleReviewers(aManuscript).contains(reviewerBob));
+    	assertTrue(TesselationsConference.getEligibleReviewers(aManuscript).contains(reviewerJohn));
 	}
 
 	@Test
