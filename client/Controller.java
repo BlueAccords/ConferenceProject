@@ -39,6 +39,10 @@ public class Controller extends Observable implements Observer {
 	public static final int LIST_ASSIGNED_REVIEWERS_VIEW = 5;
 	public static final int SUBMIT_RECOMMENDATION = 6;
 	public static final int MANUSCRIPT_OPTIONS_VIEW = 7;
+	public static final int DELETE_MANUSCRIPT = 8;
+	
+	//Used to parse the current role
+	private static final int ROLE_POS = 100;
 
 	
 	//Objects we are adding in the System. We are saving them because we need persistence between states.
@@ -127,7 +131,7 @@ public class Controller extends Observable implements Observer {
 		//String[] pieces = theNextState.split(",");
 		
 		if (theNextState < 0) {
-			switch (theNextState % -100) {
+			switch (theNextState % -ROLE_POS) {
 				case LOG_IN_STATE:
 					if(myCurrentUser != null) {
 						ConferenceListView confListView = new ConferenceListView(Conference.getConferences(), myCurrentUser);
@@ -143,7 +147,7 @@ public class Controller extends Observable implements Observer {
 					//notifyObservers(myCurrentState);
 					break;
 				case CHOOSE_USER:
-					switch (((theNextState * -1) / 100) * 100) { //will need to break this up more here.
+					switch (((theNextState * -1) / ROLE_POS) * ROLE_POS) { //will need to break this up more here.
 						case AUTHOR:
 							//System.out.println("User chose Author role");
 							//myCurrentAuthor = (Author) myCurrentUser;
@@ -216,9 +220,9 @@ public class Controller extends Observable implements Observer {
 					break;
 			}
 		} else {
-			switch ((theNextState / 100) * 100) {
+			switch ((theNextState / ROLE_POS) * ROLE_POS) {
 				case AUTHOR:
-					switch (theNextState % 100){
+					switch (theNextState % ROLE_POS){
 						
 						case SUBMIT_MANUSCRIPT:
 							//if (!isOpen) {
@@ -226,7 +230,8 @@ public class Controller extends Observable implements Observer {
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
 								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference).submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference)
+										.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
 							/*} else {
@@ -289,16 +294,24 @@ public class Controller extends Observable implements Observer {
 								isOpen = false;
 							}
 							break;
+						case DELETE_MANUSCRIPT:
+							removeManuscriptFromAuthorAndConference(myCurrentManuscript);
+							AuthorManuscriptListTableView manuscriptListTableView = new AuthorManuscriptListTableView(myCurrentConference
+									.getManuscriptsBelongingToAuthor(myCurrentAuthor));
+							manuscriptListTableView.addObserver(myParentFrame);
+							myParentFrame.addPanel(manuscriptListTableView.getMyPanel(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+							break;
 					}
 					
 					break;
 				case REVIEWER:
-					switch (myCurrentState % 100){
+					switch (myCurrentState % ROLE_POS){
 	
 					}
 					break;
 				case SUBPROGRAM_CHAIR:
-					switch (myCurrentState % 100){
+					switch (myCurrentState % ROLE_POS){
 	                    case ASSIGN_REVIEWER:
 	                       //SPC assigns a reviewer to a manuscript.
 	                    	//displays a list of valid reviewers available for this manuscript. 
