@@ -145,6 +145,20 @@ public class Driver {
 			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
 			//add SubprogramChair to Conference with open deadline 
 			acmConf.addSubprogramChair(spc);
+			
+			//Add reviewers to manu1
+			manu1.addReviewer(testReviewer1);
+			manu1.addReviewer(testReviewer2);
+			manu1.addReviewer(testReviewer3);
+			
+			//Add reviews to manu1
+			File testReview1 = new File("");
+			File testReview2 = new File("");
+			File testReview3 = new File("");
+			manu1.addReview(testReview1);
+			manu1.addReview(testReview2);
+			manu1.addReview(testReview3);
+			
 			try {
 				spc.assignManuscriptToReviewer(new Reviewer(testUser1), manu6);
 			} catch (Exception e) {

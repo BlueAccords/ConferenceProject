@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,20 +64,29 @@ public class SPCSubmitRecommendationView extends Observable{
 		//labels to guide user
 		JLabel scorePrompt = new JLabel("What is your recommendation?");
 		JLabel filePrompt = new JLabel("Select a file to upload");
-		JLabel filePathPrompt = new JLabel("File path");
+		JLabel filePathPrompt = new JLabel("File path: ");
+		
+		JLabel filePathDisplay = new JLabel("No file selected");
 
 		JSlider scaleSlider = new JSlider(0, 10, 5);
+		scaleSlider.setMajorTickSpacing(1);
+		scaleSlider.setPaintLabels(true);
 		scaleSlider.setPaintTicks(true);
 		scaleSlider.setSnapToTicks(true);
 		
 		JFileChooser fileChooser = new JFileChooser();
-		JLabel filePathDisplay = new JLabel();
+//		fileChooser.addPropertyChangeListener(event-> {
+//			filePathDisplay.setText(fileChooser.getSelectedFile().getPath());	
+//		});
+		
 
 		JButton submitBtn = new JButton("Submit");
 		submitBtn.setActionCommand("Submit Recommendation");
 		submitBtn.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				myRecommendation =  fileChooser.getSelectedFile();
+				
+				
 				setChanged();
 				notifyObservers(myRecommendation);  
 				setChanged();
@@ -85,12 +95,15 @@ public class SPCSubmitRecommendationView extends Observable{
 			}  
 		});
 
+		
 		recViewPanel.add(scorePrompt);
 		recViewPanel.add(scaleSlider);
 		recViewPanel.add(filePrompt);
 		recViewPanel.add(fileChooser);
-		recViewPanel.add(filePathPrompt);
-		recViewPanel.add(filePathDisplay);
+		JPanel pathPanel = new JPanel(new FlowLayout());
+		pathPanel.add(filePathPrompt);
+		pathPanel.add(filePathDisplay);
+		recViewPanel.add(pathPanel);
 		recViewPanel.add(submitBtn);
 
 		return recViewPanel;
