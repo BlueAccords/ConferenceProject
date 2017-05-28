@@ -206,7 +206,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 				StringBuilder authorNames = new StringBuilder();
 				for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
-					authorNames.append(author.getUser().getWholeName() + "\n");
+					authorNames.append(author.getUser().getEmail() + "\n");
 				}
 				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
