@@ -346,12 +346,12 @@ public class Controller extends Observable implements Observer {
 					
 					break;
 				case REVIEWER:
-					switch (myCurrentState % ROLE_POS){
+					switch (theNextState % ROLE_POS){
 	
 					}
 					break;
 				case SUBPROGRAM_CHAIR:
-					switch (myCurrentState % ROLE_POS){
+					switch (theNextState % ROLE_POS){
 	                    case ASSIGN_REVIEWERS:
 	                    	//find eligible reviewers here
 	                    	ArrayList<Reviewer> eligibleReviewers = myCurrentConference.getEligibleReviewers(myCurrentManuscript);
@@ -374,12 +374,9 @@ public class Controller extends Observable implements Observer {
 	                    	
 	                    	break;
 						case LIST_MANUSCRIPT_VIEW:
-<<<<<<< HEAD
+
 							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), 
 									myCurrentConference);
-=======
-							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), myCurrentConference);
->>>>>>> 2910ee56df6bc00ba040167ecb077ecebf46b74d
 							myPreviousStates.push(myLastState);
 							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							spcHomeView.addObserver(myParentFrame);
