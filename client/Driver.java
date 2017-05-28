@@ -32,18 +32,24 @@ public class Driver {
 		// add dummy users
 		if(DEBUG) {
 			User.initializeUserListToEmptyList();
+			
+			//User set up
 			User testUser1 = new User("john@email.com");
 			User testUser2 = new User("connor@test.com", true);
 			User testUser3 = new User("casanova@test.com");
 			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
+			
+			//Reviewer set up
 			Reviewer testReviewer1 = new Reviewer(testUser1);
 			Reviewer testReviewer2 = new Reviewer(testUser2);
 			Reviewer testReviewer3 = new Reviewer(testUser3);
 			Reviewer testReviewer4 = new Reviewer(testUser4);
 			Reviewer testReviewer5 = new Reviewer(testUser5);
 			Reviewer testReviewer6 = new Reviewer(testUser6);
+			
+			
 			User testUserWithMaxManuscripts = new User("max@email.com");
 			User.addUser(testUser6);
 			User.addUser(testUser5);
@@ -102,6 +108,14 @@ public class Driver {
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
+			
+			
+			manu1.addReviewer(testReviewer1);
+			manu1.addReviewer(testReviewer2);
+			manu1.addReviewer(testReviewer3);
+			manu1.addReview(new File(""));
+			manu1.addReview(new File(""));
+			manu1.addReview(new File(""));
 			
 			// Manuscripts for user with max # of manuscripts
 			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);
