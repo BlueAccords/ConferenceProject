@@ -1,5 +1,6 @@
 package client;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
@@ -8,14 +9,17 @@ import javax.swing.JButton;
  */
  
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
@@ -25,10 +29,12 @@ import model.Manuscript;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -41,6 +47,15 @@ import java.util.Observable;
  *
  */
 public class AuthorManuscriptListTableView extends Observable implements ActionListener {
+
+	/**
+	 * JButton Action Command Constants
+	 */
+    public static final String ADD_NEW_MANUSCRIPT = "ADD_NEW_MANUSCRIPT";
+    public static final String DELETE_MANSUCRIPT = "DELETE_MANUSCRIPT";
+    public static final String VIEW_MORE_INFO = "VIEW_MORE_INFO";
+    public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
+
     private boolean DEBUG = false;
     private JPanel myPanel;
     private JPanel myButtonPanel;
@@ -50,6 +65,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private JButton myDeleteManuscriptBtn;
     private JButton myViewMoreInfoBtn;
     private JButton myDownloadBtn;
+    private JLabel myConfTitleLabel;
     
     /**
      * Booleans to check business rules.
@@ -58,27 +74,25 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private boolean isAuthorAtMaxLimit;
     private boolean isAuthorPastSubmissionDeadline;
     
-    /**
-     *  used to disable action buttons until a table row is selected
-     */
-    private boolean myManuscriptRowIsSelected = false;
     
     /**
      * Used to store the currently selected manuscript from the manuscript table.
      * This is the manuscript that will be passed to the controller on add or delete
      */
     private Manuscript myCurrentlySelectedManuscript;
-    
-    public static final String ADD_NEW_MANUSCRIPT = "ADD_NEW_MANUSCRIPT";
-    public static final String DELETE_MANSUCRIPT = "DELETE_MANUSCRIPT";
-    public static final String VIEW_MORE_INFO = "VIEW_MORE_INFO";
-    public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
 
     private ArrayList<Manuscript> myCurrentManuscriptList;
+    private Conference myCurrentConference;
  
-    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList) {
+    public AuthorManuscriptListTableView(ArrayList<Manuscript> theManuscriptList, Conference theConference) {
     	myCurrentManuscriptList = theManuscriptList;
+    	myCurrentConference = theConference;
     	myPanel = new JPanel(new BorderLayout());
+    	
+    	myConfTitleLabel = new JLabel(myCurrentConference.getConferenceName(), SwingConstants.CENTER);
+		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+    	myPanel.add(myConfTitleLabel, BorderLayout.NORTH);
  
         /**
          * Set up and add Main Manuscript List Table
@@ -128,10 +142,14 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 			}
 			
 		});
+		
+		// Set font for table header
+		Font headerFont = new Font("Arial", Font.BOLD, 14);
+		JTableHeader tableHeader = table.getTableHeader();
+		tableHeader.setFont(headerFont);
  
         //Create the scroll pane and add the table to it.
         myManuscriptListScrollPane = new JScrollPane(table);
- 
         //Add the scroll pane to this panel.
         myPanel.add(myManuscriptListScrollPane, BorderLayout.CENTER);
         
@@ -141,7 +159,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
          */
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
-        myButtonPanel.setBorder(new EmptyBorder(50, 25, 50, 25));
+        myButtonPanel.setBorder(new EmptyBorder(50, 0, 50, 0));
 
         // add buttons to btn panel
         // by default buttons are disabled until a row is selected
@@ -155,7 +173,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         this.myDeleteManuscriptBtn.setEnabled(false);
 		this.myDeleteManuscriptBtn.addActionListener(this);
 		this.myDeleteManuscriptBtn.setActionCommand(this.DELETE_MANSUCRIPT);
-
 
         this.myViewMoreInfoBtn = new JButton("View More Info");
         this.myViewMoreInfoBtn.setEnabled(false);
@@ -180,9 +197,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         	this.myAddNewManuscriptBtn.setEnabled(false);
         	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
         	+ " Manuscript Submissions per conference");
-        // TODO: check if submission is past deadline.
-        } else if(false) {
-        	
+        } else if(myCurrentConference.getManuscriptDeadline().getTime() <= new Date().getTime()) {
+			this.myAddNewManuscriptBtn.setEnabled(false);
+        	this.myAddNewManuscriptBtn.setToolTipText("Manuscript Submission Deadline of "
+        			+ myCurrentConference.getManuscriptDeadline().toString() + " is already past for this conference"
+        			+ "Cannot submit a new Manuscript.");
+
         } else {
         	// clear tool tip
         	this.myAddNewManuscriptBtn.setToolTipText(null);
@@ -196,6 +216,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         
         myPanel.add(myButtonPanel, BorderLayout.SOUTH);
         
+        // Padding for entire view panel
+        myPanel.setBorder(new EmptyBorder(5, 20, 5, 20));
         myPanel.setOpaque(true);
     }
     
@@ -221,19 +243,21 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		
 		switch(action) {
 			case ADD_NEW_MANUSCRIPT:
-				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 				setChanged();
 				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 				break;
 			case DELETE_MANSUCRIPT:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
-				setChanged();
-				notifyObservers(myCurrentlySelectedManuscript);
-				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.DELETE_MANUSCRIPT);
+				// pop up verify box to make sure user wants to delete manuscript
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete this Manuscript?","Warning", JOptionPane.YES_NO_OPTION);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					setChanged();
+					notifyObservers(myCurrentlySelectedManuscript);
+					setChanged();
+					notifyObservers(Controller.AUTHOR + Controller.DELETE_MANUSCRIPT);
+				}
+				
 				break;
 			case VIEW_MORE_INFO:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 				StringBuilder authorNames = new StringBuilder();
 				for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
 					authorNames.append(author.getUser().getEmail() + "\n");
@@ -241,7 +265,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
 			case DOWNLOAD_MANUSCRIPT:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 				break;
 
 		}
@@ -279,7 +302,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     class MyTableModel extends AbstractTableModel {
         private String[] columnNames = {"Title",
                                         "Date Submitted",
-                                        "Authors",
+                                        "Author",
                                         "Num. of Reviewers Assigned"};
         /**
          * 2D array of cell data for each row/column
@@ -351,6 +374,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         		returnList[i][0] =  theManuscriptList.get(i).getTitle();
         		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
         		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
+        		// TODO: Replace this with actual reviewers count once reviewers assigned to manuscript
+        		// is implemented
         		returnList[i][3] =  "# of reviewers assigned";
         	}
         	

@@ -38,6 +38,12 @@ public class Driver {
 			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
+			Reviewer testReviewer1 = new Reviewer(testUser1);
+			Reviewer testReviewer2 = new Reviewer(testUser2);
+			Reviewer testReviewer3 = new Reviewer(testUser3);
+			Reviewer testReviewer4 = new Reviewer(testUser4);
+			Reviewer testReviewer5 = new Reviewer(testUser5);
+			Reviewer testReviewer6 = new Reviewer(testUser6);
 			User testUserWithMaxManuscripts = new User("max@email.com");
 			User.addUser(testUser6);
 			User.addUser(testUser5);
@@ -54,25 +60,38 @@ public class Driver {
 			tempCalendar.add(Calendar.DATE, 15); 
 			Date submissionDate = tempCalendar.getTime();
 			
+			// submission date before current date.
+			tempCalendar.add(Calendar.DATE, -20);
+			Date submissionBeforeDateNow = tempCalendar.getTime();
+			
 			// add dummy conferences
 			Conference.initializeConferenceListToEmptyList();
 			
 			Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
+			acmConf.addReviewer(testReviewer1);
+			acmConf.addReviewer(testReviewer2);
+			acmConf.addReviewer(testReviewer3);
+			acmConf.addReviewer(testReviewer4);
+			acmConf.addReviewer(testReviewer5);
+			acmConf.addReviewer(testReviewer6);
 			Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
 			cvprConf.addSubprogramChair(new SubprogramChair(testUser2));
 			Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 			Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 			Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());
+			Conference pastDeadlineConf = new Conference("ICSE : International Conference on Software Engineering", submissionBeforeDateNow, new Date(), new Date(), new Date());
 			Conference.addConference(acmConf);
 			Conference.addConference(cvprConf);
 			Conference.addConference(chiConf);
 			Conference.addConference(eccvConf);
 			Conference.addConference(icmlConf);
+			Conference.addConference(pastDeadlineConf);
 		
 			// test authors for manuscripts
 			Author testAuth1 = new Author(testUser1);
 			Author testAuth2 = new Author(testUser2);
 			Author testAuth3 = new Author(testUser3);
+			Author testAuth5 = new Author(testUser5);
 			Author testAuthWithMax = new Author(testUserWithMaxManuscripts);
 			
 			// Adding manuscripts to users.
@@ -82,6 +101,7 @@ public class Driver {
 			Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth2);
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
+			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
 			
 			// Manuscripts for user with max # of manuscripts
 			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);
@@ -134,7 +154,6 @@ public class Driver {
 				eccvConf.addManuscript(maxManu3);
 				eccvConf.addManuscript(maxManu4);
 				eccvConf.addManuscript(maxManu5);
-
 			} catch(Exception theException) {
 				theException.printStackTrace();
 				System.out.println("Error in adding test Manuscripts");
