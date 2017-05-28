@@ -55,7 +55,7 @@ public class Driver {
 			
 			Conference acmConf = new Conference("ACM Conference", submissionDate, new Date(), new Date(), new Date());
 			Conference cvprConf = new Conference("CPVR - Conference on Computer Vision and Pattern Recognition", submissionDate, new Date(), new Date(), new Date());
-			cvprConf.addSubprogramChair(testUser2);
+			cvprConf.addSubprogramChair(new SubprogramChair(testUser2));
 			Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 			Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 			Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());
@@ -85,7 +85,6 @@ public class Driver {
 			assignedManuscriptsSPC.add(manu2);
 			assignedManuscriptsSPC.add(manu3);
 			assignedManuscriptsSPC.add(manu4);
-			acmConf.addSubprogramChair(testUser4);
 			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
 			acmConf.addSubprogramChair(spc);
 			
@@ -112,4 +111,3 @@ public class Driver {
 	}
 
 }
->>>>>>> 040f95482994060e48b6782655c055be730ef68a
