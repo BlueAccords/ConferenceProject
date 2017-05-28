@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
+import java.util.TimeZone;
 
 /**
  * Manuscript View that shows a list of an author's manuscripts.
@@ -307,8 +308,11 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 	 */
 	private String convertDateToExplicitFormat(Date theDate) {
 		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
 		SimpleDateFormat formatter = 
-		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss z '('Z')'");
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'UTC' Z");
+		formatter.setTimeZone(utcTimeZone);
+		formatter.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
 
 		String result = formatter.format(theDate);
 		
