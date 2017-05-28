@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -77,7 +78,8 @@ public class AuthorSubmitManuscriptView extends Observable {
 				if (myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
-					
+					ManuscriptSubmitButton.setEnabled(false);
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has to many Manuscripts submitted to this Conference.");  
 				}
 		    }  
 		});
