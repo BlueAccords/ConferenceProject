@@ -141,11 +141,11 @@ public class SPCHomeView extends Observable implements ActionListener{
 		// by default buttons are disabled until a row is selected
 		EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
 
-		this.assignReviewerBtn = new JButton("Add New Manuscript...");
+		this.assignReviewerBtn = new JButton("Assign Reviewer...");
 		this.assignReviewerBtn.addActionListener(this);
 		this.assignReviewerBtn.setActionCommand(this.ASSIGN_REVIEWER);
 
-		this.submitRecommendationBtn = new JButton("Delete Manuscript");
+		this.submitRecommendationBtn = new JButton("Submit Recommendation");
 		this.submitRecommendationBtn.setEnabled(false);
 		this.submitRecommendationBtn.addActionListener(this);
 		this.submitRecommendationBtn.setActionCommand(this.SUBMIT_RECOMMENDATION);
