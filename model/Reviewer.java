@@ -48,7 +48,7 @@ public class Reviewer implements Serializable{
 	public ArrayList<Manuscript> getAssignedManuscripts() {
 		ArrayList<Manuscript> reviewManuscriptsCopy = new ArrayList<Manuscript>();
 		reviewManuscriptsCopy.addAll(assignedManuscripts);
-		return reviewManuscriptsCopy;
+		return assignedManuscripts;
 	}
 	
 	/**

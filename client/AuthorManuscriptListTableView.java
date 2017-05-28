@@ -134,9 +134,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 					setCurrentlySelectedManuscript(selectedManu);
 					if(!myViewMoreInfoBtn.isEnabled()) {
 						//myAddNewManuscriptBtn.setEnabled(true);
-				
-						myDeleteManuscriptBtn.setEnabled(true);
-						
 						myViewMoreInfoBtn.setEnabled(true);
 						myDownloadBtn.setEnabled(true);
 					
@@ -208,7 +205,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         	this.myAddNewManuscriptBtn.setToolTipText("Manuscript Submission Deadline of "
         			+ myCurrentConference.getManuscriptDeadline().toString() + " is already past for this conference"
         			+ "Cannot submit a new Manuscript.");
-
         } else {
         	// clear tool tip
         	this.myAddNewManuscriptBtn.setToolTipText(null);

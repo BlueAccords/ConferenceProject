@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -45,7 +46,7 @@ public class SPCSubmitRecommendationView extends Observable{
 	 */
 	public SPCSubmitRecommendationView(){
 		myRecommendation = new File("");
-		myPanel = new JPanel(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+		myPanel = new JPanel(new GridLayout(0,7));
 	}
 
 
@@ -56,7 +57,8 @@ public class SPCSubmitRecommendationView extends Observable{
 	 */
 
 	public JPanel submitRecommendationView() {
-
+		JPanel recViewPanel = new JPanel();
+		recViewPanel.setLayout(new BoxLayout(recViewPanel, BoxLayout.Y_AXIS));
 
 		//labels to guide user
 		JLabel scorePrompt = new JLabel("What is your recommendation?");
@@ -75,20 +77,20 @@ public class SPCSubmitRecommendationView extends Observable{
 				setChanged();
 				notifyObservers(myRecommendation);  
 				setChanged();
-				notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.SUBMIT_RECOMMENDATION);
+				notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
 
 			}  
 		});
 
-		myPanel.add(scorePrompt);
-		myPanel.add(scaleSlider);
-		myPanel.add(filePrompt);
-		myPanel.add(fileChooser);
-		myPanel.add(filePathPrompt);
-		myPanel.add(filePathDisplay);
-		myPanel.add(submitBtn);
+		recViewPanel.add(scorePrompt);
+		recViewPanel.add(scaleSlider);
+		recViewPanel.add(filePrompt);
+		recViewPanel.add(fileChooser);
+		recViewPanel.add(filePathPrompt);
+		recViewPanel.add(filePathDisplay);
+		recViewPanel.add(submitBtn);
 
-		return myPanel;
+		return recViewPanel;
 
 	}//end method
 
