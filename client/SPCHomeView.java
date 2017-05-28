@@ -76,6 +76,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		myPanel = new JPanel(new BorderLayout());
 		myConference = theConference;
 
+
 		/**
 		 * Set up and add Main Manuscript List Table
 		 */
@@ -105,12 +106,14 @@ public class SPCHomeView extends Observable implements ActionListener{
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
 					// Enable action buttons to be clickable if they are disabled.
-					//					if(!myViewMoreInfoBtn.isEnabled()) {
-					assignReviewerBtn.setEnabled(true);
-					submitRecommendationBtn.setEnabled(true);
-					//						myViewMoreInfoBtn.setEnabled(true);
-					//						myDownloadBtn.setEnabled(true);
-					//					}
+
+					if (myConference.getManuscriptDeadline().before(new Date())) {
+						assignReviewerBtn.setEnabled(true);
+						//	if (myManuscriptList.get(index)) 
+
+						submitRecommendationBtn.setEnabled(true); //want to enable submitRecommendation only if there are three reviews
+
+					} 
 
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
 					setCurrentlySelectedManuscript(selectedManu);
@@ -142,6 +145,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
 
 		this.assignReviewerBtn = new JButton("Assign Reviewer...");
+		assignReviewerBtn.setEnabled(false);
 		this.assignReviewerBtn.addActionListener(this);
 		this.assignReviewerBtn.setActionCommand(this.ASSIGN_REVIEWER);
 
@@ -296,6 +300,13 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 			for(int i = 0; i < theManuscriptList.size(); i++) {
 				returnList[i][0] =  theManuscriptList.get(i).getTitle();
+				//if ManDL is after today, it's still open and no action can be taken
+				//				if (myConference.getManuscriptDeadline().after(new Date())){
+				//					returnList[i][1] = "Manuscript submission is still open";
+				//					returnList[i][2] = "Manuscript submission is still open";
+				//					returnList[i][3] = "Manuscript submission is still open";
+				//					
+				//				} else {
 				returnList[i][1] =  theManuscriptList.get(i).getReviewerList().size();
 				returnList[i][2] =  theManuscriptList.get(i).getReviews().size();
 
@@ -306,8 +317,10 @@ public class SPCHomeView extends Observable implements ActionListener{
 				} else if (theManuscriptList.get(i).getReviews().size()<3){
 					returnList[i][3] = "Awaiting Reviews";
 				}
-//				returnList[i][4] = new String ("" +myConference.getManuscriptDeadline());
-				
+
+				//				returnList[i][4] = new String ("" +myConference.getManuscriptDeadline());
+				//				}
+
 			}
 
 			return returnList;

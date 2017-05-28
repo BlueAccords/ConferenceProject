@@ -1,6 +1,10 @@
 package client;
 
+import java.awt.BorderLayout;
 import java.io.File;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 /**
  * Displays panel for SubprogramChair to submit a recommendation for a manuscript 
@@ -21,12 +25,18 @@ public class SPCSubmitRecommendationView {
 	
 	/** File to submit as recommendation.*/
 	private File myRecommendation;
+	/**Panel to display recommendation view.*/
+	private JPanel myJPanel;
 	
 	/**
 	 * default constructor
 	 */
 	public SPCSubmitRecommendationView() {
-		myRecommendation = new File("Empty");
+		myRecommendation = new File("");
+		myJPanel = new JPanel(new BoxLayout(myJPanel, BoxLayout.Y_AXIS));
+		
+		//
+		
 		
 	}
 	
