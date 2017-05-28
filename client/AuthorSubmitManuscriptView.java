@@ -60,11 +60,17 @@ public class AuthorSubmitManuscriptView extends Observable {
 		
 		ManuscriptSubmitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
-				Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
-				setChanged();
-				notifyObservers(newManuscript);  
-				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
+				String[] AuthorList = textArea.getText().split(",");
+				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
+					setChanged();
+					notifyObservers(newManuscript);  
+					setChanged();
+					notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
+				} else {
+					ManuscriptSubmitButton.setEnabled(false);
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has to many Manuscripts submitted to this Conference.");  
+				}
 		    }  
 		});
 		
@@ -75,7 +81,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		AuthorSubmitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
 				String[] AuthorList = textArea.getText().split(",");
-				if (myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);

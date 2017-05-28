@@ -8,6 +8,7 @@ import javax.swing.JButton;
  */
  
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +18,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.Author;
+import model.Conference;
 import model.Manuscript;
 
 import java.awt.BorderLayout;
@@ -47,6 +50,13 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private JButton myDeleteManuscriptBtn;
     private JButton myViewMoreInfoBtn;
     private JButton myDownloadBtn;
+    
+    /**
+     * Booleans to check business rules.
+     * If either of these are true disable the add new manuscript button.
+     */
+    private boolean isAuthorAtMaxLimit;
+    private boolean isAuthorPastSubmissionDeadline;
     
     /**
      *  used to disable action buttons until a table row is selected
@@ -136,7 +146,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
         
         this.myAddNewManuscriptBtn = new JButton("Add New Manuscript...");
-        //this.myAddNewManuscriptBtn.setEnabled(false);
         this.myAddNewManuscriptBtn.addActionListener(this);
         this.myAddNewManuscriptBtn.setActionCommand(this.ADD_NEW_MANUSCRIPT);
 
@@ -156,6 +165,27 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         this.myDownloadBtn.addActionListener(this);
         this.myDownloadBtn.setActionCommand(this.DOWNLOAD_MANUSCRIPT);
 
+        /**
+         * Check Business rules and disable add new manuscript button
+         * if the business rules apply
+         * Business Rule 1:
+         * 	 An author is limited to 5 manuscript submissions as author or co-author per conference
+         * Business Rule 2:
+         * 	 All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
+         */
+        
+        if(myCurrentManuscriptList.size() >= Conference.MAX_AUTHOR_SUBMISSIONS) {
+        	this.myAddNewManuscriptBtn.setEnabled(false);
+        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
+        	+ " Manuscript Submissions per conference");
+        // TODO: check if submission is past deadline.
+        } else if(false) {
+        	
+        } else {
+        	// clear tool tip
+        	this.myAddNewManuscriptBtn.setToolTipText(null);
+        }
+        
         
         myButtonPanel.add(myAddNewManuscriptBtn);
         myButtonPanel.add(myDeleteManuscriptBtn);
@@ -202,10 +232,11 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				break;
 			case VIEW_MORE_INFO:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
-				setChanged();
-				notifyObservers(myCurrentlySelectedManuscript);
-				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.VIEW_MANUSCRIPT_INFO);
+				StringBuilder authorNames = new StringBuilder();
+				for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
+					authorNames.append(author.getUser().getEmail() + "\n");
+				}
+				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
 			case DOWNLOAD_MANUSCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
