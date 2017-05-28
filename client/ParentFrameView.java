@@ -50,7 +50,7 @@ public class ParentFrameView extends Observable implements Observer {
 	private String myCurrentPanelName;
 	private String myUserRole;
 	private JPanel myCardPanel, myButtonPanel, myHeaderPanel;
-	private JLabel myHeaderCurrentUsernameLabel;
+	private JLabel myHeaderCurrentUsernameLabel, myHeaderCurrentUserRole;
 	private JButton myHeaderLogoutBtn;
 	private JButton myHeaderBackBtn;
 
@@ -87,6 +87,9 @@ public class ParentFrameView extends Observable implements Observer {
         myHeaderPanel.setLayout(new BoxLayout(myHeaderPanel, BoxLayout.LINE_AXIS));
                
         // init header panel elements
+        myHeaderCurrentUserRole = new JLabel();
+        myHeaderCurrentUserRole.setBorder(new EmptyBorder(0, 0, 0, 10));
+
         myHeaderCurrentUsernameLabel = new JLabel();
         myHeaderCurrentUsernameLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
         myHeaderLogoutBtn = new JButton("Logout");
@@ -107,8 +110,10 @@ public class ParentFrameView extends Observable implements Observer {
         
         // add elements to the header panel
         myHeaderPanel.add(new JLabel("MSEE Conference Manager"));
+
         myHeaderPanel.add(myHeaderBackBtn);
         myHeaderPanel.add(Box.createHorizontalGlue());
+        myHeaderPanel.add(myHeaderCurrentUserRole);
         myHeaderPanel.add(myHeaderCurrentUsernameLabel);
         myHeaderPanel.add(myHeaderLogoutBtn);
 
@@ -139,6 +144,7 @@ public class ParentFrameView extends Observable implements Observer {
 	 */
 	public void logoutUser() {
 		this.myHeaderCurrentUsernameLabel.setText("");
+		this.myHeaderCurrentUserRole.setText("");
 		this.myHeaderPanel.setVisible(false);
 		
 		myCardPanel.revalidate();
@@ -174,8 +180,7 @@ public class ParentFrameView extends Observable implements Observer {
 	 */
 	public void setUserRole(String theRole) {
 		myUserRole = theRole;
-		String currentUserEmail = this.myHeaderCurrentUsernameLabel.getText();
-		this.myHeaderCurrentUsernameLabel.setText(theRole + " | " + currentUserEmail);
+		this.myHeaderCurrentUserRole.setText(theRole + "  |");
 		
 		this.myFrame.revalidate();
 		this.myFrame.repaint();
