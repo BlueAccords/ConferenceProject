@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
+import model.Manuscript.AuthorExistsInListException;
 import model.SubprogramChair;
 import model.User;
 
@@ -87,6 +88,18 @@ public class Driver {
 			Manuscript maxManu3 = new Manuscript("Study of Model View Controller Patterns", new File(""), testAuthWithMax);
 			Manuscript maxManu4 = new Manuscript("Case Study on Electron as a GUI framework for Desktops", new File(""), testAuthWithMax);
 			Manuscript maxManu5 = new Manuscript("Inner-Workings of Echo-Based Chat Client", new File(""), testAuthWithMax);
+			try {
+				manu1.addAuthor(testAuth2);
+			} catch (AuthorExistsInListException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				manu6.addAuthor(testAuth2);
+			} catch (AuthorExistsInListException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//Add manuscripts to SubprogramChair
 			ArrayList<Manuscript> assignedManuscriptsSPC = new ArrayList<Manuscript>();
@@ -105,13 +118,15 @@ public class Driver {
 				acmConf.addManuscript(manu3);
 				acmConf.addManuscript(manu4);
 				acmConf.addManuscript(manu5);
-				
+				acmConf.addManuscript(manu6);
+
 				// add max manuscripts to max@email.com
 				eccvConf.addManuscript(maxManu1);
 				eccvConf.addManuscript(maxManu2);
 				eccvConf.addManuscript(maxManu3);
 				eccvConf.addManuscript(maxManu4);
 				eccvConf.addManuscript(maxManu5);
+
 			} catch(Exception theException) {
 				theException.printStackTrace();
 				System.out.println("Error in adding test Manuscripts");
