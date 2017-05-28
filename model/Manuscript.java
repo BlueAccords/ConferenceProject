@@ -251,6 +251,20 @@ public class Manuscript implements Serializable{
 		return authorIsFound;
 	}
 	
+	
+	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
+		boolean reviewerIsFound = false;
+		
+		for (Author author : myAuthors) {
+			if (author.getUser().getEmail().equals(theReviewer.getUser().getEmail())) {
+				reviewerIsFound = true;
+				break;
+			}
+		}
+		
+		return reviewerIsFound;
+	}
+	
 	/**
 	 * Helper method to determine that theAuthor is not already part of the author list.
 	 * It does this by checking that it is first not an object already within the list, and 

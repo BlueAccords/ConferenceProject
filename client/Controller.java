@@ -355,8 +355,8 @@ public class Controller extends Observable implements Observer {
 					switch (myCurrentState % ROLE_POS){
 	                    case ASSIGN_REVIEWERS:
 	                    	//find eligible reviewers here
-	                    	
-	                        SPCAssignReviewersView assignReviewersView = new SPCAssignReviewersView();
+	                    	ArrayList<Reviewer> eligibleReviewers = myCurrentConference.getEligibleReviewers(myCurrentManuscript);
+	                        SPCAssignReviewersView assignReviewersView = new SPCAssignReviewersView(eligibleReviewers);
 	                        myPreviousStates.push(myLastState);
 	                        myLastState = ParentFrameView.ASSIGN_REVIEWERS_VIEW;
 	                        assignReviewersView.addObserver(myParentFrame);
@@ -375,12 +375,11 @@ public class Controller extends Observable implements Observer {
 	                    	
 	                    	break;
 						case LIST_MANUSCRIPT_VIEW:
-							SPCHomeView spcHomeView = new SPCHomeView(myCurrentUser, myCurrentConference.getManuscripts(), 
-									myCurrentConference);
+							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), myCurrentConference);
 							myPreviousStates.push(myLastState);
 							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							spcHomeView.addObserver(myParentFrame);
-							myParentFrame.addPanel(spcHomeView.displayTable(), ParentFrameView.SPC_HOME_VIEW);
+							myParentFrame.addPanel(spcHomeView.getMyPanel(), ParentFrameView.SPC_HOME_VIEW);
 							myParentFrame.switchToPanel(ParentFrameView.SPC_HOME_VIEW);
 							break;
 	                    case LIST_ASSIGNED_REVIEWERS_VIEW:
