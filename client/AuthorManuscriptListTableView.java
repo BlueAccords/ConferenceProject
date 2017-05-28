@@ -8,6 +8,7 @@ import javax.swing.JButton;
  */
  
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.Author;
 import model.Manuscript;
 
 import java.awt.BorderLayout;
@@ -202,10 +204,11 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				break;
 			case VIEW_MORE_INFO:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
-				setChanged();
-				notifyObservers(myCurrentlySelectedManuscript);
-				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.VIEW_MANUSCRIPT_INFO);
+				StringBuilder authorNames = new StringBuilder();
+				for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
+					authorNames.append(author.getUser().getWholeName() + "\n");
+				}
+				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
 			case DOWNLOAD_MANUSCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
