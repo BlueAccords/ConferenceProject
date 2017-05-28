@@ -37,7 +37,7 @@ public class AuthorConferenceOptionVIew extends Observable {
 		submitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				setChanged();
-		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);  
+		        notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);  
 		    }  
 		});
 		

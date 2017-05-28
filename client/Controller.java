@@ -32,13 +32,16 @@ public class Controller extends Observable implements Observer {
 	
 	//Action States
 	public static final int USER_OPTIONS = 0;
-	public static final int SUBMIT_MANUSCRIPT = 1;
+	public static final int SUBMIT_MANUSCRIPT_VIEW = 1;
 	public static final int LIST_MANUSCRIPT_VIEW = 2;
 	public static final int LIST_CONFERENCE_VIEW = 3;
 	public static final int ASSIGN_REVIEWER = 4;
 	public static final int LIST_ASSIGNED_REVIEWERS_VIEW = 5;
 	public static final int SUBMIT_RECOMMENDATION = 6;
 	public static final int MANUSCRIPT_OPTIONS_VIEW = 7;
+	// This view is for when the controller has had myCurrentManuscript set to the new manuscript to be
+	// submitted and then this state should called to actually submit the manuscript
+	public static final int SUBMIT_MANUSCRIPT_ACTION = 8;
 
 	
 	//Objects we are adding in the System. We are saving them because we need persistence between states.
@@ -70,7 +73,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentState = AUTHOR;
 		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
-		myCurrentManuscript = new Manuscript(null, null, null);
+		myCurrentManuscript = null;
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);
@@ -220,13 +223,15 @@ public class Controller extends Observable implements Observer {
 				case AUTHOR:
 					switch (theNextState % 100){
 						
-						case SUBMIT_MANUSCRIPT:
+						case SUBMIT_MANUSCRIPT_VIEW:
 							//if (!isOpen) {
-								UI_Author authorView = new UI_Author(myCurrentAuthor);
+								//UI_Author authorView = new UI_Author(myCurrentAuthor);
+								AuthorSubmitManuscriptView authorSubmitView = new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
-								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference).submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+								//authorView.addObserver(myParentFrame);
+								authorSubmitView.addObserver(myParentFrame);
+								myParentFrame.addPanel(authorSubmitView.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 								isOpen = true;
 							/*} else {
@@ -238,6 +243,42 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
 								isOpen = false;
 							}*/
+							break;
+						/**
+						 * Preconditions:
+						 * 	The new manuscript to be submitted must have been set by notifying
+						 * the controller with the new manuscript object to be submitted
+						 *  myCurrentAuthor must be non-null
+						 *  myCurrentConference must be non-null
+						 */
+						case SUBMIT_MANUSCRIPT_ACTION:
+							System.out.println("Submit Manscript Action Entered ========");
+							if(this.myCurrentManuscript == null) {
+								System.out.println("No manuscript has been set. Please notify controller by sending"
+										+ "the new manuscript.");
+								break;
+							}
+
+							// Add the currently set manuscript to the current author and conference
+							addManuscriptToAuthorAndConference(this.myCurrentManuscript);
+							
+							// redirect user to manuscript list view
+							
+							ArrayList<Manuscript> authorManuscriptListForRedirect = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
+
+							// init manuscript list view
+							AuthorManuscriptListTableView manuscriptListViewForRedirect = new AuthorManuscriptListTableView(authorManuscriptListForRedirect);
+							
+							// store state history
+							myPreviousStates.push(myLastState);
+							myLastState = ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW;
+							
+							// switch to manuscript list view
+							manuscriptListViewForRedirect.addObserver(myParentFrame);
+							myParentFrame.addPanel(manuscriptListViewForRedirect.getMyPanel(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+							myParentFrame.setUserRole(ParentFrameView.AUTHOR_ROLE);
+							myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+							isOpen = true;
 							break;
 						case LIST_MANUSCRIPT_VIEW:
 							if (!isOpen) {
@@ -523,7 +564,7 @@ public class Controller extends Observable implements Observer {
 		myCurrentState = AUTHOR;
 		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
-		myCurrentManuscript = new Manuscript(null, null, null);
+		myCurrentManuscript = null;
 		myCurrentAuthor = new Author(myCurrentUser);
 		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
 		myCurrentReviewer = new Reviewer(null);

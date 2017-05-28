@@ -59,7 +59,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 				setChanged();
 				notifyObservers(newManuscript);  
 				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
 		    }  
 		});
 		

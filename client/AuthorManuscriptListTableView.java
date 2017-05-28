@@ -191,7 +191,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 			case ADD_NEW_MANUSCRIPT:
 				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 				break;
 			case DELETE_MANSUCRIPT:
 				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
