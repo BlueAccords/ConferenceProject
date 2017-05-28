@@ -256,8 +256,12 @@ public class Manuscript implements Serializable{
 	
 	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
 		boolean reviewerIsFound = false;
-		
+
 		for (Author author : myAuthors) {
+			author.getUser();
+			author.getUser().getEmail();
+			theReviewer.getUser();
+			theReviewer.getUser().getEmail();
 			if (author.getUser().getEmail().equals(theReviewer.getUser().getEmail())) {
 				reviewerIsFound = true;
 				break;

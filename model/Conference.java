@@ -442,7 +442,10 @@ public class Conference implements Serializable{
 	 * looks reviewer by reviewer to see if any each one is an author of the manuscript. If a match is not found 
 	 * then it will add that reviewer to the eligible reviewers list.
 	 * 
-	 * Pre: theManuscriptToFindReviewersFor cannot be null, nor any of its values.
+	 * Pre: 
+	 * 	theManuscriptToFindReviewersFor cannot be null, nor any of its values.
+	 * 	All reviewers in myConferenceReviewers for the conference must have a non-null myUser field.
+	 * 
 	 * Post: The list of eligible reviewers returned won't be null, but can be empty.
 	 * 
 	 * @param theManuscriptToFindReviewersFor The Manuscript to use to get eligible reviewers
@@ -529,7 +532,10 @@ public class Conference implements Serializable{
 	public static Conference updateConferenceInList(Conference theConference) {
 		boolean confFound = false;
 		Conference confToReturn = null;
-		
+
+		if(myConferenceList == null){
+		    Conference.initializeConferenceListToEmptyList();
+        }
 		for(int i = 0; i < myConferenceList.size(); i++) {
 			if(myConferenceList.get(i).getConferenceName().equals(theConference.getConferenceName())) {
 				confFound = true;

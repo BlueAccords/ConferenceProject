@@ -35,12 +35,16 @@ public class ConferenceTest {
 	Author authorJohn;
 	Manuscript johns;
 
+	Reviewer reviewerJohn;
 	User bob;
 	User john;
 
     @Before
     public void setUp() throws Exception {
-        RSAConference = new Conference("RSA", new Date(), new Date(), new Date(), new Date());
+    	Calendar future = Calendar.getInstance();
+    	future.add(Calendar.HOUR, 5000);
+
+        RSAConference = new Conference("RSA", future.getTime(), future.getTime(), future.getTime(), future.getTime());
 
         john = new User("John@john.com", false);
         authorJohn = new Author(john);
@@ -49,7 +53,9 @@ public class ConferenceTest {
         conferenceList = Conference.getConferences();
         authorBob  = new Author("Josh", "Smith");
         bob = new User("Bob@bob.com", false);
+        authorBob = new Author(bob);
         reviewerBob = new Reviewer(bob);
+        reviewerJohn = new Reviewer(john);
         aManuscript = new Manuscript("Conference test.java manuscript", new File("ConferenceTest.java"), authorBob);
     }
 
@@ -69,8 +75,9 @@ public class ConferenceTest {
 
 	@Test
 	public void addReviewer() throws Exception {
-    	TesselationsConference.addReviewer(reviewerBob);
-    	assertTrue(TesselationsConference.getEligibleReviewers(aManuscript).contains(reviewerBob));
+    	TesselationsConference.addReviewer(reviewerJohn);
+    	System.out.println(TesselationsConference.getEligibleReviewers(aManuscript).size());
+    	assertTrue(TesselationsConference.getEligibleReviewers(aManuscript).contains(reviewerJohn));
 	}
 
 	@Test
