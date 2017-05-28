@@ -137,8 +137,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 						myViewMoreInfoBtn.setEnabled(true);
 						myDownloadBtn.setEnabled(true);
 					
-					setChanged();
-					notifyObservers(myCurrentlySelectedManuscript);
+						setChanged();
+						notifyObservers(myCurrentlySelectedManuscript);
 					}
 			    }
 				
@@ -197,9 +197,9 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
          * 	 All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
          */
         
-        if(myCurrentManuscriptList.size() >= Conference.MAX_AUTHOR_SUBMISSIONS) {
+        if(myCurrentManuscriptList.size() >= Conference.getMaxAuthorManuscriptSubmissionsAllowed()) {
         	this.myAddNewManuscriptBtn.setEnabled(false);
-        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
+        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.getMaxAuthorManuscriptSubmissionsAllowed()
         	+ " Manuscript Submissions per conference");
         } else if(myCurrentConference.getManuscriptDeadline().getTime() <= new Date().getTime()) {
 			this.myAddNewManuscriptBtn.setEnabled(false);
@@ -287,9 +287,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		this.myCurrentlySelectedManuscript = theManuscript;
 		if (!theManuscript.isReviewInProgress()) {
 			myDeleteManuscriptBtn.setEnabled(true);
-		} 
-		else if (theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setToolTipText(null);
+		} else if (theManuscript.isReviewInProgress()) {
 			myDeleteManuscriptBtn.setEnabled(false);
+			myDeleteManuscriptBtn.setToolTipText("Cannot Delete Manuscript. Reviewers have been assigned"
+					+ " and the Manuscript is being reviewed.");
+
 		}
 		
 	}

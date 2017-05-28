@@ -22,7 +22,7 @@ public class Conference implements Serializable{
 	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
-	public static final int MAX_AUTHOR_SUBMISSIONS = 5;
+	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
@@ -464,6 +464,18 @@ public class Conference implements Serializable{
 		}
 		
 		return eligibleReviewers;
+	}
+	
+	/**
+	 * Returns the max number of manuscripts an author is allowed to submit
+	 * per conference
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/28/17
+	 * @return an int indicating the max num of manuscripts allowed to be submitted
+	 */
+	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
+		return MAX_AUTHOR_SUBMISSIONS;
 	}
 	
 
