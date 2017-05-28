@@ -392,7 +392,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		/**
 		 * This method will generate a 2D array list using the passed in manuscript list
 		 * and populate the 2d array to fit a table format of rows and columns
-		 * Column Headers are: Title, Submission Date, Authors, Delete Btn, Download Btn
+		 * 
 		 * @param theManuscriptList
 		 * @return
 		 */
@@ -411,6 +411,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 				} else if (theManuscriptList.get(i).getReviews().size()<3){
 					returnList[i][3] = "Awaiting Reviews";
 				}
+//				returnList[i][4] = new String ("" +myConference.getManuscriptDeadline());
 				
 			}
 
