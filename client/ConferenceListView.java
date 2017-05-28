@@ -6,9 +6,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Observable;
+import java.util.TimeZone;
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -128,7 +132,8 @@ public class ConferenceListView extends Observable {
 				conferenceButtonPanel.add(new JLabel("No"), c);
 			}
 			c.gridx = 4;
-			conferenceButtonPanel.add(new JLabel("" + myConferenceList.get(myCounter).getManuscriptDeadline()), c);
+			String displayDate = convertDateToExplicitFormat(myConferenceList.get(myCounter).getManuscriptDeadline());
+			conferenceButtonPanel.add(new JLabel("" + displayDate), c);
 			
 		}
 		conferenceButtonPanel.setOpaque(true);
@@ -174,5 +179,27 @@ public class ConferenceListView extends Observable {
 		} else {
 			return -1;
 		}
+	}
+	
+	/**
+	 * Returns a string representing a date formatted to include GMT time zone
+	 * day, month, and year. 
+	 * PreConditions:
+	 * 	theDate is non-null
+	 * @param theDate
+	 * @return A string representing theDate.
+	 */
+	private String convertDateToExplicitFormat(Date theDate) {
+		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
+		SimpleDateFormat formatter = 
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'UTC' Z");
+		formatter.setTimeZone(utcTimeZone);
+		// GMT is equivalent to UTC
+		formatter.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
+
+		String result = formatter.format(theDate);
+		
+		return result;
 	}
 }

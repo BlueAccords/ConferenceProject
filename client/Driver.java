@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.swing.JPanel;
 
@@ -61,9 +62,15 @@ public class Driver {
 			User.writeUsers();
 			
 			// set submission date to current date + 15 days
+			// Setting time to 00:00
 			Calendar tempCalendar = Calendar.getInstance();
 			tempCalendar.setTime(new Date());
+	        tempCalendar.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
 			tempCalendar.add(Calendar.DATE, 15); 
+			tempCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			tempCalendar.set(Calendar.MILLISECOND, 0);
+	        tempCalendar.set(Calendar.SECOND, 0);
+	        tempCalendar.set(Calendar.MINUTE, 0);
 			Date submissionDate = tempCalendar.getTime();
 			
 			// submission date before current date.
@@ -109,6 +116,7 @@ public class Driver {
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
 			
+			/* Temporarily removing redundant reviewer/reviews for manu1
 			
 			manu1.addReviewer(testReviewer1);
 			manu1.addReviewer(testReviewer2);
@@ -116,6 +124,7 @@ public class Driver {
 			manu1.addReview(new File(""));
 			manu1.addReview(new File(""));
 			manu1.addReview(new File(""));
+			*/
 			
 			// Manuscripts for user with max # of manuscripts
 			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);

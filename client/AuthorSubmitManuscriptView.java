@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
+import model.Manuscript.AuthorExistsInListException;
+import model.User;
 
 public class AuthorSubmitManuscriptView extends Observable {
 	private Author myAuthor;
@@ -61,8 +63,28 @@ public class AuthorSubmitManuscriptView extends Observable {
 		ManuscriptSubmitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
 				String[] AuthorList = textArea.getText().split(",");
+				Author tempAuthor;
+				User tempUser;
 				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
 					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
+					if (AuthorList.length > 1) {
+						for (int i = 1 ; i < AuthorList.length; i++) {
+							if (User.doesEmailBelongToUser(AuthorList[i])) {
+								tempUser = User.getUserByEmail(AuthorList[i]);
+								if (myConference.isUserAuthor(tempUser)) {
+									tempAuthor = myConference.getAuthor(tempUser);
+								} else {
+									tempAuthor = new Author(tempUser);
+								}
+								try {
+									newManuscript.addAuthor(tempAuthor);
+								} catch (AuthorExistsInListException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+						}
+					}
 					setChanged();
 					notifyObservers(newManuscript);  
 					setChanged();

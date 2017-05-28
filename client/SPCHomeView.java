@@ -105,17 +105,22 @@ public class SPCHomeView extends Observable implements ActionListener{
 				// On table row select set currently selected manuscript field to
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
-					// Enable action buttons to be clickable if they are disabled.
+					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
 
 //					if (myConference.getManuscriptDeadline().before(new Date())) {
-						assignReviewerBtn.setEnabled(true);
+					assignReviewerBtn.setEnabled(true);
 						//	if (myManuscriptList.get(index)) 
-
-						submitRecommendationBtn.setEnabled(true); //want to enable submitRecommendation only if there are three reviews
-
 //					} 
+					if(selectedManu.isEligibleForRecommendation()) {
+						submitRecommendationBtn.setEnabled(true); 
+						submitRecommendationBtn.setToolTipText(null);
+					} else {
+						submitRecommendationBtn.setEnabled(false);
+						submitRecommendationBtn.setToolTipText("Manuscript must have a minimum of "
+								+ Manuscript.getSufficientReviews() + " Reviews submitted to make a Recommendation.");
+					}
 
-					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
+
 					setCurrentlySelectedManuscript(selectedManu);
 
 					setChanged();
@@ -162,7 +167,8 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 		myPanel.setOpaque(true);
 	}
-
+	
+	
 	/**
 	 * Returns the main JPanel for this view
 	 * 

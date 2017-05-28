@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
+import java.util.TimeZone;
 
 /**
  * Manuscript View that shows a list of an author's manuscripts.
@@ -137,8 +138,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 						myViewMoreInfoBtn.setEnabled(true);
 						myDownloadBtn.setEnabled(true);
 					
-					setChanged();
-					notifyObservers(myCurrentlySelectedManuscript);
+						setChanged();
+						notifyObservers(myCurrentlySelectedManuscript);
 					}
 			    }
 				
@@ -177,7 +178,8 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		this.myDeleteManuscriptBtn.addActionListener(this);
 		this.myDeleteManuscriptBtn.setActionCommand(this.DELETE_MANSUCRIPT);
 
-        this.myViewMoreInfoBtn = new JButton("View More Info");
+		// Optional: Make it so dialog box displays all of the info for the manuscript.
+        this.myViewMoreInfoBtn = new JButton("View All Authors");
         this.myViewMoreInfoBtn.setEnabled(false);
         this.myViewMoreInfoBtn.addActionListener(this);
         this.myViewMoreInfoBtn.setActionCommand(this.VIEW_MORE_INFO);
@@ -196,9 +198,9 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
          * 	 All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
          */
         
-        if(myCurrentManuscriptList.size() >= Conference.MAX_AUTHOR_SUBMISSIONS) {
+        if(myCurrentManuscriptList.size() >= Conference.getMaxAuthorManuscriptSubmissionsAllowed()) {
         	this.myAddNewManuscriptBtn.setEnabled(false);
-        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
+        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.getMaxAuthorManuscriptSubmissionsAllowed()
         	+ " Manuscript Submissions per conference");
         } else if(myCurrentConference.getManuscriptDeadline().getTime() <= new Date().getTime()) {
 			this.myAddNewManuscriptBtn.setEnabled(false);
@@ -286,9 +288,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		this.myCurrentlySelectedManuscript = theManuscript;
 		if (!theManuscript.isReviewInProgress()) {
 			myDeleteManuscriptBtn.setEnabled(true);
-		} 
-		else if (theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setToolTipText(null);
+		} else if (theManuscript.isReviewInProgress()) {
 			myDeleteManuscriptBtn.setEnabled(false);
+			myDeleteManuscriptBtn.setToolTipText("Cannot Delete Manuscript. Reviewers have been assigned"
+					+ " and the Manuscript is being reviewed.");
+
 		}
 		
 	}
@@ -303,8 +308,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 	 */
 	private String convertDateToExplicitFormat(Date theDate) {
 		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
 		SimpleDateFormat formatter = 
-		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss z '('Z')'");
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'UTC' Z");
+		formatter.setTimeZone(utcTimeZone);
+		// GMT is equivalent to UTC
+		formatter.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
 
 		String result = formatter.format(theDate);
 		
@@ -323,7 +332,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         private String[] columnNames = {"Title",
                                         "Date Submitted",
                                         "Author",
-                                        "Num. of Reviewers Assigned"};
+                                        "Has Reviewers Asssigned"};
         /**
          * 2D array of cell data for each row/column
          */
@@ -391,12 +400,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         	Object[][] returnList = new Object[theManuscriptList.size()][4];
         	
         	for(int i = 0; i < theManuscriptList.size(); i++) {
-        		returnList[i][0] =  theManuscriptList.get(i).getTitle();
-        		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
-        		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
-        		// TODO: Replace this with actual reviewers count once reviewers assigned to manuscript
-        		// is implemented
-        		returnList[i][3] =  "# of reviewers assigned";
+        		Manuscript currentManuscript = theManuscriptList.get(i);
+        		boolean hasReviewersAssigned = currentManuscript.getReviewerList().size() > 0;
+        		returnList[i][0] =  currentManuscript.getTitle();
+        		returnList[i][1] =  convertDateToExplicitFormat(currentManuscript.getSubmissionDate());
+        		returnList[i][2] =  currentManuscript.getAuthorEmails().get(0);
+        		returnList[i][3] =  hasReviewersAssigned;
         	}
         	
         	return returnList;

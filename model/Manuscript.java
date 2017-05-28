@@ -330,8 +330,29 @@ public class Manuscript implements Serializable{
 	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
 		this.myReviewerList = myReviewerList;
 	}
+	
+	/**
+	 * This method will check if the manuscript's number of reviews
+	 * meets the minimum number required for the SubProgram Chair to make a 
+	 * recommendation and return a boolean indicating so.
+	 * 
+	 * PreConditions:
+	 * 	myReviews list must be instantiated(does not need to have items).
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/28/17
+	 * @return a boolean indicating if if manuscript is eligible for SPC recommendation or not.
+	 */
+	public boolean isEligibleForRecommendation() {
+		boolean isEligible = false;
 
+		if(this.getReviews().size() >= SUFFICIENT_REVIEWS) {
+			isEligible = true;
+		}
 
+		return isEligible;
+	}
+	
 	/**
 	 * Custom Exception to throw when author is found within the author list already.
 	 * 
@@ -358,6 +379,7 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
+
 
 
 }
