@@ -532,7 +532,10 @@ public class Conference implements Serializable{
 	public static Conference updateConferenceInList(Conference theConference) {
 		boolean confFound = false;
 		Conference confToReturn = null;
-		
+
+		if(myConferenceList == null){
+		    Conference.initializeConferenceListToEmptyList();
+        }
 		for(int i = 0; i < myConferenceList.size(); i++) {
 			if(myConferenceList.get(i).getConferenceName().equals(theConference.getConferenceName())) {
 				confFound = true;
