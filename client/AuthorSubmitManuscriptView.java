@@ -75,7 +75,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		AuthorSubmitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
 				String[] AuthorList = textArea.getText().split(",");
-				if (myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);

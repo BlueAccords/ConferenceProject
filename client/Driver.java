@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
+import model.Manuscript.AuthorExistsInListException;
 import model.SubprogramChair;
 import model.User;
 
@@ -77,7 +78,18 @@ public class Driver {
 			Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth2);
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
-			
+			try {
+				manu1.addAuthor(testAuth2);
+			} catch (AuthorExistsInListException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				manu6.addAuthor(testAuth2);
+			} catch (AuthorExistsInListException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//Add manuscripts to SubprogramChair
 			ArrayList<Manuscript> assignedManuscriptsSPC = new ArrayList<Manuscript>();
@@ -96,7 +108,7 @@ public class Driver {
 				acmConf.addManuscript(manu3);
 				acmConf.addManuscript(manu4);
 				acmConf.addManuscript(manu5);
-				//acmConf.addManuscript(manu6);
+				acmConf.addManuscript(manu6);
 			} catch(Exception theException) {
 				theException.printStackTrace();
 				System.out.println("Error in adding test Manuscripts");
