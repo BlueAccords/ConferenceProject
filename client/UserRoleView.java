@@ -23,7 +23,7 @@ import model.User;
  */
 public class UserRoleView extends Observable{
 	private JPanel myPanel;
-	
+	private Conference myConference;
 	private JLabel myViewTitle;
 	
 	// user role buttons
@@ -40,7 +40,7 @@ public class UserRoleView extends Observable{
 	 */
 	public UserRoleView(Conference theSelectedConference, User theUser) {
 		myUser = theUser;
-
+		myConference = theSelectedConference;
 		myViewTitle = new JLabel("Available Roles for: " + theSelectedConference.getConferenceName());
 		myAuthorBtn = new JButton("Author Role");
 
@@ -63,7 +63,7 @@ public class UserRoleView extends Observable{
 		});
 		selectRoleButtonPanel.add(myAuthorBtn);
 
-		if (myUser.isSubprogramChair()) {
+		if (myConference.isUserSubprogramChair(myUser)) {
 			JButton subProgramChairBtn = new JButton("SubProgram Chair Role");
 			subProgramChairBtn.addActionListener(e -> {
 				setChanged();
