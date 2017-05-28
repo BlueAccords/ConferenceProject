@@ -312,6 +312,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 		SimpleDateFormat formatter = 
 		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'UTC' Z");
 		formatter.setTimeZone(utcTimeZone);
+		// GMT is equivalent to UTC
 		formatter.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
 
 		String result = formatter.format(theDate);
@@ -399,10 +400,11 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         	Object[][] returnList = new Object[theManuscriptList.size()][4];
         	
         	for(int i = 0; i < theManuscriptList.size(); i++) {
-        		boolean hasReviewersAssigned = theManuscriptList.get(i).getReviewerList().size() > 0;
-        		returnList[i][0] =  theManuscriptList.get(i).getTitle();
-        		returnList[i][1] =  theManuscriptList.get(i).getSubmissionDate();
-        		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
+        		Manuscript currentManuscript = theManuscriptList.get(i);
+        		boolean hasReviewersAssigned = currentManuscript.getReviewerList().size() > 0;
+        		returnList[i][0] =  currentManuscript.getTitle();
+        		returnList[i][1] =  convertDateToExplicitFormat(currentManuscript.getSubmissionDate());
+        		returnList[i][2] =  currentManuscript.getAuthorEmails().get(0);
         		returnList[i][3] =  hasReviewersAssigned;
         	}
         	
