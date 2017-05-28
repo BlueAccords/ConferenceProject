@@ -22,7 +22,7 @@ public class Conference implements Serializable{
 	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
-	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
+	public static final int MAX_AUTHOR_SUBMISSIONS = 5;
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;

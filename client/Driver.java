@@ -37,12 +37,14 @@ public class Driver {
 			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
+			User testUserWithMaxManuscripts = new User("max@email.com");
 			User.addUser(testUser6);
 			User.addUser(testUser5);
 			User.addUser(testUser4);
 			User.addUser(testUser3);
 			User.addUser(testUser2);
 			User.addUser(testUser1);
+			User.addUser(testUserWithMaxManuscripts);
 			User.writeUsers();
 			
 			// set submission date to current date + 15 days
@@ -70,6 +72,7 @@ public class Driver {
 			Author testAuth1 = new Author(testUser1);
 			Author testAuth2 = new Author(testUser2);
 			Author testAuth3 = new Author(testUser3);
+			Author testAuthWithMax = new Author(testUserWithMaxManuscripts);
 			
 			// Adding manuscripts to users.
 			Manuscript manu1 = new Manuscript("Linear Logic", new File(""), testAuth1);
@@ -78,6 +81,13 @@ public class Driver {
 			Manuscript manu4 = new Manuscript("Simplified NP-Complete Problems", new File(""), testAuth2);
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
+			
+			// Manuscripts for user with max # of manuscripts
+			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);
+			Manuscript maxManu2 = new Manuscript("Theory of Finite State Machines", new File(""), testAuthWithMax);
+			Manuscript maxManu3 = new Manuscript("Study of Model View Controller Patterns", new File(""), testAuthWithMax);
+			Manuscript maxManu4 = new Manuscript("Case Study on Electron as a GUI framework for Desktops", new File(""), testAuthWithMax);
+			Manuscript maxManu5 = new Manuscript("Inner-Workings of Echo-Based Chat Client", new File(""), testAuthWithMax);
 			try {
 				manu1.addAuthor(testAuth2);
 			} catch (AuthorExistsInListException e) {
@@ -109,6 +119,14 @@ public class Driver {
 				acmConf.addManuscript(manu4);
 				acmConf.addManuscript(manu5);
 				acmConf.addManuscript(manu6);
+
+				// add max manuscripts to max@email.com
+				eccvConf.addManuscript(maxManu1);
+				eccvConf.addManuscript(maxManu2);
+				eccvConf.addManuscript(maxManu3);
+				eccvConf.addManuscript(maxManu4);
+				eccvConf.addManuscript(maxManu5);
+
 			} catch(Exception theException) {
 				theException.printStackTrace();
 				System.out.println("Error in adding test Manuscripts");
