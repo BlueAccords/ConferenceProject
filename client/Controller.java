@@ -375,12 +375,12 @@ public class Controller extends Observable implements Observer {
 	                    	
 	                    	break;
 						case LIST_MANUSCRIPT_VIEW:
-							SPCHomeView spcHomeView = new SPCHomeView(myCurrentUser, myCurrentConference.getManuscripts(), 
+							SPCHomeView spcHomeView = new SPCHomeView(myCurrentConference.getManuscripts(), 
 									myCurrentConference);
 							myPreviousStates.push(myLastState);
 							myLastState = ParentFrameView.SPC_HOME_VIEW;
 							spcHomeView.addObserver(myParentFrame);
-							myParentFrame.addPanel(spcHomeView.displayTable(), ParentFrameView.SPC_HOME_VIEW);
+							myParentFrame.addPanel(spcHomeView.getMyPanel(), ParentFrameView.SPC_HOME_VIEW);
 							myParentFrame.switchToPanel(ParentFrameView.SPC_HOME_VIEW);
 							break;
 	                    case LIST_ASSIGNED_REVIEWERS_VIEW:

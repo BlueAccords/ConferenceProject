@@ -107,13 +107,13 @@ public class SPCHomeView extends Observable implements ActionListener{
 				if (!e.getValueIsAdjusting()) {
 					// Enable action buttons to be clickable if they are disabled.
 
-					if (myConference.getManuscriptDeadline().before(new Date())) {
+//					if (myConference.getManuscriptDeadline().before(new Date())) {
 						assignReviewerBtn.setEnabled(true);
 						//	if (myManuscriptList.get(index)) 
 
 						submitRecommendationBtn.setEnabled(true); //want to enable submitRecommendation only if there are three reviews
 
-					} 
+//					} 
 
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
 					setCurrentlySelectedManuscript(selectedManu);

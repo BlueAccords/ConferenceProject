@@ -437,7 +437,7 @@ public class Conference implements Serializable{
 	
 	
 	
-	public ArrayList<Reviewer> getEligibleReviewers
+	public ArrayList<Reviewer> getEligibleReviewers;
 	
 
 	/**
