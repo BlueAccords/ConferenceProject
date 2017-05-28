@@ -33,7 +33,7 @@ public class Driver {
 			User testUser1 = new User("john@email.com");
 			User testUser2 = new User("connor@test.com", true);
 			User testUser3 = new User("casanova@test.com");
-			User testUser4 = new User("mdanger@test.com");
+			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
 			User.addUser(testUser6);
