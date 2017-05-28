@@ -129,18 +129,20 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
 					// Enable action buttons to be clickable if they are disabled.
-					if(!myViewMoreInfoBtn.isEnabled()) {
-						//myAddNewManuscriptBtn.setEnabled(true);
-						myDeleteManuscriptBtn.setEnabled(true);
-						myViewMoreInfoBtn.setEnabled(true);
-						myDownloadBtn.setEnabled(true);
-					}
 					
 					Manuscript selectedManu = myCurrentManuscriptList.get(table.getSelectedRow());
 					setCurrentlySelectedManuscript(selectedManu);
+					if(!myViewMoreInfoBtn.isEnabled()) {
+						//myAddNewManuscriptBtn.setEnabled(true);
+				
+						myDeleteManuscriptBtn.setEnabled(true);
+						
+						myViewMoreInfoBtn.setEnabled(true);
+						myDownloadBtn.setEnabled(true);
 					
 					setChanged();
 					notifyObservers(myCurrentlySelectedManuscript);
+					}
 			    }
 				
 			}
@@ -286,6 +288,13 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 	 */
 	private void setCurrentlySelectedManuscript(Manuscript theManuscript) {
 		this.myCurrentlySelectedManuscript = theManuscript;
+		if (!theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setEnabled(true);
+		} 
+		else if (theManuscript.isReviewInProgress()) {
+			myDeleteManuscriptBtn.setEnabled(false);
+		}
+		
 	}
 	
 	/**

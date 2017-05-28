@@ -48,10 +48,8 @@ public class Manuscript implements Serializable{
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
 	
-	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
-	
 	
 	/**
 	 * Constructors for The class.
@@ -72,9 +70,7 @@ public class Manuscript implements Serializable{
 		mySubmissionDate = new Date();
 		myRecommendation = new File("");
 		myReviewerList = new ArrayList<Reviewer>();
-		
-	}
-	
+	}	
 	
 	/**
 	 * Returns the date the manuscript was submitted.
@@ -85,6 +81,13 @@ public class Manuscript implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	
+	public boolean isReviewInProgress() {
+		return myReviewerList.size() > 0;
+	}
+	
+	public void addReviewer(Reviewer theReviewer) {
+		myReviewerList.add(theReviewer);
+	}
 	
 	/**
 	 * Setter for the date the manuscript was submitted.
@@ -95,7 +98,6 @@ public class Manuscript implements Serializable{
 	public void setSubmissionDate(Date theDate) {
 		mySubmissionDate = theDate;
 	}
-	
 	
 	/**
 	 * Getter for the paper's title.
