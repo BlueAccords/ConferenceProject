@@ -244,19 +244,36 @@ public class Conference implements Serializable{
 		Conference.updateConferenceInList(this);
 	}
 	
+	
+	/**
+	 * Removes the given Manuscript from each of its Authors' lists.
+	 * 
+	 * Pre: theManuscriptToRemove cannot be null
+	 * 
+	 * @param theManuscriptToRemove The Manuscript to remove
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
 	public void removeManuscript(Manuscript theManuscriptToRemove) {
-		System.out.println(theManuscriptToRemove == null);
-		System.out.println(theManuscriptToRemove.getAuthorEmails() == null);
-		System.out.println(theManuscriptToRemove.getAuthors() == null);
 		for (Author author: theManuscriptToRemove.getAuthors()) {
+			author.printManuscriptTitles();
 			try {
 				author.removeManuscript(theManuscriptToRemove);
+				author.printManuscriptTitles();
 			} catch (ManuscriptNotInListException e) {
 				// TODO Auto-generated catch block
 				System.out.println("\n\nManuscript not found!!!!\n\n");
 			}
+			System.out.println();
 		}
+		
+		if (myManuscripts.contains(theManuscriptToRemove))
+			myManuscripts.remove(theManuscriptToRemove);
+		
+		Conference.updateConferenceInList(this);
 	}
+	
 	
 	/**
 	 * This method will get the author's email's from the paper, look at each paper
