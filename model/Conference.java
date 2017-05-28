@@ -358,8 +358,7 @@ public class Conference implements Serializable{
 	 * @version: 5/1/2017
 	 */
 	public void addSubprogramChair(SubprogramChair theSubprogramChair) {
-		SubprogramChair newSPC = new SubprogramChair(theSubprogramChair);
-		conferenceSubprogramChairs.add(newSPC);
+		conferenceSubprogramChairs.add(theSubprogramChair);
 	}
 	
 	/**
