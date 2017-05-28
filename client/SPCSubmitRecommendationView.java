@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -45,7 +46,7 @@ public class SPCSubmitRecommendationView extends Observable{
 	 */
 	public SPCSubmitRecommendationView(){
 		myRecommendation = new File("");
-		myPanel = new JPanel(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+		myPanel = new JPanel(new GridLayout(0,7));
 	}
 
 
