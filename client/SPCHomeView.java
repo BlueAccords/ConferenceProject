@@ -193,7 +193,7 @@ public class SPCHomeView extends Observable {
 							setChanged();
 							notifyObservers(thisManuscript);
 							setChanged();
-							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
+							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWERS);
 								
 						}
 					});
@@ -238,7 +238,7 @@ public class SPCHomeView extends Observable {
 							setChanged();
 							notifyObservers(thisManuscript);
 							setChanged();
-							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWER);
+							notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWERS);
 								
 						}
 					});
