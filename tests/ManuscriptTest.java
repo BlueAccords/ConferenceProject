@@ -12,6 +12,7 @@ import org.junit.Test;
 import model.Author;
 import model.Manuscript;
 import model.Manuscript.AuthorExistsInListException;
+import model.Reviewer;
 import model.User;
 
 
@@ -199,6 +200,24 @@ public class ManuscriptTest {
 		myManuscript.setSubmissionDate(newSubmissionDate);
 		
 		assertEquals("Submission date is not the same as the one set: " + myManuscript.getSubmissionDate(), myManuscript.getSubmissionDate(), newSubmissionDate);
+	}
+	
+	
+	
+	@Test
+	public void doesManuscriptBelongToReviewer_TestThatTheReviewerIsAnAuthor_ReturnsTrue() {
+		Reviewer testReviewer = new Reviewer(myMainAuthorForManuscript.getUser());
+		assertTrue("The Reviewer was not found to be an author, when they are: " + testReviewer.getUser().getEmail(), 
+				myManuscript.doesManuscriptBelongToReviewer(testReviewer));
+	}
+	
+	
+	
+	@Test
+	public void doesManuscriptBelongToReviewer_TestThatTheReviewerIsNotAnAuthor_ReturnsFalse() {
+		Reviewer testReviewer = new Reviewer(new User("incorrect"));
+		assertFalse("The Reviewer was found to be an author, when they aren't: " + testReviewer.getUser().getEmail(), 
+				myManuscript.doesManuscriptBelongToReviewer(testReviewer));
 	}
 	
 

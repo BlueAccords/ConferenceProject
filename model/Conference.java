@@ -341,13 +341,13 @@ public class Conference implements Serializable{
 	/**
 	 * This method will add the passed User as a reviewer for the conference.
 	 * @param theReviewer the ID for the reviewer to be added
-	 * @author: Ian Waak
-	 * @version: 4/30/2017
+	 * @author: Ian Waak, Connor Lundberg
+	 * @version: 5/27/2017
 	 */
-	public Reviewer addReviewer(User theUser) {
-		Reviewer newRev = new Reviewer(theUser);
-		myConferenceReviewers.add(newRev);
-		return newRev;
+	public Reviewer addReviewer(Reviewer theReviewer) {
+		//Reviewer newRev = new Reviewer(theUser);
+		myConferenceReviewers.add(theReviewer);
+		return theReviewer;
 	}
 	
 	/**
@@ -436,8 +436,32 @@ public class Conference implements Serializable{
 	}
 	
 	
-	
-	public ArrayList<Reviewer> getEligibleReviewers
+	/**
+	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
+	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then
+	 * looks reviewer by reviewer to see if any each one is an author of the manuscript. If a match is not found 
+	 * then it will add that reviewer to the eligible reviewers list.
+	 * 
+	 * Pre: theManuscriptToFindReviewersFor cannot be null, nor any of its values.
+	 * Post: The list of eligible reviewers returned won't be null, but can be empty.
+	 * 
+	 * @param theManuscriptToFindReviewersFor The Manuscript to use to get eligible reviewers
+	 * @return A list of eligible reviewers for the given Manuscript
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/27/2017
+	 */
+	public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscriptToFindReviewersFor) {
+		ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
+		//ArrayList<Author> manuscriptAuthors = theManuscriptToFindReviewersFor.getAuthors();
+		for (Reviewer reviewer : myConferenceReviewers) {
+			if (!theManuscriptToFindReviewersFor.doesManuscriptBelongToReviewer(reviewer)) {		//checks if the reviewer is an author of the manuscript
+				eligibleReviewers.add(reviewer); //if not, then add the reviewer to the list
+			}
+		}
+		
+		return eligibleReviewers;
+	}
 	
 
 	/**
