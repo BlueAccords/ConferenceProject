@@ -36,12 +36,14 @@ public class Driver {
 			User testUser4 = new User("mdanger@test.com");
 			User testUser5 = new User("jmoney@test.com");
 			User testUser6 = new User("lilryerye@test.com");
+			User testMaxUser = new User("max@email.com"); // user with max manuscripts
 			User.addUser(testUser6);
 			User.addUser(testUser5);
 			User.addUser(testUser4);
 			User.addUser(testUser3);
 			User.addUser(testUser2);
 			User.addUser(testUser1);
+			User.addUser(testMaxUser);
 			User.writeUsers();
 			
 			// set submission date to current date + 15 days
@@ -69,6 +71,7 @@ public class Driver {
 			Author testAuth1 = new Author(testUser1);
 			Author testAuth2 = new Author(testUser2);
 			Author testAuth3 = new Author(testUser3);
+			Author maxAuth = new Author(testMaxUser);
 			
 			// Adding manuscripts to users.
 			Manuscript manu1 = new Manuscript("Linear Logic", new File(""), testAuth1);
