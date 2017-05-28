@@ -396,7 +396,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         		returnList[i][2] =  theManuscriptList.get(i).getAuthorEmails().get(0);
         		// TODO: Replace this with actual reviewers count once reviewers assigned to manuscript
         		// is implemented
-        		returnList[i][3] =  "# of reviewers assigned";
+        		returnList[i][3] =  theManuscriptList.get(i).getReviewerList().size();
         	}
         	
         	return returnList;
