@@ -43,8 +43,8 @@ public class Controller extends Observable implements Observer {
 	// This view is for when the controller has had myCurrentManuscript set to the new manuscript to be
 	// submitted and then this state should called to actually submit the manuscript
 	public static final int SUBMIT_MANUSCRIPT_ACTION = 8;
-
 	public static final int DELETE_MANUSCRIPT = 9;
+	public static final int VIEW_MANUSCRIPT_INFO = 10;
 	
 	//Used to parse the current role
 	private static final int ROLE_POS = 100;
@@ -231,26 +231,13 @@ public class Controller extends Observable implements Observer {
 					switch (theNextState % ROLE_POS){
 						
 						case SUBMIT_MANUSCRIPT_VIEW:
-							//if (!isOpen) {
-								//UI_Author authorView = new UI_Author(myCurrentAuthor);
-								AuthorSubmitManuscriptView authorSubmitView = new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference);
-								myPreviousStates.push(myLastState);
-								myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
-								//authorView.addObserver(myParentFrame);
-								authorSubmitView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorSubmitView.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+							AuthorSubmitManuscriptView authorSubmitView = new AuthorSubmitManuscriptView(myCurrentAuthor, myCurrentConference);
+							myPreviousStates.push(myLastState);
+							myLastState = ParentFrameView.SUBMIT_MANUSCRIPT_VIEW;
 
-								myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
-								isOpen = true;
-							/*} else {
-								UI_Author authorView = new UI_Author(myCurrentAuthor);
-								myPreviousStates.push(myLastState);
-								myLastState = ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW;
-								authorView.addObserver(myParentFrame);
-								myParentFrame.addPanel(authorView.createConferenceOptions(), ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
-								myParentFrame.switchToPanel(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW);
-								isOpen = false;
-							}*/
+							authorSubmitView.addObserver(myParentFrame);
+							myParentFrame.addPanel(authorSubmitView.submitManuscriptView(), ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
+							myParentFrame.switchToPanel(ParentFrameView.SUBMIT_MANUSCRIPT_VIEW);
 							break;
 						/**
 						 * Preconditions:
