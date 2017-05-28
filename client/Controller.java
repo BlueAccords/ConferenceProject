@@ -366,12 +366,12 @@ public class Controller extends Observable implements Observer {
 	                        myParentFrame.switchToPanel(ParentFrameView.ASSIGN_REVIEWERS_VIEW);
 	                        break;
 	                    case SUBMIT_RECOMMENDATION:
-	                 
+	                    	System.out.println("here");
 	                    	SPCSubmitRecommendationView subRecView = new SPCSubmitRecommendationView();
 	                    	myPreviousStates.push(myLastState);
 	                    	myLastState= ParentFrameView.SUBMIT_RECOMMENDATION_VIEW;
 	                    	subRecView.addObserver(myParentFrame);
-	                    	myParentFrame.addPanel(subRecView.submitRecommendationView(), ParentFrameView.ASSIGN_REVIEWERS_VIEW);
+	                    	myParentFrame.addPanel(subRecView.submitRecommendationView(), ParentFrameView.SUBMIT_RECOMMENDATION_VIEW);
 	                        myParentFrame.switchToPanel(ParentFrameView.SUBMIT_RECOMMENDATION_VIEW);
 	                    	
 	                    	
