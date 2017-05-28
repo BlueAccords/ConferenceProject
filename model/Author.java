@@ -142,6 +142,14 @@ public class Author extends User implements Serializable{
 		//Should we check if the manuscript is already in the list?
 		myManuscripts.add(theManuscript);
 	}
+	
+	
+	public void printManuscriptTitles () {
+		for (Manuscript manu : myManuscripts) {
+			System.out.print(" - " + manu.getTitle());
+		}
+		System.out.println(" - ");
+	}
 		
 	
 	/**
