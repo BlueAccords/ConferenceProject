@@ -85,6 +85,7 @@ public class Driver {
 			assignedManuscriptsSPC.add(manu2);
 			assignedManuscriptsSPC.add(manu3);
 			assignedManuscriptsSPC.add(manu4);
+			acmConf.addSubprogramChair(testUser4);
 			SubprogramChair spc = new SubprogramChair(testUser4, assignedManuscriptsSPC);
 			acmConf.addSubprogramChair(spc);
 			
