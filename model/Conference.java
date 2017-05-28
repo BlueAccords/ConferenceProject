@@ -436,7 +436,11 @@ public class Conference implements Serializable{
 	}
 	
 	
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> ca70c0d2e5f3393bfdb9cf58aa1d2afbf9f041dd
 	/**
 	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
 	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then

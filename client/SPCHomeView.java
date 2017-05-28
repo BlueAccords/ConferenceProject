@@ -191,6 +191,8 @@ public class SPCHomeView extends Observable implements ActionListener{
 		case ASSIGN_REVIEWER:
 			//				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 			setChanged();
+			notifyObservers(myCurrentlySelectedManuscript);
+			setChanged();
 			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWERS);
 			break;
 		case SUBMIT_RECOMMENDATION:
