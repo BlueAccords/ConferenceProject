@@ -174,9 +174,14 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         
         if(myCurrentManuscriptList.size() >= Conference.MAX_AUTHOR_SUBMISSIONS) {
         	this.myAddNewManuscriptBtn.setEnabled(false);
+        	this.myAddNewManuscriptBtn.setToolTipText("You are only allowed a maximum of " + Conference.MAX_AUTHOR_SUBMISSIONS
+        	+ " Manuscript Submissions per conference");
         // TODO: check if submission is past deadline.
         } else if(false) {
         	
+        } else {
+        	// clear tool tip
+        	this.myAddNewManuscriptBtn.setToolTipText(null);
         }
         
         
