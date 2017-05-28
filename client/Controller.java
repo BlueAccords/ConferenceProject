@@ -81,9 +81,9 @@ public class Controller extends Observable implements Observer {
 		myCurrentUser = null;
 		myCurrentConference = new Conference("", new Date(), new Date(), new Date(), new Date());
 		myCurrentManuscript = null;
-		myCurrentAuthor = new Author(myCurrentUser);
-		myCurrentSubprogramChair = new SubprogramChair(myCurrentUser);
-		myCurrentReviewer = new Reviewer(null);
+		myCurrentAuthor = null;
+		myCurrentSubprogramChair = null;
+		myCurrentReviewer = null;
 		myPreviousStates = new Stack<String> ();
 		
 		// initialize data from serialized objects
@@ -217,6 +217,15 @@ public class Controller extends Observable implements Observer {
 						} else {
 							if (lastView.equals(ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW)) {
 								isOpen = !isOpen;
+							} else if(lastView.equals(ParentFrameView.USER_ROLE_VIEW)) {
+								// reset user role
+								myParentFrame.setUserRole("");
+
+								// reset state of user roles
+								myCurrentManuscript = null;
+								myCurrentAuthor = null;
+								myCurrentSubprogramChair = null;
+								myCurrentReviewer = null;
 							}
 							myLastState = lastView;
 							myParentFrame.switchToPanel(lastView);
@@ -339,6 +348,7 @@ public class Controller extends Observable implements Observer {
 							}
 							break;
 						case DELETE_MANUSCRIPT:
+							System.out.println("DELET THIS");
 							removeManuscriptFromAuthorAndConference(myCurrentManuscript);
 							AuthorManuscriptListTableView manuscriptListTableView = new AuthorManuscriptListTableView(myCurrentConference
 									.getManuscriptsBelongingToAuthor(myCurrentAuthor));
