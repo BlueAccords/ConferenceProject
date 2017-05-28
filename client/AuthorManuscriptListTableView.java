@@ -228,11 +228,15 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 				break;
 			case DELETE_MANSUCRIPT:
-				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
-				setChanged();
-				notifyObservers(myCurrentlySelectedManuscript);
-				setChanged();
-				notifyObservers(Controller.AUTHOR + Controller.DELETE_MANUSCRIPT);
+				// pop up verify box to make sure user wants to delete manuscript
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to delete this Manuscript?","Warning", JOptionPane.YES_NO_OPTION);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					setChanged();
+					notifyObservers(myCurrentlySelectedManuscript);
+					setChanged();
+					notifyObservers(Controller.AUTHOR + Controller.DELETE_MANUSCRIPT);
+				}
+				
 				break;
 			case VIEW_MORE_INFO:
 				StringBuilder authorNames = new StringBuilder();
