@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.Author;
 import model.Conference;
+import model.SubprogramChair;
 import model.User;
 
 /**
@@ -68,6 +69,8 @@ public class UserRoleView extends Observable{
 		if (myConference.isUserSubprogramChair(myUser)) {
 			JButton subProgramChairBtn = new JButton("SubProgram Chair Role");
 			subProgramChairBtn.addActionListener(e -> {
+				setChanged();
+				notifyObservers(new SubprogramChair(myUser));
 				setChanged();
 				notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
 			});
