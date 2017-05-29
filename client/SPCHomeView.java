@@ -106,10 +106,12 @@ public class SPCHomeView extends Observable implements ActionListener{
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
-
 					if (myConference.getManuscriptDeadline().before(new Date())) {
 						assignReviewerBtn.setEnabled(false);	
 						assignReviewerBtn.setToolTipText("DeadLine for " + selectedManu.getTitle() + "has not expired");
+					} else if (myConference.getEligibleReviewers(selectedManu).size() < 1) {
+						assignReviewerBtn.setEnabled(false);	
+						assignReviewerBtn.setToolTipText("No reviewers available for " + selectedManu.getTitle());
 					} else {
 						assignReviewerBtn.setEnabled(true);		
 					}
@@ -127,7 +129,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 						submitRecommendationBtn.setToolTipText("Manuscript must have a minimum of "
 								+ Manuscript.getSufficientReviews() + " Reviews submitted to make a Recommendation.");
 					}
-
 
 					setCurrentlySelectedManuscript(selectedManu);
 
@@ -200,7 +201,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-
 		switch(action) {
 		case ASSIGN_REVIEWER:
 			//				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");

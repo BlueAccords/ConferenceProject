@@ -55,7 +55,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     public static final String VIEW_MORE_INFO = "VIEW_MORE_INFO";
     public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
 
-    private boolean DEBUG = false;
     private JPanel myPanel;
     private JPanel myButtonPanel;
     private JScrollPane myManuscriptListScrollPane;
@@ -65,14 +64,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
     private JButton myViewMoreInfoBtn;
     private JButton myDownloadBtn;
     private JLabel myConfTitleLabel;
-    
-    /**
-     * Booleans to check business rules.
-     * If either of these are true disable the add new manuscript button.
-     */
-    private boolean isAuthorAtMaxLimit;
-    private boolean isAuthorPastSubmissionDeadline;
-    
     
     /**
      * Used to store the currently selected manuscript from the manuscript table.
@@ -162,10 +153,6 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
         myButtonPanel.setBorder(new EmptyBorder(50, 0, 50, 0));
 
-        // add buttons to btn panel
-        // by default buttons are disabled until a row is selected
-        EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
-        
         this.myAddNewManuscriptBtn = new JButton("Add New Manuscript...");
         this.myAddNewManuscriptBtn.addActionListener(this);
         this.myAddNewManuscriptBtn.setActionCommand(this.ADD_NEW_MANUSCRIPT);
