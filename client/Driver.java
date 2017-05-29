@@ -94,13 +94,11 @@ public class Driver {
 			Conference chiConf = new Conference("CHI - Conference on Computer Human Interaction", submissionDate, new Date(), new Date(), new Date());
 			Conference eccvConf = new Conference("EECV - European Conference on Computer Vision ", submissionDate, new Date(), new Date(), new Date());
 			Conference icmlConf = new Conference("ICML - International Conference on Machine Learning", submissionDate, new Date(), new Date(), new Date());
-			Conference pastDeadlineConf = new Conference("ICSE : International Conference on Software Engineering", submissionBeforeDateNow, new Date(), new Date(), new Date());
 			Conference.addConference(acmConf);
 			Conference.addConference(cvprConf);
 			Conference.addConference(chiConf);
 			Conference.addConference(eccvConf);
 			Conference.addConference(icmlConf);
-			Conference.addConference(pastDeadlineConf);
 		
 			// test authors for manuscripts
 			Author testAuth1 = new Author(testUser1);
@@ -118,6 +116,18 @@ public class Driver {
 			Manuscript manu5 = new Manuscript("Theory of Genetic Algorithms", new File(""), testAuth2);
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
+			ArrayList<Manuscript> manList = new ArrayList<Manuscript>();
+			manList.add(manu7);
+			manList.add(manu6);
+			manList.add(manu5);
+			manList.add(manu4);
+			manList.add(manu3);
+			manList.add(manu2);
+			manList.add(manu1);
+			
+			Conference pastDeadlineConf = new Conference(manList, "ICSE : International Conference on Software Engineering", submissionBeforeDateNow, new Date(), new Date(), new Date());
+
+			Conference.addConference(pastDeadlineConf);
 			
 			/**
 			 * ==============================================================================================================
@@ -154,9 +164,11 @@ public class Driver {
 			// init testUser5[jmoney@test.com] as subprogram chair and add to icmlConf
 			SubprogramChair spcWithMaxReviews = new SubprogramChair(testUser5, maxAssignedManuscriptForSPC);
 			icmlConf.addSubprogramChair(spcWithMaxReviews);
-			
+			pastDeadlineConf.addSubprogramChair(spcWithMaxReviews);
 			// add testReviewer2[connor@test.com] as reviewer to icmlConf
 			icmlConf.addReviewer(testReviewerForMaxReviews);
+			pastDeadlineConf.addReviewer(testReviewerForMaxReviews);
+			spcWithMaxReviews.addReviewerToSPC(testReviewerForMaxReviews);
 			
 			// Add manuscripts to icmlConf
 			try {

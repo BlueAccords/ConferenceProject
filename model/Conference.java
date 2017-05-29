@@ -88,6 +88,19 @@ public class Conference implements Serializable{
 		myConferenceSubprogramChairs = new ArrayList<SubprogramChair>();
 	}
 	
+	
+	public Conference(ArrayList<Manuscript> theListOfManuscripts, String theConferenceName, Date theManuscriptDeadline, Date theReviewerDeadline, Date theRecommendationDeadline, Date theFinalDecisionDeadline) {
+		myConferenceName = theConferenceName;
+		myManuscriptDeadline = new Date(theManuscriptDeadline.getTime());
+		myReviewDeadline = new Date(theReviewerDeadline.getTime());
+		myRecDeadline = new Date(theRecommendationDeadline.getTime());
+		myFinalDeadline = new Date(theFinalDecisionDeadline.getTime());
+		myManuscripts = theListOfManuscripts;
+		myConferenceAuthors = new ArrayList<Author>();
+		myConferenceReviewers = new ArrayList<Reviewer>();
+		myConferenceSubprogramChairs = new ArrayList<SubprogramChair>();
+	}
+	
 	/**
 	 * Getter for the name of the conference.
 	 * @return The conference's name.
