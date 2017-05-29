@@ -100,6 +100,7 @@ public class Manuscript implements Serializable{
 			if(!(myReviewerList.get(i).getUser().getEmail().equals(theReviewer.getUser().getEmail()))) {
 				theReviewer.addManuscriptToReviewer(this);
 				myReviewerList.add(theReviewer);
+				break;
 			}
 		}
 		
