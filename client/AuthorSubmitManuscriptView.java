@@ -136,7 +136,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 					
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " is at their Manuscript submission limit!");  
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!");  
 				}
 		    }  
 		});
@@ -153,7 +153,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " is at their Manuscript submission limit!");   
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!"); 
 				}
 		    }  
 		});
