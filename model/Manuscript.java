@@ -88,11 +88,26 @@ public class Manuscript implements Serializable{
 	
 	/**
 	 * Method to add a Reviewer to this Manuscript.
+	 * PreConditions:
+	 * 	Reviewer must not be a duplicate reviewer already in myReviewerList.
 	 * @param theReviewer that is to be added to this Manuscript.
 	 * @author Casey Anderson
 	 */
 	public void addReviewer(Reviewer theReviewer) {
-		myReviewerList.add(theReviewer);
+		// check if reviewer already exists in myReviewerList.
+		// Silent omission if trying to add duplicate reviewers
+		for(int i = 0; i < myReviewerList.size(); i++) {
+			if(!(myReviewerList.get(i).getUser().getEmail().equals(theReviewer.getUser().getEmail()))) {
+				theReviewer.addManuscriptToReviewer(this);
+				myReviewerList.add(theReviewer);
+			}
+		}
+		
+		// in case list is empty the for loop doesn't run at all
+		if(myReviewerList.size() == 0) {
+			theReviewer.addManuscriptToReviewer(this);
+			myReviewerList.add(theReviewer);
+		}
 	}
 	
 	/**
@@ -336,6 +351,9 @@ public class Manuscript implements Serializable{
 	 * @param myReviewerList the myReviewerList to set
 	 */
 	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
+		for(Reviewer reviewer : myReviewerList) {
+			reviewer.addManuscriptToReviewer(this);
+		}
 		this.myReviewerList = myReviewerList;
 	}
 	

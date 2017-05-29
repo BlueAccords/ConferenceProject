@@ -24,6 +24,9 @@ public class Conference implements Serializable{
 	/** The maximum manuscript submissions. */
 	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
 	
+	/** The maximum number of manuscripts a reviewer can be assigned to per conference*/
+	private static final int MAX_MANSCRIPTS_ASSIGNED_TO_REVIEWER = 8;
+	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
 
@@ -460,7 +463,35 @@ public class Conference implements Serializable{
 			}
 		}
 		
+		// Check to see if reviewer has more than 8 manuscripts assigned for the current conference.
+		for(int i = 0; i < eligibleReviewers.size(); i++) {
+			if(eligibleReviewers.get(i).getAssignedManuscripts().size() >= MAX_MANSCRIPTS_ASSIGNED_TO_REVIEWER) {
+				eligibleReviewers.remove(i);
+			}
+		}
+		
 		return eligibleReviewers;
+	}
+	
+	/**
+	 * This method will update the current conference's list of manuscripts
+	 * to have the passed in manuscript replace the existing version inside of the list
+	 * by manuscript name.
+	 * 	PreConditions:
+	 * 		TheManuscript must already exist within the conference with the same title.
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/28/17
+	 * @param theManuscript the manuscript to replace its existing version within the conference list of manuscripts.
+	 */
+	public void updateManuscriptInConference(Manuscript theManuscript) {
+		for(int i = 0; i < this.myManuscripts.size(); i++) {
+			if(myManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
+				myManuscripts.set(i, theManuscript);
+			}
+		}
+		
+		updateConferenceInList(this);
 	}
 	
 	/**
