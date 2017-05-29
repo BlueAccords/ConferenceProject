@@ -28,8 +28,7 @@ public class Author extends User implements Serializable{
 	
 	/** Collection of all papers the user has submitted to the conference. */
 	private ArrayList<Manuscript> myManuscripts;
-	
-	
+		
 	/**
 	 * Constructor for an Author that takes theUser in order to link
 	 * this Author to a User when working with Co-Authors and determining who has written
@@ -40,8 +39,7 @@ public class Author extends User implements Serializable{
 	public Author(User theUser) {
 		this("", "", theUser);
 	}
-	
-	
+		
 	/**
 	 * Constructor for an Author that takes theFirstName and theLastName of the Author.
 	 * This is used for adding Authors to a Manuscript for Authors who aren't Users in 
@@ -60,7 +58,6 @@ public class Author extends User implements Serializable{
 		this(theFirstName, theLastName, null);
 	}
 	
-	
 	/**
 	 * Constructor for an Author that takes theFirstName, theLastName, and theUser.
 	 * This is public for testing, but it will generally not be needed as it is mainly
@@ -77,18 +74,15 @@ public class Author extends User implements Serializable{
 		myUser = theUser;
 		myManuscripts = new ArrayList<Manuscript>();
 	}
-	
-	
+		
 	/**
 	 * A getter method to return an user.
 	 * 
 	 * @return the User associated with the Author.
 	 */
 	public User getUser() {
-		//do we need a defensive copy here?
 		return myUser;
 	}
-	
 	
 	/**
 	 * A getter method to return a collection of manuscripts.
@@ -101,7 +95,6 @@ public class Author extends User implements Serializable{
 	public ArrayList<Manuscript> getMyManuscripts() {
 		return myManuscripts;
 	}
-	
 	
 	/**
 	 * Checks for an existing Manuscript with the same title as the String passed.
@@ -129,7 +122,6 @@ public class Author extends User implements Serializable{
 		return manuscriptExists;
 	}
 	
-	
 	/**
 	 * This method will add a passed Manuscript to the User's collection of Manuscript. 
 	 * 
@@ -139,18 +131,18 @@ public class Author extends User implements Serializable{
 	 * @version 4/25/2017
 	 */
 	public void addManuscript(Manuscript theManuscript) {
-		//Should we check if the manuscript is already in the list?
 		myManuscripts.add(theManuscript);
 	}
 	
-	
+	/**
+	 * Method to print all Manuscript titles belonging to this Author.
+	 */
 	public void printManuscriptTitles () {
 		for (Manuscript manu : myManuscripts) {
 			System.out.print(" - " + manu.getTitle());
 		}
 		System.out.println(" - ");
 	}
-		
 	
 	/**
 	 * This method will remove the passed paper from the collection of the User's.
@@ -193,8 +185,7 @@ public class Author extends User implements Serializable{
 		return atLimit;
 		
 	}
-	
-	
+		
 	/**
 	 * This method will return the number of submitted manuscripts.
 	 * 
@@ -203,7 +194,6 @@ public class Author extends User implements Serializable{
 	public int getNumSubmittedManuscripts() {
 		return myManuscripts.size();
 	}
-
 	
 	/**
 	 * A custom exception to use in removeManuscript if the passed manuscript is either

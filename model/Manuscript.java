@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.io.File;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -81,10 +77,20 @@ public class Manuscript implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	
+	/**
+	 * Method to determine if any Reviewers have been assigned to this Manuscript.
+	 * @return Boolean if any Reviewers have been assigned to this Manuscript.
+	 * @author Casey Anderson.
+	 */
 	public boolean isReviewInProgress() {
 		return myReviewerList.size() > 0;
 	}
 	
+	/**
+	 * Method to add a Reviewer to this Manuscript.
+	 * @param theReviewer that is to be added to this Manuscript.
+	 * @author Casey Anderson
+	 */
 	public void addReviewer(Reviewer theReviewer) {
 		myReviewerList.add(theReviewer);
 	}
@@ -110,8 +116,7 @@ public class Manuscript implements Serializable{
 	public String getTitle() {
 		return myTitle;
 	}
-	
-	
+		
 	/**
 	 * Getter for the paper file.
 	 * 
@@ -123,7 +128,6 @@ public class Manuscript implements Serializable{
 	public File getManuscriptFile() {
 		return myManuscriptFile;
 	}
-	
 	
 	/**
 	 * Getter for the list of authors.
@@ -137,7 +141,6 @@ public class Manuscript implements Serializable{
 		return myAuthors;
 	}
 	
-	
 	/**
 	 * This method will return the Author email.
 	 * 
@@ -150,8 +153,7 @@ public class Manuscript implements Serializable{
 		}
 		return emails;
 	}
-	
-	
+		
 	/**
 	 * Adds an author to the paper.
 	 * 
@@ -253,7 +255,11 @@ public class Manuscript implements Serializable{
 		return authorIsFound;
 	}
 	
-	
+	/**
+	 * Method to check if theReviewer belongs to this Manuscript.
+	 * @param theReviewer to check if assigned to this Manuscript.
+	 * @return if Reviewer belongs to this Manuscript.
+	 */
 	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
 		boolean reviewerIsFound = false;
 
@@ -296,7 +302,6 @@ public class Manuscript implements Serializable{
 		return authorNotInList;
 	}
 	
-	
 	/**
 	 * Replaces the file of the paper with an updated version.
 	 * 
@@ -310,19 +315,22 @@ public class Manuscript implements Serializable{
 		myManuscriptFile = theManuscript;
 	}
 
-	
 	/**
+	 * Method to return a list of Reviewers assigned to this Manuscript.
 	 * @return the myReviewerList
 	 */
 	public ArrayList<Reviewer> getReviewerList() {
 		return myReviewerList;
 	}
 
-
+	/**
+	 * Method to return the number of Reviews needed before a recommendation can be submitted 
+	 * for this Manuscript.
+	 * @return SUFFICIENT_REVIEWS that is the number of reviews needed be recommendation can be submitted.
+	 */
 	public static int getSufficientReviews() {
 		return SUFFICIENT_REVIEWS;
 	}
-
 
 	/**
 	 * @param myReviewerList the myReviewerList to set
@@ -379,7 +387,4 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
-
-
-
 }
