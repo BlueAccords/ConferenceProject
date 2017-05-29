@@ -107,10 +107,13 @@ public class SPCHomeView extends Observable implements ActionListener{
 				if (!e.getValueIsAdjusting()) {
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
 
-//					if (myConference.getManuscriptDeadline().before(new Date())) {
-					assignReviewerBtn.setEnabled(true);
-						//	if (myManuscriptList.get(index)) 
-//					} 
+					if (myConference.getManuscriptDeadline().before(new Date())) {
+						assignReviewerBtn.setEnabled(false);	
+						assignReviewerBtn.setToolTipText("DeadLine for " + selectedManu.getTitle() + "has not expired");
+					} else {
+						assignReviewerBtn.setEnabled(true);		
+					}
+					
 					if (selectedManu.isrecommendationAssigned()) {
 						submitRecommendationBtn.setEnabled(false);
 						assignReviewerBtn.setEnabled(false);
