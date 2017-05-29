@@ -78,7 +78,7 @@ public class SPCAssignReviewersView extends Observable {
 	 * @version 5/25/2017
 	 */
 	public JPanel viewReviewersListView() {
-		JPanel reviewersListPanel = new JPanel(new GridLayout(0,2));
+		JPanel reviewersListPanel = new JPanel(new GridLayout(0,3));
 		JPanel reviewerButtonPanel = new JPanel(new GridLayout(0, 1));
 		JPanel reviewerLabelPanel = new JPanel(new GridLayout(0, 1));
 		JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -86,9 +86,12 @@ public class SPCAssignReviewersView extends Observable {
 		
 		//JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
-		
+		reviewersListPanel.add(new JLabel("User id of Reviewer:"));
+		reviewersListPanel.add(new JLabel("number of reviews assigned to Reviewer:"));
+		reviewersListPanel.add(new JLabel("click to assign this manuscript to reviewer:"));
 		for (myCounter = 0; myCounter < myEligibleReviewers.size(); myCounter++) {
 			JLabel reviewerLabel = new JLabel (myEligibleReviewers.get(myCounter).getUser().getEmail());
+			JLabel reviewerNumberAssignmentsLabel = new JLabel ("" + myEligibleReviewers.get(myCounter).getNumAssignedManuscripts());
 			JButton button = new JButton("Assign"); //will need to display more info here about the reviewer *maybe not a button*
 			button.setActionCommand(myEligibleReviewers.get(myCounter).getUser().getEmail());
 			
@@ -110,6 +113,7 @@ public class SPCAssignReviewersView extends Observable {
 			
 			
 			reviewersListPanel.add(reviewerLabel);
+			reviewersListPanel.add(reviewerNumberAssignmentsLabel);
 			reviewersListPanel.add(button);
 		}	
 		
