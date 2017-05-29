@@ -208,8 +208,11 @@ public class Driver {
 			
 			//Add reviewers to manu1
 			manu1.addReviewer(testReviewer1);
+			testReviewer1.addManuscriptToReviewer(manu1);
 			manu1.addReviewer(testReviewer2);
+			testReviewer2.addManuscriptToReviewer(manu1);
 			manu1.addReviewer(testReviewer3);
+			testReviewer3.addManuscriptToReviewer(manu1);
 			
 			//Add reviews to manu1
 			File testReview1 = new File("");
