@@ -108,7 +108,8 @@ public class SPCHomeView extends Observable implements ActionListener{
 					System.out.println(myConference.getManuscriptDeadline());
 					System.out.println(new Date());
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
-					if (myConference.getManuscriptDeadline().after(new Date())) {
+					// temp unnegate after done testing!!!!!!!!!!
+					if (!myConference.getManuscriptDeadline().after(new Date())) {
 						assignReviewerBtn.setEnabled(false);	
 						assignReviewerBtn.setToolTipText("DeadLine for " + selectedManu.getTitle() + "has not expired");
 					} else if (myConference.getEligibleReviewers(selectedManu).size() < 1) {

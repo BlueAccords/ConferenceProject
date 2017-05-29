@@ -84,14 +84,15 @@ public class AuthorSubmitManuscriptView extends Observable {
 				String[] AuthorList = textArea.getText().split(",");
 				Author tempAuthor;
 				User tempUser;
+				int result = myAuthor.isAuthorsAtLimit(AuthorList, myConference);
 				
-				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+				if (result < 0) {
 					
 					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
 					
-					if (AuthorList.length > 1) {
+					if (AuthorList.length > 0) {
 						
-						for (int i = 1 ; i < AuthorList.length; i++) {
+						for (int i = 0 ; i < AuthorList.length; i++) {
 							
 							if (User.doesEmailBelongToUser(AuthorList[i])) {
 								
@@ -135,7 +136,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 					
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has to many Manuscripts submitted to this Conference.");  
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " is at their Manuscript submission limit!");  
 				}
 		    }  
 		});
@@ -147,11 +148,12 @@ public class AuthorSubmitManuscriptView extends Observable {
 		AuthorSubmitButton.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
 				String[] AuthorList = textArea.getText().split(",");
-				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+				int result = myAuthor.isAuthorsAtLimit(AuthorList, myConference);
+				if (result < 0) {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has too many Manuscripts submitted to this Conference.");  
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " is at their Manuscript submission limit!");   
 				}
 		    }  
 		});

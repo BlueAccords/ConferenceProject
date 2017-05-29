@@ -165,8 +165,8 @@ public class Author extends User implements Serializable{
 		}
 	}
 	
-	public boolean isAuthorsAtLimit(String[] theAuthors, Conference theConference) {
-		boolean atLimit = false;
+	public int isAuthorsAtLimit(String[] theAuthors, Conference theConference) {
+		int atLimit = -1;
 		Author tempAuthor;
 		User tempUser;
 		for (int i = 0; i < theAuthors.length; i++) {
@@ -175,7 +175,7 @@ public class Author extends User implements Serializable{
 				if (theConference.isUserAuthor(tempUser)) {
 					tempAuthor = theConference.getAuthor(tempUser);
 					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
-						atLimit = true;
+						atLimit = i;
 					}
 				}
 			}
