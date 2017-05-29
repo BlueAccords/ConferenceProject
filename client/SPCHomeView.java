@@ -111,7 +111,10 @@ public class SPCHomeView extends Observable implements ActionListener{
 					assignReviewerBtn.setEnabled(true);
 						//	if (myManuscriptList.get(index)) 
 //					} 
-					if(selectedManu.isEligibleForRecommendation()) {
+					if (selectedManu.isrecommendationAssigned()) {
+						submitRecommendationBtn.setEnabled(false);
+						submitRecommendationBtn.setToolTipText("Recommendation already submitted for " + selectedManu.getTitle());
+					} else if (selectedManu.isEligibleForRecommendation()) {
 						submitRecommendationBtn.setEnabled(true); 
 						submitRecommendationBtn.setToolTipText(null);
 					} else {
