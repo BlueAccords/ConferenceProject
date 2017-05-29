@@ -318,7 +318,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 				returnList[i][1] =  theManuscriptList.get(i).getReviewerList().size();
 				returnList[i][2] =  theManuscriptList.get(i).getReviews().size();
 
-				if (theManuscriptList.get(i).getRecommendation().exists()){
+				if (theManuscriptList.get(i).isrecommendationAssigned()){
 					returnList[i][3] =  "Recommendation submitted";
 				} else if (theManuscriptList.get(i).getReviews().size()>=3){
 					returnList[i][3] = "Submit Recommendation";
