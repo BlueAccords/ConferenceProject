@@ -249,7 +249,7 @@ public class SubprogramChair extends User implements Serializable{
 		 * 	2) The reviewer doesn't have >7 papers assigned to them.
 		 * @param theManuscript the Paper to generate a list of eligible Reviewers for.
 		 * @return a collection of eligible reviewers for the Paper.
-		 * @author Vincent Povio, Ian Waak
+		 * @author Vincent Povio, Ian Waak, Casey Anderson
 		 * @version 4/30/2017
 		 */
 		public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscript) {
@@ -259,11 +259,20 @@ public class SubprogramChair extends User implements Serializable{
 			//List of author names for the paper in need of review
 			ArrayList<String> authors = new ArrayList<String>();
 			authors.addAll(theManuscript.getAuthorEmails());
-			
+			ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscript.getReviewerList();
 			boolean flag = false;
 			//Iterate through list of reviewers assigned to the User
 			for (Reviewer possibleReviewer : assignedReviewers) {
 				//Iterate through list of paper's authors
+					
+				for (int i = 0; i < assignedReviewersOnManuscript.size(); i++) {
+					
+					if (possibleReviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.get(i).getUser().getEmail())) {
+						flag = true;
+					}
+					
+				}
+				
 				for (String paperAuthor: authors) {
 					//If reviewer is author or co-author, set flag to true
 					if (possibleReviewer.getUser().getEmail().equals(paperAuthor)) {
@@ -281,6 +290,8 @@ public class SubprogramChair extends User implements Serializable{
 					eligibleReviewers.add(possibleReviewer);
 				}
 			}
+			
+			
 			removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(eligibleReviewers, theManuscript);
 			return eligibleReviewers;
 		}
