@@ -247,6 +247,7 @@ public class Manuscript implements Serializable{
 		}
 		//if exception not thrown, myRecommendation instantiated
 		myRecommendation = theRecommendation;
+		this.setRecommendationAssigned(true);
 	}
 	
 	/**
