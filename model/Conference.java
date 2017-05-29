@@ -17,8 +17,8 @@ import model.Author.ManuscriptNotInListException;
  * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
  * @version May 7 2017
  */
-
 public class Conference implements Serializable{
+	
 	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
@@ -244,7 +244,6 @@ public class Conference implements Serializable{
 		Conference.updateConferenceInList(this);
 	}
 	
-	
 	/**
 	 * Removes the given Manuscript from each of its Authors' lists.
 	 * 
@@ -273,8 +272,7 @@ public class Conference implements Serializable{
 		
 		Conference.updateConferenceInList(this);
 	}
-	
-	
+		
 	/**
 	 * This method will get the author's email's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
@@ -435,7 +433,6 @@ public class Conference implements Serializable{
 		return returnList;
 	}
 	
-
 	/**
 	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
 	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then
@@ -526,7 +523,7 @@ public class Conference implements Serializable{
 	 * 
 	 * Preconditions:
 	 * 	static conference list must have been initialized.
-	 * @return
+	 * @return Updated Conference
 	 */
 	public static Conference updateConferenceInList(Conference theConference) {
 		boolean confFound = false;
@@ -563,7 +560,6 @@ public class Conference implements Serializable{
 	public static void initializeConferenceListToEmptyList() {
 		myConferenceList = new ArrayList<Conference>();
 	}
-
 
 	/**
 	 * Reads the ArrayList of Conferences stored in the file destination the object
@@ -626,7 +622,6 @@ public class Conference implements Serializable{
 	 * @version 5/28/17
 	 * @return an int indicating the max num of manuscripts allowed to be submitted
 	 */
-
 	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
 		return MAX_AUTHOR_SUBMISSIONS;
 	}
