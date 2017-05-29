@@ -44,6 +44,11 @@ public class Manuscript implements Serializable{
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
 	
+	/**
+	 * To determine if recommendation has been made.
+	 */
+	private boolean myRecommendationAssigned;
+	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
@@ -66,7 +71,16 @@ public class Manuscript implements Serializable{
 		mySubmissionDate = new Date();
 		myRecommendation = new File("");
 		myReviewerList = new ArrayList<Reviewer>();
+		myRecommendationAssigned = false;
 	}	
+	
+	public void setRecommendationAssigned(boolean theRecommendation) {
+		myRecommendationAssigned = theRecommendation;
+	}
+	
+	public boolean isrecommendationAssigned() {
+		return myRecommendationAssigned;
+	}
 	
 	/**
 	 * Returns the date the manuscript was submitted.
