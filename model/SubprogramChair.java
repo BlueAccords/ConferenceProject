@@ -259,6 +259,7 @@ public class SubprogramChair extends User implements Serializable{
 			//List of author names for the paper in need of review
 			ArrayList<String> authors = new ArrayList<String>();
 			authors.addAll(theManuscript.getAuthorEmails());
+			
 			ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscript.getReviewerList();
 			boolean flag = false;
 			//Iterate through list of reviewers assigned to the User
