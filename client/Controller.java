@@ -697,11 +697,12 @@ public class Controller extends Observable implements Observer {
 			myCurrentSubprogramChair.setRecommendation((File) arg1);
 			try {
 				myCurrentManuscript.addRecommendation((File) arg1);
+				myCurrentConference.updateManuscriptInConference(myCurrentManuscript);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			myCurrentConference.updateManuscriptInConference(myCurrentManuscript);
+			
 		}
 	}
 		
