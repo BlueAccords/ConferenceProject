@@ -701,6 +701,7 @@ public class Controller extends Observable implements Observer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			myCurrentConference.updateManuscriptInConference(myCurrentManuscript);
 		}
 	}
 		
