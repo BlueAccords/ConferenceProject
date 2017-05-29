@@ -39,6 +39,9 @@ public class User implements Serializable{
 	/** The user's email, used as a unique identifier for them. */
 	private String myEmail;
 	
+	/**
+	 * Boolean to indicate if User is Subprogram Chair.
+	 */
 	private boolean myIsSubprogramChair;
 		
 	/**
@@ -76,8 +79,7 @@ public class User implements Serializable{
 	public String getLastName() {
 		return myLastName;
 	}
-	
-	
+		
 	/**
 	 * Getter for the User's whole name.
 	 * 
@@ -89,8 +91,7 @@ public class User implements Serializable{
 	public String getWholeName() {
 		return myFirstName + " " + myLastName;
 	}
-	
-	
+		
 	/**
 	 * Setter for User's last name. 
 	 * 
@@ -101,8 +102,7 @@ public class User implements Serializable{
 	public void setLastName(String theLastName) {
 		this.myLastName = theLastName;
 	}
-	
-	
+		
 	/**
 	 * Getter for User's first name.
 	 * 
@@ -113,7 +113,6 @@ public class User implements Serializable{
 	public String getFirstName() {
 		return myFirstName;
 	}
-	
 	
 	/**
 	 * Setter for User's first name.
@@ -126,7 +125,10 @@ public class User implements Serializable{
 		this.myFirstName = theFirstName;
 	}
 	
-	
+	/**
+	 * Method to return if this User is a Subprogram Chair.
+	 * @return myIsSubprogramChair to indicate if this User is a Subprogram Chair.
+	 */
 	public boolean isSubprogramChair() {
 		return myIsSubprogramChair;
 	}
@@ -141,7 +143,6 @@ public class User implements Serializable{
 	public String getEmail() {
 		return myEmail;
 	}
-	
 	
 	/**
 	 * Setter for user's email address.
@@ -201,11 +202,9 @@ public class User implements Serializable{
 		if(userToReturn == null) {
 			throw new IllegalArgumentException("No user with given email exists with user list");
 		}
-		
-		
+			
 		return userToReturn;
 	}
-
 
 	/**
 	 * Writes the User class' static list of users to a file for storage and retrieval.
@@ -318,7 +317,6 @@ public class User implements Serializable{
 	public static void addUser(User theUser) {
 		myUserList.add(theUser);
 	}
-	
 	
 	/**
 	 * This method will initialize the global user list in memory by deserializing the users

@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.Author;
 import model.Conference;
+import model.SubprogramChair;
 import model.User;
 
 /**
@@ -22,7 +23,6 @@ import model.User;
  *
  */
 public class UserRoleView extends Observable{
-	private JPanel myPanel;
 	private Conference myConference;
 	private JLabel myViewTitle;
 	
@@ -52,20 +52,25 @@ public class UserRoleView extends Observable{
 	 * @author Casey Anderson
 	 */
 	public JPanel createSelectRolePanel() {
+		
 		JPanel selectedUserRolePanel = new JPanel(new GridBagLayout());
 		JPanel selectRoleButtonPanel = new JPanel(new GridLayout(0,1));
 		selectRoleButtonPanel.add(myViewTitle);
+		
 		myAuthorBtn.addActionListener(e -> {
 			setChanged();
 			notifyObservers(new Author(myUser));
 			setChanged();
 			notifyObservers(Controller.CHOOSE_USER + Controller.AUTHOR);
 		});
+		
 		selectRoleButtonPanel.add(myAuthorBtn);
 
 		if (myConference.isUserSubprogramChair(myUser)) {
 			JButton subProgramChairBtn = new JButton("SubProgram Chair Role");
 			subProgramChairBtn.addActionListener(e -> {
+				setChanged();
+				notifyObservers(new SubprogramChair(myUser));
 				setChanged();
 				notifyObservers(Controller.CHOOSE_USER + (Controller.SUBPROGRAM_CHAIR * -1));
 			});
@@ -77,6 +82,7 @@ public class UserRoleView extends Observable{
 		selectRoleButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Select Role"));
 		selectedUserRolePanel.add(selectRoleButtonPanel);
+		
 		return selectedUserRolePanel;
 		
 	}

@@ -17,12 +17,15 @@ import model.Author.ManuscriptNotInListException;
  * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
  * @version May 7 2017
  */
-
 public class Conference implements Serializable{
+	
 	private static final String PERSISTENT_DATA_LOCATION = "./persistent_storage_folder/conferenceData.ser";
 	
 	/** The maximum manuscript submissions. */
 	private static final int MAX_AUTHOR_SUBMISSIONS = 5;
+	
+	/** The maximum number of manuscripts a reviewer can be assigned to per conference*/
+	private static final int MAX_MANSCRIPTS_ASSIGNED_TO_REVIEWER = 8;
 	
 	/**  A generated serial version UID for object Serialization. */
 	private static final long serialVersionUID = -8616952866177111334L;
@@ -244,7 +247,6 @@ public class Conference implements Serializable{
 		Conference.updateConferenceInList(this);
 	}
 	
-	
 	/**
 	 * Removes the given Manuscript from each of its Authors' lists.
 	 * 
@@ -273,8 +275,7 @@ public class Conference implements Serializable{
 		
 		Conference.updateConferenceInList(this);
 	}
-	
-	
+		
 	/**
 	 * This method will get the author's email's from the paper, look at each paper
 	 * in the conference and check all things in the author's array list while keeping track
@@ -435,7 +436,6 @@ public class Conference implements Serializable{
 		return returnList;
 	}
 	
-
 	/**
 	 * In this method it takes the given Manuscript and looks for all eligible reviewers. It does this by
 	 * first making all the eligible reviewers the list of conference reviewers for this conference. It then
@@ -456,10 +456,26 @@ public class Conference implements Serializable{
 	 */
 	public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscriptToFindReviewersFor) {
 		ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
-		//ArrayList<Author> manuscriptAuthors = theManuscriptToFindReviewersFor.getAuthors();
+		ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscriptToFindReviewersFor.getReviewerList();
+		boolean flag = false;
 		for (Reviewer reviewer : myConferenceReviewers) {
-			if (!theManuscriptToFindReviewersFor.doesManuscriptBelongToReviewer(reviewer)) {		//checks if the reviewer is an author of the manuscript
+			flag = false;
+			for (int i = 0; i < assignedReviewersOnManuscript.size(); i++) {
+				
+				if (reviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.get(i).getUser().getEmail())) {
+					flag = true;
+				}
+				
+			}
+			if (!flag) {
 				eligibleReviewers.add(reviewer); //if not, then add the reviewer to the list
+			}
+		}
+		
+		// Check to see if reviewer has more than 8 manuscripts assigned for the current conference.
+		for(int i = 0; i < eligibleReviewers.size(); i++) {
+			if(eligibleReviewers.get(i).getAssignedManuscripts().size() >= MAX_MANSCRIPTS_ASSIGNED_TO_REVIEWER) {
+				eligibleReviewers.remove(i);
 			}
 		}
 		
@@ -467,18 +483,26 @@ public class Conference implements Serializable{
 	}
 	
 	/**
-	 * Returns the max number of manuscripts an author is allowed to submit
-	 * per conference
+	 * This method will update the current conference's list of manuscripts
+	 * to have the passed in manuscript replace the existing version inside of the list
+	 * by manuscript name.
+	 * 	PreConditions:
+	 * 		TheManuscript must already exist within the conference with the same title.
 	 * 
 	 * @author Ryan Tran
 	 * @version 5/28/17
-	 * @return an int indicating the max num of manuscripts allowed to be submitted
+	 * @param theManuscript the manuscript to replace its existing version within the conference list of manuscripts.
 	 */
-	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
-		return MAX_AUTHOR_SUBMISSIONS;
+	public void updateManuscriptInConference(Manuscript theManuscript) {
+		for(int i = 0; i < this.myManuscripts.size(); i++) {
+			if(myManuscripts.get(i).getTitle().equals(theManuscript.getTitle())) {
+				myManuscripts.set(i, theManuscript);
+			}
+		}
+		
+		updateConferenceInList(this);
 	}
 	
-
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.
 	 * returns true if write successful, false otherwise.
@@ -539,7 +563,7 @@ public class Conference implements Serializable{
 	 * 
 	 * Preconditions:
 	 * 	static conference list must have been initialized.
-	 * @return
+	 * @return Updated Conference
 	 */
 	public static Conference updateConferenceInList(Conference theConference) {
 		boolean confFound = false;
@@ -576,7 +600,6 @@ public class Conference implements Serializable{
 	public static void initializeConferenceListToEmptyList() {
 		myConferenceList = new ArrayList<Conference>();
 	}
-
 
 	/**
 	 * Reads the ArrayList of Conferences stored in the file destination the object
@@ -629,6 +652,18 @@ public class Conference implements Serializable{
 	 */
 	public static ArrayList<Conference> getConferences() {
 		return myConferenceList;
+	}
+
+	/**
+	 * Returns the max number of manuscripts an author is allowed to submit
+	 * per conference
+	 * 
+	 * @author Ryan Tran
+	 * @version 5/28/17
+	 * @return an int indicating the max num of manuscripts allowed to be submitted
+	 */
+	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
+		return MAX_AUTHOR_SUBMISSIONS;
 	}
 
 }

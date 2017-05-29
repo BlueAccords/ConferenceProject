@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.io.File;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -48,6 +44,11 @@ public class Manuscript implements Serializable{
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
 	
+	/**
+	 * To determine if recommendation has been made.
+	 */
+	private boolean myRecommendationAssigned;
+	
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
@@ -70,7 +71,16 @@ public class Manuscript implements Serializable{
 		mySubmissionDate = new Date();
 		myRecommendation = new File("");
 		myReviewerList = new ArrayList<Reviewer>();
+		myRecommendationAssigned = false;
 	}	
+	
+	public void setRecommendationAssigned(boolean theRecommendation) {
+		myRecommendationAssigned = theRecommendation;
+	}
+	
+	public boolean isrecommendationAssigned() {
+		return myRecommendationAssigned;
+	}
 	
 	/**
 	 * Returns the date the manuscript was submitted.
@@ -81,12 +91,38 @@ public class Manuscript implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	
+	/**
+	 * Method to determine if any Reviewers have been assigned to this Manuscript.
+	 * @return Boolean if any Reviewers have been assigned to this Manuscript.
+	 * @author Casey Anderson.
+	 */
 	public boolean isReviewInProgress() {
 		return myReviewerList.size() > 0;
 	}
 	
+	/**
+	 * Method to add a Reviewer to this Manuscript.
+	 * PreConditions:
+	 * 	Reviewer must not be a duplicate reviewer already in myReviewerList.
+	 * @param theReviewer that is to be added to this Manuscript.
+	 * @author Casey Anderson
+	 */
 	public void addReviewer(Reviewer theReviewer) {
-		myReviewerList.add(theReviewer);
+		// check if reviewer already exists in myReviewerList.
+		// Silent omission if trying to add duplicate reviewers
+		for(int i = 0; i < myReviewerList.size(); i++) {
+			if(!(myReviewerList.get(i).getUser().getEmail().equals(theReviewer.getUser().getEmail()))) {
+				theReviewer.addManuscriptToReviewer(this);
+				myReviewerList.add(theReviewer);
+				break;
+			}
+		}
+		
+		// in case list is empty the for loop doesn't run at all
+		if(myReviewerList.size() == 0) {
+			theReviewer.addManuscriptToReviewer(this);
+			myReviewerList.add(theReviewer);
+		}
 	}
 	
 	/**
@@ -110,8 +146,7 @@ public class Manuscript implements Serializable{
 	public String getTitle() {
 		return myTitle;
 	}
-	
-	
+		
 	/**
 	 * Getter for the paper file.
 	 * 
@@ -123,7 +158,6 @@ public class Manuscript implements Serializable{
 	public File getManuscriptFile() {
 		return myManuscriptFile;
 	}
-	
 	
 	/**
 	 * Getter for the list of authors.
@@ -137,7 +171,6 @@ public class Manuscript implements Serializable{
 		return myAuthors;
 	}
 	
-	
 	/**
 	 * This method will return the Author email.
 	 * 
@@ -150,8 +183,7 @@ public class Manuscript implements Serializable{
 		}
 		return emails;
 	}
-	
-	
+		
 	/**
 	 * Adds an author to the paper.
 	 * 
@@ -253,7 +285,11 @@ public class Manuscript implements Serializable{
 		return authorIsFound;
 	}
 	
-	
+	/**
+	 * Method to check if theReviewer belongs to this Manuscript.
+	 * @param theReviewer to check if assigned to this Manuscript.
+	 * @return if Reviewer belongs to this Manuscript.
+	 */
 	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
 		boolean reviewerIsFound = false;
 
@@ -296,7 +332,6 @@ public class Manuscript implements Serializable{
 		return authorNotInList;
 	}
 	
-	
 	/**
 	 * Replaces the file of the paper with an updated version.
 	 * 
@@ -310,24 +345,30 @@ public class Manuscript implements Serializable{
 		myManuscriptFile = theManuscript;
 	}
 
-	
 	/**
+	 * Method to return a list of Reviewers assigned to this Manuscript.
 	 * @return the myReviewerList
 	 */
 	public ArrayList<Reviewer> getReviewerList() {
 		return myReviewerList;
 	}
 
-
+	/**
+	 * Method to return the number of Reviews needed before a recommendation can be submitted 
+	 * for this Manuscript.
+	 * @return SUFFICIENT_REVIEWS that is the number of reviews needed be recommendation can be submitted.
+	 */
 	public static int getSufficientReviews() {
 		return SUFFICIENT_REVIEWS;
 	}
-
 
 	/**
 	 * @param myReviewerList the myReviewerList to set
 	 */
 	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
+		for(Reviewer reviewer : myReviewerList) {
+			reviewer.addManuscriptToReviewer(this);
+		}
 		this.myReviewerList = myReviewerList;
 	}
 	
@@ -379,7 +420,4 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
-
-
-
 }

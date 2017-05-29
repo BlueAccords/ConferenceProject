@@ -35,7 +35,6 @@ public class Reviewer implements Serializable{
 	 * @return the User associated with the Reviewer.
 	 */
 	public User getUser() {
-		//maybe need a defensive copy here?
 		return myUser;
 	}
 	
@@ -84,5 +83,4 @@ public class Reviewer implements Serializable{
 	public int getNumAssignedManuscripts() {
 		return assignedManuscripts.size();
 	}
-
 }

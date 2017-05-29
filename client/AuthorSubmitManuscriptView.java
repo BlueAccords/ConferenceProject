@@ -2,7 +2,6 @@ package client;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -23,11 +22,29 @@ import model.Manuscript;
 import model.Manuscript.AuthorExistsInListException;
 import model.User;
 
+/**
+ * Class to create a JPanel to submit a new Manuscript to a Conference.
+ * @author Casey Anderson
+ * @version 5/23/2017
+ *
+ */
 public class AuthorSubmitManuscriptView extends Observable {
+	/**
+	 * The selected Author that is submitting Manuscript
+	 */
 	private Author myAuthor;
 	
+	/**
+	 * The selected Conference that myAuthor is submitting Manuscript to.
+	 */
 	private Conference myConference;
-
+	
+	/**
+	 * Constructor for AuthorSubmitManuscriptView.
+	 * @param theAuthor that the Manuscript is being submitted for.
+	 * @param theConference that the Manuscript is being submitted to.
+	 * @author Casey Anderson
+	 */
 	public AuthorSubmitManuscriptView(Author theAuthor, Conference theConference) {
 		myAuthor = theAuthor;
 		myConference = theConference;
@@ -60,35 +77,62 @@ public class AuthorSubmitManuscriptView extends Observable {
 		JButton ManuscriptSubmitButton = new JButton("Submit");
 		ManuscriptSubmitButton.setActionCommand("Submit Manuscript");
 		
-		ManuscriptSubmitButton.addActionListener(new ActionListener(){  
+		ManuscriptSubmitButton.addActionListener(new ActionListener() { 
+			
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
+				
 				String[] AuthorList = textArea.getText().split(",");
 				Author tempAuthor;
 				User tempUser;
+				
 				if (!myAuthor.isAuthorsAtLimit(AuthorList, myConference)) {
+					
 					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
+					
 					if (AuthorList.length > 1) {
+						
 						for (int i = 1 ; i < AuthorList.length; i++) {
+							
 							if (User.doesEmailBelongToUser(AuthorList[i])) {
+								
 								tempUser = User.getUserByEmail(AuthorList[i]);
+								
 								if (myConference.isUserAuthor(tempUser)) {
 									tempAuthor = myConference.getAuthor(tempUser);
 								} else {
 									tempAuthor = new Author(tempUser);
 								}
+								
 								try {
 									newManuscript.addAuthor(tempAuthor);
 								} catch (AuthorExistsInListException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
+								
+							} else {
+								
+								tempUser = new User(AuthorList[i]);
+								User.addUser(tempUser);
+								User.writeUsers();
+								tempAuthor = new Author(tempUser);
+								
+								try {
+									newManuscript.addAuthor(tempAuthor);
+								} catch (AuthorExistsInListException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
 							}
 						}
 					}
+					
 					setChanged();
 					notifyObservers(newManuscript);  
 					setChanged();
 					notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
+					
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
 					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry one of your authors has to many Manuscripts submitted to this Conference.");  
@@ -97,7 +141,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		});
 		
 		ManuscriptSubmitButton.setEnabled(false);
-		JButton AuthorSubmitButton = new JButton("Click to verify Authors");
+		JButton AuthorSubmitButton = new JButton("Click when done adding co-authors to activate submit button");
 		AuthorSubmitButton.setActionCommand("Verify Authors");
 		
 		AuthorSubmitButton.addActionListener(new ActionListener(){  
@@ -111,12 +155,11 @@ public class AuthorSubmitManuscriptView extends Observable {
 				}
 		    }  
 		});
-		
-		
+			
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
-		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
-		JLabel ManuscriptFileLabel = new JLabel("Enter File Path: ");
+		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Names of Co-Authors for Manuscript separated by a comma ',' or leave blank if none: ");
+		JLabel ManuscriptFileLabel = new JLabel("Select file or Enter File Path: ");
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -131,7 +174,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		manuscriptAuthorsPanel.add(ManuscriptAuthorsLabel, c);
 		c.gridy = 1;
 		c.ipady = 30;
-		manuscriptAuthorsPanel.add(textArea, c);
+		manuscriptAuthorsPanel.add(scrollPane, c);
 		c.gridy = 2;
 		c.ipady = 10;
 		manuscriptAuthorsPanel.add(AuthorSubmitButton, c);
@@ -144,12 +187,12 @@ public class AuthorSubmitManuscriptView extends Observable {
 		c.ipady = 0;
 		createManuscriptPanel.add(manuscriptTitlePanel, c);
 		c.gridy = 1;
-		//c.ipady = 30;
 		createManuscriptPanel.add(manuscriptAuthorsPanel, c);
 		c.gridy = 2;
 		createManuscriptPanel.add(ManuscriptFilePanel, c);
 		c.gridy = 3;
 		createManuscriptPanel.add(ManuscriptSubmitPanel, c);
+		
 		ManuscriptSubmitPanel.setOpaque(true);
 		createManuscriptPanel.setOpaque(true);
 		manuscriptTitlePanel.setOpaque(true);
@@ -161,7 +204,4 @@ public class AuthorSubmitManuscriptView extends Observable {
 		ManuscriptPanelHolder.add(createManuscriptPanel);
 		return ManuscriptPanelHolder;
 	}
-	
-
-
 }

@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class SubprogramChair extends User implements Serializable{
@@ -20,8 +19,7 @@ public class SubprogramChair extends User implements Serializable{
 	private static final long serialVersionUID = -6999273827761122770L;
 
 	/** The maximum number of manuscripts for a reviewer. */
-	private static final int MAX_REVIEW_PAPERS = 8;
-	
+	private static final int MAX_REVIEW_PAPERS = 8;	
 	
 	/** The user ID (email) associated with this SubprogramChair. */
 	User myUser;
@@ -62,6 +60,7 @@ public class SubprogramChair extends User implements Serializable{
 	    assignedReviewers = new ArrayList<Reviewer>();
 		
 	}
+	
 	/**
 	 * Getter for a User type.
 	 * @return the User associated with the SPC.
@@ -71,16 +70,21 @@ public class SubprogramChair extends User implements Serializable{
 		return myUser;
 	}
 	
-	
+	/**
+	 * Method to set theRecommendation for this Subprogram Chair. 
+	 * @param theRecommendation to be set for this Subprogram Chair.
+	 */
 	public void setRecommendation (File theRecommendation) {
 		myRecommendation = theRecommendation;
 	}
 	
-	
+	/**
+	 * method to get myRecommendation for this Subprogram Chair.
+	 * @return theRecommendation File for this Subprogram Chair.
+	 */
 	public File getRecommendation () {
 		return myRecommendation;
 	}
-	
 	
 	/**
 	 * Returns a collection of Manuscripts assigned to the User as a Subprogram Chair.
@@ -94,7 +98,6 @@ public class SubprogramChair extends User implements Serializable{
 		assignedMansSPCcopy.addAll(assignedManuscriptsSPC);
 		return assignedMansSPCcopy;
 	}
-
 	
 	/**
 	 * Adds the passed Manuscript to the collection of Manuscript the Subprogram chair has been 
@@ -121,6 +124,7 @@ public class SubprogramChair extends User implements Serializable{
 		copy.addAll(assignedReviewers);
 		return assignedReviewers;
 	}
+	
 	/**
 	 * Adds the passed User to the SPC's collection of assigned Reviewers.
 	 * @param theReviewer the User to assign as a Reviewer.
@@ -128,7 +132,6 @@ public class SubprogramChair extends User implements Serializable{
 	 * @version 4/30/2017
 	 */
 	public void addReviewerToSPC(Reviewer theReviewer) {
-		//need to make sure the reviewer doesn't already exist in this collection.
 		assignedReviewers.add(theReviewer);
 	}
 	
@@ -148,7 +151,6 @@ public class SubprogramChair extends User implements Serializable{
 		}
 	}
 	
-
 	/**
 	 * Attempts to add the passed Manuscript to the passed User's collection of Manuscripts's to review.
 	 * Manuscript will not be added if the Reviewer has already been assigned max Manuscripts or if they 
@@ -237,12 +239,9 @@ public class SubprogramChair extends User implements Serializable{
 				return false; 
 			} else {
 				return true;	
-			}
-		
-			
+			}		
 		}
-
-		
+	
 		/**
 		 * This function gets a list of all eligible reviewers.
 		 * It validates that the reviewers meet the following business rules:
@@ -250,7 +249,7 @@ public class SubprogramChair extends User implements Serializable{
 		 * 	2) The reviewer doesn't have >7 papers assigned to them.
 		 * @param theManuscript the Paper to generate a list of eligible Reviewers for.
 		 * @return a collection of eligible reviewers for the Paper.
-		 * @author Vincent Povio, Ian Waak
+		 * @author Vincent Povio, Ian Waak, Casey Anderson
 		 * @version 4/30/2017
 		 */
 		public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscript) {
@@ -261,10 +260,20 @@ public class SubprogramChair extends User implements Serializable{
 			ArrayList<String> authors = new ArrayList<String>();
 			authors.addAll(theManuscript.getAuthorEmails());
 			
+			ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscript.getReviewerList();
 			boolean flag = false;
 			//Iterate through list of reviewers assigned to the User
 			for (Reviewer possibleReviewer : assignedReviewers) {
 				//Iterate through list of paper's authors
+					
+				for (int i = 0; i < assignedReviewersOnManuscript.size(); i++) {
+					
+					if (possibleReviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.get(i).getUser().getEmail())) {
+						flag = true;
+					}
+					
+				}
+				
 				for (String paperAuthor: authors) {
 					//If reviewer is author or co-author, set flag to true
 					if (possibleReviewer.getUser().getEmail().equals(paperAuthor)) {
@@ -282,10 +291,17 @@ public class SubprogramChair extends User implements Serializable{
 					eligibleReviewers.add(possibleReviewer);
 				}
 			}
+			
+			
 			removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(eligibleReviewers, theManuscript);
 			return eligibleReviewers;
 		}
 
+		/**
+		 * Helper Method to help determine which Reviewers have conflicting Manuscripts.
+		 * @param reviewerList is list of Reviewers to be checked.
+		 * @param theManuscript is Manuscript to compare the Reviewers from reviewerList to.
+		 */
 		private void removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(ArrayList<Reviewer> reviewerList, Manuscript theManuscript){
 			Set<User> conflictingReviewersByUser = new HashSet<User>();
 			for(Author currentAuthor: theManuscript.getAuthors()){

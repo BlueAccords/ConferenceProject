@@ -40,7 +40,8 @@ public class Driver {
 			User testUser3 = new User("casanova@test.com");
 			User testUser4 = new User("mdanger@test.com", true);
 			User testUser5 = new User("jmoney@test.com");
-			User testUser6 = new User("lilryerye@test.com");
+			User testUser6 = new User("ryan@email.com");
+			User testUserForMaxReviews = new User("AlfredMax@email.com");
 			
 			//Reviewer set up
 			Reviewer testReviewer1 = new Reviewer(testUser1);
@@ -49,6 +50,7 @@ public class Driver {
 			Reviewer testReviewer4 = new Reviewer(testUser4);
 			Reviewer testReviewer5 = new Reviewer(testUser5);
 			Reviewer testReviewer6 = new Reviewer(testUser6);
+			Reviewer testReviewerForMaxReviews = new Reviewer(testUserForMaxReviews);
 			
 			
 			User testUserWithMaxManuscripts = new User("max@email.com");
@@ -105,6 +107,7 @@ public class Driver {
 			Author testAuth2 = new Author(testUser2);
 			Author testAuth3 = new Author(testUser3);
 			Author testAuth5 = new Author(testUser5);
+			Author testAuth6 = new Author(testUser6);
 			Author testAuthWithMax = new Author(testUserWithMaxManuscripts);
 			
 			// Adding manuscripts to users.
@@ -116,16 +119,66 @@ public class Driver {
 			Manuscript manu6 = new Manuscript("Theory of Cellular Automata: A survey", new File(""), testAuth3);
 			Manuscript manu7 = new Manuscript("Ranking of Accessibility in Sorting Algorithms", new File(""), testAuth5);
 			
-			/* Temporarily removing redundant reviewer/reviews for manu1
+			/**
+			 * ==============================================================================================================
+			 * SETUP for business rule:
+			 * 	A Reviewer can be assigned to review a maximum of 8 manuscripts for any conference.
+			 * spcForMaxReviews/testUser5-"jmoney@test.com" 				   : Subprogram Chair to assigned Reviewer Manuscripts
+			 * icmlConf-"ICML  - International Conference on Machine Learning" : Conference
+			 * testReviewer2   -"connor@test.com" 							   : Reviewer to be assigned 8+ manuscripts
+			 */
 			
-			manu1.addReviewer(testReviewer1);
-			manu1.addReviewer(testReviewer2);
-			manu1.addReviewer(testReviewer3);
-			manu1.addReview(new File(""));
-			manu1.addReview(new File(""));
-			manu1.addReview(new File(""));
-			*/
+			// init manuscripts
+			Manuscript manuMaxReview1 = new Manuscript("Teaching software engineering—experience from the past, needs for the future", new File(""), testAuth6);
+			Manuscript manuMaxReview2 = new Manuscript("Software engineering education—adjusting our sails", new File(""), testAuth6);
+			Manuscript manuMaxReview3 = new Manuscript("Human-computer interaction in the Informatics curriculum", new File(""), testAuth6);
+			Manuscript manuMaxReview4 = new Manuscript("Why we should no longer only repair, polish and iron current computer science educations", new File(""), testAuth6);
+			Manuscript manuMaxReview5 = new Manuscript("Visualization education in the USA", new File(""), testAuth6);
+			Manuscript manuMaxReview6 = new Manuscript("A meta-study of algorithm visualization effectiveness", new File(""), testAuth3);
+			Manuscript manuMaxReview7 = new Manuscript("Concept mapping: A useful tool for computer science education", new File(""), testAuth3);
+			Manuscript manuMaxReview8 = new Manuscript("A methodological review of computer science education research", new File(""), testAuth3);
+			Manuscript manuMaxReview9 = new Manuscript("Teacher beliefs and intentions regarding the implementation of computer science education reform strands", new File(""), testAuth3);
 			
+			// assign manuscripts to spc
+			ArrayList<Manuscript> maxAssignedManuscriptForSPC = new ArrayList<Manuscript>();
+			maxAssignedManuscriptForSPC.add(manuMaxReview1);
+			maxAssignedManuscriptForSPC.add(manuMaxReview2);
+			maxAssignedManuscriptForSPC.add(manuMaxReview3);
+			maxAssignedManuscriptForSPC.add(manuMaxReview4);
+			maxAssignedManuscriptForSPC.add(manuMaxReview5);
+			maxAssignedManuscriptForSPC.add(manuMaxReview6);
+			maxAssignedManuscriptForSPC.add(manuMaxReview7);
+			maxAssignedManuscriptForSPC.add(manuMaxReview8);
+			maxAssignedManuscriptForSPC.add(manuMaxReview9);
+			
+			// init testUser5[jmoney@test.com] as subprogram chair and add to icmlConf
+			SubprogramChair spcWithMaxReviews = new SubprogramChair(testUser5, maxAssignedManuscriptForSPC);
+			icmlConf.addSubprogramChair(spcWithMaxReviews);
+			
+			// add testReviewer2[connor@test.com] as reviewer to icmlConf
+			icmlConf.addReviewer(testReviewerForMaxReviews);
+			
+			// Add manuscripts to icmlConf
+			try {
+				icmlConf.addManuscript(manuMaxReview1);
+				icmlConf.addManuscript(manuMaxReview2);
+				icmlConf.addManuscript(manuMaxReview3);
+				icmlConf.addManuscript(manuMaxReview4);
+				icmlConf.addManuscript(manuMaxReview5);
+				icmlConf.addManuscript(manuMaxReview6);
+				icmlConf.addManuscript(manuMaxReview7);
+				icmlConf.addManuscript(manuMaxReview8);
+				icmlConf.addManuscript(manuMaxReview9);
+			} catch (Exception e1) {
+				System.out.println("failed to add manuscripts to icmlConf for max of 8 assigned manuscripts per reviewer");
+				e1.printStackTrace();
+			}
+			
+			/**
+			 * END OF BUS RULE: A Reviewer can be assigned to review a maximum of 8 manuscripts for any conference.
+			 * ===================================================================================================
+			 */
+						
 			// Manuscripts for user with max # of manuscripts
 			Manuscript maxManu1 = new Manuscript("Theory of Computing in Parallel", new File(""), testAuthWithMax);
 			Manuscript maxManu2 = new Manuscript("Theory of Finite State Machines", new File(""), testAuthWithMax);
@@ -157,8 +210,11 @@ public class Driver {
 			
 			//Add reviewers to manu1
 			manu1.addReviewer(testReviewer1);
+			testReviewer1.addManuscriptToReviewer(manu1);
 			manu1.addReviewer(testReviewer2);
+			testReviewer2.addManuscriptToReviewer(manu1);
 			manu1.addReviewer(testReviewer3);
+			testReviewer3.addManuscriptToReviewer(manu1);
 			
 			//Add reviews to manu1
 			File testReview1 = new File("");
