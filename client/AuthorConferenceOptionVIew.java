@@ -13,10 +13,29 @@ import javax.swing.JPanel;
 import model.Conference;
 import model.User;
 
+/**
+ * Class to create a JPanel to display all Conferences for Author view.
+ * @author Casey Anderson
+ * @version 5/23/2017
+ *
+ */
 public class AuthorConferenceOptionVIew extends Observable {
+	/**
+	 * The current Conference selected for User.
+	 */
 	private Conference myConference;
+	
+	/**
+	 * The current User information is being displayed for.
+	 */
 	private User myUser;
 	
+	/**
+	 * The constructor for AuthorConferenceOptionView. 
+	 * @param theConference that was selected to be displayed.
+	 * @param theUser that information is being displayed for
+	 * @author Casey Anderson
+	 */
 	public AuthorConferenceOptionVIew(Conference theConference, User theUser) {
 		myConference = theConference;
 		myUser = theUser;

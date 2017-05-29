@@ -304,11 +304,11 @@ public class Controller extends Observable implements Observer {
 								myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
 								isOpen = true;
 							} else {
-								AuthorManuscriptOptionsView manuscriptOptionsView = new AuthorManuscriptOptionsView(myCurrentManuscript);
+								//AuthorManuscriptOptionsView manuscriptOptionsView = new AuthorManuscriptOptionsView(myCurrentManuscript);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW;
-								manuscriptOptionsView.addObserver(this);
-								myParentFrame.addPanel(manuscriptOptionsView.createManuscriptOptions(), ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW);
+								//manuscriptOptionsView.addObserver(this);
+								//myParentFrame.addPanel(manuscriptOptionsView.createManuscriptOptions(), ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.CREATE_MANUSCRIPT_OPTIONS_VIEW);
 								isOpen = false;
 							}
@@ -325,11 +325,11 @@ public class Controller extends Observable implements Observer {
 							if (!isOpen) {
 								ArrayList<Manuscript> authorManuscriptList = myCurrentConference.getManuscriptsBelongingToAuthor(myCurrentAuthor);
 								
-								AuthorManuscriptListView manuscriptListView = new AuthorManuscriptListView(authorManuscriptList);
+								//AuthorManuscriptListView manuscriptListView = new AuthorManuscriptListView(authorManuscriptList);
 								myPreviousStates.push(myLastState);
 								myLastState = ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW;
-								manuscriptListView.addObserver(this);
-								myParentFrame.addPanel(manuscriptListView.viewManuscriptListView(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
+							//	manuscriptListView.addObserver(this);
+								//myParentFrame.addPanel(manuscriptListView.viewManuscriptListView(), ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
 								myParentFrame.switchToPanel(ParentFrameView.VIEW_MANUSCRIPT_LIST_VIEW);
 								isOpen = true;
 							} else {
