@@ -82,6 +82,17 @@ public class AuthorSubmitManuscriptView extends Observable {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
+							} else {
+								tempUser = new User(AuthorList[i]);
+								User.addUser(tempUser);
+								User.writeUsers();
+								tempAuthor = new Author(tempUser);
+								try {
+									newManuscript.addAuthor(tempAuthor);
+								} catch (AuthorExistsInListException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 							}
 						}
 					}
