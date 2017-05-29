@@ -108,7 +108,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		});
 		
 		ManuscriptSubmitButton.setEnabled(false);
-		JButton AuthorSubmitButton = new JButton("Click to verify Authors");
+		JButton AuthorSubmitButton = new JButton("Click when done adding co-authors to activate submit button");
 		AuthorSubmitButton.setActionCommand("Verify Authors");
 		
 		AuthorSubmitButton.addActionListener(new ActionListener(){  
@@ -126,7 +126,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
-		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Name of Author and Co-Authors for Manuscript separated by a comma ',': ");
+		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Names of Co-Authors for Manuscript separated by a comma ',' or leave blank if none: ");
 		JLabel ManuscriptFileLabel = new JLabel("Enter File Path: ");
 		
 		GridBagConstraints c = new GridBagConstraints();
