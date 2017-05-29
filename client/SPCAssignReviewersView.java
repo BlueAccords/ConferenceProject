@@ -3,6 +3,8 @@
  */
 package client;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,8 +81,9 @@ public class SPCAssignReviewersView extends Observable {
 		JPanel reviewersListPanel = new JPanel(new GridLayout(0,2));
 		JPanel reviewerButtonPanel = new JPanel(new GridLayout(0, 1));
 		JPanel reviewerLabelPanel = new JPanel(new GridLayout(0, 1));
+		JPanel mainPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		
-
 		//JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		
@@ -117,11 +120,16 @@ public class SPCAssignReviewersView extends Observable {
 			setChanged();
 			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
 		});
-		reviewersListPanel.add(submitReviewers);
+		JPanel submitPanel = new JPanel();
+		submitPanel.add(submitReviewers);
 		reviewersListPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Assigned Reviewers List"));
-		
-		return reviewersListPanel;
+		c.gridx = 0;
+		c.gridy = 0;
+		mainPanel.add(reviewersListPanel, c);
+		c.gridy = 1;
+		mainPanel.add(submitPanel, c);
+		return mainPanel;
 	}
 	
 	
