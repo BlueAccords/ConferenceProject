@@ -1,9 +1,9 @@
 package client;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -19,6 +19,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import model.Conference;
 import model.User;
@@ -71,9 +73,19 @@ public class ConferenceListView extends Observable {
 		JLabel isSubprogramChairLabel = new JLabel("Subprogram Chair Role  ");
 		JLabel isRiewerLabel = new JLabel("Reviewer Role  ");
 		JLabel conferenceDeadLineLabel = new JLabel("Conference Deadline");
-		JPanel conferencePanel = new JPanel(new GridBagLayout());
+		JPanel conferencePanel = new JPanel(new BorderLayout());
 		JPanel conferenceButtonPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		
+		String confDeadlineDate = convertDateToExplicitFormat(new Date());
+    	String viewHeaderTitle = "<html><div style='text-align: center;'>"
+    		+ "Current Active Conferences for <br>" + myUser.getEmail()
+    		+ "<br>current Date: " + confDeadlineDate + "</html>";
+    	JLabel myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
+		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+        conferencePanel.add(myConfTitleLabel, BorderLayout.NORTH);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 0;
@@ -137,11 +149,9 @@ public class ConferenceListView extends Observable {
 			
 		}
 		conferenceButtonPanel.setOpaque(true);
-		//conferenceButtonPanel.setBackground(Color.WHITE);
 		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference List"));
 		conferencePanel.add(conferenceButtonPanel);
-		//conferencePanel.setBackground(Color.WHITE);
 		return conferencePanel;
 		
 	}
