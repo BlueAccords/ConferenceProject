@@ -257,7 +257,6 @@ public class Controller extends Observable implements Observer {
 						 *  myCurrentConference must be non-null
 						 */
 						case SUBMIT_MANUSCRIPT_ACTION:
-							System.out.println("Submit Manscript Action Entered ========");
 							if(this.myCurrentManuscript == null) {
 								System.out.println("No manuscript has been set. Please notify controller by sending"
 										+ "the new manuscript.");
@@ -366,7 +365,6 @@ public class Controller extends Observable implements Observer {
 	                        myParentFrame.switchToPanel(ParentFrameView.ASSIGN_REVIEWERS_VIEW);
 	                        break;
 	                    case SUBMIT_RECOMMENDATION:
-	                    	System.out.println("here");
 	                    	SPCSubmitRecommendationView subRecView = new SPCSubmitRecommendationView();
 	                    	myPreviousStates.push(myLastState);
 	                    	myLastState= ParentFrameView.SUBMIT_RECOMMENDATION_VIEW;
@@ -528,8 +526,6 @@ public class Controller extends Observable implements Observer {
 			try {
 				myCurrentConference.addManuscript(theManuscriptToAdd);
 			} catch (Exception e) {
-				//System.out.println("manuscript failed to add =============");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -558,9 +554,7 @@ public class Controller extends Observable implements Observer {
 	 */
 	private void setUser (String theNewUsernameLiteral) {
 		if(User.doesEmailBelongToUser(theNewUsernameLiteral)) {
-			//System.out.println("setting a user");
 			myCurrentUser = User.getUserByEmail(theNewUsernameLiteral);
-			//System.out.println("Updating header gui to refelect logged in user");
 			this.myParentFrame.setUserToBeLoggedIn(myCurrentUser);
 		}
 	}
@@ -599,7 +593,6 @@ public class Controller extends Observable implements Observer {
 	 */
 	public void setConference (Conference theNewConference) {
 		myCurrentConference = theNewConference;
-		//System.out.println("set a conference");
 	}
 	
 	/**
@@ -668,13 +661,10 @@ public class Controller extends Observable implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		
 		if (arg1 instanceof String) {
-			//System.out.println("going to set a user");
 			setUser((String) arg1);
 		} else if (arg1 instanceof Conference) {
-			//System.out.println("going to set a conference");
 			setConference((Conference) arg1);
 		} else if (arg1 instanceof Integer) {
-			System.out.println("Going to make a new state");
 			changeState((Integer) arg1);
 		} else if (arg1 instanceof Reviewer) {
 			setReviewer((Reviewer) arg1);
