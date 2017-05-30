@@ -250,7 +250,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 				}
 			}
 			
-			JOptionPane.showMessageDialog(reviewerListPanel, null);
+			JOptionPane.showMessageDialog(null, reviewerListPanel);
 
 		}
 	}
