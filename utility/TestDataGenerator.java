@@ -54,9 +54,17 @@ public class TestDataGenerator {
 		
 		
 		// Using users myUserList[0..6] excluding #6
-		// Using Conference[0] acm
+		// Using Conference[0] acm and Conference[4] icml
+		// using Manuscripts 0-8 inclusive.
 		User  userAsSPC = myUserList.get(myUsernameList.get(0));
 		setupUserStoryOne(userAsSPC);
+		
+		// using josiah@email.com as spc for user story 2
+		// using myUserList[6..11] excluding #11
+		// using Conference[1] cpvr
+		// using Manuscripts 9-12 inclusive
+		User userAsSPC2 = myUserList.get(myUsernameList.get(6));
+		setupUserStoryTwo(userAsSPC2, myConferenceList.get(myConferenceNameList.get(1)));
 		
 		
 		
@@ -66,8 +74,98 @@ public class TestDataGenerator {
 		User.writeUsers();
 	}
 	
+	/**
+	 * Setup for User Story 2:
+	 * 		As a Subprogram Chair, I want to submit a recommendation for a manuscript to which I have been assigned.
+	 * 
+	 * @author Ryan Tran
+	 * @param theUserToBeSPC the User to be the subprogram chair for this story
+	 * @param theConf the conference this story is using.
+	 */
 	private static void setupUserStoryTwo(User theUserToBeSPC, Conference theConf) {
+		// Create 4 Manuscripts
+		// Assign Reviewers 
+		// Add reviews for manuscripts
+		// Manu 1: 0 reviews submitted
+		// Manu 2: 2 reviews submitted
+		// Manu 3: 3 reviews submitted
+		// Manu 4: 4 reviews submitted
+
+		// Add 5 users as reviwers to conf
+		for(String username : myUsernameList.subList(0, 6)) {
+			myReviewerList.put(username, new Reviewer(myUserList.get(username)));
+			theConf.addReviewer(myReviewerList.get(username));
+		}
 		
+		Author mainAuthor = new Author(myUserList.get(myUsernameList.get(1)));
+
+		// Manuscript 1 will have 0 reviews submitted
+		Manuscript manu1 = new Manuscript(
+				myManuscriptNameList.get(9),
+				new File(""),
+				mainAuthor,
+				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
+		
+		
+		// Manuscript 2 will have 2 reviews submitted
+		Manuscript manu2 = new Manuscript(
+				myManuscriptNameList.get(10),
+				new File(""),
+				mainAuthor,
+				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
+
+		for(String username: myUsernameList.subList(2, 4)) {
+			int reviewScore = (int)((Math.random() * 9 + 1));
+			addReviewerToManuscriptAndSubmitReview(manu2, myReviewerList.get(username), reviewScore);
+		}
+
+		// Manuscript 3 will have 3 reviews submitted
+		Manuscript manu3 = new Manuscript(
+				myManuscriptNameList.get(11),
+				new File(""),
+				mainAuthor,
+				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
+
+		for(String username: myUsernameList.subList(2, 5)) {
+			int reviewScore = (int)((Math.random() * 9 + 1));
+			addReviewerToManuscriptAndSubmitReview(manu3, myReviewerList.get(username), reviewScore);
+		}
+		
+		// Manuscript 3 will have 4 reviews submitted
+		Manuscript manu4 = new Manuscript(
+				myManuscriptNameList.get(12),
+				new File(""),
+				mainAuthor,
+				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
+
+		for(String username: myUsernameList.subList(2, 6)) {
+			int reviewScore = (int)((Math.random() * 9 + 1));
+			addReviewerToManuscriptAndSubmitReview(manu4, myReviewerList.get(username), reviewScore);
+		}
+		
+		
+		// Add manuscripts to conference
+		try {
+			theConf.addManuscript(manu1);
+			theConf.addManuscript(manu2);
+			theConf.addManuscript(manu3);
+			theConf.addManuscript(manu4);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		theConf.addSubprogramChair(new SubprogramChair(theUserToBeSPC));
+		myConferenceList.put(theConf.getConferenceName(), theConf);
+		// make method to add manuscript with reviewers and submitted their reviews
+	}
+	
+	private static void addReviewerToManuscriptAndSubmitReview(Manuscript theManuscript,
+			Reviewer theReviewer, int theScore) {
+
+		theManuscript.addReviewer(theReviewer);
+		theManuscript.addReview(new File(""));
+		theReviewer.setReviewerScore(theManuscript, theScore);
 	}
 	
 	/**
@@ -202,6 +300,10 @@ public class TestDataGenerator {
 		myConferenceList.put(confAfterDeadline.getConferenceName(), confAfterDeadline);
 		myConferenceList.put(confBeforeDeadline.getConferenceName(), confBeforeDeadline);
 		myManuscriptList.put(manuWithConflictAuthName, 	manuWithInvalidAuthor);	
+	}
+	
+	private static void addReviewersToManuscriptAndReviewThem(Manuscript theManuscript, List<String> theUsernames) {
+		
 	}
 	
 	/**
