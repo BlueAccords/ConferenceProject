@@ -15,6 +15,7 @@ import model.User;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
+import model.Manuscript.AuthorExistsInListException;
 import model.Reviewer;
 import model.SubprogramChair;
 
@@ -90,6 +91,13 @@ public class TestDataGenerator {
 		 *  2. Reviewer is also author of manuscript
 		 *  3. Reviewer is also co-author of manuscript
 		 */
+		
+		/**
+		 * Set up for james@email.com as..
+		 * Author of Linear Logic
+		 * And invalid Reviewer for Linear Logic
+		 * In Conference ICML
+		 */
 		// james@email.com as reviewer and author of manuscript to be assigned to.
 		User userAsAuthAndReviewer = myUserList.get(myUsernameList.get(1));
 		Author authAsInvalidReviewer = new Author(userAsAuthAndReviewer);
@@ -118,9 +126,43 @@ public class TestDataGenerator {
 		// author is josiah@email.com
 		addManuscriptsToConfForAuthor(
 				confAfterDeadline.getConferenceName(),
-				myManuscriptNameList.subList(1, 4),
+				myManuscriptNameList.subList(1, 5),
 				myUsernameList.get(2));
-
+		
+		addManuscriptsToConfForAuthor(
+				confAfterDeadline.getConferenceName(),
+				myManuscriptNameList.subList(5, 7),
+				myUsernameList.get(3));
+		
+		/**
+		 * Setup for connor@email.com as...
+		 * CoAuthor of Manuscript "Teaching software engineering—experience from the past, needs for the future"
+		 * Thus will be invalid as reviewer for that manuscript.
+		 */
+		Author coAuthAsInvalidReviewer = new Author(myUserList.get(myUsernameList.get(4)));
+		
+		Manuscript manuWithInvalidCoAuth = new Manuscript(
+				myManuscriptNameList.get(8),
+				new File(""),
+				authAsInvalidReviewer,
+				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true)
+				);
+		
+		// adding david@email.com as coAuthor to manuscript
+		try {
+			manuWithInvalidCoAuth.addAuthor(coAuthAsInvalidReviewer);
+		} catch (AuthorExistsInListException e) {
+			System.out.println("Failed to add coauthor");
+			e.printStackTrace();
+		}
+		
+		try {
+			confAfterDeadline.addManuscript(manuWithInvalidCoAuth);
+		} catch (Exception e) {
+			System.out.println("Failed to add manu to conf");
+			e.printStackTrace();
+		}
+		
 		// Add random reviewers to conference to show the invalid author is only visible for some manuscripts
 		addUsersAsReviewersToConf(myUsernameList.subList(1, 6), confAfterDeadline);
 		
