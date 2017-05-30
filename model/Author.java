@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This class implements an Author user type.
+ * This class implements an Author user type. It is serializable and checks for corresponding
+ * Author-related business rules.
  * 
- * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le
- * @Version May 7 2017
+ * @author Ayub Tiba, Ian Waak, James Robert, Vincent Povio, Vinh Le, Connor Lundberg
+ * @Version 5/30/2017s
  *
  */
 public class Author extends User implements Serializable{
@@ -165,6 +166,23 @@ public class Author extends User implements Serializable{
 		}
 	}
 	
+	
+	/**
+	 * Uses theAuthors array to find corresponding User emails and checks if they have
+	 * reached the MAX_MANUSCRIPT_LIMIT. As this is an array, we do not have to worry 
+	 * if it is of length 0 because it is using a for loop from 0 to array length. Also,
+	 * theAuthors can hold null values. Those are being checked inside the User.doesEmailBelongToUser
+	 * method that simply returns a boolean. Considering that null does not match any User email,
+	 * it will return false.
+	 * 
+	 * @param theAuthors The array of Author emails in String form
+	 * @param theConference The Conference object used to see if the an email from the
+	 * array is an Author for that Conference
+	 * 
+	 * @return An int of either -1 or the MAX_MANUSCRIPT_LIMIT
+	 * 
+	 * @version 5/30/2017
+	 */
 	public int isAuthorsAtLimit(String[] theAuthors, Conference theConference) {
 		int atLimit = -1;
 		Author tempAuthor;
@@ -177,10 +195,7 @@ public class Author extends User implements Serializable{
 				if (theConference.isUserAuthor(tempUser)) {
 					
 					tempAuthor = theConference.getAuthor(tempUser);
-					System.out.println("" + tempAuthor.getNumSubmittedManuscripts());
 					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
-						System.out.println("" + MAX_MANUSCRIPT_LIMIT);
-						System.out.println("" + tempAuthor.getNumSubmittedManuscripts());
 						atLimit = i;
 					}
 				}
@@ -192,6 +207,7 @@ public class Author extends User implements Serializable{
 		
 	}
 		
+	
 	/**
 	 * This method will return the number of submitted manuscripts.
 	 * 

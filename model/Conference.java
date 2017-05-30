@@ -504,16 +504,19 @@ public class Conference implements Serializable{
 		return eligibleReviewers;
 	}
 	
+	
 	/**
 	 * This method will update the current conference's list of manuscripts
 	 * to have the passed in manuscript replace the existing version inside of the list
 	 * by manuscript name.
-	 * 	PreConditions:
+	 * 
+	 * Pre:
 	 * 		TheManuscript must already exist within the conference with the same title.
+	 * 
+	 * @param theManuscript the manuscript to replace its existing version within the conference list of manuscripts.
 	 * 
 	 * @author Ryan Tran
 	 * @version 5/28/17
-	 * @param theManuscript the manuscript to replace its existing version within the conference list of manuscripts.
 	 */
 	public void updateManuscriptInConference(Manuscript theManuscript) {
 		for(int i = 0; i < this.myManuscripts.size(); i++) {
