@@ -77,10 +77,10 @@ public class TestDataGenerator {
 	private static void setupUserStoryOne(User theUserToBeSPC) {
 		SubprogramChair theSPC = new SubprogramChair(theUserToBeSPC);
 		
-		// ICML conf
-		Conference confAfterDeadline = myConferenceList.get(myConferenceNameList.get(4));
-		// ACM conf
-		Conference confBeforeDeadline = myConferenceList.get(myConferenceNameList.get(0));
+		// ACM Conf
+		Conference confAfterDeadline = myConferenceList.get(myConferenceNameList.get(0));
+		// ICML Conf
+		Conference confBeforeDeadline = myConferenceList.get(myConferenceNameList.get(4));
 		
 		/**
 		 * Business Rule 1a
