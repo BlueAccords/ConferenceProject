@@ -13,6 +13,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The serializable SPC class that holds its User, a List of assigned Manuscripts for this SPC,
+ * a List of assigned Reviewers, and a File recommendation.
+ * 
+ * @author James Roberts, Connor Lundberg
+ * @version 5/30/2017
+ */
 public class SubprogramChair extends User implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
@@ -32,8 +39,10 @@ public class SubprogramChair extends User implements Serializable{
 	
 	private File myRecommendation;
 	
+	
 	/**
 	 * Constructor for a SubprogramChair.
+	 * 
 	 * @param aUser the User associated with this SPC.
 	 */
 	public SubprogramChair(User aUser) {
@@ -44,6 +53,7 @@ public class SubprogramChair extends User implements Serializable{
 		assignedManuscriptsSPC = new ArrayList<Manuscript>();
 	    assignedReviewers = new ArrayList<Reviewer>();
 	}
+	
 	
 	/**
 	 * Constructor that takes an arrayList of assignedManuscripts.
@@ -61,8 +71,10 @@ public class SubprogramChair extends User implements Serializable{
 		
 	}
 	
+	
 	/**
 	 * Getter for a User type.
+	 * 
 	 * @return the User associated with the SPC.
 	 */
 	public User getUser() {
@@ -70,27 +82,33 @@ public class SubprogramChair extends User implements Serializable{
 		return myUser;
 	}
 	
+	
 	/**
 	 * Method to set theRecommendation for this Subprogram Chair. 
+	 * 
 	 * @param theRecommendation to be set for this Subprogram Chair.
 	 */
 	public void setRecommendation (File theRecommendation) {
 		myRecommendation = theRecommendation;
 	}
 	
+	
 	/**
 	 * method to get myRecommendation for this Subprogram Chair.
+	 * 
 	 * @return theRecommendation File for this Subprogram Chair.
 	 */
 	public File getRecommendation () {
 		return myRecommendation;
 	}
 	
+	
 	/**
 	 * Returns a collection of Manuscripts assigned to the User as a Subprogram Chair.
+	 * 
 	 * @return a collection of Manuscripts assigned to the User as a Subprogram Chair.
-	 * @author Vincent Povio
-	 * @author Casey Anderson
+	 * 
+	 * @author Vincent Povio, Casey Anderson
 	 * @version 4/25/2017
 	 */
 	public ArrayList<Manuscript> getAssignedManuscriptSPC() {
@@ -99,12 +117,14 @@ public class SubprogramChair extends User implements Serializable{
 		return assignedMansSPCcopy;
 	}
 	
+	
 	/**
 	 * Adds the passed Manuscript to the collection of Manuscript the Subprogram chair has been 
 	 * assigned to.
+	 * 
 	 * @param theManuscript the Paper to be assigned to the Subprogram Chair.
-	 * @author Vincent Povio
-	 * @author Casey Anderson
+	 * 
+	 * @author Vincent Povio, Casey Anderson
 	 * @version 4/29/2017
 	 */
 	public void addManuscriptToSPC(Manuscript theManuscript) {
@@ -113,9 +133,15 @@ public class SubprogramChair extends User implements Serializable{
 		assignedManuscriptsSPC.add(theManuscript);
 	}
 	
+	
 	/**
 	 * Returns a collection of all Reviewers assigned to this SPC.
-	 * @return a collection of all Reviewers assigned to this SPC.
+	 * 
+	 * Post:
+	 * 	This returns a copy of the assigned Reviewers list.
+	 * 
+	 * @return an ArrayList<Reviewer> of all Reviewers assigned to this SPC.
+	 * 
 	 * @author James Roberts
 	 * @version 5/7/2017
 	 */
@@ -125,9 +151,12 @@ public class SubprogramChair extends User implements Serializable{
 		return assignedReviewers;
 	}
 	
+	
 	/**
 	 * Adds the passed User to the SPC's collection of assigned Reviewers.
+	 * 
 	 * @param theReviewer the User to assign as a Reviewer.
+	 * 
 	 * @author Vinh Le
 	 * @version 4/30/2017
 	 */
@@ -135,11 +164,14 @@ public class SubprogramChair extends User implements Serializable{
 		assignedReviewers.add(theReviewer);
 	}
 	
+	
 	/**
 	 * Removes the passed Manuscript from the collection of Papers assigned
 	 * to the Subprogram Chair, no change if the Paper
 	 * hasn't already been assigned to the Subprogram Chair.
+	 * 
 	 * @param theManuscript the Paper to remove from the SPC.
+	 * 
 	 * @author Ayub Tiba
 	 * @version 4/29/2017
 	 */
@@ -151,14 +183,19 @@ public class SubprogramChair extends User implements Serializable{
 		}
 	}
 	
+	
 	/**
 	 * Attempts to add the passed Manuscript to the passed User's collection of Manuscripts's to review.
 	 * Manuscript will not be added if the Reviewer has already been assigned max Manuscripts or if they 
 	 * are the author or coauthor of the paper. 
-	 * @author James Robert, Ayub Tiba
+	 * 
 	 * @param theReviewer The Reviewer to assign the Paper to.
 	 * @param theManuscript The Paper to assign.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception When theManuscript has already been assigned to theReviewer, when theReviewer
+	 * is an Author of theManuscript, and when theReviewer has already been assigned the max number of papers.
+	 * 
+	 * @author James Robert, Ayub Tiba
 	 */
 	public void assignManuscriptToReviewer(Reviewer theReviewer, Manuscript theManuscript) throws Exception {
 		if (theReviewer.getAssignedManuscripts().contains(theManuscript)) {
@@ -172,15 +209,19 @@ public class SubprogramChair extends User implements Serializable{
 			throw new Exception("The Reviewer has already been assigned the max number of papers.");
 		}
 			//no exceptions thrown, ok to add. 
-			theReviewer.addManuscriptToReviewer(theManuscript);
-			theManuscript.addReviewer(theReviewer);
-		}
+		theReviewer.addManuscriptToReviewer(theManuscript);
+		theManuscript.addReviewer(theReviewer);
+	}
 		
+	
 		/**
 		 * Checks if the Passed User can be assigned another Manuscript to review. Returns true if the
 		 * User has been assigned < Max Papers, false otherwise.
+		 * 
 		 * @param theReviewer the Reviewer to test.
+		 * 
 		 * @return T if User assigned < Max papers, F otherwise.
+		 * 
 		 * @author James Roberts, Ayub Tiba
 		 * @version 4/30/2017
 		 */
@@ -192,6 +233,7 @@ public class SubprogramChair extends User implements Serializable{
 			}
 		}
 		
+		
 		/**
 		 * Getter for MAX_REVIEW_PAPERS Limit
 		 * 
@@ -201,12 +243,16 @@ public class SubprogramChair extends User implements Serializable{
 			return MAX_REVIEW_PAPERS;
 		}
 		
+		
 		/**
 		 * Checks if the Passed User is an Author or CoAuthor of the passed Paper.
-		 * @author Ayub Tiba
+		 * 
 		 * @param theReviewer The Reviewer to check.
 		 * @param theManuscript The Paper to check. 
+		 * 
 		 * @return if a reviewer is an Author
+		 * 
+		 * @author Ayub Tiba
 		 * @version 4/30/2017
 		 */
 		public boolean isAuthor(Reviewer theReviewer, Manuscript theManuscript){
@@ -224,15 +270,16 @@ public class SubprogramChair extends User implements Serializable{
 			
 		}
 		
+		
 		/**
 		 * Checks whether theConference deadline for manuscript submission
 		 * is after theDate.  If so (the deadline is still in the future)
 		 * and will return false.
 		 * 
+		 * @return boolean true if manuscriptSubmissionDeadline is after theDate
 		 *
 		 * @author Morgan Blackmore
 		 * @version 5/19/17
-		 * @return boolean true if manuscriptSubmissionDeadline is after theDate
 		 */
 		public boolean isAfterSubmissionDeadline(Conference theConference, Date theDate){
 			if (theConference.getManuscriptDeadline().before(theDate)){//is conferenceDL before theDate, if so, return False
@@ -242,13 +289,18 @@ public class SubprogramChair extends User implements Serializable{
 			}		
 		}
 	
+		
 		/**
 		 * This function gets a list of all eligible reviewers.
 		 * It validates that the reviewers meet the following business rules:
 		 * 	1) The reviewer isn't an author on the paper.
 		 * 	2) The reviewer doesn't have >7 papers assigned to them.
+		 * 
 		 * @param theManuscript the Paper to generate a list of eligible Reviewers for.
+		 * 
 		 * @return a collection of eligible reviewers for the Paper.
+		 * 
+		 * @deprecated Use Conference's getEligibleReviewers(Manuscript) instead
 		 * @author Vincent Povio, Ian Waak, Casey Anderson
 		 * @version 4/30/2017
 		 */
@@ -296,9 +348,11 @@ public class SubprogramChair extends User implements Serializable{
 			removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(eligibleReviewers, theManuscript);
 			return eligibleReviewers;
 		}
+		
 
 		/**
 		 * Helper Method to help determine which Reviewers have conflicting Manuscripts.
+		 * 
 		 * @param reviewerList is list of Reviewers to be checked.
 		 * @param theManuscript is Manuscript to compare the Reviewers from reviewerList to.
 		 */

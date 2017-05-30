@@ -52,6 +52,7 @@ public class Manuscript implements Serializable{
 	/** The Manuscript submission date. */
 	private Date mySubmissionDate;
 	
+	
 	/**
 	 * Constructors for The class.
 	 * 
@@ -74,15 +75,17 @@ public class Manuscript implements Serializable{
 		myRecommendationAssigned = false;
 	}	
 	
+	
 	/**
 	 * Alternative Constructor, so we can add manuscripts to conferences
 	 * when the submission deadline has already passed for a conference.
 	 * 
-	 * @author Ryan Tran
 	 * @param theTitle the manuscript title
 	 * @param theManuscriptFile The file object for the manuscript
 	 * @param theMainAuthor the main author for the manuscript
 	 * @param theSubmissionDate the submission date for the manuscript
+	 * 
+	 * @author Ryan Tran
 	 */
 	public Manuscript(String theTitle, File theManuscriptFile, Author theMainAuthor, Date theSubmissionDate) {
 		myTitle = theTitle;
@@ -96,13 +99,16 @@ public class Manuscript implements Serializable{
 		myRecommendationAssigned = false;
 	}	
 	
+	
 	public void setRecommendationAssigned(boolean theRecommendation) {
 		myRecommendationAssigned = theRecommendation;
 	}
 	
+	
 	public boolean isrecommendationAssigned() {
 		return myRecommendationAssigned;
 	}
+	
 	
 	/**
 	 * Returns the date the manuscript was submitted.
@@ -113,6 +119,7 @@ public class Manuscript implements Serializable{
 		return new Date(mySubmissionDate.getTime());
 	}
 	
+	
 	/**
 	 * Method to determine if any Reviewers have been assigned to this Manuscript.
 	 * @return Boolean if any Reviewers have been assigned to this Manuscript.
@@ -122,11 +129,15 @@ public class Manuscript implements Serializable{
 		return myReviewerList.size() > 0;
 	}
 	
+	
 	/**
 	 * Method to add a Reviewer to this Manuscript.
-	 * PreConditions:
+	 * 
+	 * Pre:
 	 * 	Reviewer must not be a duplicate reviewer already in myReviewerList.
+	 * 
 	 * @param theReviewer that is to be added to this Manuscript.
+	 * 
 	 * @author Casey Anderson
 	 */
 	public void addReviewer(Reviewer theReviewer) {
@@ -147,6 +158,7 @@ public class Manuscript implements Serializable{
 		}
 	}
 	
+	
 	/**
 	 * Setter for the date the manuscript was submitted.
 	 * 
@@ -157,10 +169,11 @@ public class Manuscript implements Serializable{
 		mySubmissionDate = theDate;
 	}
 	
+	
 	/**
-	 * Getter for the paper's title.
+	 * Getter for the Manuscript's title.
 	 * 
-	 * @return The title of the paper.
+	 * @return The title of the Manuscript.
 	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
@@ -169,22 +182,24 @@ public class Manuscript implements Serializable{
 		return myTitle;
 	}
 		
+	
 	/**
-	 * Getter for the paper file.
+	 * Getter for the Manuscript file.
 	 * 
-	 * @return The file holding the paper.
+	 * @return The file holding the Manuscript.
 	 * 
-	 * @author James Roberts
-	 * @version 4/27/2017
+	 * @author James Roberts, Connor Lundberg
+	 * @version 5/27/2017
 	 */
 	public File getManuscriptFile() {
 		return myManuscriptFile;
 	}
 	
+	
 	/**
 	 * Getter for the list of authors.
 	 * 
-	 * @return The paper's authors.
+	 * @return The Manuscript's authors.
 	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
@@ -193,10 +208,11 @@ public class Manuscript implements Serializable{
 		return myAuthors;
 	}
 	
+	
 	/**
-	 * This method will return the Author email.
+	 * This method will return the Authors email list.
 	 * 
-	 * @return the collection of Author email
+	 * @return the ArrayList<String> of Author email for this Manuscript
 	 */
 	public ArrayList<String> getAuthorEmails() {
 		ArrayList<String> emails = new ArrayList<String>();
@@ -206,14 +222,16 @@ public class Manuscript implements Serializable{
 		return emails;
 	}
 		
+	
 	/**
-	 * Adds an author to the paper.
+	 * Adds an author to the Manuscript.
 	 * 
 	 * @param theAuthor The author to be added.
 	 * 
-	 * @author James Roberts
-	 * @version 4/27/2017
 	 * @throws AuthorExistsInListException 
+	 * 
+	 * @author James Roberts, Connor Lundberg
+	 * @version 5/25/2017
 	 */
 	public void addAuthor(Author theAuthor) throws AuthorExistsInListException {
 		if (authorNotInList(theAuthor))
@@ -225,9 +243,12 @@ public class Manuscript implements Serializable{
 	/**
 	 * Adds a review to the manuscript by adding file to myReviews list.
 	 * 
+	 * @param theReview The File object containing the review to add to this Manuscript
+	 * 
+	 * @throws NullPointerException if theReview File object is null
+	 * 
 	 * @author Morgan Blackmore
 	 * @version 5/16/17
-	 * @throws NullPointerException if theReview is null
 	 * 
 	 */
 	public void addReview(File theReview) throws NullPointerException{
@@ -241,9 +262,10 @@ public class Manuscript implements Serializable{
 	/**
 	 * Gets the list of reviews.
 	 * 
+	 * @return ArrayList<File> of reviews myReviews
+	 * 
 	 * @author Morgan Blackmore
 	 * @version 5/26/17
-	 * @return ArrayList of reviews myReviews
 	 */
 	public ArrayList<File> getReviews(){
 		return new ArrayList<File>(myReviews);
@@ -253,12 +275,13 @@ public class Manuscript implements Serializable{
 	 * Instantiates myRecommendation with theRecommendation.
 	 * Checks if this manuscript has sufficient reviews, if not, throws Exception
 	 * 
-	 * @author Morgan Blackmore
-	 * @version 5/24/17
-	 * @throws Exception if manuscript does not have sufficient reviews
-	 * @throws NullPointerException if theRecommendation is null
 	 * @param theRecommendation file
 	 * 
+	 * @throws Exception if manuscript does not have sufficient reviews
+	 * @throws NullPointerException if theRecommendation is null
+	 * 
+	 * @author Morgan Blackmore
+	 * @version 5/24/17
 	 */
 	public void addRecommendation(File theRecommendation) throws NullPointerException, Exception{
 		if (theRecommendation == null ){
@@ -272,13 +295,15 @@ public class Manuscript implements Serializable{
 		this.setRecommendationAssigned(true);
 	}
 	
+	
 	/**
 	 * Getter for myRecommendation file 
 	 * Will return null if no recommendation has been submitted yet.
 	 * 
-	 * @return myRecommendation file
+	 * @return myRecommendation The File object holding the recommendation
+	 * 
 	 * @author Morgan Blackmore
-	 * @version 5/42/17
+	 * @version 5/24/17
 	 */
 	public File getRecommendation(){
 		return myRecommendation;
@@ -288,13 +313,14 @@ public class Manuscript implements Serializable{
 	 * Checks whether or not the passed in author is part of the list of
 	 * authors for this manuscript.
 	 * 
-	 * Preconditions:
+	 * Pre:
 	 * 	theAuthor must be non-null
+	 * 
+	 * @param theAuthor The author to compare to the list of authors belonging to this manuscript.
+	 * @return A boolean true if author exists within manuscript author list, false otherwise
 	 * 
 	 * @author Ryan Tran
 	 * @version 5/25/17
-	 * @param theAuthor The author to compare to the list of authors belonging to this manuscript.
-	 * @return A boolean true if author exists within manuscript author list, false otherwise
 	 */
 	public boolean doesManuscriptBelongToAuthor(Author theAuthor) {
 		boolean authorIsFound = false;
@@ -308,9 +334,12 @@ public class Manuscript implements Serializable{
 		return authorIsFound;
 	}
 	
+	
 	/**
 	 * Method to check if theReviewer belongs to this Manuscript.
+	 * 
 	 * @param theReviewer to check if assigned to this Manuscript.
+	 * 
 	 * @return if Reviewer belongs to this Manuscript.
 	 */
 	public boolean doesManuscriptBelongToReviewer(Reviewer theReviewer) {
@@ -330,12 +359,17 @@ public class Manuscript implements Serializable{
 		return reviewerIsFound;
 	}
 	
+	
 	/**
 	 * Helper method to determine that theAuthor is not already part of the author list.
 	 * It does this by checking that it is first not an object already within the list, and 
 	 * next that the email of theAuthor does not already belong to one in myAuthors.
 	 * 
+	 * Pre:
+	 * 	theAuthor object must not be null
+	 * 
 	 * @param theAuthor The new author to check
+	 * 
 	 * @return If theAuthor is already within myAuthors list
 	 * 
 	 * @author Connor Lundberg
@@ -355,57 +389,74 @@ public class Manuscript implements Serializable{
 		return authorNotInList;
 	}
 	
+	
 	/**
 	 * Replaces the file of the paper with an updated version.
 	 * 
 	 * @param thePaper The new paper file.
 	 * 
-	 * @author James Roberts
-	 * @author Casey Anderson
+	 * @author James Roberts, Casey Anderson
 	 * @version 4/27/2017
 	 */
 	public void updateManuscript(File theManuscript) {
 		myManuscriptFile = theManuscript;
 	}
 
+	
 	/**
 	 * Method to return a list of Reviewers assigned to this Manuscript.
+	 * 
 	 * @return the myReviewerList
 	 */
 	public ArrayList<Reviewer> getReviewerList() {
 		return myReviewerList;
 	}
 
+	
 	/**
 	 * Method to return the number of Reviews needed before a recommendation can be submitted 
 	 * for this Manuscript.
+	 * 
 	 * @return SUFFICIENT_REVIEWS that is the number of reviews needed be recommendation can be submitted.
 	 */
 	public static int getSufficientReviews() {
 		return SUFFICIENT_REVIEWS;
 	}
 
+	
 	/**
-	 * @param myReviewerList the myReviewerList to set
+	 * A general setter for the Reviewer list held within this Manuscript. This will iterate through
+	 * the passed in list adding this Manuscript to each Reviewer within the list before assigning
+	 * this Manuscript's main Reviewer list to be theReviewerList.
+	 * 
+	 * Pre:
+	 * 	theReviewerList must not be null
+	 * 
+	 * @param theReviewerList the Reviewer list to set
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/30/2017
 	 */
-	public void setReviewerList(ArrayList<Reviewer> myReviewerList) {
-		for(Reviewer reviewer : myReviewerList) {
+	public void setReviewerList(ArrayList<Reviewer> theReviewerList) {
+		for(Reviewer reviewer : theReviewerList) {
 			reviewer.addManuscriptToReviewer(this);
 		}
-		this.myReviewerList = myReviewerList;
+		this.myReviewerList = theReviewerList;
 	}
+	
 	
 	/**
 	 * This method will check if the manuscript's number of reviews
 	 * meets the minimum number required for the SubProgram Chair to make a 
 	 * recommendation and return a boolean indicating so.
 	 * 
-	 * PreConditions:
+	 * Pre:
 	 * 	myReviews list must be instantiated(does not need to have items).
+	 * 
+	 * @return a boolean indicating if if manuscript is eligible for SPC recommendation or not.
 	 * 
 	 * @author Ryan Tran
 	 * @version 5/28/17
-	 * @return a boolean indicating if if manuscript is eligible for SPC recommendation or not.
 	 */
 	public boolean isEligibleForRecommendation() {
 		boolean isEligible = false;
@@ -416,6 +467,7 @@ public class Manuscript implements Serializable{
 
 		return isEligible;
 	}
+	
 	
 	/**
 	 * Custom Exception to throw when author is found within the author list already.

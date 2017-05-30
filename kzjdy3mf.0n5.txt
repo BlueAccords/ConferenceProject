@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch connor
+# Changes to be committed:
+#	modified:   model/Conference.class
+#	modified:   model/Conference.java
+#	modified:   model/Manuscript.class
+#	modified:   model/Manuscript.java
+#	modified:   model/Reviewer.class
+#	modified:   model/Reviewer.java
+#	modified:   model/SubprogramChair.class
+#	modified:   model/SubprogramChair.java
+#	modified:   model/User.class
+#	modified:   model/User.java
+#
+
