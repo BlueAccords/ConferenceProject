@@ -9,9 +9,13 @@ package model;
 import java.io.*;
 import java.util.ArrayList;
 
+
 /**
- * Representation of a User in the conference program. 
- * @author Vincent Povio, Ayub Tiba, James Roberts, Vinh Le
+ * Representation of a User in the conference program. This holds a static User list that
+ * contains all of the Users in the entire program (this is what gets written to and pulled 
+ * from persistent storage), a last name, a first name, and an email all held as Strings.
+ * 
+ * @author Vincent Povio, Ayub Tiba, James Roberts, Vinh Le, Connor Lundberg
  * @version 4/30/2017
  *
  */
@@ -44,16 +48,19 @@ public class User implements Serializable{
 	 */
 	private boolean myIsSubprogramChair;
 		
+	
 	/**
 	 * Constructor for a User.
 	 * 
 	 * @param theEmail the User's current email.
+	 * 
 	 * @author Vincent Povio, Ayub Tiba
 	 * @version 4/25/2017
 	 */
 	public User(String theEmail) {
 		this(theEmail, false);	
 	}
+	
 	
 	/**
 	 * Constructor that sets the Subprogram Chair boolean too.
@@ -69,10 +76,12 @@ public class User implements Serializable{
 		myIsSubprogramChair = theIsSubprogramChair;
 	}
 	
+	
 	/**
 	 * Getter for User's last name.
 	 * 
 	 * @return the User's current last name.
+	 * 
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
@@ -80,6 +89,7 @@ public class User implements Serializable{
 		return myLastName;
 	}
 		
+	
 	/**
 	 * Getter for the User's whole name.
 	 * 
@@ -92,6 +102,7 @@ public class User implements Serializable{
 		return myFirstName + " " + myLastName;
 	}
 		
+	
 	/**
 	 * Setter for User's last name. 
 	 * 
@@ -103,10 +114,12 @@ public class User implements Serializable{
 		this.myLastName = theLastName;
 	}
 		
+	
 	/**
 	 * Getter for User's first name.
 	 * 
 	 * @return the first name of the User.
+	 * 
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
@@ -114,10 +127,12 @@ public class User implements Serializable{
 		return myFirstName;
 	}
 	
+	
 	/**
 	 * Setter for User's first name.
 	 * 
 	 * @param theFirstName The User's first name.
+	 * 
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
@@ -125,18 +140,22 @@ public class User implements Serializable{
 		this.myFirstName = theFirstName;
 	}
 	
+	
 	/**
 	 * Method to return if this User is a Subprogram Chair.
+	 * 
 	 * @return myIsSubprogramChair to indicate if this User is a Subprogram Chair.
 	 */
 	public boolean isSubprogramChair() {
 		return myIsSubprogramChair;
 	}
 	
+	
 	/**
 	 * Getter for User's email.
 	 * 
 	 * @return the User's email address
+	 * 
 	 * @author Ayub Tiba
 	 * @version 4/25/2017 
 	 */
@@ -144,25 +163,30 @@ public class User implements Serializable{
 		return myEmail;
 	}
 	
+	
 	/**
 	 * Setter for user's email address.
 	 * 
 	 * @param theEmail the User's new email address
+	 * 
 	 * @version 4/25/2017
 	 */
 	public void setEmail(String theEmail) {
 		this.myEmail = theEmail;
 	}
 	
+	
 	/**
 	 * Compares the passed in email to the User class' static user list
 	 * returns a true or false depending on if the list contains a user with the given email.
-	 * PreConditions:
+	 * 
+	 * Pre:
 	 * 	theUsers must be non-null
 	 * 	theEmail must be non-null
 	 * 	User.initializeUserList() must have been called at program start
 	 * 
 	 * @param theEmail The email to check against the user list
+	 * 
 	 * @return a boolean, indicating if the email exists within the list or not
 	 */
 	public static boolean doesEmailBelongToUser(String theEmail) {
@@ -178,6 +202,7 @@ public class User implements Serializable{
 		return userExists;
 	}
 	
+	
 	/**
 	 * Returns the given user by passed in email.
 	 * 
@@ -186,7 +211,9 @@ public class User implements Serializable{
 	 * 
 	 * @param theUsers The user list to check against to obtain the user object
 	 * @param theEmail The email to get the user object by
+	 * 
 	 * @throws IllegalArgumentException if user with given email is not found
+	 * 
 	 * @return A User
 	 */
 	public static User getUserByEmail(String theEmail) {
@@ -206,14 +233,17 @@ public class User implements Serializable{
 		return userToReturn;
 	}
 
+	
 	/**
 	 * Writes the User class' static list of users to a file for storage and retrieval.
 	 * returns true if write successful, false otherwise.
-	 * preconditions:
+	 * 
+	 * Pre:
 	 * 	Program must have initialized the userlist by calling User.initializeUserList() at program start
+	 * 
 	 * @return t/f if write successful.
-	 * @author James Roberts
-	 * @author Ryan Tran
+	 * 
+	 * @author James Roberts, Ryan Tran
 	 * @version 4/27/2017
 	 */
 	public static boolean writeUsers() {
@@ -252,12 +282,14 @@ public class User implements Serializable{
 		return true;
 	}
 
+	
 	/**
 	 * Reads the ArrayList of Users stored in the file destination the object
 	 * was initialized with, returns null if the operation failed.
+	 * 
 	 * @return The list of stored Users.
-	 * @author James Roberts
-	 * @author Ryan Tran
+	 * 
+	 * @author James Roberts, Ryan Tran
 	 * @version 4/28/2017
 	 */
 	public static ArrayList<User> getUsersFromSerializedObject() {
@@ -296,40 +328,50 @@ public class User implements Serializable{
 		return allUsers;
 	}
 	
+	
 	/**
 	 * This method will return the User class' static user list
 	 * 
-	 * Preconditions:
+	 * Pre:
 	 * 	User class have its user list initialized prior to this call.
+	 * 
 	 * @return An arraylist of Users
+	 * 
 	 * @author Ryan Tran
 	 */
 	public static ArrayList<User> getUsers() {
 		return myUserList;
 	}
 	
+	
 	/**
 	 * This method will add a user to the current in memory user list.
-	 * 	PreConditions:
-	 * 		Program must have initialized the User class' static user list before attempting to add a User.
+	 * 
+	 * Pre:
+	 *	Program must have initialized the User class' static user list before attempting to add a User.
+	 * 
 	 * @param theUser
 	 */
 	public static void addUser(User theUser) {
 		myUserList.add(theUser);
 	}
 	
+	
 	/**
 	 * This method will initialize the global user list in memory by deserializing the users
 	 * from serializable object. This should be run only once at the beginning of the program.
+	 * 
 	 * @author Ryan Tran
 	 */
 	public static void initializeUserListFromSerializableObject() {
 		myUserList = User.getUsersFromSerializedObject();
 	}
 	
+	
 	/**
 	 * Initializes the User class' user list to an empty list.
 	 * Note: If you call writeUsers at a later time it will overwrite the locally stored User List.
+	 * 
 	 * @author Ryan Tran
 	 */
 	public static void initializeUserListToEmptyList() {

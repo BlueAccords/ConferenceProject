@@ -10,6 +10,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * The Reviewer class that holds information about this Reviewer such as its User,
+ * assigned Manuscripts, and a Map of given scores for the assigned Manuscripts.
+ * 
+ * @author James Roberts, Connor Lundberg
+ * @version 5/30/2017
+ */
 public class Reviewer implements Serializable{
 	
 	/**  A generated serial version UID for object Serialization. */
@@ -26,8 +34,10 @@ public class Reviewer implements Serializable{
 	 */
 	private HashMap<Manuscript, Integer> myScoreMap;
 	
+	
 	/**
 	 * Constructor for the Reviewer.
+	 * 
 	 * @param aUser The User associated with the Reviewer.
 	 */
 	public Reviewer(User aUser) {
@@ -37,8 +47,10 @@ public class Reviewer implements Serializable{
 		myScoreMap = new HashMap<Manuscript, Integer>();
 	}
 	
+	
 	/**
 	 * Constructor for the Reviewer for testing.
+	 * 
 	 * @param aUser The User associated with the Reviewer.
 	 * @param theScoreMap The map of manuscript and their scores this reviewer has submitted.
 	 */
@@ -49,17 +61,22 @@ public class Reviewer implements Serializable{
 		myScoreMap = theScoreMap;
 	}
 	
+	
 	/**
 	 * Getter for User type.
+	 * 
 	 * @return the User associated with the Reviewer.
 	 */
 	public User getUser() {
 		return myUser;
 	}
 	
+	
 	/**
 	 * This method will return the assigned manuscripts.
+	 * 
 	 * @return the collection of Manuscripts's assigned to the User to review
+	 * 
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
@@ -72,7 +89,12 @@ public class Reviewer implements Serializable{
 	/**
 	 * Adds the passed Manuscript to the User's collection of Manuscripts
 	 * they have been assigned to review
+	 * 
+	 * Post:
+	 * 	theManuscript added can be null, there is no check stopping it.
+	 * 
 	 * @param theManuscript
+	 * 
 	 * @author Vincent Povio
 	 * @version 4/25/2017
 	 */
@@ -80,14 +102,17 @@ public class Reviewer implements Serializable{
 		assignedManuscripts.add(theManuscript);
 	}
 	
+	
 	/**
 	 * Removes the passed Manuscript from the User's collection
 	 * of Manuscripts to review if it exists in the collection.
+	 * 
 	 * @param theManuscript the Paper to be removed
+	 * 
 	 * @author Ayub Tiba
 	 * @version 4/29/2017
 	 */
-	public void removeManuscriptFromReviwer(Manuscript theManuscript) {
+	public void removeManuscriptFromReviewer(Manuscript theManuscript) {
 		for (Manuscript target: assignedManuscripts) {
 			if (target == theManuscript) {
 				assignedManuscripts.remove(target);
@@ -95,10 +120,14 @@ public class Reviewer implements Serializable{
 		}
 	}
 	
+	
 	/**
 	 * Method to get the score the reviewer has set for theManuscript and -1 if none set yet.
+	 * 
 	 * @param theManuscript the manuscript to get the score of.
+	 * 
 	 * @return The score this reviewer has set for theManuscript or -1 if none set yet.
+	 * 
 	 * @author Casey Anderson
 	 */
 	public int getReviewerScore(Manuscript theManuscript) {
@@ -113,10 +142,17 @@ public class Reviewer implements Serializable{
 		
 	}
 	
+	
 	/**
 	 * Method to set theScore to theManuscript for this reviewer.
+	 * 
+	 * Post:
+	 * 	theManuscript can put into the score Map can be null, there is no check for that.
+	 * 
 	 * @param theManuscript the manuscript to set theScore of.
+	 * 
 	 * @param theScore the score to set to theManuscript.
+	 * 
 	 * @author Casey Anderson
 	 */
 	public void setReviewerScore(Manuscript theManuscript, int theScore) {
@@ -127,8 +163,10 @@ public class Reviewer implements Serializable{
 		}
 	}
 	
+	
 	/**
 	 * This method will return the number of assigned manuscripts.
+	 * 
 	 * @return the number of assigned manuscripts
 	 */
 	public int getNumAssignedManuscripts() {

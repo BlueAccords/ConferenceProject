@@ -461,7 +461,8 @@ public class Conference implements Serializable{
 	 * 	theManuscriptToFindReviewersFor cannot be null, nor any of its values.
 	 * 	All reviewers in myConferenceReviewers for the conference must have a non-null myUser field.
 	 * 
-	 * Post: The list of eligible reviewers returned won't be null, but can be empty.
+	 * Post: 
+	 * 	The list of eligible reviewers returned won't be null, but can be empty.
 	 * 
 	 * @param theManuscriptToFindReviewersFor The Manuscript to use to get eligible reviewers
 	 * @return A list of eligible reviewers for the given Manuscript
@@ -531,8 +532,11 @@ public class Conference implements Serializable{
 	/**
 	 * Writes the passed list of conferences to a file for storage and retrieval.
 	 * returns true if write successful, false otherwise.
+	 * 
 	 * @param theConferences List of all conferences.
+	 * 
 	 * @return t/f if write successful.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
@@ -572,22 +576,27 @@ public class Conference implements Serializable{
 		return true;
 	}
 	
+	
 	/**
 	 * Adds the passed in conference to the static conference list in the Conference class.
-	 * Preconditions:
+	 * 
+	 * Pre:
 	 * 	Static Conference list must have been initialized before calling this method
+	 * 
 	 * @param theConference
 	 */
 	public static void addConference(Conference theConference) {
 		myConferenceList.add(theConference);
 	}
 	
+	
 	/**
 	 * This method will update the passed in conference if it exists within the
 	 * Conference class' static list of conferences 
 	 * 
-	 * Preconditions:
+	 * Pre:
 	 * 	static conference list must have been initialized.
+	 * 
 	 * @return Updated Conference
 	 */
 	public static Conference updateConferenceInList(Conference theConference) {
@@ -608,28 +617,38 @@ public class Conference implements Serializable{
 		return confToReturn;
 	}
 	
+	
 	/**
 	 * This method will initialize the global conference list in memory by deserializing the conference list
 	 * from the serializable object. This should be run only once at the beginning of the program.
+	 * 
 	 * @author Ryan Tran
 	 */
 	public static void initializeConferenceListFromSerializableObject() {
 		myConferenceList = Conference.getConferencesFromSerializedObject();
 	}
 	
+	
 	/**
 	 * Initializes the Conference class' user list to an empty list.
 	 * Note: If you call writeConferences at a later time it will overwrite the locally stored Conference List.
+	 * 
 	 * @author Ryan Tran
 	 */
 	public static void initializeConferenceListToEmptyList() {
 		myConferenceList = new ArrayList<Conference>();
 	}
 
+	
 	/**
 	 * Reads the ArrayList of Conferences stored in the file destination the object
 	 * was initialized with, returns null if the operation failed.
+	 * 
+	 * Post:
+	 * 	This can never be null, but it can be empty.
+	 * 
 	 * @return The list of stored conferences.
+	 * 
 	 * @author James Roberts
 	 * @version 4/27/2017
 	 */
@@ -671,8 +690,10 @@ public class Conference implements Serializable{
 	
 	/**
 	 * This method will return the Conference class' static conference list.
-	 * Preconditions:
+	 * 
+	 * Pre:
 	 * 	static Conference class must have its conference list initialized.
+	 * 
 	 * @return an array list of conferences
 	 */
 	public static ArrayList<Conference> getConferences() {
@@ -681,11 +702,12 @@ public class Conference implements Serializable{
 
 	/**
 	 * Returns the max number of manuscripts an author is allowed to submit
-	 * per conference
+	 * per conference.
+	 * 
+	 * @return an int indicating the max num of manuscripts allowed to be submitted
 	 * 
 	 * @author Ryan Tran
 	 * @version 5/28/17
-	 * @return an int indicating the max num of manuscripts allowed to be submitted
 	 */
 	public static int getMaxAuthorManuscriptSubmissionsAllowed() {
 		return MAX_AUTHOR_SUBMISSIONS;
