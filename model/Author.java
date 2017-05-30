@@ -174,16 +174,16 @@ public class Author extends User implements Serializable{
 			if (User.doesEmailBelongToUser(theAuthors[i])) {
 				
 				tempUser = User.getUserByEmail(theAuthors[i]);
+				
 				if (theConference.isUserAuthor(tempUser)) {
 					
 					Author authToTest = new Author(tempUser);
 					tempAuthor = theConference.getAuthor(authToTest);
-					System.out.println("" + tempAuthor.getNumSubmittedManuscripts());
+					
 					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
-						System.out.println("" + MAX_MANUSCRIPT_LIMIT);
-						System.out.println("" + tempAuthor.getNumSubmittedManuscripts());
 						atLimit = i;
 					}
+					
 				}
 			}
 				
@@ -217,8 +217,7 @@ public class Author extends User implements Serializable{
 		private static final long serialVersionUID = -8210859321934678990L;
 		
 		private static final String ERROR_MESSAGE = "Manuscript not in the manuscript list for this author";
-		
-		
+				
 		public ManuscriptNotInListException() {
 			super(ERROR_MESSAGE);
 		}
