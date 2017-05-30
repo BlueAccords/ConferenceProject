@@ -44,7 +44,6 @@ public class LoginView extends Observable implements Observer {
 	private JPanel myBtnPanel;
 	private JButton myLoginBtn;
 	private JButton myExitBtn;
-	private JButton myRegisterBtn;
 	private JTextField myUsernameField;
 	private JLabel myUsernameLabel;
 	private JLabel myErrorLabel;
@@ -57,7 +56,6 @@ public class LoginView extends Observable implements Observer {
 		myPanel.setLayout(new BorderLayout());
 
 		myLoginBtn = new JButton("Login");
-		myRegisterBtn = new JButton("Register");
 		myExitBtn = new JButton("Exit");
 		myUsernameLabel = new JLabel("Username:");
 		myUsernameLabel.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -166,14 +164,6 @@ public class LoginView extends Observable implements Observer {
 		btnGbc.weightx = 0.0;
 		myLoginBtn.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		myBtnPanel.add(myLoginBtn, btnGbc);
-			
-		btnGbc.gridx = 0;
-		btnGbc.gridy = 1;
-		btnGbc.gridwidth = 1;
-		btnGbc.weightx = 1;
-		btnGbc.fill = GridBagConstraints.HORIZONTAL;
-		btnGbc.ipady = 5;
-		myBtnPanel.add(myRegisterBtn, btnGbc);
 		
 		btnGbc.gridx = 1;
 		btnGbc.gridy = 1;
