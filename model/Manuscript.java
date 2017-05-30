@@ -74,6 +74,16 @@ public class Manuscript implements Serializable{
 		myRecommendationAssigned = false;
 	}	
 	
+	/**
+	 * Alternative Constructor, so we can add manuscripts to conferences
+	 * when the submission deadline has already passed for a conference.
+	 * 
+	 * @author Ryan Tran
+	 * @param theTitle the manuscript title
+	 * @param theManuscriptFile The file object for the manuscript
+	 * @param theMainAuthor the main author for the manuscript
+	 * @param theSubmissionDate the submission date for the manuscript
+	 */
 	public Manuscript(String theTitle, File theManuscriptFile, Author theMainAuthor, Date theSubmissionDate) {
 		myTitle = theTitle;
 		myAuthors = new ArrayList<Author>();

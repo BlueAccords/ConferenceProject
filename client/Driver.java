@@ -26,15 +26,15 @@ public class Driver {
 	 * If debug is set to true, will init all data inside of debug if statement.
 	 * If false will init data from stored data in serialized object
 	 */
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static void main(String[] args) {
 		Controller systemController = new Controller();
 		
 		// add dummy users
+		TestDataGenerator.generateMasterTestData(true);
 		if(DEBUG) {
 			User.initializeUserListToEmptyList();
-			TestDataGenerator.generateMasterTestData(true);
 			
 			//User set up
 			User testUser1 = new User("john@email.com");
@@ -268,8 +268,8 @@ public class Driver {
 			
 			Conference.writeConferences();
 		} else {
-			User.initializeUserListFromSerializableObject();
-			Conference.initializeConferenceListFromSerializableObject();
+			//User.initializeUserListFromSerializableObject();
+			//Conference.initializeConferenceListFromSerializableObject();
 		}
 		systemController.startProgram();
 	}
