@@ -167,6 +167,8 @@ public class Conference implements Serializable{
 		Author matchingAuthor = null;
 		for (Author author : myConferenceAuthors) {
 			if (author.getUser().getEmail().equals(theUser.getEmail())) {
+				System.out.println(author.getUser().getEmail());
+				System.out.println(author.getNumSubmittedManuscripts());
 				matchingAuthor = author;
 			}
 		}
