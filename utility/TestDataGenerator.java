@@ -66,12 +66,49 @@ public class TestDataGenerator {
 		User userAsSPC2 = myUserList.get(myUsernameList.get(6));
 		setupUserStoryTwo(userAsSPC2, myConferenceList.get(myConferenceNameList.get(1)));
 		
-		
-		
+		// using lucas@email.com or the author
+		// using Manuscripts 13-17 inclusive
+		User userAsAuthor1 = myUserList.get(myUsernameList.get(13));
+		setupUserStoryThree(userAsAuthor1, myConferenceList.get(myConferenceNameList.get(3)));
 		
 		
 		Conference.writeConferences();
 		User.writeUsers();
+	}
+	
+	
+	/**
+	 * set up User Story 3:
+	 *	As an Author, I want to submit a manuscript to a conference. 
+	 * @author Ryan Tran
+	 * @param theUser
+	 * @param theConference
+	 */
+	private static void setupUserStoryThree(User theUser, Conference theConference) {
+		Author mainAuth = new Author(theUser);
+		
+		/**
+		 * Business Rule 3a:
+		 * 	All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
+		 */
+		
+		// submit 4 manuscripts using main auth.
+		for(String manuName : myManuscriptNameList.subList(13, 17)) {
+			Manuscript manu = new Manuscript(
+				manuName,
+				new File(""),
+				mainAuth,
+				generateRandomDateBefore(theConference.getManuscriptDeadline(), true));
+
+			try {
+				theConference.addManuscript(manu);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		myConferenceList.put(theConference.getConferenceName(), theConference);
 	}
 	
 	/**
@@ -83,13 +120,16 @@ public class TestDataGenerator {
 	 * @param theConf the conference this story is using.
 	 */
 	private static void setupUserStoryTwo(User theUserToBeSPC, Conference theConf) {
-		// Create 4 Manuscripts
-		// Assign Reviewers 
-		// Add reviews for manuscripts
+		/**
+		 * Business Rule 2a:
+		 *   A manuscript recommendation cannot be submitted unless there exists a minimum of three reviews for this manuscript.
+		 */
+
 		// Manu 1: 0 reviews submitted
 		// Manu 2: 2 reviews submitted
 		// Manu 3: 3 reviews submitted
 		// Manu 4: 4 reviews submitted
+		// Manu 5: 3 reviews submitted(spare to demonstrate submit recommendation)
 
 		// Add 5 users as reviwers to conf
 		for(String username : myUsernameList.subList(0, 6)) {
@@ -143,6 +183,17 @@ public class TestDataGenerator {
 			addReviewerToManuscriptAndSubmitReview(manu4, myReviewerList.get(username), reviewScore);
 		}
 		
+		// Manuscript 3 will have 4 reviews submitted
+		Manuscript manu5 = new Manuscript(
+				myManuscriptNameList.get(13),
+				new File(""),
+				mainAuthor,
+				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
+
+		for(String username: myUsernameList.subList(2, 5)) {
+			int reviewScore = (int)((Math.random() * 9 + 1));
+			addReviewerToManuscriptAndSubmitReview(manu5, myReviewerList.get(username), reviewScore);
+		}
 		
 		// Add manuscripts to conference
 		try {
@@ -150,6 +201,7 @@ public class TestDataGenerator {
 			theConf.addManuscript(manu2);
 			theConf.addManuscript(manu3);
 			theConf.addManuscript(manu4);
+			theConf.addManuscript(manu5);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -302,9 +354,6 @@ public class TestDataGenerator {
 		myManuscriptList.put(manuWithConflictAuthName, 	manuWithInvalidAuthor);	
 	}
 	
-	private static void addReviewersToManuscriptAndReviewThem(Manuscript theManuscript, List<String> theUsernames) {
-		
-	}
 	
 	/**
 	 * Adds the list of usernames as reviewers to the given conference.
@@ -430,6 +479,9 @@ public class TestDataGenerator {
 		listToReturn.add("Concept mapping: A useful tool for computer science education");
 		listToReturn.add("A methodological review of computer science education research");
 		listToReturn.add("Teacher beliefs and intentions regarding the implementation of computer science education reform strands");
+		listToReturn.add("LAFF: Programming for Correctness");
+		listToReturn.add("Introduction to Mathematical Thinking");
+		listToReturn.add("Importance of Mathematics for Computer Science");
 		return listToReturn;
 	}
 	
