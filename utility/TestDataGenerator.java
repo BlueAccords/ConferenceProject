@@ -28,6 +28,7 @@ public class TestDataGenerator {
 	private static TreeMap<String, Reviewer> myReviewerList;
 	private static TreeMap<String, Conference> myConferenceList;
 	private static TreeMap<String, Manuscript> myManuscriptList;
+	private static TreeMap<String, Author> myAuthorList;
 	private static boolean DEBUG;
 	
 	public static void generateMasterTestData(boolean isDebug) {
@@ -66,9 +67,10 @@ public class TestDataGenerator {
 		User userAsSPC2 = myUserList.get(myUsernameList.get(6));
 		setupUserStoryTwo(userAsSPC2, myConferenceList.get(myConferenceNameList.get(1)));
 		
-		// using lucas@email.com or the author
+		// using caden@email.com as the author
 		// using Manuscripts 13-17 inclusive
 		User userAsAuthor1 = myUserList.get(myUsernameList.get(13));
+		System.out.println(myUsernameList.get(13));
 		setupUserStoryThree(userAsAuthor1, myConferenceList.get(myConferenceNameList.get(3)));
 		
 		
@@ -87,6 +89,7 @@ public class TestDataGenerator {
 	private static void setupUserStoryThree(User theUser, Conference theConference) {
 		Author mainAuth = new Author(theUser);
 		
+		System.out.println(theConference.getAuthor(mainAuth));
 		/**
 		 * Business Rule 3a:
 		 * 	All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
@@ -99,7 +102,7 @@ public class TestDataGenerator {
 				new File(""),
 				mainAuth,
 				generateRandomDateBefore(theConference.getManuscriptDeadline(), true));
-
+			
 			try {
 				theConference.addManuscript(manu);
 			} catch (Exception e) {
@@ -108,6 +111,7 @@ public class TestDataGenerator {
 			}
 		}
 		
+		//System.out.println(theConference.getAuthor(theUser));
 		myConferenceList.put(theConference.getConferenceName(), theConference);
 	}
 	
@@ -401,8 +405,10 @@ public class TestDataGenerator {
 			}
 		}
 		
-		System.out.println(confByName.getManuscripts().size() + " Manuscripts added "
+		if(DEBUG) {
+			System.out.println(confByName.getManuscripts().size() + " Manuscripts added "
 				+ " to " + confByName.getConferenceName() + " for Author " + theUsername);
+		}
 	}
 	
 	/**

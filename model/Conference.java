@@ -159,14 +159,14 @@ public class Conference implements Serializable{
 	/**
 	 * This method will search and return the Author in the conference that corresponds to the passed User.
 	 * Returns null if theUser is not an Author in this conference.
-	 * @param theUser
+	 * @param theAuthor
 	 * @return The Author object associated with theUser, null if theUser
 	 * is not an Author in this conference. 
 	 */
-	public Author getAuthor(User theUser) {
+	public Author getAuthor(Author theAuthor) {
 		Author matchingAuthor = null;
 		for (Author author : myConferenceAuthors) {
-			if (author.getUser().getEmail().equals(theUser.getEmail())) {
+			if (author.getUser().getEmail().equals(theAuthor.getUser().getEmail())) {
 				System.out.println(author.getUser().getEmail());
 				System.out.println(author.getNumSubmittedManuscripts());
 				matchingAuthor = author;
@@ -303,9 +303,9 @@ public class Conference implements Serializable{
 	 */
 	public boolean isValidNumberOfSubmissions(Manuscript theManuscript) {
 		boolean check = true;	
-		ArrayList<User> authors = new ArrayList<User>();
+		ArrayList<Author> authors = new ArrayList<Author>();
 		authors.addAll(theManuscript.getAuthors());
-		for (User author : authors) {
+		for (Author author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
 			//System.out.println(potentialA.getNumSubmittedManuscripts());

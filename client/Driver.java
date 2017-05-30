@@ -33,7 +33,7 @@ public class Driver {
 		
 		// add dummy users
 		if(DEBUG) {
-			TestDataGenerator.generateMasterTestData(true);
+			TestDataGenerator.generateMasterTestData(false);
 		} else {
 			User.initializeUserListFromSerializableObject();
 			Conference.initializeConferenceListFromSerializableObject();
