@@ -202,7 +202,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 		ManuscriptFilePanel.setOpaque(true);
 		
 		createManuscriptPanel.setBorder(BorderFactory.createTitledBorder(
-		        BorderFactory.createEtchedBorder(), "Manuscript Submission Page"));
+		        BorderFactory.createEtchedBorder(), "Manuscript Submission Page for " + myConference.getConferenceName()));
 		ManuscriptPanelHolder.add(createManuscriptPanel);
 		return ManuscriptPanelHolder;
 	}

@@ -3,6 +3,8 @@
  */
 package client;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -11,6 +13,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import model.Author;
 import model.Conference;
 import model.SubprogramChair;
@@ -53,9 +58,17 @@ public class UserRoleView extends Observable{
 	 */
 	public JPanel createSelectRolePanel() {
 		
-		JPanel selectedUserRolePanel = new JPanel(new GridBagLayout());
+		JPanel selectedUserRolePanel = new JPanel(new BorderLayout());
+		JPanel bagPanel = new JPanel(new GridBagLayout());
 		JPanel selectRoleButtonPanel = new JPanel(new GridLayout(0,1));
 		selectRoleButtonPanel.add(myViewTitle);
+		
+		String viewHeaderTitle = "<html><div style='text-align: center;'>"
+	    		+ "Current Active Roles for <br>" + myUser.getEmail();
+	    	JLabel myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
+			myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+	        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+	        selectedUserRolePanel.add(myConfTitleLabel, BorderLayout.NORTH);
 		
 		myAuthorBtn.addActionListener(e -> {
 			setChanged();
@@ -81,7 +94,8 @@ public class UserRoleView extends Observable{
 		
 		selectRoleButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Select Role"));
-		selectedUserRolePanel.add(selectRoleButtonPanel);
+		bagPanel.add(selectRoleButtonPanel);
+		selectedUserRolePanel.add(bagPanel);
 		
 		return selectedUserRolePanel;
 		
