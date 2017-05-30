@@ -8,6 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Reviewer implements Serializable{
 	
@@ -20,6 +21,8 @@ public class Reviewer implements Serializable{
 	/** Collection of any manuscript the user has been assigned to review. */
 	private ArrayList<Manuscript> assignedManuscripts;
 	
+	private HashMap<Manuscript, Integer> myScoreMap;
+	
 	/**
 	 * Constructor for the Reviewer.
 	 * @param aUser The User associated with the Reviewer.
@@ -28,6 +31,18 @@ public class Reviewer implements Serializable{
 		//no defensive copy made, we want this to act as a pointer.
 		myUser = aUser;
 		assignedManuscripts = new ArrayList<Manuscript>();
+		myScoreMap = new HashMap<Manuscript, Integer>();
+	}
+	
+	/**
+	 * Constructor for the Reviewer.
+	 * @param aUser The User associated with the Reviewer.
+	 */
+	public Reviewer(User aUser, HashMap<Manuscript, Integer> theScoreMap) {
+		//no defensive copy made, we want this to act as a pointer.
+		myUser = aUser;
+		assignedManuscripts = new ArrayList<Manuscript>();
+		myScoreMap = theScoreMap;
 	}
 	
 	/**
@@ -73,6 +88,22 @@ public class Reviewer implements Serializable{
 			if (target == theManuscript) {
 				assignedManuscripts.remove(target);
 			}
+		}
+	}
+	
+	public int getReviewerScore(Manuscript theManuscript) {
+		int score = -1;
+		if (myScoreMap.containsKey(theManuscript)) {
+			score = myScoreMap.get(theManuscript);
+		}
+		return score;
+	}
+	
+	public void setReviewerScore(Manuscript theManuscript, int theScore) {
+		if (myScoreMap.containsKey(theManuscript)) {
+			myScoreMap.replace(theManuscript, theScore);
+		} else {
+			myScoreMap.put(theManuscript, theScore);
 		}
 	}
 	
