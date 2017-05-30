@@ -3,14 +3,17 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
+import java.util.TimeZone;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -20,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -51,6 +55,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 	/**Scroll Pane to hold Table**/
 	private JScrollPane myManuscriptListScrollPane;
 
+	private JLabel myConfTitleLabel;
 	private JButton assignReviewerBtn;
 	private JButton submitRecommendationBtn;
 	private JButton seeAssignReviewerBtn;
@@ -80,7 +85,16 @@ public class SPCHomeView extends Observable implements ActionListener{
 		myManuscriptList = theManuscriptList;
 		myPanel = new JPanel(new BorderLayout());
 		myConference = theConference;
-
+		
+		// construct header using conference title and deadline date
+    	String confDeadlineDate = convertDateToExplicitFormat(myConference.getManuscriptDeadline());
+    	String viewHeaderTitle = "<html><div style='text-align: center;'>"
+    		+ "Your Assigned Manuscripts for <br>" + myConference.getConferenceName()
+    		+ "<br>Submission Deadline: " + confDeadlineDate + "</html>";
+    	myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
+		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
+        myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
+    	myPanel.add(myConfTitleLabel, BorderLayout.NORTH);
 
 		/**
 		 * Set up and add Main Manuscript List Table
@@ -215,6 +229,28 @@ public class SPCHomeView extends Observable implements ActionListener{
 	public JPanel getMyPanel() {
 		return this.myPanel;
 	}
+	
+	/**
+	 * Returns a string representing a date formatted to include GMT time zone
+	 * day, month, and year. 
+	 * PreConditions:
+	 * 	theDate is non-null
+	 * @param theDate
+	 * @return A string representing theDate.
+	 */
+	private String convertDateToExplicitFormat(Date theDate) {
+		//formatter = new SimpleDateFormat("dd/MM/yy", currentLocale);
+		TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
+		SimpleDateFormat formatter = 
+		  new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'UTC' Z");
+		formatter.setTimeZone(utcTimeZone);
+		// GMT is equivalent to UTC
+		formatter.setTimeZone(TimeZone.getTimeZone("Etc/GMT+12"));
+
+		String result = formatter.format(theDate);
+		
+		return result;
+	}
 
 	/**
 	 * Action listener for different buttons.
@@ -314,7 +350,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 			data = generateDataArray(myManuscriptList);
 		}
 
-
+			
 		public int getColumnCount() {
 			return columnNames.length;
 		}
