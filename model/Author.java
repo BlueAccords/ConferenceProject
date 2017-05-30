@@ -109,11 +109,13 @@ public class Author extends User implements Serializable{
 	public boolean checkForExistingManuscript (String theManuscriptTitleToCheck) {
 		boolean manuscriptExists = false;
 		ArrayList<String> manuscriptTitles = new ArrayList<String> ();
+		
 		for (Manuscript singleManuscript : myManuscripts) {
 			manuscriptTitles.add(singleManuscript.getTitle());
 		}
 		
 		for (String title : manuscriptTitles) {
+			
 			if (title.equals(theManuscriptTitleToCheck)) {
 				manuscriptExists = true;
 				break;
@@ -138,11 +140,14 @@ public class Author extends User implements Serializable{
 	/**
 	 * Method to print all Manuscript titles belonging to this Author.
 	 */
-	public void printManuscriptTitles () {
+	public void printManuscriptTitles() {
+		
 		for (Manuscript manu : myManuscripts) {
 			System.out.print(" - " + manu.getTitle());
 		}
+		
 		System.out.println(" - ");
+		
 	}
 	
 	/**
@@ -159,11 +164,13 @@ public class Author extends User implements Serializable{
 	 * @version 5/13/2017
 	 */
 	public void removeManuscript(Manuscript theManuscript) throws ManuscriptNotInListException {
+		
 		if (myManuscripts.contains(theManuscript)) {
 			myManuscripts.remove(theManuscript);
 		} else {
 			throw new ManuscriptNotInListException();
 		}
+		
 	}
 	
 	
@@ -187,19 +194,24 @@ public class Author extends User implements Serializable{
 		int atLimit = -1;
 		Author tempAuthor;
 		User tempUser;
+		
 		for (int i = 0; i < theAuthors.length; i++) {
 			
 			if (User.doesEmailBelongToUser(theAuthors[i])) {
 				
 				tempUser = User.getUserByEmail(theAuthors[i]);
+				
 				if (theConference.isUserAuthor(tempUser)) {
 					
 					Author authToTest = new Author(tempUser);
 					tempAuthor = theConference.getAuthor(authToTest);
-					System.out.println("" + tempAuthor.getNumSubmittedManuscripts());
+					
 					if (tempAuthor.getNumSubmittedManuscripts() >= MAX_MANUSCRIPT_LIMIT) {
+						
 						atLimit = i;
+						
 					}
+					
 				}
 			}
 				
@@ -207,8 +219,7 @@ public class Author extends User implements Serializable{
 		
 		return atLimit;
 		
-	}
-		
+	}	
 	
 	/**
 	 * This method will return the number of submitted manuscripts.
@@ -234,8 +245,7 @@ public class Author extends User implements Serializable{
 		private static final long serialVersionUID = -8210859321934678990L;
 		
 		private static final String ERROR_MESSAGE = "Manuscript not in the manuscript list for this author";
-		
-		
+			
 		public ManuscriptNotInListException() {
 			super(ERROR_MESSAGE);
 		}

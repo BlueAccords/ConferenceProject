@@ -30,6 +30,9 @@ public class SubprogramChair extends User implements Serializable{
 	/** Collection of any Users assigned as Reviewers to a Subprogram Chair. */
 	private ArrayList<Reviewer> assignedReviewers;
 	
+	/**
+	 * 
+	 */
 	private File myRecommendation;
 	
 	/**
@@ -53,6 +56,7 @@ public class SubprogramChair extends User implements Serializable{
 	 * 
 	 */
 	public SubprogramChair(User aUser, ArrayList<Manuscript> theAssignedManuscripts) {
+		
 		super("");
 		myRecommendation = new File("");
 		myUser = aUser;
@@ -65,8 +69,7 @@ public class SubprogramChair extends User implements Serializable{
 	 * Getter for a User type.
 	 * @return the User associated with the SPC.
 	 */
-	public User getUser() {
-		
+	public User getUser() {	
 		return myUser;
 	}
 	
@@ -74,7 +77,7 @@ public class SubprogramChair extends User implements Serializable{
 	 * Method to set theRecommendation for this Subprogram Chair. 
 	 * @param theRecommendation to be set for this Subprogram Chair.
 	 */
-	public void setRecommendation (File theRecommendation) {
+	public void setRecommendation(File theRecommendation) {
 		myRecommendation = theRecommendation;
 	}
 	
@@ -82,7 +85,7 @@ public class SubprogramChair extends User implements Serializable{
 	 * method to get myRecommendation for this Subprogram Chair.
 	 * @return theRecommendation File for this Subprogram Chair.
 	 */
-	public File getRecommendation () {
+	public File getRecommendation() {
 		return myRecommendation;
 	}
 	
@@ -144,11 +147,15 @@ public class SubprogramChair extends User implements Serializable{
 	 * @version 4/29/2017
 	 */
 	public void removeManuscriptFromSPC(Manuscript theManuscript) {
+		
 		for (Manuscript target: assignedManuscriptsSPC) {
+			
 			if (target == theManuscript) {
 				assignedManuscriptsSPC.remove(target);
 			}
+			
 		}
+		
 	}
 	
 	/**
@@ -161,9 +168,11 @@ public class SubprogramChair extends User implements Serializable{
 	 * @throws Exception 
 	 */
 	public void assignManuscriptToReviewer(Reviewer theReviewer, Manuscript theManuscript) throws Exception {
+		
 		if (theReviewer.getAssignedManuscripts().contains(theManuscript)) {
 			throw new Exception("Paper already assigned to this Reviewer");
 		}
+		
 		if (isAuthor(theReviewer, theManuscript)) {
 			throw new Exception("The Reviewer is an Author of this Paper.");
 		}
@@ -171,9 +180,11 @@ public class SubprogramChair extends User implements Serializable{
 		if (!isUnderAssignedManuscriptLimit(theReviewer)) {
 			throw new Exception("The Reviewer has already been assigned the max number of papers.");
 		}
+		
 			//no exceptions thrown, ok to add. 
 			theReviewer.addManuscriptToReviewer(theManuscript);
 			theManuscript.addReviewer(theReviewer);
+			
 		}
 		
 		/**
@@ -185,11 +196,13 @@ public class SubprogramChair extends User implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public boolean isUnderAssignedManuscriptLimit(Reviewer theReviewer) {
+			
 			if (theReviewer.getNumAssignedManuscripts() >= MAX_REVIEW_PAPERS) {
 				return false;
 			} else {
 				return true;
 			}
+			
 		}
 		
 		/**
@@ -197,7 +210,7 @@ public class SubprogramChair extends User implements Serializable{
 		 * 
 		 * @return int value of MAX_REVIEW_PAPERS 
 		 */
-		public int getMaxReviewPapers(){
+		public int getMaxReviewPapers() {
 			return MAX_REVIEW_PAPERS;
 		}
 		
@@ -209,17 +222,20 @@ public class SubprogramChair extends User implements Serializable{
 		 * @return if a reviewer is an Author
 		 * @version 4/30/2017
 		 */
-		public boolean isAuthor(Reviewer theReviewer, Manuscript theManuscript){
+		public boolean isAuthor(Reviewer theReviewer, Manuscript theManuscript) {
 
 			//List of author names for the paper in need of review
 			ArrayList<String> authorList = new ArrayList<String>();
 			authorList.addAll(theManuscript.getAuthorEmails());
 			
 			for (String author : authorList) {
+				
 				if (theReviewer.getUser().getEmail().equalsIgnoreCase(author)) {
 					return true;
 				}
+				
 			}
+			
 			return false;
 			
 		}
@@ -234,12 +250,14 @@ public class SubprogramChair extends User implements Serializable{
 		 * @version 5/19/17
 		 * @return boolean true if manuscriptSubmissionDeadline is after theDate
 		 */
-		public boolean isAfterSubmissionDeadline(Conference theConference, Date theDate){
+		public boolean isAfterSubmissionDeadline(Conference theConference, Date theDate) {
+			
 			if (theConference.getManuscriptDeadline().before(theDate)){//is conferenceDL before theDate, if so, return False
 				return false; 
 			} else {
 				return true;	
-			}		
+			}
+			
 		}
 	
 		/**
@@ -253,6 +271,7 @@ public class SubprogramChair extends User implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public ArrayList<Reviewer> getEligibleReviewers (Manuscript theManuscript) {
+			
 			//List of eligible reviewers
 			ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
 
@@ -262,14 +281,18 @@ public class SubprogramChair extends User implements Serializable{
 			
 			ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscript.getReviewerList();
 			boolean flag = false;
+			
 			//Iterate through list of reviewers assigned to the User
 			for (Reviewer possibleReviewer : assignedReviewers) {
 				//Iterate through list of paper's authors
 					
 				for (int i = 0; i < assignedReviewersOnManuscript.size(); i++) {
 					
-					if (possibleReviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.get(i).getUser().getEmail())) {
+					if (possibleReviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.
+							get(i).getUser().getEmail())) {
+						
 						flag = true;
+					
 					}
 					
 				}
@@ -279,6 +302,7 @@ public class SubprogramChair extends User implements Serializable{
 					if (possibleReviewer.getUser().getEmail().equals(paperAuthor)) {
 						flag = true;
 					}
+					
 				}
 				
 				//If reviewer has max or more papers already assigned, set flag to true
@@ -290,11 +314,12 @@ public class SubprogramChair extends User implements Serializable{
 				if (!flag) {
 					eligibleReviewers.add(possibleReviewer);
 				}
+				
 			}
-			
 			
 			removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(eligibleReviewers, theManuscript);
 			return eligibleReviewers;
+			
 		}
 
 		/**
@@ -302,21 +327,33 @@ public class SubprogramChair extends User implements Serializable{
 		 * @param reviewerList is list of Reviewers to be checked.
 		 * @param theManuscript is Manuscript to compare the Reviewers from reviewerList to.
 		 */
-		private void removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(ArrayList<Reviewer> reviewerList, Manuscript theManuscript){
+		private void removeReviewersWhoHaveAuthoredAPaperWithThisPapersAuthor(ArrayList<Reviewer> reviewerList, 
+				Manuscript theManuscript) {
+			
 			Set<User> conflictingReviewersByUser = new HashSet<User>();
-			for(Author currentAuthor: theManuscript.getAuthors()){
-				for(Manuscript currentAuthorsCurrentManuscript: currentAuthor.getMyManuscripts()){
-					for(Author sharedAuthor: currentAuthorsCurrentManuscript.getAuthors()){
+			
+			for(Author currentAuthor: theManuscript.getAuthors()) {
+				
+				for(Manuscript currentAuthorsCurrentManuscript: currentAuthor.getMyManuscripts()) {
+					
+					for(Author sharedAuthor: currentAuthorsCurrentManuscript.getAuthors()) {
 						conflictingReviewersByUser.add(sharedAuthor.getUser());
 					}
+					
 				}
+				
 			}
+			
 			for(int i = 0; i < reviewerList.size(); i++){
-				if(conflictingReviewersByUser.contains(reviewerList.get(i).getUser())){
+				
+				if(conflictingReviewersByUser.contains(reviewerList.get(i).getUser())) {
+					
 					reviewerList.remove(i);
 					i--;
+					
 				}
+				
 			}
+			
 		}
-
 }
