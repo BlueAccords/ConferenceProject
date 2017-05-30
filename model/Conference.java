@@ -471,15 +471,22 @@ public class Conference implements Serializable{
 		ArrayList<Reviewer> eligibleReviewers = new ArrayList<Reviewer>();
 		ArrayList<Reviewer> assignedReviewersOnManuscript = theManuscriptToFindReviewersFor.getReviewerList();
 		boolean flag = false;
+		
 		for (Reviewer reviewer : myConferenceReviewers) {
 			flag = false;
+			
+			// check if a reviewer is already an existing reviewer for the manuscript
 			for (int i = 0; i < assignedReviewersOnManuscript.size(); i++) {
-				
 				if (reviewer.getUser().getEmail().equals(assignedReviewersOnManuscript.get(i).getUser().getEmail())) {
 					flag = true;
-				}
-				
+				} 				
 			}
+			
+			// checking for conflicting authorship/coauthorship between reviewer and manuscript authors
+			if(theManuscriptToFindReviewersFor.getAuthorEmails().contains(reviewer.getUser().getEmail())) {
+				flag = true;
+			}
+
 			if (!flag) {
 				eligibleReviewers.add(reviewer); //if not, then add the reviewer to the list
 			}

@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import javax.jws.soap.SOAPBinding.Use;
+
 import model.User;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Reviewer;
+import model.SubprogramChair;
 
 public class TestDataGenerator {
 	
@@ -29,9 +32,11 @@ public class TestDataGenerator {
 	public static void generateMasterTestData(boolean isDebug) {
 		DEBUG = isDebug;
 		myUsernameList = new ArrayList<String>(
-				Arrays.asList("john@email.com", "james@email.com", "robert@email.com", "david@email",
+				Arrays.asList("john@email.com", "james@email.com", "robert@email.com", "david@email.com",
 						   "connor@email.com", "morgan@email.com", "josiah@email.com", "casey@email.com",
-						   "ryan@email.com", "lisa@email.com", "mary@email.com"));
+						   "ryan@email.com", "lisa@email.com", "mary@email.com", "lucas@email.com",
+						   "aria@email.com", "caden@email.com", "zoe@email.com", "jacob@email.com",
+						   "lily@email.com", "logan@email.com", "nora@email.com", "levi@email.com"));
 
 		User.initializeUserListToEmptyList();
 		initUsers(myUsernameList);
@@ -44,22 +49,13 @@ public class TestDataGenerator {
 		// init manuscripts and manuscript names
 		myManuscriptNameList = generateManuscriptNamesList();
 		myManuscriptList = new TreeMap<String, Manuscript>();
-		
-		addManuscriptsToConfForAuthor(
-				myConferenceNameList.get(0),
-				myManuscriptNameList.subList(0, 5),
-				myUsernameList.get(3));
-		
-		addManuscriptsToConfForAuthor(
-				myConferenceNameList.get(4),
-				myManuscriptNameList.subList(5, 7),
-				myUsernameList.get(3));
+				
 		
 		
-		/**
-		 * User Story 1:
-		 * 		As a Subprogram Chair, I want to assign a reviewer to a manuscript to which I have been assigned.
-		 */
+		// john@email.com as spc for user story 1
+		User  userAsSPC = myUserList.get(myUsernameList.get(0));
+		setupUserStoryOne(userAsSPC);
+		
 		
 		
 		
@@ -68,6 +64,96 @@ public class TestDataGenerator {
 		User.writeUsers();
 	}
 	
+	/**
+	 * Set up for...
+	 * User Story 1:
+	 * 		As a Subprogram Chair, I want to assign a reviewer to a manuscript to which I have been assigned.
+	 *  
+	 *  @author Ryan Tran
+	 *  @version 5/29/17
+	 *  @param theUserToBeSPC the subprogram chair to login as for the user story
+	 */
+	private static void setupUserStoryOne(User theUserToBeSPC) {
+		SubprogramChair theSPC = new SubprogramChair(theUserToBeSPC);
+		
+		// ICML conf
+		Conference confAfterDeadline = myConferenceList.get(myConferenceNameList.get(4));
+		// ACM conf
+		Conference confBeforeDeadline = myConferenceList.get(myConferenceNameList.get(0));
+		
+		/**
+		 * Business Rule 1a
+		 * 		A Reviewer cannot review a manuscript that he or she authored or co-authored.
+		 * 
+		 * Cases: 
+		 * 	1. Reviewer is valid reviewer
+		 *  2. Reviewer is also author of manuscript
+		 *  3. Reviewer is also co-author of manuscript
+		 */
+		// james@email.com as reviewer and author of manuscript to be assigned to.
+		User userAsAuthAndReviewer = myUserList.get(myUsernameList.get(1));
+		Author authAsInvalidReviewer = new Author(userAsAuthAndReviewer);
+		// Linear Logic Manuscript
+		String manuWithConflictAuthName = myManuscriptNameList.get(0);
+		
+		// init manuscript and set up james@email.com as reviewer  
+		Manuscript manuWithInvalidAuthor = new Manuscript(
+				manuWithConflictAuthName,
+				new File(""),
+				authAsInvalidReviewer,
+				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true));
+
+		// add john@email.com as the SPC to ICML conf
+		confAfterDeadline.addSubprogramChair(theSPC);
+		
+		// add manuscript to ICML conf.
+		try {
+			confAfterDeadline.addManuscript(manuWithInvalidAuthor);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// add random manuscripts to show author is valid for others
+		// author is josiah@email.com
+		addManuscriptsToConfForAuthor(
+				confAfterDeadline.getConferenceName(),
+				myManuscriptNameList.subList(1, 4),
+				myUsernameList.get(2));
+
+		// Add random reviewers to conference to show the invalid author is only visible for some manuscripts
+		addUsersAsReviewersToConf(myUsernameList.subList(1, 6), confAfterDeadline);
+		
+		// add manuscripts with conflicting co-author
+		
+		// update objects in current test data lists
+		myConferenceList.put(confAfterDeadline.getConferenceName(), confAfterDeadline);
+		myManuscriptList.put(manuWithConflictAuthName, 	manuWithInvalidAuthor);	
+	}
+	
+	/**
+	 * Adds the list of usernames as reviewers to the given conference.
+	 * @param theUsernames the list of usernames to add as reviewers to the given conf.
+	 * @param theConf the conference.
+	 */
+	private static void addUsersAsReviewersToConf(List<String> theUsernames, Conference theConf) {
+		for(String username : theUsernames) {
+			theConf.addReviewer(myReviewerList.get(username));
+		}
+		
+		// update internal conf list.
+		myConferenceList.put(theConf.getConferenceName(), theConf);
+	}
+	
+	/**
+	 * Adds the list of manuscripts to the passed in conference and sets the author of the manuscript
+	 * to the given author name.
+	 * 
+	 * @author Ryan Tran
+	 * @param theConfName the conference name
+	 * @param theManuList the list of manuscript names to add to the conference
+	 * @param theUsername the user name to set as the author
+	 */
 	private static void addManuscriptsToConfForAuthor(String theConfName, List<String> theManuList, String theUsername) {
 		Author auth = new Author(myUserList.get(theUsername));
 		Conference confByName = myConferenceList.get(theConfName);
