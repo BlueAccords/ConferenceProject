@@ -122,27 +122,31 @@ public class TestDataGenerator {
 			e.printStackTrace();
 		}
 		
+		// morgan@email.com as reviewer
+		Reviewer reviewerWithSeven = new Reviewer(myUserList.get(myUsernameList.get(5)));
 		// add random manuscripts to show author is valid for others
 		// author is josiah@email.com
-		addManuscriptsToConfForAuthor(
+		addManuscriptsToConfForAuthorAndReviewer(
 				confAfterDeadline.getConferenceName(),
 				myManuscriptNameList.subList(1, 5),
-				myUsernameList.get(2));
+				myUsernameList.get(2),
+				reviewerWithSeven);
 		
-		addManuscriptsToConfForAuthor(
+		addManuscriptsToConfForAuthorAndReviewer(
 				confAfterDeadline.getConferenceName(),
-				myManuscriptNameList.subList(5, 7),
-				myUsernameList.get(3));
+				myManuscriptNameList.subList(5, 8),
+				myUsernameList.get(3),
+				reviewerWithSeven);
 		
 		/**
 		 * Setup for connor@email.com as...
-		 * CoAuthor of Manuscript "Teaching software engineering—experience from the past, needs for the future"
+		 * CoAuthor of Manuscript "Software engineering education—adjusting our sails"
 		 * Thus will be invalid as reviewer for that manuscript.
 		 */
 		Author coAuthAsInvalidReviewer = new Author(myUserList.get(myUsernameList.get(4)));
 		
 		Manuscript manuWithInvalidCoAuth = new Manuscript(
-				myManuscriptNameList.get(8),
+				myManuscriptNameList.get(9),
 				new File(""),
 				authAsInvalidReviewer,
 				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true)
@@ -222,6 +226,56 @@ public class TestDataGenerator {
 		System.out.println(confByName.getManuscripts().size() + " Manuscripts added "
 				+ " to " + confByName.getConferenceName() + " for Author " + theUsername);
 	}
+	
+	/**
+	 * Adds the manuscripts to the given conference with the given username
+	 * as the author of the manuscripts. Additionally, adds the given reviewer name
+	 * to the manuscripts as their reviewer.
+	 * @param theConfName conf to add manuscript list to
+	 * @param theManuList the list of manuscripts to add to conference
+	 * @param theUsername the user to be the author of manuscripts
+	 * @param theReviewerName the reviewer to be assigned to the list of manuscripts
+	 */
+	private static void addManuscriptsToConfForAuthorAndReviewer(String theConfName,
+			List<String> theManuList, String theUsername, Reviewer theReviewer) {
+
+		Author auth = new Author(myUserList.get(theUsername));
+		Conference confByName = myConferenceList.get(theConfName);
+		int initialConfManuListSize = confByName.getManuscripts().size();
+		
+		// Add manuscripts to generator manuscript list.
+		for(String manuName : theManuList) {
+			Manuscript manuToBeSaved = new Manuscript(
+					manuName,
+					new File(""),
+					auth,
+					generateRandomDateBefore(confByName.getManuscriptDeadline(), true));
+
+			manuToBeSaved.addReviewer(theReviewer);
+			myManuscriptList.put(manuName, manuToBeSaved);
+			
+			// add manuscript to passed in conference and update test data generator list of conferences
+			try {
+				confByName.addManuscript(manuToBeSaved);
+				myConferenceList.put(theConfName, confByName);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		// add reviewer to updated reviewer list
+		myReviewerList.put(theReviewer.getUser().getEmail(), theReviewer);
+		
+		if(DEBUG) {
+			int manusAdded = confByName.getManuscripts().size() - initialConfManuListSize;
+			System.out.println(manusAdded + " Manuscripts added "
+				+ " to " + confByName.getConferenceName() + " for Author " + theUsername);
+			System.out.println(theReviewer.getUser().getEmail() + " added as reviewer for said manuscripts.");
+
+		}
+	}
+
 	
 	/**
 	 * Generates and returns an array list of manuscript names as strings

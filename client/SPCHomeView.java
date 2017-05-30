@@ -27,6 +27,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import client.AuthorManuscriptListTableView.MyTableModel;
+import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Reviewer;
@@ -53,6 +54,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 	private JButton assignReviewerBtn;
 	private JButton submitRecommendationBtn;
 	private JButton seeAssignReviewerBtn;
+	private JButton viewManuscriptAuthorsBtn;
 
 	/** used to disable action buttons until a table row is selected.**/
 	private boolean isManuscriptSelected = false;
@@ -66,6 +68,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 	public static final String ASSIGN_REVIEWER = "ASSIGN_REVIEWER";
 	public static final String SUBMIT_RECOMMENDATION = "SUBMIT_RECOMMENDATION";
 	public static final String SEE_ASSIGNED_REVIEWERS = "SEE_ASSIGNED_REVIEWERS";
+	public static final String VIEW_MANUSCRIPT_AUTHORS = "VIEW_MANUSCRIPT_AUTHORS";
 
 	private ArrayList<Manuscript> myManuscriptList;
 
@@ -140,9 +143,10 @@ public class SPCHomeView extends Observable implements ActionListener{
 						submitRecommendationBtn.setToolTipText("Manuscript must have a minimum of "
 								+ Manuscript.getSufficientReviews() + " Reviews submitted to make a Recommendation.");
 					}
+					
 
 					setCurrentlySelectedManuscript(selectedManu);
-
+					viewManuscriptAuthorsBtn.setEnabled(true);
 					setChanged();
 					notifyObservers(myCurrentlySelectedManuscript);
 				}
@@ -184,9 +188,16 @@ public class SPCHomeView extends Observable implements ActionListener{
 		this.seeAssignReviewerBtn.addActionListener(this);
 		this.seeAssignReviewerBtn.setActionCommand(this.SEE_ASSIGNED_REVIEWERS);
 		
+		this.viewManuscriptAuthorsBtn = new JButton("View Authors");
+		this.viewManuscriptAuthorsBtn.setEnabled(false);
+		this.viewManuscriptAuthorsBtn.addActionListener(this);
+		this.viewManuscriptAuthorsBtn.setActionCommand(this.VIEW_MANUSCRIPT_AUTHORS);
+
+		
 		myButtonPanel.add(assignReviewerBtn);
 		myButtonPanel.add(submitRecommendationBtn);
 		myButtonPanel.add(seeAssignReviewerBtn);
+		myButtonPanel.add(viewManuscriptAuthorsBtn);
 
 		myPanel.add(myButtonPanel, BorderLayout.SOUTH);
 
@@ -251,7 +262,14 @@ public class SPCHomeView extends Observable implements ActionListener{
 			}
 			
 			JOptionPane.showMessageDialog(null, reviewerListPanel);
-
+			break;
+		case VIEW_MANUSCRIPT_AUTHORS:
+			StringBuilder authorNames = new StringBuilder();
+			for (Author author : myCurrentlySelectedManuscript.getAuthors()) {
+				authorNames.append(author.getUser().getEmail() + "\n");
+			}
+			JOptionPane.showMessageDialog(null, authorNames.toString());
+			break;
 		}
 	}
 				
