@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import model.Conference;
@@ -76,7 +78,7 @@ public class ConferenceListView extends Observable {
 		JPanel conferencePanel = new JPanel(new BorderLayout());
 		JPanel conferenceButtonPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
+		Border blackLine = BorderFactory.createLineBorder(Color.black);
 		String confDeadlineDate = convertDateToExplicitFormat(new Date());
     	String viewHeaderTitle = "<html><div style='text-align: center;'>"
     		+ "Current Active Conferences for <br>" + myUser.getEmail()
@@ -85,20 +87,36 @@ public class ConferenceListView extends Observable {
 		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
         myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
         conferencePanel.add(myConfTitleLabel, BorderLayout.NORTH);
-		
+        JPanel tempPanel;
+		JLabel tempLabel;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
-		conferenceButtonPanel.add(conferenceNameLabel, c);
+		tempPanel = new JPanel();
+		tempPanel.add(conferenceNameLabel);
+		tempPanel.setBorder(blackLine);
+		conferenceButtonPanel.add(tempPanel, c);
 		c.gridx = 1;
-		conferenceButtonPanel.add(isManuscriptSubmittedLabel, c);
+		tempPanel = new JPanel();
+		tempPanel.add(isManuscriptSubmittedLabel);
+		tempPanel.setBorder(blackLine);
+		conferenceButtonPanel.add(tempPanel, c);
 		c.gridx = 2;
-		conferenceButtonPanel.add(isSubprogramChairLabel, c);
+		tempPanel = new JPanel();
+		tempPanel.add(isSubprogramChairLabel);
+		tempPanel.setBorder(blackLine);
+		conferenceButtonPanel.add(tempPanel, c);
 		c.gridx = 3;
-		conferenceButtonPanel.add(isRiewerLabel, c);
+		tempPanel = new JPanel();
+		tempPanel.add(isRiewerLabel);
+		tempPanel.setBorder(blackLine);
+		conferenceButtonPanel.add(tempPanel, c);
 		c.gridx = 4;
-		conferenceButtonPanel.add(conferenceDeadLineLabel, c);
+		tempPanel = new JPanel();
+		tempPanel.add(conferenceDeadLineLabel);
+		tempPanel.setBorder(blackLine);
+		conferenceButtonPanel.add(tempPanel, c);
 		ButtonGroup group = new ButtonGroup();
 		for (myCounter = 0; myCounter < myConferenceList.size(); myCounter++) {
 			JButton button = new JButton(myConferenceList.get(myCounter).getConferenceName());
@@ -126,26 +144,62 @@ public class ConferenceListView extends Observable {
 			c.gridy = myCounter + 1;
 			conferenceButtonPanel.add(button, c);
 			c.gridx = 1;
-			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {			
-				conferenceButtonPanel.add(new JLabel("Yes"), c);
+			
+			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {	
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("Yes");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"), c);
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("No");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			}
 			c.gridx = 2;
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
-				conferenceButtonPanel.add(new JLabel("Yes"), c);
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("Yes");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"), c);
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("No");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			}
 			c.gridx = 3;
 			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
-				conferenceButtonPanel.add(new JLabel("Yes"), c);
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("Yes");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			} else {
-				conferenceButtonPanel.add(new JLabel("No"), c);
+				tempPanel = new JPanel();
+				tempLabel = new JLabel("No");
+				tempPanel.add(tempLabel);
+				tempPanel.setBorder(blackLine);
+				tempPanel.setBackground(Color.WHITE);
+				conferenceButtonPanel.add(tempPanel, c);
 			}
 			c.gridx = 4;
 			String displayDate = convertDateToExplicitFormat(myConferenceList.get(myCounter).getManuscriptDeadline());
-			conferenceButtonPanel.add(new JLabel("" + displayDate), c);
+			tempPanel = new JPanel();
+			tempLabel = new JLabel("" + displayDate);
+			tempPanel.add(tempLabel);
+			tempPanel.setBorder(blackLine);
+			tempPanel.setBackground(Color.WHITE);
+			conferenceButtonPanel.add(tempPanel, c);
 			
 		}
 		conferenceButtonPanel.setOpaque(true);
