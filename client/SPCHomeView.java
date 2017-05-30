@@ -243,7 +243,11 @@ public class SPCHomeView extends Observable implements ActionListener{
 			
 			for (int i = 0; i < reviewerList.size(); i++) {
 				reviewerListPanel.add(new JLabel(reviewerList.get(i).getUser().getEmail()));
-				reviewerListPanel.add(new JLabel("" + reviewerList.get(i).getReviewerScore(myCurrentlySelectedManuscript)));
+				if (reviewerList.get(i).getReviewerScore(myCurrentlySelectedManuscript) >= 0) { 
+					reviewerListPanel.add(new JLabel("" + reviewerList.get(i).getReviewerScore(myCurrentlySelectedManuscript)));
+				} else {
+					reviewerListPanel.add(new JLabel("No score submitted"));
+				}
 			}
 			
 			JOptionPane.showMessageDialog(reviewerListPanel, null);
