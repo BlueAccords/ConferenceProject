@@ -8,6 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Reviewer implements Serializable{
 	
@@ -21,6 +22,11 @@ public class Reviewer implements Serializable{
 	private ArrayList<Manuscript> assignedManuscripts;
 	
 	/**
+	 * hashmap containing the reviewers assigned manuscripts plus the score they reviewed it.
+	 */
+	private HashMap<Manuscript, Integer> myScoreMap;
+	
+	/**
 	 * Constructor for the Reviewer.
 	 * @param aUser The User associated with the Reviewer.
 	 */
@@ -28,6 +34,19 @@ public class Reviewer implements Serializable{
 		//no defensive copy made, we want this to act as a pointer.
 		myUser = aUser;
 		assignedManuscripts = new ArrayList<Manuscript>();
+		myScoreMap = new HashMap<Manuscript, Integer>();
+	}
+	
+	/**
+	 * Constructor for the Reviewer for testing.
+	 * @param aUser The User associated with the Reviewer.
+	 * @param theScoreMap The map of manuscript and their scores this reviewer has submitted.
+	 */
+	public Reviewer(User aUser, HashMap<Manuscript, Integer> theScoreMap) {
+		//no defensive copy made, we want this to act as a pointer.
+		myUser = aUser;
+		assignedManuscripts = new ArrayList<Manuscript>();
+		myScoreMap = theScoreMap;
 	}
 	
 	/**
@@ -73,6 +92,38 @@ public class Reviewer implements Serializable{
 			if (target == theManuscript) {
 				assignedManuscripts.remove(target);
 			}
+		}
+	}
+	
+	/**
+	 * Method to get the score the reviewer has set for theManuscript and -1 if none set yet.
+	 * @param theManuscript the manuscript to get the score of.
+	 * @return The score this reviewer has set for theManuscript or -1 if none set yet.
+	 * @author Casey Anderson
+	 */
+	public int getReviewerScore(Manuscript theManuscript) {
+		
+		int score = -1;
+		
+		if (myScoreMap.containsKey(theManuscript)) {
+			score = myScoreMap.get(theManuscript);
+		}
+		
+		return score;
+		
+	}
+	
+	/**
+	 * Method to set theScore to theManuscript for this reviewer.
+	 * @param theManuscript the manuscript to set theScore of.
+	 * @param theScore the score to set to theManuscript.
+	 * @author Casey Anderson
+	 */
+	public void setReviewerScore(Manuscript theManuscript, int theScore) {
+		if (myScoreMap.containsKey(theManuscript)) {
+			myScoreMap.replace(theManuscript, theScore);
+		} else {
+			myScoreMap.put(theManuscript, theScore);
 		}
 	}
 	

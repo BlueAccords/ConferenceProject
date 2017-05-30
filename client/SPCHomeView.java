@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -51,7 +52,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 	private JButton assignReviewerBtn;
 	private JButton submitRecommendationBtn;
-
+	private JButton seeAssignReviewerBtn;
 
 	/** used to disable action buttons until a table row is selected.**/
 	private boolean isManuscriptSelected = false;
@@ -64,6 +65,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 	public static final String ASSIGN_REVIEWER = "ASSIGN_REVIEWER";
 	public static final String SUBMIT_RECOMMENDATION = "SUBMIT_RECOMMENDATION";
+	public static final String SEE_ASSIGNED_REVIEWERS = "SEE_ASSIGNED_REVIEWERS";
 
 	private ArrayList<Manuscript> myManuscriptList;
 
@@ -119,6 +121,12 @@ public class SPCHomeView extends Observable implements ActionListener{
 						assignReviewerBtn.setEnabled(true);		
 					}
 					
+					if (selectedManu.getReviewerList().size() > 0) {
+						seeAssignReviewerBtn.setEnabled(true);
+					} else {
+						seeAssignReviewerBtn.setEnabled(false);
+					}
+					
 					if (selectedManu.isrecommendationAssigned()) {
 						submitRecommendationBtn.setEnabled(false);
 						assignReviewerBtn.setEnabled(false);
@@ -171,9 +179,14 @@ public class SPCHomeView extends Observable implements ActionListener{
 		this.submitRecommendationBtn.addActionListener(this);
 		this.submitRecommendationBtn.setActionCommand(this.SUBMIT_RECOMMENDATION);
 
+		this.seeAssignReviewerBtn = new JButton("See Assigned Reviewers");
+		this.seeAssignReviewerBtn.setEnabled(false);
+		this.seeAssignReviewerBtn.addActionListener(this);
+		this.seeAssignReviewerBtn.setActionCommand(this.SEE_ASSIGNED_REVIEWERS);
+		
 		myButtonPanel.add(assignReviewerBtn);
 		myButtonPanel.add(submitRecommendationBtn);
-
+		myButtonPanel.add(seeAssignReviewerBtn);
 
 		myPanel.add(myButtonPanel, BorderLayout.SOUTH);
 
@@ -219,6 +232,25 @@ public class SPCHomeView extends Observable implements ActionListener{
 			setChanged();
 			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.SUBMIT_RECOMMENDATION);
 			break;
+			
+		case SEE_ASSIGNED_REVIEWERS:
+			JPanel reviewerListPanel = new JPanel(new GridLayout(0,2));
+			JLabel reviewerNameLabel = new JLabel("Reviewer UserName:");
+			JLabel reviewerScoreLabel = new JLabel("Reviewer Score:");
+			reviewerListPanel.add(reviewerNameLabel);
+			reviewerListPanel.add(reviewerScoreLabel);
+			ArrayList<Reviewer> reviewerList = myCurrentlySelectedManuscript.getReviewerList();
+			
+			for (int i = 0; i < reviewerList.size(); i++) {
+				reviewerListPanel.add(new JLabel(reviewerList.get(i).getUser().getEmail()));
+				if (reviewerList.get(i).getReviewerScore(myCurrentlySelectedManuscript) >= 0) { 
+					reviewerListPanel.add(new JLabel("" + reviewerList.get(i).getReviewerScore(myCurrentlySelectedManuscript)));
+				} else {
+					reviewerListPanel.add(new JLabel("No score submitted"));
+				}
+			}
+			
+			JOptionPane.showMessageDialog(reviewerListPanel, null);
 
 		}
 	}
