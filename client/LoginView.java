@@ -40,7 +40,7 @@ public class LoginView extends Observable implements Observer {
 	// Panel that holds login forms and labels
 	private JPanel myFormPanel;
 	
-	// Panel that holds buttons like login, register and exit
+	// Panel that holds buttons like login and exit
 	private JPanel myBtnPanel;
 	private JButton myLoginBtn;
 	private JButton myExitBtn;
