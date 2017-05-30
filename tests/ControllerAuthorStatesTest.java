@@ -118,11 +118,11 @@ public class ControllerAuthorStatesTest {
 	 */
 	@Test
 	public void authorSubmitManuscriptTest_ChangeStateToSubmitManuscript_PanelNameIsSubmitManuscriptViewThenCreateConferenceOptionsView () {
-		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 		assertEquals("The current panel name is not SUBMIT_MANUSCRIPT_VIEW: " + myTestController.getCurrentPanelName() + "       ",
 				ParentFrameView.SUBMIT_MANUSCRIPT_VIEW, myTestController.getCurrentPanelName());
 
-		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT);
+		myTestControllerHelper.changeControllerState(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_VIEW);
 		assertEquals("The current panel name is not CREATE_CONFERENCE_OPTIONS_VIEW: " + myTestController.getCurrentPanelName() + "       ",
 				ParentFrameView.CREATE_CONFERENCE_OPTIONS_VIEW, myTestController.getCurrentPanelName());
 	}
