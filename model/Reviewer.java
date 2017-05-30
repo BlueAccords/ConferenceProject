@@ -21,6 +21,9 @@ public class Reviewer implements Serializable{
 	/** Collection of any manuscript the user has been assigned to review. */
 	private ArrayList<Manuscript> assignedManuscripts;
 	
+	/**
+	 * hashmap containing the reviewers assigned manuscripts plus the score they reviewed it.
+	 */
 	private HashMap<Manuscript, Integer> myScoreMap;
 	
 	/**
@@ -35,8 +38,9 @@ public class Reviewer implements Serializable{
 	}
 	
 	/**
-	 * Constructor for the Reviewer.
+	 * Constructor for the Reviewer for testing.
 	 * @param aUser The User associated with the Reviewer.
+	 * @param theScoreMap The map of manuscript and their scores this reviewer has submitted.
 	 */
 	public Reviewer(User aUser, HashMap<Manuscript, Integer> theScoreMap) {
 		//no defensive copy made, we want this to act as a pointer.
@@ -91,14 +95,30 @@ public class Reviewer implements Serializable{
 		}
 	}
 	
+	/**
+	 * Method to get the score the reviewer has set for theManuscript and -1 if none set yet.
+	 * @param theManuscript the manuscript to get the score of.
+	 * @return The score this reviewer has set for theManuscript or -1 if none set yet.
+	 * @author Casey Anderson
+	 */
 	public int getReviewerScore(Manuscript theManuscript) {
+		
 		int score = -1;
+		
 		if (myScoreMap.containsKey(theManuscript)) {
 			score = myScoreMap.get(theManuscript);
 		}
+		
 		return score;
+		
 	}
 	
+	/**
+	 * Method to set theScore to theManuscript for this reviewer.
+	 * @param theManuscript the manuscript to set theScore of.
+	 * @param theScore the score to set to theManuscript.
+	 * @author Casey Anderson
+	 */
 	public void setReviewerScore(Manuscript theManuscript, int theScore) {
 		if (myScoreMap.containsKey(theManuscript)) {
 			myScoreMap.replace(theManuscript, theScore);
