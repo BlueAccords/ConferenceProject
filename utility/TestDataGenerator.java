@@ -53,7 +53,8 @@ public class TestDataGenerator {
 				
 		
 		
-		// john@email.com as spc for user story 1
+		// Using users myUserList[0..6] excluding #6
+		// Using Conference[0] acm
 		User  userAsSPC = myUserList.get(myUsernameList.get(0));
 		setupUserStoryOne(userAsSPC);
 		
@@ -63,6 +64,10 @@ public class TestDataGenerator {
 		
 		Conference.writeConferences();
 		User.writeUsers();
+	}
+	
+	private static void setupUserStoryTwo(User theUserToBeSPC, Conference theConf) {
+		
 	}
 	
 	/**
@@ -111,7 +116,7 @@ public class TestDataGenerator {
 				authAsInvalidReviewer,
 				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true));
 
-		// add john@email.com as the SPC to ICML conf
+		// add john@email.com as the SPC to ACM conf and ICML conf
 		confAfterDeadline.addSubprogramChair(theSPC);
 		
 		// add manuscript to ICML conf.
@@ -121,6 +126,12 @@ public class TestDataGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		/**
+		 * Business Rule 1b:
+		 * 		A Reviewer can be assigned to review a maximum of 8 manuscripts for any conference.
+		 * 		Using morgan@email.com with 7 assigned manuscripts to demonstrate rule.
+		 */
 		
 		// morgan@email.com as reviewer
 		Reviewer reviewerWithSeven = new Reviewer(myUserList.get(myUsernameList.get(5)));
@@ -170,10 +181,26 @@ public class TestDataGenerator {
 		// Add random reviewers to conference to show the invalid author is only visible for some manuscripts
 		addUsersAsReviewersToConf(myUsernameList.subList(1, 6), confAfterDeadline);
 		
-		// add manuscripts with conflicting co-author
+		/**
+		 * Business rule 1c:
+		 * 		A Reviewer cannot be assigned until after the author submission deadline.
+		 */
+		// add john@email.com as spc to ICML conf.
+		confBeforeDeadline.addSubprogramChair(theSPC);
+
+		// Set david@email.com as reviewer though won't be assignable due to deadline.
+		Reviewer validReviewer = new Reviewer(myUserList.get(myUsernameList.get(3)));
+		
+		addManuscriptsToConfForAuthor(
+				confBeforeDeadline.getConferenceName(),
+				myManuscriptNameList.subList(8, 9),
+				myUsernameList.get(4));
+
+		confBeforeDeadline.addReviewer(validReviewer);
 		
 		// update objects in current test data lists
 		myConferenceList.put(confAfterDeadline.getConferenceName(), confAfterDeadline);
+		myConferenceList.put(confBeforeDeadline.getConferenceName(), confBeforeDeadline);
 		myManuscriptList.put(manuWithConflictAuthName, 	manuWithInvalidAuthor);	
 	}
 	
