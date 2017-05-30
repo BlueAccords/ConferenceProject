@@ -75,17 +75,12 @@ public class SPCSubmitRecommendationView extends Observable{
 		scaleSlider.setSnapToTicks(true);
 		
 		JFileChooser fileChooser = new JFileChooser();
-//		fileChooser.addPropertyChangeListener(event-> {
-//			filePathDisplay.setText(fileChooser.getSelectedFile().getPath());	
-//		});
-		
 
 		JButton submitBtn = new JButton("Submit");
 		submitBtn.setActionCommand("Submit Recommendation");
 		submitBtn.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				myRecommendation =  fileChooser.getSelectedFile();
-				
 				
 				setChanged();
 				notifyObservers(myRecommendation);  
@@ -94,7 +89,6 @@ public class SPCSubmitRecommendationView extends Observable{
 
 			}  
 		});
-
 		
 		recViewPanel.add(scorePrompt);
 		recViewPanel.add(scaleSlider);

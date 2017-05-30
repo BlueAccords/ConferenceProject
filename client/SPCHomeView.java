@@ -340,6 +340,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		 */
 		private Object[][] data;
 
+		
 		/**
 		 * Constructor for table model that requires a list of manuscripts to populate
 		 * the 2d data array.
@@ -396,20 +397,14 @@ public class SPCHomeView extends Observable implements ActionListener{
 		 * and populate the 2d array to fit a table format of rows and columns
 		 * 
 		 * @param theManuscriptList
-		 * @return
+		 * @return The 2d array of relevant SPC values to show in the table
 		 */
 		private Object[][] generateDataArray(ArrayList<Manuscript> theManuscriptList) {
 			Object[][] returnList = new Object[theManuscriptList.size()][4];
 
 			for(int i = 0; i < theManuscriptList.size(); i++) {
 				returnList[i][0] =  theManuscriptList.get(i).getTitle();
-				//if ManDL is after today, it's still open and no action can be taken
-				//				if (myConference.getManuscriptDeadline().after(new Date())){
-				//					returnList[i][1] = "Manuscript submission is still open";
-				//					returnList[i][2] = "Manuscript submission is still open";
-				//					returnList[i][3] = "Manuscript submission is still open";
-				//					
-				//				} else {
+
 				returnList[i][1] =  theManuscriptList.get(i).getReviewerList().size();
 				returnList[i][2] =  theManuscriptList.get(i).getReviews().size();
 
@@ -420,10 +415,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 				} else if (theManuscriptList.get(i).getReviews().size()<3){
 					returnList[i][3] = "Awaiting Reviews";
 				}
-
-				//				returnList[i][4] = new String ("" +myConference.getManuscriptDeadline());
-				//				}
-
 			}
 
 			return returnList;

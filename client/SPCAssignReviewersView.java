@@ -84,7 +84,6 @@ public class SPCAssignReviewersView extends Observable {
 		JPanel mainPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		//JPanel manuscriptListPanel = new JPanel(new GridLayout(0,1));
 		ButtonGroup group = new ButtonGroup();
 		reviewersListPanel.add(new JLabel("User id of Reviewer:"));
 		reviewersListPanel.add(new JLabel("number of reviews assigned to Reviewer:"));
@@ -142,11 +141,12 @@ public class SPCAssignReviewersView extends Observable {
 	 * by iterating through the button group, and seeing which button was pressed and
 	 * finding the same Reviewer in the Reviewer list with that index.
 	 * 
-	 * @author Ryan Tran, Connor Lundberg
-	 * @version 5/27/17
 	 * @param theBtnGroup the button group containing the button that was pressed
 	 * @param theAction The action, we are comparing the action's parent button to the button group
 	 * @return the index of the Reviewer object that is linked to the pressed button
+	 * 
+	 * @author Ryan Tran, Connor Lundberg
+	 * @version 5/27/17
 	 */
 	private int getClickedReviewer(ButtonGroup theBtnGroup, ActionEvent theAction) {
 		int i = 0;
