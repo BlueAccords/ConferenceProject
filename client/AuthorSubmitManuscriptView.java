@@ -99,7 +99,8 @@ public class AuthorSubmitManuscriptView extends Observable {
 								tempUser = User.getUserByEmail(AuthorList[i]);
 								
 								if (myConference.isUserAuthor(tempUser)) {
-									tempAuthor = myConference.getAuthor(tempUser);
+									Author authToTest = new Author(tempUser);
+									tempAuthor = myConference.getAuthor(authToTest);
 								} else {
 									tempAuthor = new Author(tempUser);
 								}
