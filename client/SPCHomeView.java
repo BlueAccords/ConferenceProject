@@ -110,8 +110,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 				// On table row select set currently selected manuscript field to
 				// selected manuscript
 				if (!e.getValueIsAdjusting()) {
-					System.out.println(myConference.getManuscriptDeadline());
-					System.out.println(new Date());
 					Manuscript selectedManu = myManuscriptList.get(table.getSelectedRow());
 					if (myConference.getManuscriptDeadline().after(new Date())) {
 						assignReviewerBtn.setEnabled(false);	
