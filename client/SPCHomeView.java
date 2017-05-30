@@ -235,7 +235,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 			
 		case SEE_ASSIGNED_REVIEWERS:
 			JPanel reviewerListPanel = new JPanel(new GridLayout(0,2));
-			JLabel reviewerNameLabel = new JLabel("Reviewer UserName:");
+			JLabel reviewerNameLabel = new JLabel("Reviewer UserName:    ");
 			JLabel reviewerScoreLabel = new JLabel("Reviewer Score:");
 			reviewerListPanel.add(reviewerNameLabel);
 			reviewerListPanel.add(reviewerScoreLabel);
