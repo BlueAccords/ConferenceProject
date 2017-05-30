@@ -18,6 +18,7 @@ import model.Manuscript.AuthorExistsInListException;
 import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
+import utility.TestDataGenerator;
 
 
 public class Driver {
@@ -33,6 +34,7 @@ public class Driver {
 		// add dummy users
 		if(DEBUG) {
 			User.initializeUserListToEmptyList();
+			TestDataGenerator.generateMasterTestData(true);
 			
 			//User set up
 			User testUser1 = new User("john@email.com");
@@ -271,5 +273,5 @@ public class Driver {
 		}
 		systemController.startProgram();
 	}
-
+	
 }

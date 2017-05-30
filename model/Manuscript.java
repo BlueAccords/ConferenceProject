@@ -74,6 +74,18 @@ public class Manuscript implements Serializable{
 		myRecommendationAssigned = false;
 	}	
 	
+	public Manuscript(String theTitle, File theManuscriptFile, Author theMainAuthor, Date theSubmissionDate) {
+		myTitle = theTitle;
+		myAuthors = new ArrayList<Author>();
+		myAuthors.add(theMainAuthor);
+		myManuscriptFile = theManuscriptFile;
+		myReviews = new ArrayList<File>();
+		mySubmissionDate = theSubmissionDate;
+		myRecommendation = new File("");
+		myReviewerList = new ArrayList<Reviewer>();
+		myRecommendationAssigned = false;
+	}	
+	
 	public void setRecommendationAssigned(boolean theRecommendation) {
 		myRecommendationAssigned = theRecommendation;
 	}
