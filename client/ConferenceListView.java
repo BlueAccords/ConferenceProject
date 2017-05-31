@@ -148,6 +148,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {	
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -155,6 +156,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -164,6 +166,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -171,6 +174,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -180,6 +184,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -187,6 +192,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
