@@ -82,7 +82,7 @@ public class ConferenceListView extends Observable {
 		String confDeadlineDate = convertDateToExplicitFormat(new Date());
     	String viewHeaderTitle = "<html><div style='text-align: center;'>"
     		+ "Current Active Conferences for <br>" + myUser.getEmail()
-    		+ "<br>current Date: " + confDeadlineDate + "</html>";
+    		+ "<br>Current Date: " + confDeadlineDate + "</html>";
     	JLabel myConfTitleLabel = new JLabel(viewHeaderTitle, SwingConstants.CENTER);
 		myConfTitleLabel.setFont(new Font("Serif", Font.PLAIN, 26));
         myConfTitleLabel.setBorder(new EmptyBorder(20, 10, 20, 10));
@@ -148,6 +148,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserAuthor(myUser)) {	
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -155,6 +156,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -164,6 +166,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserSubprogramChair(myUser)) {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -171,6 +174,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -180,6 +184,7 @@ public class ConferenceListView extends Observable {
 			if (myConferenceList.get(myCounter).isUserReviewer(myUser)) {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("Yes");
+				tempLabel.setForeground(Color.GREEN);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -187,6 +192,7 @@ public class ConferenceListView extends Observable {
 			} else {
 				tempPanel = new JPanel();
 				tempLabel = new JLabel("No");
+				tempLabel.setForeground(Color.RED);
 				tempPanel.add(tempLabel);
 				tempPanel.setBorder(blackLine);
 				tempPanel.setBackground(Color.WHITE);
@@ -203,8 +209,10 @@ public class ConferenceListView extends Observable {
 			
 		}
 		conferenceButtonPanel.setOpaque(true);
+		/*
 		conferenceButtonPanel.setBorder(BorderFactory.createTitledBorder(
 		        BorderFactory.createEtchedBorder(), "Conference List"));
+		*/
 		conferencePanel.add(conferenceButtonPanel);
 		return conferencePanel;
 		

@@ -131,7 +131,12 @@ public class LoginView extends Observable implements Observer {
 		// and reset error message label
 		myLoginBtn.addActionListener(e -> {
 			myErrorLabel.setVisible(false);
-			myUsernameField.getText();
+			if(User.doesEmailBelongToUser(myUsernameField.getText())) {
+				setErrorMessage(null);
+			} else {
+				setErrorMessage("Invalid username.");
+			}
+
 			setChanged();
 			notifyObservers(myUsernameField.getText());
 			setChanged();
