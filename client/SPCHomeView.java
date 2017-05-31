@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +57,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 	private JButton submitRecommendationBtn;
 	private JButton seeAssignReviewerBtn;
 	private JButton viewManuscriptAuthorsBtn;
+	private JButton downloadManuscriptBtn;
 
 	/**the manuscript that will be passed ton controller*/
 	private Manuscript myCurrentlySelectedManuscript;
@@ -67,6 +69,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 	public static final String SUBMIT_RECOMMENDATION = "SUBMIT_RECOMMENDATION";
 	public static final String SEE_ASSIGNED_REVIEWERS = "SEE_ASSIGNED_REVIEWERS";
 	public static final String VIEW_MANUSCRIPT_AUTHORS = "VIEW_MANUSCRIPT_AUTHORS";
+	public static final String DOWNLOAD_MANUSCRIPT = "DOWNLOAD_MANUSCRIPT";
 
 	private ArrayList<Manuscript> myManuscriptList;
 
@@ -158,6 +161,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 					setCurrentlySelectedManuscript(selectedManu);
 					viewManuscriptAuthorsBtn.setEnabled(true);
+					downloadManuscriptBtn.setEnabled(true);
 					setChanged();
 					notifyObservers(myCurrentlySelectedManuscript);
 				}
@@ -200,11 +204,17 @@ public class SPCHomeView extends Observable implements ActionListener{
 		this.viewManuscriptAuthorsBtn.addActionListener(this);
 		this.viewManuscriptAuthorsBtn.setActionCommand(this.VIEW_MANUSCRIPT_AUTHORS);
 
+		this.downloadManuscriptBtn = new JButton("Download");
+		this.downloadManuscriptBtn.setEnabled(false);
+		this.downloadManuscriptBtn.addActionListener(this);
+		this.downloadManuscriptBtn.setActionCommand(this.DOWNLOAD_MANUSCRIPT);
+
 		
 		myButtonPanel.add(assignReviewerBtn);
 		myButtonPanel.add(submitRecommendationBtn);
 		myButtonPanel.add(seeAssignReviewerBtn);
 		myButtonPanel.add(viewManuscriptAuthorsBtn);
+		myButtonPanel.add(downloadManuscriptBtn);
 
 		myPanel.add(myButtonPanel, BorderLayout.SOUTH);
 
@@ -297,6 +307,13 @@ public class SPCHomeView extends Observable implements ActionListener{
 			}
 			JOptionPane.showMessageDialog(null, authorNames.toString());
 			break;
+		case DOWNLOAD_MANUSCRIPT:
+			try {
+				myCurrentlySelectedManuscript.writeManuscriptToLocalFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 				

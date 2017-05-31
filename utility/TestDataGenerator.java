@@ -468,16 +468,19 @@ public class TestDataGenerator {
 		listToReturn.add("A Theory of Limited Automata");
 		listToReturn.add("Simplified NP-Complete Problems");
 		listToReturn.add("Theory of Genetic Algorithms");
+
 		listToReturn.add("Ranking of Accessibility in Sorting Algorithms");
 		listToReturn.add("Theory of Cellular Automata: A survey");
 		listToReturn.add("Constructivism in computer science education");
 		listToReturn.add("Teaching software engineering—experience from the past, needs for the future");
 		listToReturn.add("Software engineering education—adjusting our sails");
+
 		listToReturn.add("Human-computer interaction in the Informatics curriculum");
 		listToReturn.add("Why we should no longer only repair, polish and iron current computer science educations");
 		listToReturn.add("Visualization education in the USA");
 		listToReturn.add("A meta-study of algorithm visualization effectiveness");
 		listToReturn.add("Concept mapping: A useful tool for computer science education");
+
 		listToReturn.add("A methodological review of computer science education research");
 		listToReturn.add("Teacher beliefs and intentions regarding the implementation of computer science education reform strands");
 		listToReturn.add("LAFF: Programming for Correctness");

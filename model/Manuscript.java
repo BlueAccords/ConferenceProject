@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 /**
@@ -518,7 +520,6 @@ public class Manuscript implements Serializable{
             for (int readNum; (readNum = fis.read(buf)) != -1;) {
                 bos.write(buf, 0, readNum); //no doubt here is 0
                 //Writes len bytes from the specified byte array starting at offset off to this byte array output stream.
-                System.out.println("read " + readNum + " bytes,");
             }
         } catch (IOException ex) {
         	ex.printStackTrace();
@@ -526,7 +527,6 @@ public class Manuscript implements Serializable{
 
         //byte[] bytes = bos.toByteArray();
         this.myManuscriptByteArray = bos.toByteArray();
-        System.out.println(this.myManuscriptByteArray.toString());
  
         //below is the different part
         /*
@@ -537,7 +537,22 @@ public class Manuscript implements Serializable{
         fos.close();
         */
 	}
+	
+	public void writeManuscriptToLocalFile() throws IOException {
 
+		// get filename
+		Path p = Paths.get(myManuscriptFile.getAbsolutePath());
+		p.getFileName();
+
+		File someFile = new File("output/" + p.getFileName());
+		System.out.println(someFile.getAbsolutePath());
+	
+		
+        FileOutputStream fos = new FileOutputStream(someFile);
+        fos.write(this.myManuscriptByteArray);
+        fos.flush();
+        fos.close();
+	}
 	
 	
 	/**

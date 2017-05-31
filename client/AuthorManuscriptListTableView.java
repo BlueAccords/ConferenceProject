@@ -30,6 +30,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -172,7 +173,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         this.myDownloadBtn.setEnabled(false);
         this.myDownloadBtn.addActionListener(this);
         this.myDownloadBtn.setActionCommand(this.DOWNLOAD_MANUSCRIPT);
-        this.myDownloadBtn.setVisible(false);
+        this.myDownloadBtn.setVisible(true);
 
         /**
          * Check Business rules and disable add new manuscript button
@@ -254,6 +255,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				JOptionPane.showMessageDialog(null, authorNames.toString());
 				break;
 			case DOWNLOAD_MANUSCRIPT:
+			try {
+				myCurrentlySelectedManuscript.writeManuscriptToLocalFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 
 		}
