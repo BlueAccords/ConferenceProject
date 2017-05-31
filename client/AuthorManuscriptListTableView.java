@@ -190,7 +190,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 			this.myAddNewManuscriptBtn.setEnabled(false);
         	this.myAddNewManuscriptBtn.setToolTipText("Manuscript Submission Deadline of "
         			+ myCurrentConference.getManuscriptDeadline().toString() + " is already past for this conference"
-        			+ "Cannot submit a new Manuscript.");
+        			+ ". Cannot submit a new Manuscript.");
         } else {
         	// clear tool tip
         	this.myAddNewManuscriptBtn.setToolTipText(null);
