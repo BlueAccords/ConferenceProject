@@ -100,6 +100,13 @@ public class LoginView extends Observable implements Observer {
 					myUsernameField.getText();
 					setChanged();
 					notifyObservers(myUsernameField.getText());
+
+					if(User.doesEmailBelongToUser(myUsernameField.getText())) {
+						setErrorMessage(null);
+					} else {
+						setErrorMessage("Invalid username.");
+					}
+
 					setChanged();
 					notifyObservers(Controller.LOG_IN_STATE);
 				}
@@ -196,11 +203,18 @@ public class LoginView extends Observable implements Observer {
 	 * 	String should be non-null
 	 * PostConditions:
 	 * 	myErrorLabel should be set to theMessage
+	 * 
+	 * @author Ryan Tran
 	 * @param theMessage the string to set the error label to
 	 */
 	private void setErrorMessage(String theMessage) {
-		this.myErrorLabel.setText(theMessage);
-		this.myErrorLabel.setVisible(true);
+		if(theMessage == null) {
+			this.myErrorLabel.setText("");
+			this.myErrorLabel.setVisible(false);
+		} else {
+			this.myErrorLabel.setText(theMessage);
+			this.myErrorLabel.setVisible(true);
+		}
 	}
 
 	/**
