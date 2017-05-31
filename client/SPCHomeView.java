@@ -128,10 +128,10 @@ public class SPCHomeView extends Observable implements ActionListener{
 					if (myConference.getManuscriptDeadline().after(new Date())) {
 						assignReviewerBtn.setEnabled(false);	
 						assignReviewerBtn.setToolTipText("Cannot assign reviewers until after manuscript submission deadline"
-								+ "for the current conference has passed" );
+								+ " for the current conference has passed" );
 					} else if (myConference.getEligibleReviewers(selectedManu).size() < 1) {
 						assignReviewerBtn.setEnabled(false);	
-						assignReviewerBtn.setToolTipText("No reviewers available for " + selectedManu.getTitle());
+						assignReviewerBtn.setToolTipText("No reviewers available for the selected manuscript");
 					} else {
 						assignReviewerBtn.setEnabled(true);		
 					}
@@ -145,8 +145,8 @@ public class SPCHomeView extends Observable implements ActionListener{
 					if (selectedManu.isrecommendationAssigned()) {
 						submitRecommendationBtn.setEnabled(false);
 						assignReviewerBtn.setEnabled(false);
-						assignReviewerBtn.setToolTipText("Recommendation already submitted for " + selectedManu.getTitle());
-						submitRecommendationBtn.setToolTipText("Recommendation already submitted for " + selectedManu.getTitle());
+						assignReviewerBtn.setToolTipText("Recommendation already submitted for the selected manuscript"); 
+						submitRecommendationBtn.setToolTipText("Recommendation already submitted for the selected manuscript");
 					} else if (selectedManu.isEligibleForRecommendation()) {
 						submitRecommendationBtn.setEnabled(true); 
 						submitRecommendationBtn.setToolTipText(null);
@@ -411,7 +411,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 				if (theManuscriptList.get(i).isrecommendationAssigned()){
 					returnList[i][3] =  "Recommendation submitted";
 				} else if (theManuscriptList.get(i).getReviews().size()>=3){
-					returnList[i][3] = "Submit Recommendation";
+					returnList[i][3] = "Awaiting your Recommendation";
 				} else if (theManuscriptList.get(i).getReviews().size()<3){
 					returnList[i][3] = "Awaiting Reviews";
 				}
