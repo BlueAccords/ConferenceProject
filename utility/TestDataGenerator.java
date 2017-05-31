@@ -31,11 +31,11 @@ public class TestDataGenerator {
 	public static void generateMasterTestData(boolean isDebug) {
 		DEBUG = isDebug;
 		myUsernameList = new ArrayList<String>(
-				Arrays.asList("john@email.com", "james@email.com", "robert@email.com", "david@email.com",
-						   "connor@email.com", "morgan@email.com", "josiah@email.com", "casey@email.com",
-						   "ryan@email.com", "lisa@email.com", "mary@email.com", "lucas@email.com",
-						   "aria@email.com", "caden@email.com", "zoe@email.com", "jacob@email.com",
-						   "lily@email.com", "logan@email.com", "nora@email.com", "levi@email.com"));
+				Arrays.asList("john@gmail.com", "james@gmail.com", "robert@gmail.com", "david@gmail.com",
+						   "connor@gmail.com", "morgan@gmail.com", "josiah@gmail.com", "casey@gmail.com",
+						   "ryan@gmail.com", "lisa@gmail.com", "mary@gmail.com", "lucas@gmail.com",
+						   "aria@gmail.com", "caden@gmail.com", "zoe@gmail.com", "jacob@gmail.com",
+						   "lily@gmail.com", "logan@gmail.com", "nora@gmail.com", "levi@gmail.com"));
 
 		User.initializeUserListToEmptyList();
 		initUsers(myUsernameList);
