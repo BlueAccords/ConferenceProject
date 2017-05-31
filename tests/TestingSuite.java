@@ -9,8 +9,7 @@ import org.junit.runners.Suite;
 	   UserTest.class,
 	   ManuscriptTest.class,
 	   SubprogramChairTest.class,
-	   ConferenceTest.class,
-	   ControllerAuthorStatesTest.class
+	   ConferenceTest.class
 	})
 
 /**

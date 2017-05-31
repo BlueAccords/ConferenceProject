@@ -90,15 +90,45 @@ public class SubprogramChairTest {
 		electrocution = new Manuscript("Electrocution", new File("UserTest.java"), authorZeb);
 		sithFingers = new Manuscript("How to shoot lighting from your fingers", new File("UserTest.java"), authorDarth);
 		hairstyle = new Manuscript("Interesting Hair Using Electricity", new File("UserTest.java"), authorJim);
+		
+		subprogramChairLilRyeRye.addManuscriptToSPC(tessellations);
+		subprogramChairLilRyeRye.addManuscriptToSPC(electrocution);
+		subprogramChairLilRyeRye.addManuscriptToSPC(sithFingers);
 	}
 
+	
 	/**
-	 * Test method for {@link model.SubprogramChair#removeManuscriptFromSPC(model.Manuscript)}.
+	 * Test method for {@link model.SubprogramChair#removeManuscriptFromSPC(model.Manuscript)}. This tests
+	 * that the removeManuscriptFromSPC method does not remove a Manuscript from the SPC assigned Manuscripts List
+	 * when the passed in Manuscript is not a part of the List, i.e. the List size doesn't change.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/30/2017
 	 */
 	@Test
-	public void testRemoveManuscriptFromSPC() {
-		fail("Not yet implemented");
+	public void removeManuscriptFromSPC_ManuscriptIsNotInList_ListIsNotChanged() {
+		Manuscript notInList = new Manuscript("Just a Test", new File(""), authorZeb);
+		assertTrue("The SPC assigned Manuscript List size is not 3", subprogramChairLilRyeRye.getAssignedManuscriptSPC().size() == 3);
+
+		subprogramChairLilRyeRye.removeManuscriptFromSPC(notInList);
+		assertTrue("The failing Manuscript was found inside of the SPC assigned Manuscript List", subprogramChairLilRyeRye.getAssignedManuscriptSPC().size() == 3);
 	}
+	
+	
+	/**
+	 * This is a test for a the removeManuscriptFromSPC using a Manuscript that is a member of the SPC assigned
+	 * Manuscripts List.
+	 * 
+	 * @author Connor Lundberg
+	 * @version 5/30/2017
+	 */
+	@Test
+	public void removeManuscriptFromSPC_ManuscriptIsInList_ListIsChanged() {
+		assertTrue("The SPC assigned Manuscript List size is not 3", subprogramChairLilRyeRye.getAssignedManuscriptSPC().size() == 3);
+		subprogramChairLilRyeRye.removeManuscriptFromSPC(tessellations);
+		assertTrue("The SPC assigned Manuscript List size is not 2", subprogramChairLilRyeRye.getAssignedManuscriptSPC().size() == 2);
+	}
+	
 
 	/**
 	 * Test method for {@link model.SubprogramChair#assignManuscriptToReviewer(model.Reviewer, model.Manuscript)}.
@@ -144,7 +174,7 @@ public class SubprogramChairTest {
 	 *@author Morgan Blackmore
 	 * @version 5/24/17
 	 */
-	@Test 
+	@Test (expected = Exception.class)
 	public void testIsUnderAssignedManuscriptLimit_atLimit_returnFalse() throws Exception {
 		
 		for (int i = 0; i<subprogramChairLilRyeRye.getMaxReviewPapers(); i++) {
@@ -182,22 +212,6 @@ public class SubprogramChairTest {
 		assertTrue("The author is the reviewer", subprogramChairLilRyeRye.isAuthor(reviewerJim, rsa));
 	}
 
-	@Test
-	public void getEligibleReviewers_RSA_shouldntContainBobOrJimButContainsJohn(){
-		ArrayList<Reviewer> result = subprogramChairLilRyeRye.getEligibleReviewers(rsa);
-		assertTrue(result.contains(reviewerJohn));
-		assertFalse(result.contains(reviewerBob));
-		assertFalse(result.contains(reviewerJim));
-	}
-
-	@Test
-	public void getEligibleReviewers_Tessellations_shouldntContainBobOrJohnButContainsJim(){
-		ArrayList<Reviewer> result = subprogramChairLilRyeRye.getEligibleReviewers(tessellations);
-
-		assertTrue(result.contains(reviewerJim));
-		assertFalse(result.contains(reviewerBob));
-		assertFalse(result.contains(reviewerJohn));
-	}
 	
 	/**
 	 * Test method for isAfterSubmissionDeadline.
