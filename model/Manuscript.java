@@ -7,7 +7,12 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -40,6 +45,9 @@ public class Manuscript implements Serializable{
 	/** The list of reviewers assigned to this manuscript. */
 	private ArrayList<Reviewer> myReviewerList;
 	
+	/** This is the actual byte array that stores the file in binary */
+	private byte[] myManuscriptByteArray;
+	
 	/** The minimum number of reviews in order for this manuscript 
 	 * to be ready for recommendation.*/
 	private static final int SUFFICIENT_REVIEWS = 3;
@@ -68,6 +76,12 @@ public class Manuscript implements Serializable{
 		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
 		myManuscriptFile = theManuscriptFile;
+		try {
+			saveFileAsByteArr(myManuscriptFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = new Date();
 		myRecommendation = new File("");
@@ -492,6 +506,39 @@ public class Manuscript implements Serializable{
 		return isEligible;
 	}
 	
+	private void saveFileAsByteArr(File theFile) throws IOException {
+		File file = theFile;
+		 
+        FileInputStream fis = new FileInputStream(file);
+        //System.out.println(file.exists() + "!!");
+        //InputStream in = resource.openStream();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum); //no doubt here is 0
+                //Writes len bytes from the specified byte array starting at offset off to this byte array output stream.
+                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        	ex.printStackTrace();
+        }
+
+        //byte[] bytes = bos.toByteArray();
+        this.myManuscriptByteArray = bos.toByteArray();
+        System.out.println(this.myManuscriptByteArray.toString());
+ 
+        //below is the different part
+        /*
+        File someFile = new File("java2.pdf");
+        FileOutputStream fos = new FileOutputStream(someFile);
+        fos.write(bytes);
+        fos.flush();
+        fos.close();
+        */
+	}
+
+	
 	
 	/**
 	 * Custom Exception to throw when author is found within the author list already.
@@ -519,4 +566,5 @@ public class Manuscript implements Serializable{
 			super (ERROR_MESSAGE);
 		}
 	}
+	
 }

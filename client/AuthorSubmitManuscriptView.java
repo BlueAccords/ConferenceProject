@@ -83,6 +83,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				myFile = manuscriptFileChooser.getSelectedFile();
+				System.out.println(myFile.getPath());
 				ManuscriptSubmitButton.setEnabled(true);
 			} 
 			
