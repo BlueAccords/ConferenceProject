@@ -256,10 +256,12 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
 				break;
 			case DOWNLOAD_MANUSCRIPT:
 			try {
-				myCurrentlySelectedManuscript.writeManuscriptToLocalFile();
+				String outputPath = myCurrentlySelectedManuscript.writeManuscriptToLocalFile();
+				JOptionPane.showMessageDialog(null, outputPath);
 			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(null, "Failed to download file. Please try again.");
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 				break;
 

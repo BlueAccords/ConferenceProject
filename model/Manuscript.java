@@ -552,7 +552,7 @@ public class Manuscript implements Serializable{
         */
 	}
 	
-	public void writeManuscriptToLocalFile() throws IOException {
+	public String writeManuscriptToLocalFile() throws IOException {
 
 		// get filename
 		Path p = Paths.get(myManuscriptFile.getAbsolutePath());
@@ -567,6 +567,8 @@ public class Manuscript implements Serializable{
         fos.write(this.myManuscriptByteArray);
         fos.flush();
         fos.close();
+        
+        return someFile.getAbsolutePath();
 	}
 	
 	
