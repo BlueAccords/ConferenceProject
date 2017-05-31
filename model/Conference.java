@@ -247,7 +247,8 @@ public class Conference implements Serializable{
 			if (potentialAuthor != null) { //Author already exists, add the manuscript to them.
 				potentialAuthor.addManuscript(theManuscript);
 			} else { //This user is not yet an author, create a new Author in the conference for them.
-				potentialAuthor = author;
+				//potentialAuthor = author;
+				potentialAuthor = new Author(author.getUser());
 				potentialAuthor.addManuscript(theManuscript);
 				myConferenceAuthors.add(potentialAuthor);
 				
@@ -312,6 +313,7 @@ public class Conference implements Serializable{
 		boolean check = true;	
 		ArrayList<Author> authors = new ArrayList<Author>();
 		authors.addAll(theManuscript.getAuthors());
+
 		for (Author author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);

@@ -165,6 +165,59 @@ public class ConferenceTest {
 
 	}
 	
+	@Test
+	public void addManuscript_submissionAuthorHas5ManuscriptsInDifferentConference_shouldBeValid() throws Exception {
+		// add 5 manuscripts with john as author to TesselationsConference
+		for(int i = 0; i < 5; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+
+		/*
+		
+		// add 5 manuscripts with john as author to RSA conf
+		for(int i = 0; i < 5; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			RSAConference.addManuscript(validManu);
+		}
+
+		assertEquals(RSAConference.getManuscripts().size(), 5);
+		assertEquals(RSAConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+		*/
+	
+		// submit 6th manuscript to a differnet conference
+		Manuscript sixManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+		
+		Manuscript seventhManu = new Manuscript(
+				"Big O complex and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+
+		
+		RSAConference.addManuscript(sixManuscript);
+		RSAConference.addManuscript(seventhManu);
+	}
+	
 	/**
 	 * Tests for 
 	 * User Story: As an Author I want ot submit a manuscript to a conference
