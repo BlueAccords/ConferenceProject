@@ -36,10 +36,12 @@ public class ConferenceTest {
 	Reviewer reviewerBob;
 	Author authorJohn;
 	Manuscript johns;
+	Author authorKevin;
 
 	Reviewer reviewerJohn;
 	User bob;
 	User john;
+	User kevin;
 
     @Before
     public void setUp() throws Exception {
@@ -59,7 +61,7 @@ public class ConferenceTest {
         		new Date(),
         		new Date());
         
-        // IEEE Conference with submissoin deadline set in the past
+        // IEEE Conference with submission deadline set in the past
         IEEEConference = new Conference("IEEE Conference",
         		TestDataGenerator.generateRandomDateBefore(new Date(), true),
         		new Date(),
@@ -67,9 +69,10 @@ public class ConferenceTest {
         		new Date());
 
         conferenceList = Conference.getConferences();
-        authorBob  = new Author("Josh", "Smith");
         bob = new User("Bob@bob.com", false);
         authorBob = new Author(bob);
+        kevin = new User("kevin@gmail.com");
+        authorKevin = new Author(kevin);
         reviewerBob = new Reviewer(bob);
         reviewerJohn = new Reviewer(john);
         aManuscript = new Manuscript("Conference test.java manuscript", new File("ConferenceTest.java"), authorBob);
@@ -264,32 +267,105 @@ public class ConferenceTest {
 		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
 	}
 	
-	/**
 	
 	@Test (expected = Exception.class)
-	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsCoAuthor_shouldThrowException() {
+	public void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsCoAuthor_shouldThrowException() throws Exception {
+		ArrayList<Author> coAuthorsList = new ArrayList<Author>();
+		coAuthorsList.add(authorJohn);
+
 		// add 5 manuscripts with john as co-author
-		
-		// submit manuscript
+		for(int i = 0; i < 5; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorBob,
+				new Date(),
+				coAuthorsList);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		// submit 6th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+		TesselationsConference.addManuscript(fifthManuscript);
 	}
 	
+	
+	
 	@Test (expected = Exception.class)
-	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthor_shouldThrowException() {
+	public void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthor_shouldThrowException() throws Exception {
 		// add 5 manuscripts with john as author
-		
-		// submit manuscript
+		for(int i = 0; i < 5; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		// submit 6th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+		TesselationsConference.addManuscript(fifthManuscript);
 	}
+	
+	
 
 	@Test (expected = Exception.class)
-	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthorAndCoAuthor_shouldThrowException() {
+	public void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthorAndCoAuthor_shouldThrowException() throws Exception {
+		
 		// add 2 manuscripts with john as author
-		
+		for(int i = 0; i < 2; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			TesselationsConference.addManuscript(validManu);
+		}
+
 		// add 3 manuscripts with john as co-author
-		
-		// submit manuscript
+		ArrayList<Author> coAuthorsList = new ArrayList<Author>();
+		coAuthorsList.add(authorJohn);
+		for(int i = 0; i < 3; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms and Academics-" + i,
+				new File(""),
+				authorBob,
+				new Date(),
+				coAuthorsList);
+			TesselationsConference.addManuscript(validManu);
+		}	
+
+		// submit 6th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+		TesselationsConference.addManuscript(fifthManuscript);
 	}
 
-*/
+
 	@Test
 	public void removeManuscript() throws Exception {
     	RSAConference.addManuscript(aManuscript);
