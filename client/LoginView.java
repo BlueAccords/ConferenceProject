@@ -2,7 +2,6 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -13,7 +12,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,7 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import javafx.scene.input.KeyCode;
 import model.Conference;
 import model.User;
 

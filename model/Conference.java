@@ -167,8 +167,6 @@ public class Conference implements Serializable{
 		Author matchingAuthor = null;
 		for (Author author : myConferenceAuthors) {
 			if (author.getUser().getEmail().equals(theAuthor.getUser().getEmail())) {
-				System.out.println(author.getUser().getEmail());
-				System.out.println(author.getNumSubmittedManuscripts());
 				matchingAuthor = author;
 			}
 		}
@@ -284,15 +282,13 @@ public class Conference implements Serializable{
 		}
 		
 		for (Author author: theManuscriptToRemove.getAuthors()) {
-			author.printManuscriptTitles();
 			try {
 				author.removeManuscript(theManuscriptToRemove);
-				author.printManuscriptTitles();
 			} catch (ManuscriptNotInListException e) {
 				// TODO Auto-generated catch block
-				System.out.println("\n\nManuscript not found!!!!\n\n");
+			
 			}
-			System.out.println();
+	
 		}
 		
 		if (myManuscripts.contains(theManuscriptToRemove)) {
@@ -319,7 +315,6 @@ public class Conference implements Serializable{
 		for (Author author : authors) {
 			//look up author that corresponds with this user & make sure they exist.
 			Author potentialA = getAuthor(author);
-			//System.out.println(potentialA.getNumSubmittedManuscripts());
 			if (potentialA != null) {
 				if (potentialA.getNumSubmittedManuscripts() >= MAX_AUTHOR_SUBMISSIONS) {
 					check = false;

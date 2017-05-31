@@ -324,7 +324,6 @@ public class User implements Serializable{
 			}
 		}
 
-		System.out.println("Init user list from serializable object");
 		return allUsers;
 	}
 	

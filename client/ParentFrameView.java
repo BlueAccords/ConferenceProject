@@ -2,9 +2,6 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 
@@ -53,7 +50,7 @@ public class ParentFrameView extends Observable implements Observer {
 	private Map<String, JPanel> myPanelList;
 	private String myCurrentPanelName;
 	private String myUserRole;
-	private JPanel myCardPanel, myButtonPanel, myHeaderPanel;
+	private JPanel myCardPanel, myHeaderPanel;
 	private JLabel myHeaderCurrentUsernameLabel, myHeaderCurrentUserRole;
 	private JButton myHeaderLogoutBtn;
 	private JButton myHeaderBackBtn;
@@ -67,7 +64,6 @@ public class ParentFrameView extends Observable implements Observer {
 		
 		myFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(WindowEvent winEvt) {
-				System.out.println("window closing");
 				User.writeUsers();
 				Conference.writeConferences();
 				System.exit(0);
@@ -250,9 +246,8 @@ public class ParentFrameView extends Observable implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//System.out.println("UI Parent Frame was notified of update");
+		
 		if(arg instanceof Integer) {
-			//System.out.println("Received new state from " + o.getClass().getSimpleName());
 			setChanged();
 			notifyObservers((Integer) arg);
 		} else if(arg instanceof String) {
@@ -264,7 +259,6 @@ public class ParentFrameView extends Observable implements Observer {
 				setChanged();
 				notifyObservers((String) arg);
 			} else {
-				//System.out.println("Received a Conference");
 				setChanged();
 				notifyObservers((Conference) arg);
 			}

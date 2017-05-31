@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
-import javax.jws.soap.SOAPBinding.Use;
-
 import model.User;
 import model.Author;
 import model.Conference;
@@ -28,7 +26,6 @@ public class TestDataGenerator {
 	private static TreeMap<String, Reviewer> myReviewerList;
 	private static TreeMap<String, Conference> myConferenceList;
 	private static TreeMap<String, Manuscript> myManuscriptList;
-	private static TreeMap<String, Author> myAuthorList;
 	private static boolean DEBUG;
 	
 	public static void generateMasterTestData(boolean isDebug) {
@@ -70,7 +67,6 @@ public class TestDataGenerator {
 		// using caden@email.com as the author
 		// using Manuscripts 13-17 inclusive
 		User userAsAuthor1 = myUserList.get(myUsernameList.get(13));
-		System.out.println(myUsernameList.get(13));
 		setupUserStoryThree(userAsAuthor1, myConferenceList.get(myConferenceNameList.get(3)));
 		
 		
@@ -89,7 +85,6 @@ public class TestDataGenerator {
 	private static void setupUserStoryThree(User theUser, Conference theConference) {
 		Author mainAuth = new Author(theUser);
 		
-		System.out.println(theConference.getAuthor(mainAuth));
 		/**
 		 * Business Rule 3a:
 		 * 	All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
@@ -111,7 +106,7 @@ public class TestDataGenerator {
 			}
 		}
 		
-		//System.out.println(theConference.getAuthor(theUser));
+
 		myConferenceList.put(theConference.getConferenceName(), theConference);
 	}
 	

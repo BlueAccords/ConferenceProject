@@ -19,7 +19,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.Manuscript;
 import model.Reviewer;
 
 /**
@@ -79,8 +78,6 @@ public class SPCAssignReviewersView extends Observable {
 	 */
 	public JPanel viewReviewersListView() {
 		JPanel reviewersListPanel = new JPanel(new GridLayout(0,3));
-		JPanel reviewerButtonPanel = new JPanel(new GridLayout(0, 1));
-		JPanel reviewerLabelPanel = new JPanel(new GridLayout(0, 1));
 		JPanel mainPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		

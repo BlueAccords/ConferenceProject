@@ -2,12 +2,9 @@ package client;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
-
 import javax.swing.JPanel;
 
 import model.*;
-import model.Manuscript.AuthorExistsInListException;
 
 /**
  * The System controller that handles the different states of the 

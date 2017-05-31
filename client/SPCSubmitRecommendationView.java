@@ -1,6 +1,5 @@
 package client;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,11 +11,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-
-import model.Manuscript;
 
 /**
  * Displays panel for SubprogramChair to submit a recommendation for a manuscript 
@@ -37,17 +33,12 @@ public class SPCSubmitRecommendationView extends Observable{
 
 	/** File to submit as recommendation.*/
 	private File myRecommendation;
-	/**Panel to display recommendation view.*/
-	private JPanel myPanel;
-
-
-
 	/**
 	 * default constructor
 	 */
 	public SPCSubmitRecommendationView(){
 		myRecommendation = new File("");
-		myPanel = new JPanel(new GridLayout(7,0));
+		new JPanel(new GridLayout(7,0));
 	}
 
 

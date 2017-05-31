@@ -273,13 +273,11 @@ public class SubprogramChair extends User implements Serializable{
 		 * @version 4/30/2017
 		 */
 		public boolean isAuthor(Reviewer theReviewer, Manuscript theManuscript) {
-			//System.out.println("start of a test");
 			//List of author names for the paper in need of review
 			ArrayList<String> authorList = new ArrayList<String>();
 			authorList.addAll(theManuscript.getAuthorEmails());
 			
 			for (String author : authorList) {
-				//System.out.println(author + " = " + theReviewer.getUser().getEmail());
 				if (theReviewer.getUser().getEmail().equalsIgnoreCase(author)) {
 					return true;
 				}

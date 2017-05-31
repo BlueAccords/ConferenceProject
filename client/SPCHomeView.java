@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +14,6 @@ import java.util.Observable;
 import java.util.TimeZone;
 
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,12 +27,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import client.AuthorManuscriptListTableView.MyTableModel;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Reviewer;
-import model.User;
 
 /**
  * Displays a table of manuscripts to which the SubprogramChair has been assigned along with their status.
@@ -60,9 +55,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 	private JButton submitRecommendationBtn;
 	private JButton seeAssignReviewerBtn;
 	private JButton viewManuscriptAuthorsBtn;
-
-	/** used to disable action buttons until a table row is selected.**/
-	private boolean isManuscriptSelected = false;
 
 	/**the manuscript that will be passed ton controller*/
 	private Manuscript myCurrentlySelectedManuscript;
@@ -181,10 +173,6 @@ public class SPCHomeView extends Observable implements ActionListener{
 		myButtonPanel.setLayout(new BoxLayout(myButtonPanel, BoxLayout.LINE_AXIS));
 		myButtonPanel.setBorder(new EmptyBorder(50, 25, 50, 25));
 
-		// add buttons to btn panel
-		// by default buttons are disabled until a row is selected
-		EmptyBorder btnBorders = new EmptyBorder(10, 5, 10, 5);
-
 		this.assignReviewerBtn = new JButton("Assign Reviewer...");
 		assignReviewerBtn.setEnabled(false);
 		this.assignReviewerBtn.addActionListener(this);
@@ -264,14 +252,12 @@ public class SPCHomeView extends Observable implements ActionListener{
 		String action = e.getActionCommand();
 		switch(action) {
 		case ASSIGN_REVIEWER:
-			//				System.out.println("ManuscriptListTableView#SubmitManuscriptButton");
 			setChanged();
 			notifyObservers(myCurrentlySelectedManuscript);
 			setChanged();
 			notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.ASSIGN_REVIEWERS);
 			break;
 		case SUBMIT_RECOMMENDATION:
-			//				System.out.println(this.myCurrentlySelectedManuscript.getTitle());
 			setChanged();
 			notifyObservers(myCurrentlySelectedManuscript);
 			setChanged();
@@ -331,6 +317,11 @@ public class SPCHomeView extends Observable implements ActionListener{
 	 *
 	 */
 	class MyTableModel extends AbstractTableModel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6900612445865943992L;
+		
 		private String[] columnNames = {"Title",
 				"Num Reviewers Assigned",
 				"Num Reviews Submitted",

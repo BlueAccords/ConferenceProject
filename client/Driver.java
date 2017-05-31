@@ -1,22 +1,6 @@
 package client;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import javax.swing.JPanel;
-
-import model.Author;
 import model.Conference;
-import model.Manuscript;
-import model.Manuscript.AuthorExistsInListException;
-import model.Reviewer;
-import model.SubprogramChair;
 import model.User;
 import utility.TestDataGenerator;
 
