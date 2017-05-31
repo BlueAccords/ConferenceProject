@@ -624,7 +624,7 @@ public class TestDataGenerator {
 	 * @param theBeforeToday
 	 * @return a Date object 5-30 days before the given date argument
 	 */
-	private static Date generateRandomDateBefore(Date theDate, boolean theBeforeToday) {
+	public static Date generateRandomDateBefore(Date theDate, boolean theBeforeToday) {
 		Date DateToReturn;
 		
 		// generate random number between 5-30
