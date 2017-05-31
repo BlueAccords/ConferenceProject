@@ -172,6 +172,7 @@ public class AuthorManuscriptListTableView extends Observable implements ActionL
         this.myDownloadBtn.setEnabled(false);
         this.myDownloadBtn.addActionListener(this);
         this.myDownloadBtn.setActionCommand(this.DOWNLOAD_MANUSCRIPT);
+        this.myDownloadBtn.setVisible(false);
 
         /**
          * Check Business rules and disable add new manuscript button
