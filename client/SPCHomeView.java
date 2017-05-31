@@ -204,7 +204,7 @@ public class SPCHomeView extends Observable implements ActionListener{
 		this.viewManuscriptAuthorsBtn.addActionListener(this);
 		this.viewManuscriptAuthorsBtn.setActionCommand(this.VIEW_MANUSCRIPT_AUTHORS);
 
-		this.downloadManuscriptBtn = new JButton("Download");
+		this.downloadManuscriptBtn = new JButton("Download Manuscript");
 		this.downloadManuscriptBtn.setEnabled(false);
 		this.downloadManuscriptBtn.addActionListener(this);
 		this.downloadManuscriptBtn.setActionCommand(this.DOWNLOAD_MANUSCRIPT);
