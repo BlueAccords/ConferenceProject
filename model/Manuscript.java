@@ -99,6 +99,30 @@ public class Manuscript implements Serializable{
 		myRecommendationAssigned = false;
 	}	
 	
+	/**
+	 * Constructor that allows passing a list of co-authors in addition to the author
+	 * @param theTitle The title of the manuscript
+	 * @param theManuscriptFile the manuscript file object
+	 * @param theMainAuthor the author of the manuscript
+	 * @param theSubmissionDate submission date of the manuscript
+	 * @param theCoAuthorsList the list of co-authors
+	 */
+	public Manuscript(String theTitle, File theManuscriptFile, Author theMainAuthor,
+			Date theSubmissionDate, ArrayList<Author> theCoAuthorsList) {
+		myTitle = theTitle;
+		myAuthors = new ArrayList<Author>();
+		myAuthors.add(theMainAuthor);
+		myAuthors.addAll(theCoAuthorsList);
+		myManuscriptFile = theManuscriptFile;
+		myReviews = new ArrayList<File>();
+		mySubmissionDate = theSubmissionDate;
+		myRecommendation = new File("");
+		myReviewerList = new ArrayList<Reviewer>();
+		myRecommendationAssigned = false;
+	}	
+
+	
+	
 	
 	public void setRecommendationAssigned(boolean theRecommendation) {
 		myRecommendationAssigned = theRecommendation;

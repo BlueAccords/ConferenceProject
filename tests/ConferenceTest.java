@@ -87,7 +87,6 @@ public class ConferenceTest {
 	 * User Story: As an Author I want ot submit a manuscript to a conference
 	 * Business rule 3a:
 	 * 	All manuscript submissions must be made on or before the submission deadline before midnight UTC-12
-	 * @throws Exception 
 	 */
 
 	@Test
@@ -106,6 +105,7 @@ public class ConferenceTest {
 	
 	@Test
 	public void addManuscript_submissionRightBeforeConferenceDeadline_shouldSucceed() throws Exception {
+		String manuTitle = "Studies in Algorithms";
 		// set up date to be 1 second before conference deadline
 		Calendar tempCal = Calendar.getInstance();
 		Date conferenceDeadline = TesselationsConference.getManuscriptDeadline();
@@ -116,17 +116,19 @@ public class ConferenceTest {
 		
 
 		Manuscript validManu = new Manuscript(
-				"Studies in Algorithms",
+				manuTitle,
 				new File(""),
 				authorJohn,
 				dateOneSecondBeforeDeadline
 				);
-		assertTrue(validManu.getSubmissionDate().before(conferenceDeadline));
 		TesselationsConference.addManuscript(validManu);
+
+		assertTrue(validManu.getSubmissionDate().before(conferenceDeadline));
+		assertEquals(TesselationsConference.getManuscripts().get(0).getTitle(), manuTitle);
 	}
 	
 	@Test (expected = Exception.class)
-	public void addManuscript_submissionAfterConferenceDeadline_shouldFail() throws Exception {
+	public void addManuscript_submissionAfterConferenceDeadline_shouldThrowException() throws Exception {
 		Manuscript validManu = new Manuscript(
 				"Studies in Algorithms",
 				new File(""),
@@ -139,7 +141,7 @@ public class ConferenceTest {
 	}
 	
 	@Test (expected = Exception.class)
-	public void addManuscript_submissionRightAfterConferenceDeadline_shouldFail() throws Exception {
+	public void addManuscript_submissionRightAfterConferenceDeadline_shouldThrowException() throws Exception {
 		// set up date to be 1 second after conference deadline
 		Calendar tempCal = Calendar.getInstance();
 		Date conferenceDeadline = TesselationsConference.getManuscriptDeadline();
@@ -160,6 +162,134 @@ public class ConferenceTest {
 
 	}
 	
+	/**
+	 * Tests for 
+	 * User Story: As an Author I want ot submit a manuscript to a conference
+	 * Business rule 3b:
+	 * 	An author is limited to 5 manuscript submissions as an author or co-author per conference.
+	 * @throws Exception 
+	 */
+
+	@Test
+	public void addManuscript_whereAuthorHasLessThanMaxManuscriptsSubmittedAsAuthorAndCoAuthor_shouldAllowSubmission() throws Exception {
+		// add 2 manuscripts with john as author
+		for(int i = 0; i < 2; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		// add 2 manuscripts with john as co-author
+		ArrayList<Author> coAuthorsList = new ArrayList<Author>();
+		coAuthorsList.add(authorJohn);
+		for(int i = 0; i < 2; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms and Academics-" + i,
+				new File(""),
+				authorBob,
+				new Date(),
+				coAuthorsList);
+			TesselationsConference.addManuscript(validManu);
+		}	
+
+		// submit 5th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+
+		TesselationsConference.addManuscript(fifthManuscript);
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+	}
+
+	@Test
+	public void addManuscript_whereAuthorHasLessThanMaxManuscriptsSubmittedAsCoAuthor_shouldAllowSubmission() throws Exception {
+		ArrayList<Author> coAuthorsList = new ArrayList<Author>();
+		coAuthorsList.add(authorJohn);
+
+		// add 4 manuscripts with john as co-author
+		for(int i = 0; i < 4; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorBob,
+				new Date(),
+				coAuthorsList);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		// submit 5th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+
+		TesselationsConference.addManuscript(fifthManuscript);
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+	}
+
+	@Test
+	public void addManuscript_whereAuthorHasLessThanMaxManuscriptsSubmittedAsAuthor_shouldAllowSubmission() throws Exception {
+		// add 4 manuscripts with john as author
+		for(int i = 0; i < 4; i++) {
+			Manuscript validManu = new Manuscript(
+				"Studies in Algorithms-" + i,
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+			TesselationsConference.addManuscript(validManu);
+		}
+
+		// submit 5th manuscript
+		Manuscript fifthManuscript = new Manuscript(
+				"Big O Complexity and real-time benefits",
+				new File(""),
+				authorJohn,
+				new Date()
+				);
+
+		TesselationsConference.addManuscript(fifthManuscript);
+		assertEquals(TesselationsConference.getManuscripts().size(), 5);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 5);
+	}
+	
+	/**
+	
+	@Test (expected = Exception.class)
+	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsCoAuthor_shouldThrowException() {
+		// add 5 manuscripts with john as co-author
+		
+		// submit manuscript
+	}
+	
+	@Test (expected = Exception.class)
+	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthor_shouldThrowException() {
+		// add 5 manuscripts with john as author
+		
+		// submit manuscript
+	}
+
+	@Test (expected = Exception.class)
+	void addManuscript_whereAuthorHasMaxManuscriptsSubmittedAsAuthorAndCoAuthor_shouldThrowException() {
+		// add 2 manuscripts with john as author
+		
+		// add 3 manuscripts with john as co-author
+		
+		// submit manuscript
+	}
+
+*/
 	@Test
 	public void removeManuscript() throws Exception {
     	RSAConference.addManuscript(aManuscript);
