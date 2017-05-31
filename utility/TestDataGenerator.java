@@ -90,11 +90,12 @@ public class TestDataGenerator {
 		 * 	All manuscript submissions must be made on or before the submission deadline before midnight UTC-12.
 		 */
 		
+		int titleIndex = 13;
 		// submit 4 manuscripts using main auth.
 		for(String manuName : myManuscriptNameList.subList(13, 17)) {
 			Manuscript manu = new Manuscript(
 				manuName,
-				new File(""),
+				new File("test_input_files/manu" + titleIndex + ".txt"),
 				mainAuth,
 				generateRandomDateBefore(theConference.getManuscriptDeadline(), true));
 			
@@ -141,7 +142,7 @@ public class TestDataGenerator {
 		// Manuscript 1 will have 0 reviews submitted
 		Manuscript manu1 = new Manuscript(
 				myManuscriptNameList.get(9),
-				new File(""),
+				new File("test_input_files/manu9.txt"),
 				mainAuthor,
 				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
 		
@@ -149,7 +150,7 @@ public class TestDataGenerator {
 		// Manuscript 2 will have 2 reviews submitted
 		Manuscript manu2 = new Manuscript(
 				myManuscriptNameList.get(10),
-				new File(""),
+				new File("test_input_files/manu10.txt"),
 				mainAuthor,
 				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
 
@@ -161,7 +162,7 @@ public class TestDataGenerator {
 		// Manuscript 3 will have 3 reviews submitted
 		Manuscript manu3 = new Manuscript(
 				myManuscriptNameList.get(11),
-				new File(""),
+				new File("test_input_files/manu11.txt"),
 				mainAuthor,
 				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
 
@@ -173,7 +174,7 @@ public class TestDataGenerator {
 		// Manuscript 3 will have 4 reviews submitted
 		Manuscript manu4 = new Manuscript(
 				myManuscriptNameList.get(12),
-				new File(""),
+				new File("test_input_files/manu12.txt"),
 				mainAuthor,
 				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
 
@@ -185,7 +186,7 @@ public class TestDataGenerator {
 		// Manuscript 3 will have 4 reviews submitted
 		Manuscript manu5 = new Manuscript(
 				myManuscriptNameList.get(13),
-				new File(""),
+				new File("test_input_files/manu13.txt"),
 				mainAuthor,
 				generateRandomDateBefore(theConf.getManuscriptDeadline(), true));
 
@@ -261,7 +262,7 @@ public class TestDataGenerator {
 		// init manuscript and set up james@email.com as reviewer  
 		Manuscript manuWithInvalidAuthor = new Manuscript(
 				manuWithConflictAuthName,
-				new File(""),
+				new File("test_input_files/manu20.txt"),
 				authAsInvalidReviewer,
 				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true));
 
@@ -307,7 +308,7 @@ public class TestDataGenerator {
 		
 		Manuscript manuWithInvalidCoAuth = new Manuscript(
 				myManuscriptNameList.get(9),
-				new File(""),
+				new File("test_input_files/manu9.txt"),
 				authAsInvalidReviewer,
 				generateRandomDateBefore(confAfterDeadline.getManuscriptDeadline(), true)
 				);
@@ -382,10 +383,11 @@ public class TestDataGenerator {
 		Conference confByName = myConferenceList.get(theConfName);
 		
 		// Add manuscripts to generator manuscript list.
+		int titleIndex = 8;
 		for(String manuName : theManuList) {
 			myManuscriptList.put(manuName, new Manuscript(
 					manuName,
-					new File(""),
+					new File("test_input_files/manu" + titleIndex + ".txt" ),
 					auth,
 					generateRandomDateBefore(confByName.getManuscriptDeadline(), true)
 			));
@@ -422,11 +424,12 @@ public class TestDataGenerator {
 		Conference confByName = myConferenceList.get(theConfName);
 		int initialConfManuListSize = confByName.getManuscripts().size();
 		
+		int index = 1;
 		// Add manuscripts to generator manuscript list.
 		for(String manuName : theManuList) {
 			Manuscript manuToBeSaved = new Manuscript(
 					manuName,
-					new File(""),
+					new File("test_input_files/manu" + index + ".txt"),
 					auth,
 					generateRandomDateBefore(confByName.getManuscriptDeadline(), true));
 

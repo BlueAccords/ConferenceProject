@@ -108,6 +108,13 @@ public class Manuscript implements Serializable{
 		myAuthors = new ArrayList<Author>();
 		myAuthors.add(theMainAuthor);
 		myManuscriptFile = theManuscriptFile;
+		try {
+			saveFileAsByteArr(myManuscriptFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = theSubmissionDate;
 		myRecommendation = new File("");
@@ -130,6 +137,13 @@ public class Manuscript implements Serializable{
 		myAuthors.add(theMainAuthor);
 		myAuthors.addAll(theCoAuthorsList);
 		myManuscriptFile = theManuscriptFile;
+		try {
+			saveFileAsByteArr(myManuscriptFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		myReviews = new ArrayList<File>();
 		mySubmissionDate = theSubmissionDate;
 		myRecommendation = new File("");
@@ -543,9 +557,10 @@ public class Manuscript implements Serializable{
 		// get filename
 		Path p = Paths.get(myManuscriptFile.getAbsolutePath());
 		p.getFileName();
+		//System.out.println(p.getFileName());
 
 		File someFile = new File("output/" + p.getFileName());
-		System.out.println(someFile.getAbsolutePath());
+		//System.out.println(someFile.getAbsolutePath());
 	
 		
         FileOutputStream fos = new FileOutputStream(someFile);
