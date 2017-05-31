@@ -365,12 +365,62 @@ public class ConferenceTest {
 		TesselationsConference.addManuscript(fifthManuscript);
 	}
 
+	/**
+	 * User story 4:
+	 * 	As an author, I want to remove a manuscript that I have previously submitted to a conference.
+	 * 
+	 * Business rule 4a:
+	 * 	A Manuscript cannot be removed if any reviewers have already been assigned to the manuscript
+	 */
 
 	@Test
 	public void removeManuscript() throws Exception {
     	RSAConference.addManuscript(aManuscript);
     	RSAConference.removeManuscript(aManuscript);
     	assertFalse(RSAConference.getManuscripts().contains(aManuscript));
+	}
+	
+	@Test
+	public void removeManuscript_whereNoReviewersAreAssignedToManuscript_shouldBeRemoved() throws Exception {
+		// add manuscript with john as author
+		TesselationsConference.addManuscript(johns);
+		
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 1);
+		TesselationsConference.removeManuscript(johns);
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorJohn).size(), 0);
+	}
+	
+	@Test (expected = Exception.class)
+	public void removeManuscript_whereOneReviewerIsAssignedToManuscript_shouldThrowException() throws Exception {
+		// add manuscript with john as author
+		TesselationsConference.addReviewer(reviewerBob);
+		johns.addReviewer(reviewerBob);
+		TesselationsConference.addManuscript(johns);
+		
+		TesselationsConference.removeManuscript(johns);
+	}
+	
+	@Test (expected = Exception.class)
+	public void removeManuscript_whereTwoReviewersAreAssignedToManuscript_shouldThrowException() throws Exception {
+		// add manuscript with kevin as author
+		Manuscript manuWithTwoReviewers = new Manuscript(
+				"Ranking of Big O complexities",
+				new File(""),
+				authorKevin
+		);
+		
+		// add reviewers bob and john to manuscript
+		TesselationsConference.addReviewer(reviewerBob);
+		TesselationsConference.addReviewer(reviewerJohn);
+		manuWithTwoReviewers.addReviewer(reviewerBob);
+		manuWithTwoReviewers.addReviewer(reviewerJohn);
+
+		// Add manuscript to conference
+		TesselationsConference.addManuscript(manuWithTwoReviewers);	
+		
+		// remove the manuscript
+		assertEquals(TesselationsConference.getManuscriptsBelongingToAuthor(authorKevin).size(), 1);
+		TesselationsConference.removeManuscript(manuWithTwoReviewers);
 	}
 
 	@Test

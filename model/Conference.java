@@ -272,7 +272,17 @@ public class Conference implements Serializable{
 	 * @author Connor Lundberg
 	 * @version 5/27/2017
 	 */
-	public void removeManuscript(Manuscript theManuscriptToRemove) {
+	public void removeManuscript(Manuscript theManuscriptToRemove) throws Exception {
+		/**
+		 * Note this should never be triggered because the GUI will prevent
+		 * a user from removing a manuscript that is the review process.
+		 * 
+		 * This is for model side security and to test the method better
+		 */
+		if(theManuscriptToRemove.isReviewInProgress()) {
+			throw new Exception("Manuscript has reviewers assigned and cannot be removed");
+		}
+		
 		for (Author author: theManuscriptToRemove.getAuthors()) {
 			author.printManuscriptTitles();
 			try {
@@ -285,8 +295,9 @@ public class Conference implements Serializable{
 			System.out.println();
 		}
 		
-		if (myManuscripts.contains(theManuscriptToRemove))
+		if (myManuscripts.contains(theManuscriptToRemove)) {
 			myManuscripts.remove(theManuscriptToRemove);
+		}
 		
 		Conference.updateConferenceInList(this);
 	}

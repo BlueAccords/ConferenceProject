@@ -445,7 +445,12 @@ public class Controller extends Observable implements Observer {
 	 * @version 5/30/2017
 	 */
 	private void removeManuscriptFromAuthorAndConference (Manuscript theManuscriptToRemove) {
-		myCurrentConference.removeManuscript(theManuscriptToRemove);
+		try {
+			myCurrentConference.removeManuscript(theManuscriptToRemove);
+		} catch (Exception e) {
+			System.out.println("Failed to remove manuscript due to reviewers being assigned");
+			e.printStackTrace();
+		}
 	}
 	
 	
