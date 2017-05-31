@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
@@ -33,11 +34,12 @@ public class SPCSubmitRecommendationView extends Observable{
 
 	/** File to submit as recommendation.*/
 	private File myRecommendation;
+	
 	/**
 	 * default constructor
 	 */
 	public SPCSubmitRecommendationView(){
-		myRecommendation = new File("");
+		myRecommendation = null;
 		new JPanel(new GridLayout(7,0));
 	}
 
@@ -56,7 +58,8 @@ public class SPCSubmitRecommendationView extends Observable{
 		JLabel scorePrompt = new JLabel("What is your recommendation?");
 		JLabel filePrompt = new JLabel("Select a file to upload");
 		JLabel filePathPrompt = new JLabel("File path: ");
-		
+		JButton submitBtn = new JButton("Submit");
+		submitBtn.setEnabled(false);
 		JLabel filePathDisplay = new JLabel("No file selected");
 
 		JSlider scaleSlider = new JSlider(0, 10, 5);
@@ -66,17 +69,27 @@ public class SPCSubmitRecommendationView extends Observable{
 		scaleSlider.setSnapToTicks(true);
 		
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.addActionListener(new ActionListener() {
 
-		JButton submitBtn = new JButton("Submit");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myRecommendation = fileChooser.getSelectedFile();
+				submitBtn.setEnabled(true);
+			} 
+			
+		});
+		
 		submitBtn.setActionCommand("Submit Recommendation");
 		submitBtn.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				myRecommendation =  fileChooser.getSelectedFile();
-				
-				setChanged();
-				notifyObservers(myRecommendation);  
-				setChanged();
-				notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
+				if (myRecommendation != null) {
+					setChanged(); 
+					notifyObservers(myRecommendation);  
+					setChanged();
+					notifyObservers(Controller.SUBPROGRAM_CHAIR + Controller.LIST_MANUSCRIPT_VIEW);
+				} else {
+					JOptionPane.showMessageDialog(recViewPanel, "Please select a file to submit."); 
+				}
 
 			}  
 		});

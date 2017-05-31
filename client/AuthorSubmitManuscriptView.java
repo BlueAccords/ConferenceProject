@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
@@ -39,6 +40,8 @@ public class AuthorSubmitManuscriptView extends Observable {
 	 */
 	private Conference myConference;
 	
+	private File myFile;
+	
 	/**
 	 * Constructor for AuthorSubmitManuscriptView.
 	 * @param theAuthor that the Manuscript is being submitted for.
@@ -48,6 +51,7 @@ public class AuthorSubmitManuscriptView extends Observable {
 	public AuthorSubmitManuscriptView(Author theAuthor, Conference theConference) {
 		myAuthor = theAuthor;
 		myConference = theConference;
+		myFile= null;
 	}
 	
 	/**
@@ -65,17 +69,24 @@ public class AuthorSubmitManuscriptView extends Observable {
 		JPanel ManuscriptFilePanel = new JPanel(new GridBagLayout());
 		JPanel ManuscriptSubmitPanel = new JPanel(new GridBagLayout());
 		
-		
 		// JTextField and JTextArea for gathering authors Manuscript information.
 		JTextField manuscriptTitleField = new JTextField(20);
 		JFileChooser manuscriptFileChooser = new JFileChooser();
 		JTextArea textArea = new JTextArea(5, 20);
 		textArea.setLineWrap(true);
-		JScrollPane scrollPane = new JScrollPane(textArea); 
-		
+		JScrollPane scrollPane = new JScrollPane(textArea);
 		// Submission button.
 		JButton ManuscriptSubmitButton = new JButton("Submit");
 		ManuscriptSubmitButton.setActionCommand("Submit Manuscript");
+		manuscriptFileChooser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myFile = manuscriptFileChooser.getSelectedFile();
+				ManuscriptSubmitButton.setEnabled(true);
+			} 
+			
+		});
 		
 		ManuscriptSubmitButton.addActionListener(new ActionListener() { 
 			
@@ -86,9 +97,9 @@ public class AuthorSubmitManuscriptView extends Observable {
 				User tempUser;
 				int result = myAuthor.isAuthorsAtLimit(AuthorList, myConference);
 				
-				if (result < 0) {
+				if (result < 0 && (myFile != null)) {
 					
-					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), manuscriptFileChooser.getSelectedFile(), myAuthor);
+					Manuscript newManuscript = new Manuscript(manuscriptTitleField.getText(), myFile, myAuthor);
 					
 					if (AuthorList.length > 0) {
 						
@@ -136,8 +147,14 @@ public class AuthorSubmitManuscriptView extends Observable {
 					notifyObservers(Controller.AUTHOR + Controller.SUBMIT_MANUSCRIPT_ACTION);
 					
 				} else {
-					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!");  
+					
+					if (result >= 0) {
+						JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] +
+								" has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!");  
+					} else {
+						JOptionPane.showMessageDialog(ManuscriptPanelHolder, "Please select a file to submit."); 
+					}
+					
 				}
 		    }  
 		});
@@ -150,18 +167,22 @@ public class AuthorSubmitManuscriptView extends Observable {
 			public void actionPerformed(ActionEvent e){  //Need checks if any fields are empty, also need to pass current user into this class for the main author
 				String[] AuthorList = textArea.getText().split(",");
 				int result = myAuthor.isAuthorsAtLimit(AuthorList, myConference);
-				if (result < 0) {
+				
+				if (result < 0 ) {
 					ManuscriptSubmitButton.setEnabled(true);
 				} else {
 					ManuscriptSubmitButton.setEnabled(false);
-					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] + " has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!"); 
+					JOptionPane.showMessageDialog(ManuscriptPanelHolder,"Sorry " + AuthorList[result] +
+							" has already submitted Manuscript limit of " + myAuthor.MAX_MANUSCRIPT_LIMIT + "!"); 
 				}
+				
 		    }  
 		});
 			
 		// JLabels to communicate submission process to author.
 		JLabel ManuscriptTitleLabel = new JLabel("Enter Name of Tile for Manuscript: ");
-		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Names of Co-Authors for Manuscript separated by a comma ',' or leave blank if none: ");
+		JLabel ManuscriptAuthorsLabel = new JLabel("Enter Names of Co-Authors for Manuscript separated by a"
+				+ " comma ',' or leave blank if none: ");
 		JLabel ManuscriptFileLabel = new JLabel("Select file or Enter File Path: ");
 		
 		GridBagConstraints c = new GridBagConstraints();
