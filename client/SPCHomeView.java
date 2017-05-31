@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import model.Author;
@@ -108,6 +109,12 @@ public class SPCHomeView extends Observable implements ActionListener{
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(width);
 
+		// Center columns
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		
 		// Setup Event listener for table row selection
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
